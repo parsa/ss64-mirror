@@ -1,0 +1,173 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>sqlplus commands | Oracle | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_orasyntax.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../ora.1.html">Oracle</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>SQL*Plus commands</h1> 
+<p> The following commands can be issued in SQL*Plus (in addition to the standard 
+<a href="index.html">SQL</a> commands.)</p>
+<pre>   @<i>pathname</i>   Run (<a href="syntax-sqlplus-start.html">START</a>) an SQL Script
+               @MyScript.sql parameter1 parameter2 parameter3 
+               In the SQL-Script, refer to the parameters as &1, &2, and &3.
+               @<i>ScriptName</i>.sql will call sub-scripts from the current working directory of SQL*Plus.
+               @<i>C:\work\oracle\ScriptName</i>.sql will call a sub-script from a specific directory.
+
+   @@<i>pathname</i>  Run (<a href="syntax-sqlplus-start.html">START</a>) an SQL Script
+               @@ will call a sub-script from the same directory as the main script.
+
+   &amp;<i>variable</i>   A substitution <a href="syntax-variables.html">variable</a>
+
+   &amp;&amp;<i>variable</i>  A substitution <a href="syntax-variables.html">variable</a> valid for the session.
+
+   /           Execute (or re-execute) commands in the SQL*Plus buffer
+               does not list commands before running.
+
+   ACCEPT      User input
+               ACC[EPT] <a href="syntax-variables.html">variable</a> [NUM[BER]|CHAR|DATE] [FORMAT <a href="syntax-sqlplus-fmt.html">format</a>]
+                  [DEFAULT default] [PROMPT text|NOPROMPT] [HIDE]
+
+   APPEND      Add text to the end of the current line in the buffer.
+               A[PPEND] text_to_add
+
+   BREAK       Specify where and how formatting will change.
+               BREAK ON {column|expr|ROW|REPORT} action
+
+   BTITLE      Place and format a title at the bottom of each page.
+               BTITLE printspec [text|variable]
+               BTITLE [OFF|ON]
+
+   CHANGE      Change text on the current line (change what you just typed.)
+               C /oldval/newval
+
+   CLEAR       Clear the SQL*Plus screen and the screen buffer.
+               CLEAR {BREAKS|BUFFER|COLUMNS|COMPUTES|SCREEN|SQL TIMING}
+
+   <a href="syntax-sqlplus-col.html">COLUMN</a>      Change display width of a column.
+
+   <a href="syntax-sqlplus-compute.html">COMPUTE</a>     Calculate and display totals.
+
+   <a href="connect.html">CONNECT</a>     Connect to a database as a specified user:
+               connect username/password@SID
+
+   <a href="syntax-sqlplus-copy.html">COPY</a>        Copy data from a query into a table (local or remote)
+
+   DEFINE      User <a href="syntax-variables.html">variables</a>:
+                  DEFINE <i>varName</i> = <i>String</i>
+
+               Display a user variable:
+                  DEFINE <i>varName</i>
+
+               Display all variables:
+                  DEFINE
+
+   DEL         Delete the current line in the SQL buffer.
+
+   DESC[RIBE]  Describe a table, column, view, synonym, function
+               procedure, package or package contents.
+
+   DISCONNECT  Logoff (but don't exit)
+
+   <a href="syntax-sqlplus-edit.html">EDIT</a>        Load the SQL*Plus buffer into an editor. 
+               By default, saves the file to AFIEDT.BUF
+
+   <a href="exec.html">EXECUTE</a>     Run a single PLSQL statement
+               EXEC :answer := EMP_PAY.BONUS('SMITH')
+
+   EXIT [n]    Commit, logoff and exit (n = error code)
+               EXIT SQL.SQLCODE
+
+   GET <i>file</i>    Retrieve a previously stored command file.
+
+   HELP topic  Topic is an SQL PLUS command or HELP COMMANDS
+
+   HOST        Execute a host operating system command.
+               HOST CD scripts
+
+   INPUT       Edit sql buffer - add line(s) to the buffer.
+
+   LIST <i>n m</i>    Edit sql buffer - display buffer lines <i>n</i> to <i>m</i>
+               For all lines - specify <i>m</i> as LAST
+
+   PAUSE <i>message</i>   Wait for the user to hit RETURN.
+   
+   PRINT <i>variable</i>  List the value of a bind variable or REF Cursor (see VARIABLE / SHOW)
+
+   PROMPT <i>message</i>  Echo a message to the screen.
+
+   <a href="syntax-sqlplus-remark.html">REMARK</a>      REMARK comment or --comment--  or /* comment */
+
+   RUN         Execute (or re-execute) commands in the SQL*Plus buffer
+               Lists the commands before running.
+
+   RUNFORM     Run a SQL*Forms application.
+
+   SAVE <i>file</i>   Save the contents of the SQL*Plus buffer in a command file.
+               SAVE <i>file</i> [CRE[ATE] | REP[LACE] | APP[END]] 
+
+   <a href="syntax-sqlplus-set.html">SET</a>         Display or change SQL*Plus settings.
+
+   SHOW        List the value of a system variable (see PRINT)
+
+   <a href="shutdown.html">SHUTDOWN</a> [ABORT|IMMEDIATE|NORMAL|TRANSACTIONAL]
+
+   SPOOL <i>file</i>  Store query results in <i>file</i>
+
+   SPOOL OFF   Turn off spooling
+               SPOOL OUT sends file to printer
+
+   <a href="connect.html">SQLPLUS</a>     Start SQL*Plus and connect to a database.
+
+   <a href="syntax-sqlplus-start.html">STA[RT]</a>     Run an SQL Script (see @)
+
+   <a href="startup.html">STARTUP</a> [NoMOUNT|MOUNT|OPEN]
+
+   TIMING      Record timing data TIMING {START | SHOW | STOP}
+               see CLEAR TIMING
+
+   TTITLE      Define a page title
+
+   UNDEFINE    Delete a user/substitution variable  UNDEFINE <i>varName</i> (see DEFINE)
+
+   VARIABLE    Define a bind <a href="syntax-variables.html">variable</a> (Can be used in both SQLPlus and PL/SQL)
+               VAR[IABLE] [<i>variable</i> {NUMBER|CHAR|CHAR(<i>n</i>)|REFCURSOR}]
+
+               A RefCursor bind variable can be used to reference PL/SQL cursor variables in stored procedures.
+               PRINT myRefCursor
+               EXECUTE somePackage.someProcedure(:myRefCursor)
+
+               VARIABLE on its own will display the definitions made.
+
+   WHENEVER OSERROR   Exit if an OS error occurs
+
+   WHENEVER SQLERROR  Exit if an SQL or PLSQL error occurs</pre>
+<p>SQL*Plus Prompt:</p>
+<p>To display the currently connected UserName and SID, instead of just SQL&gt;<br>
+<span class="code">SET sqlprompt '&amp;_user:&amp;_connect_identifier &gt; '</span><br>
+Add the line above to the file: $ORACLE_SID/sqlplus/admin/glogin.sql 
+(this tip requires Oracle 10g or greater) </p>
+<p class="quote"><i>&ldquo;Client Servers were a tremendous mistake and we are sorry that we sold it to you. Instead of applications running on the desktop and data sitting on the server, everything will be Internet based&rdquo; ~ Larry 
+  Ellison, CEO, Oracle Corp.</i> </p>
+<p><b>Related:</b></p>
+<p><a href="syntax-sqlplus-edit.html">Editing SQL scripts in SQL*Plus</a><br>
+<a href="http://www.sql-plus.com/">SQL-Plus.com</a> - SQL*Plus Tutorial
+</p><!-- #BeginLibraryItem "/Library/foot_ora.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- oracle-footer -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4275490898"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="syntax-sqlplus.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

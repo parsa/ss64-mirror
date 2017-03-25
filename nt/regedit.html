@@ -1,0 +1,143 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Regedit | Windows CMD | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_nt.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../nt.1.html">CMD</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/nt/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>REGEDIT </h1> 
+<p>Import, export or delete registry settings from a text (.REG) file.</p>
+<pre>Syntax
+      Export the Registry (all HKLM plus current user)
+      REGEDIT /E <i><a href="path.html#pathname">pathname</a></i>
+
+      Export part of the Registry
+      REGEDIT /E <i><a href="path.html#pathname">pathname</a></i> "RegPath"
+
+      Export part of the Registry in ANSI mode
+      REGEDIT /A <i><a href="path.html#pathname">pathname</a></i> "RegPath"
+      (This is undocumented and will not support unicode-only keys/values.)
+
+      Import a reg script
+      REGEDIT <i><a href="path.html#pathname">pathname</a></i>
+
+      Silent import
+      REGEDIT /S <i><a href="path.html#pathname">pathname</a></i>
+
+      Start the regedit GUI
+      REGEDIT 
+
+      Open multiple copies of regedit
+      REGEDIT /m
+
+Key
+   /E : Export 
+
+   /S : Silent Import</pre>
+<p>All registry scripts start with a version string:<br>
+<span class="code">REGEDIT4</span> for ANSI/ASCII text strings - Windows 98 and Windows NT 4.0 (or any later versions of Windows.)<br>
+<span class="code">&quot;Windows Registry Editor Version 5.00&quot;</span> for Unicode - Windows 2000,  XP (or  later) </p>
+<h2>Add keys and values to the registry:</h2>
+<blockquote>
+<p>  Create a text file like this:</p>
+<pre>Windows Registry Editor Version 5.00 
+
+[HKEY_CURRENT_USER\SomeKey]
+"SomeStringValue"=&quot;Hello&quot;
+</pre>
+<p>Note the registry file should contain a blank line at the bottom of the file.</p>
+<p>The registry file must use full names for registry hives (<span class="code">HKEY_LOCAL_MACHINE, HKEY_CURRENT_USER</span>, etc.) <br>
+not short abbreviations (HKLM, HKCU, etc.).</p>
+<p>When double clicking this .reg file the key and value will be added. <br>
+Alternatively run <span class="code">REGEDIT <i>Myfile</i>.REG</span> from the command line.</p>
+</blockquote>
+<h2>Delete keys and values from the registry:</h2>
+<blockquote>
+<p>  Create a reg file like this, notice the hyphen inside the first bracket </p>
+<pre>Windows Registry Editor Version 5.00 
+[-HKEY_CURRENT_USER\SomeKey]  </pre>
+<p>When double clicking this .reg file the key "SomeKey" will be deleted along with all string, binary or Dword values in that key.<br>
+<br>If you want to just delete values, leaving the key in place, set the value you want to delete = to a hyphen<br>
+e.g. </p>
+<pre>Windows Registry Editor Version 5.00 
+[HKEY_CURRENT_USER\SomeKey]
+"SomeStringValue"=-
+</pre>
+<p>Again double click this .reg file to delete the values, or type <span class="code">REGEDIT /s <i>MyFile</i>.REG</span></p>
+</blockquote>
+<h2>Elevation</h2>
+<blockquote>
+<p>Unlike <a href="reg.html">REG.exe</a>, REGEDIT will normally require <a href="syntax-elevate.html">elevation</a> even when adding an item to HKCU,  <br>
+after a sucessful elevation REGEDIT will give access to the whole registry, see <a href="syntax-elevate.html">elevation</a> for more options.<span class="code"><br>
+</span></p>
+</blockquote>
+<h2>Export a registry key to a text (.REG) file</h2>
+<blockquote>
+<p class="code">regedit /e export.reg HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Audio</p>
+<p>Export the same key in ANSI text format<span class="code">:<br>
+regedit /A ansi.reg HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Audio</span></p>
+</blockquote>
+<h2>Compare the Registry of two machines</h2>
+<blockquote>
+<p>Opening multiple copies of Regedit.exe (with /m) is useful for comparing  keys between two registry hives or between two different computers (File, connect network registry) Press F5 to refresh the view.</p>
+<p><a href="windiff.html">Windiff</a> is a useful alternative, this GUI utility from the <a href="../links/windows.html#kits">resource kit</a> will list all the differences.
+</p>
+</blockquote>
+<h2>Add Comments</h2>
+<blockquote>
+<p>Within a registry file, comments are prefixed with a semicolon "; " <br>
+e.g.<br>
+  <span class="code">;<br>
+  ; Turn the NUMLOCK on at login<br>
+  ;<br>
+  [HKEY_CURRENT_USER\Control Panel\Keyboard]<br>
+"InitialKeyboardIndicators"="2"</span></p>
+<p>Batch files will  ignore any semicolons before a command, so this can be used to create a <a href="http://www.robvanderwoude.com/regedit.php#SelfContained">self-contained registry script</a>.
+</p>
+</blockquote>
+<h2>Open the regedit GUI at a given Key</h2>
+<blockquote>
+<p>Regedit remembers the last registry key that was opened from  the last time it was running. This is stored in the registry under:<br>
+<span class="code">HKCU\Software\Microsoft\Windows\CurrentVersion\Applets\Regedit<br>
+[LastKey]</span><br>
+ We can set the <span class="code">LastKey</span> value property  from the command line
+with a REG ADD command.<br>
+<span class="code"><br>
+Set &quot;_mykey=HKEY_CURRENT_USER\Software\Microsoft&quot; <br>
+REG ADD &quot;HKCU\Software\Microsoft\Windows\CurrentVersion\Applets\Regedit&quot; /v &quot;LastKey&quot; /d &quot;%_mykey%&quot; /f <br>
+Start /b regedit</span>
+</p>
+</blockquote>
+<p>To activate registry changes in HKEY_CURRENT_USER without logging off: <br>
+<span class="code"><a href="rundll32.html">RUNDLL32.EXE</a> USER32.DLL,UpdatePerUserSystemParameters ,1 ,True</span></p>
+<p><i class="quote">&ldquo;I never make stupid mistakes. Only very, very clever ones&rdquo; -  <a href="http://www.bbc.co.uk/radio1/johnpeel/index.shtml">John Peel</a></i><br>
+<br>
+<b>Related:</b><br>
+<br>
+<a href="reg.html">REG</a> - Read, Set or Delete registry keys and values <br>
+<a href="set.html">SET</a> - Display, set, or remove Windows NT environment variables <br>
+<a href="setx.html"> SETX</a> - Set environment variables permanently<br>
+<a href="wmic.html">WMIC REGISTRY</a> - Set registry options through WMI<br>
+Powershell: <a href="../ps/get-itemproperty.html">Get-ItemProperty</a> / <a href="../ps/set-itemproperty.html">Set-ItemProperty</a> - Retrieve / save registry Keys<br>
+<a href="https://support.microsoft.com/kb/322756">Q322756</a> - How to backup and edit the registry<br>
+<a href="https://support.microsoft.com/kb/310516">Q310516</a> - How to add, modify, or delete registry subkeys and values<br>
+DuReg - Registry Size Estimator. (<a href="../links/windows.html#kits">Win 2K ResKit</a>) <br>
+<a href="syntax-reghacks.html">Registry</a> - Commonly tweaked user interface settings (XP)</p><!-- #BeginLibraryItem "/Library/foot_nt.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- windows300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="7649547908"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="regedit.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

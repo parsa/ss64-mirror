@@ -1,0 +1,125 @@
+<!DOCTYPE HTML><html lang="en">
+<head><meta charset="UTF-8">
+<meta name="Description" content="Access client applications with a ODBC / SQL Server back-end, will sometimes produce error messages from ODBC. These are often rather cryptic technical messages so it is good to trap them and provide a more user friendly message.">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Trapping Errors from ODBC operations | Access | SS64.com</title></head>
+<body><!-- #BeginLibraryItem "/Library/head_access_syntax.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../access.1.html">Access</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/access/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>Trapping Errors from ODBC operations</h1>
+<p>Access client applications with a ODBC / SQL Server back-end, will sometimes produce error messages from ODBC. These  are often rather cryptic technical messages so it is good to trap them and provide a more user friendly message. </p>
+<p>On a  bound form we can use create a <span class="code">Form_Error</span> routine to deal with these.</p>
+<p>The <span class="code">Form_Error</span> subroutine in each Access form is automatically triggered by the <span class="code">On Error</span> event of the Form, while it is possible to write a separate <span class="code">Form_Error</span> subroutine for each form in the database, it is more practical and maintainable to place the bulk of the code in a separate Public Subroutine <span class="code">FormErrorHandler()</span> and store that in an Access module. </p>
+<p>The <span class="code">Form_Error</span> subroutine can then become a 1 liner in each form where you need to trap ODBC errors.</p>
+<pre>Private Sub Form_Error(Dataerr As Integer, Response As Integer)  
+   FormErrorHandler Dataerr, Response, Me ' Trap common ODBC errors
+End Sub
+
+=========
+
+Public Sub FormErrorHandler(ByVal intErr As Integer, _
+                           ByRef Response As Integer, _
+                           ByRef frm As Access.Form)
+
+Dim strDescription As String
+
+Select Case intErr
+    Case 3146
+         strDescription &quot;Database ERROR: This might be a duplicate or missing value, data too large for field or an index violation, to resolve this edit the data entered or press ESC to Undo.&quot;
+         Response = acDataErrContinue 'Continue without displaying the default Access error message.
+    Case 3147
+         strDescription = &quot;Error: ODBC data buffer overflow, press ESC to Undo.&quot;
+         Response = acDataErrContinue
+    Case 3148
+         strDescription = &quot;Error: ODBC connection failed, press ESC to Undo.&quot;
+         Response = acDataErrContinue
+        
+    '3149  ODBC incorrect DLL.
+    '3150  ODBC missing DLL.
+    '3151  ODBC connection to 'Item' failed.
+    '3152  ODBC incorrect driver version 'Item1'; expected version 'Item2'.
+    '3153  ODBC incorrect server version 'Item1'; expected version 'Item2'.
+    '3154  ODBC couldn't find DLL 'Item'.
+
+    Case 3149 To 3154
+        strDescription = "Error: Misc ODBC/DLL driver error [" & Str(intErr) & "], press ESC to undo."
+        Response = acDataErrContinue
+        
+    Case 3155 To 3157
+        strDescription = "Error: ODBC insert/Delete/Update failed, press ESC to undo[" & Str(intErr) & "]."
+        Response = acDataErrContinue
+    
+    Case 3158
+        strDescription = "Error: This record is currently locked by another user, press ESC to Undo."
+        Response = acDataErrContinue
+        
+    Case 3159
+        strDescription = "Error: Not a valid bookmark, press ESC to Undo, then run compact and repair."
+        Response = acDataErrContinue
+
+    Case 3160
+        strDescription = "Error: Table is not open, press ESC to Undo."
+        Response = acDataErrContinue
+
+    Case 3161
+        strDescription = "Error: Cannot decrypt file with this password, press ESC to Undo."
+        Response = acDataErrContinue
+
+    Case 3162
+        strDescription = "Error: You must enter a value for this field."
+        Response = acDataErrContinue
+        
+    Case 3163
+        strDescription = "Error: Couldn't insert or paste; data too long for field, press ESC to Undo."
+        Response = acDataErrContinue
+        
+    Case 3164
+        strDescription = "Error: Couldn't update field, press ESC to Undo."
+        Response = acDataErrContinue
+
+'    Case 3165
+'        strDescription = "Error: Couldn't open .INF file (linked dBASE table), press ESC to Undo."
+'        Response = acDataErrContinue
+        
+    Case 3166
+        strDescription = "Error: Missing memo file, press ESC to Undo."
+        Response = acDataErrContinue
+
+    Case 3167
+        strDescription = "Error: This Record has been deleted, press ESC to Undo."
+        Response = acDataErrContinue
+            
+    Case 3168 To 3621
+        strDescription = "Unknown ODBC error occurred", vbCritical, "ODBC Error #" & Str(intErr)
+        Response = acDataErrContinue
+        
+    Case Else
+        Response = acDataErrDisplay ' Display the default Access error message.
+End Select
+
+MsgBox strDescription, vbCritical, "ODBC Error #" & Str(intErr)
+
+End Sub</pre>
+<p class="quote"><i>&ldquo;It is the highest form of self-respect to admit our errors and mistakes and make amends for them. To make a mistake is only an error in judgment, but to adhere to it when it is discovered shows infirmity of character&rdquo; ~ Dale Turner</i></p>
+<p><b>Related</b>:</p>
+<p><a href="http://support.microsoft.com/kb/206175/en-us/">Q206175</a> - Cannot Trap Specific ODBC Errors on OnOpen Property of a Form<br>
+<a href="http://www.accessmvp.com/TomvanStiphout/OdbcErrors.htm">AccessMVP</a> - Handling ODBC Errors<br>
+<a href="syntax-null-value-error.html">Error trapping NULLs</a> - <i>You tried to assign the null value to a variable </i><br></p><!-- #BeginLibraryItem "/Library/foot_access.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- access -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4313908313"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="syntax-odbc-error.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></p></body>
+</html>

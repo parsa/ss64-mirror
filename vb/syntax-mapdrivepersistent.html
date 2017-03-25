@@ -1,0 +1,146 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>MapDrive script persistent | VBScript | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_vbsyntax.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../vb.1.html">VBScript</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/vb/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>MapDrivePersistent.vbs</h1> 
+<p>VBScript to Map a Drive letter to a network file share (persistent)</p>
+<p>This script is designed to maximise the speed of login, so if a drive  already has the correct persistent connection it will be left alone. This is a good approach for machines that are running a recent version of Windows and which are always connected to the domain.</p>
+<p>For each drive letter there are several possible states, that may have to be dealt with by the script: <br>
+- Remembered (persistent connection) / Not Remembered<br>
+- Already Connected / Connected to the wrong network share / Not Connected.</p>
+<p> If a drive does have to be re-connected this script will attempt to remove any  'remembered' connections, including those to a file share that no longer exists or which is off-line.</p>
+<pre>Option Explicit
+Function <b>MapDrivePersistent</b>(strDrive,strPath)
+   ' strDrive = Drive letter - e.g. &quot;x:&quot;
+   ' strPath = Path to server/share - e.g. &quot;\\server\share&quot;
+   ' Returns a boolean (True or False)
+
+   Dim objNetwork, objDrives, blnFound, objReg, i
+   Dim strLocalDrive, strRemoteShare, strRemembered, strMessage
+   Const HKCU = &amp;H80000001
+
+   ' Check syntax of parameters passed
+   If Right(strDrive, 1) &lt;&gt; &quot;:&quot; OR Left(strPath, 2) &lt;&gt; &quot;\\&quot; Then
+      WScript.echo &quot;Usage: MapDrivePersistent.vbs &quot;&quot;X:&quot;&quot; &quot;&quot;\\server\share&quot;&quot; //NoLogo&quot;
+     WScript.Quit(1)
+   End If
+
+   Err.clear
+   MapDrivePersistent = False
+
+   Set objNetwork = WScript.CreateObject(&quot;WScript.Network&quot;)
+
+   'Step 1: Get the current drives
+   Set objDrives = objNetwork.EnumNetworkDrives
+   If Err.Number &lt;&gt; 0 Then
+        'Code here for error logging
+        Err.Clear
+        MapDrivePersistent = False
+        Exit Function 
+   End If
+
+   WScript.echo &quot;   Connecting drive letter: &quot; + strDrive + &quot; to &quot; + strPath
+    
+   'Step 2: Compare drive letters to the one requested
+   blnFound = False
+   For i = 0 To objDrives.Count - 1 Step 2
+        If UCase(strDrive) = UCase(objDrives.Item(i)) Then
+            blnFound = True
+            'Drive letter was found.  Now see if the network share on it is the same as requested
+            If UCase(strPath) = UCase(objDrives.Item(i+1)) Then
+                'Correct mapping on the drive
+                MapDrivePersistent = True
+            Else
+                'Wrong mapping on drive.  Disconnect and remap
+                WScript.Echo &quot;--&quot;
+                objNetwork.RemoveNetworkDrive strDrive, True, True 'Disconnect drive
+                If Err.Number &lt;&gt; 0 Then
+                    'Code here for error logging
+                    Err.clear
+                    MapDrivePersistent = False
+                    Exit Function
+                End If
+
+                ' To completely remove the previous remembered persistent mapping
+                ' we also delete the associated registry key HKCU\Network\Drive\RemotePath
+                ' In theory this should be covered by bUpdateProfile=True in
+                ' the RemoveNetworkDrive section above but that doesn't always work.
+                 Set objReg = GetObject(&quot;winmgmts:{impersonationLevel=impersonate}!\\.\root\default:StdRegProv&quot;)
+                 objReg.GetStringValue HKCU, &quot;Network\&quot; &amp; Left(strDrive, 1), &quot;RemotePath&quot;, strRemembered
+                 If strRemembered &lt;&gt; &quot;&quot; Then
+                   objReg.DeleteKey HKCU, &quot;Network\&quot; &amp; Left(strDrive, 1)
+                 End If
+
+               ' Connect drive
+               On Error Resume Next
+                WScript.Echo &quot;++&quot;
+                objNetwork.MapNetworkDrive strDrive, strPath, True 
+                If Err.Number &lt;&gt; 0 Then
+                    'Code here for error logging
+                    Err.clear
+                    MapDrivePersistent = False
+                    Exit Function 
+                End If
+
+                MapDrivePersistent = True
+                
+            End If
+        End If
+        
+    Next'Drive in the list
+    
+   'If blnFound is still false, the drive letter isn't being used.  So let's map it.
+   If Not blnFound Then
+        On Error Resume Next
+        objNetwork.MapNetworkDrive strDrive, strPath, True
+        If Err.Number &lt;&gt; 0 Then
+            'Code here for error logging
+            Err.clear
+            MapDrivePersistent = False
+            Exit Function 
+        End If
+
+        MapDrivePersistent = True
+   End If
+
+   WScript.Echo &quot;   ____&quot;
+End Function
+
+
+' Example calling the function above to map a drive:
+
+if not <b>MapDrivePersistent</b>(&quot;Z:&quot;,&quot;\\Server64\workgroups&quot;) Then
+    Wscript.Echo &quot;   ERROR: Drive Z: failed to connect!&quot;
+End If</pre>
+<p> You are free to use or modify this script: Creative Commons Attribution 2.5 License.</p>
+<p>For drive mapping to work, <i>File and Printer sharing</i> must  be enabled on the remote (server) computer.</p>
+<p>based on a script by Corey Thomas<a href="http://vbscripter.blogspot.co.uk/2008/03/better-drive-mapping.html"> Better Drive Mapping</a></p>
+<p class="quote"><i>&ldquo;You may say I'm a dreamer, but I'm not the only one. I hope someday you'll join us. And the world will live as one&rdquo; ~ John Lennon</i></p>
+<p><b>Related:</b></p>
+<p><a href="syntax-mapdrive.html">MapDrive</a> - Map a Drive letter to a network file share (non-persistent)<br>
+<a href="mapnetworkdrive.html">.MapNetworkDrive</a> - Drive Map.<br>
+<a href="http://blogs.technet.com/b/askds/archive/2009/01/07/using-group-policy-preferences-to-map-drives-based-on-group-membership.aspx">Using Group Policy Preferences</a> to Map Drives Based on Group Membership.<br>
+<a href="../nt/syntax-nodrives.html">NoDrives</a> - Hide mapped drives from Windows Explorer.<br>
+<a href="../nt/net.html">NET</a> - Manage network resources.<br>
+Equivalent PowerShell command: <a href="../ps/new-psdrive.html">New-PSDrive</a>- Create a  mapped network drive.</p><!-- #BeginLibraryItem "/Library/foot_vb.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- VB300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="1683739502"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="syntax-mapdrivepersistent.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

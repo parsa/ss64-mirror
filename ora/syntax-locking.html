@@ -1,0 +1,132 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Concurrency (Multi-User access) and Locking | Oracle | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_orasyntax.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../ora.1.html">Oracle</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>Concurrency (Multi User access) and Locking</h1>
+<p>One of the key functions of a database is to ensure that multiple users can read and write to the database without overwriting each other's
+changes inadvertently or reading inconsistent data due to in-progress changes. Designing application code to take account of concurrency
+issues is essential.</p>
+<p><b>Multiversion Concurrency Control</b><br>
+To handle simultaneous access of the same data by many users, Oracle utilises various types of locks and a multiversion consistency model to maximise performance. A simple way to think of Oracle read consistency is to imagine each user operating a private copy of the database.</p>
+<ul>
+<li>Readers do not wait for Writers (or other readers of the same data)</li>
+<li>    Writers do not wait for Readers (of the same data)</li>
+<li>    Writers only wait for other Writers if they attempt to update identical rows in concurrent transactions.</li>
+</ul>
+<p>Oracle guarantees that the set of data <b>seen</b> by a statement is consistent with respect to a single point in time and does not change during
+statement execution. </p>
+<p>This means that applications which attempt to perform or enforce database consistency at the application level cannot assume the Oracle data they read will remain unchanged
+during the execution of a transaction (just because such changes are not visible to the transaction does not mean they don't happen).</p>
+<p><b>Example</b></p>
+<p>  <i>Taxi</i> table: Taxi_id, drivers_name<br>
+<i>jobs</i> table: Job_id, Taxi_id,  start_time, end_time<br>
+<br>
+Application inserts row into <i>jobs</i> for a Taxi_id<br>
+Application looks in <i>jobs</i> table for overlaps with that row - &quot;is the taxi already booked during that time?&quot;<br>
+Two people - at the same time - will not see each others insert = double booking!</p>
+<p>For this case you need to SELECT for UPDATE on the <i>Taxi</i> table (by primary
+key:Taxi_id) as part of a <a href="transaction_s.html">transaction</a>.</p>
+<p>For most operations the default row-level locking will automatically lock the right rows, only a minority  of cases (maybe 10%) need the above technique.</p>
+<p><b>Transactions</b><br>
+Oracle can provides read consistency for an individual query or  to all of the queries in entire transaction.</p>
+<p>  To manage the multiversion consistency model, Oracle must create a read-consistent set of data when a table is being queried (read) and simultaneously updated
+(written). When an UPDATE occurs, the original data values changed by the update are recorded in the database's <a href="syntax-redo.html">undo records</a>. As long
+as this update remains part of an uncommitted transaction, any user that later queries the data will view the original uncommitted data. <br>
+<br>
+Only when a transaction is committed are the changes of that transaction made visible to other users.</p>
+<p><i>Statement-Level Read Consistency</i><br>
+Oracle <b>always</b> enforces statement-level read consistency. This guarantees that all the data returned by a single query comes from a single point in time&#8212;the
+time that the query began. Therefore, a query never sees 'dirty' data nor any of the changes made by transactions that commit during query execution. <br>For most
+applications, read committed is the most appropriate isolation level. <br>
+<a href="transaction_s.html">SET TRANSACTION</a> ISOLATION LEVEL READ COMMITTED<br>
+Read committed is the default.</p>
+<p><i>Transaction-Level Read Consistency</i><br>
+Oracle also offers the <b>option</b> of enforcing transaction-level read consistency. When a transaction executes in serializable mode, all all queries within the same transaction reflect the state of the database as of the time the transaction began. (you  do see changes made by the transaction itself.)<br>
+<a href="transaction_s.html">SET TRANSACTION</a> ISOLATION LEVEL SERIALIZABLE<br>
+Serializable will produce repeatable reads within a transaction, updates are possible with the risk of getting ORA-8177 so this  is appropriate only for very short /small transactions. e.g. inserting a single small row into a table.</p>
+<p><i>Read-Only Transactions<br>
+</i>For queries that don't modify any data, you might prefer a read-only transaction. <br>
+<a href="transaction_s.html">SET TRANSACTION</a> READ ONLY<br>  
+You can execute multiple queries against multiple tables, knowing that the results are consistent with respect to the same point in time. This can be useful for reports where all the numbers need to tally up.</p>
+<p><b>Session Default<br>
+</b>You can set the isolation level of a transaction by using <a href="transaction_s.html">SET TRANSACTION</a>… or at a session level you can use <a href="session_a.html">ALTER SESSION</a>… to set it for all subsequent transactions.</p>
+<p><b>  Automatic Locking</b><br>
+Oracle's automatically locks table data at the row level to minimize data contention. Oracle doesn't ever escalate row locks to block or table locks. </p>
+<p>  Oracle can maintain several different types of row lock:</p>
+<blockquote>
+<p><b>Exclusive lock </b>mode - Prevents the  resource from being shared. This lock mode is obtained to modify data. Only one exclusive lock can be placed on a resource (such as a row or a table).<br>
+<br>
+<b>Share lock </b>mode - Allows the  resource to be shared, depending on the operations involved. Multiple users reading data can share the data, holding a share lock to prevent concurrent access by a writer (who needs an exclusive lock). Many share locks can be placed on a single resource.</p>
+</blockquote>
+<p><b>Manual Locking</b><br>
+Oracle's automatic locking can be overridden at two levels:</p>
+<p>Per Session<br>
+As described above, the ALTER SESSION statement can set the transaction isolation level.</p>
+<p>Per Transaction <br>
+Transactions that include the following SQL statements override Oracle's default locking:<br>
+- The <a href="transaction_s.html">SET TRANSACTION</a> ISOLATION LEVEL statement<br>
+- The <a href="select.html">SELECT … FOR UPDATE</a> statement<br>
+- The <a href="lock.html">LOCK TABLE</a> statement (which locks either a table or, when used with a view, the underlying base table)<br>
+e.g. &quot;LOCK TABLE MyTable IN EXCLUSIVE MODE&quot;<br>
+<br>
+Locks acquired by these statements are released after the transaction commits or rolls back.</p>
+<p>  <b>Deadlock Detection</b><br>
+Oracle automatically detects deadlock situations and resolves them by rolling back one of the statements involved, and returning an error message to the
+failed transaction.</p>
+<p>Deadlocks are very unlikely to occur if all application code follows the rule that when both a master and detail table are updated, the master table is locked first and
+then the detail table. (either implicit or explicit locks)</p>
+<p>  When you know you will require a sequence of locks for one transaction, consider acquiring the most exclusive (least compatible) lock first.</p>
+<p><b>Managing Multiple Transactions</b><br>
+You can name a transaction by using the <a href="transaction_s.html">SET TRANSACTION</a>  … NAME command. This makes it easier to monitor long-running transactions and to resolve in-doubt distributed transactions.<br>
+Transaction names replace commit comments for distributed transactions, the advantage  is in monitoring activity. e.g. you can find transaction names in the data dictionary (<a href="../orav/V$TRANSACTION.html">V$TRANSACTION</a>)</p>
+<p>Commit comments are  supported for backward compatibility only.</p>
+<p>A space allocation failure will normally cause SQL statements to fail, to prevent this a RESUMABLE mode can be enabled for the session (ALTER SESSION)</p>
+<p>Transaction control statements (e.g. commit, rollback to savepoint) within an autonomous PL/SQL block  will apply only to the currently active autonomous transaction. </p>
+<p>Similarly, when one transaction calls another autonomous transaction, then  a 'commit' or 'rollback to savepoint' in the main transaction will not apply to the second autonomous transaction.</p>
+<p><b>Comparison with SQL Server<br>
+</b>Rather than multi-versioning, SQL Server uses a locking model:</p>
+<ul>
+<li>Readers do not wait for other Readers of the same data</li>
+<li>Readers wait for Writers (of the same data)</li>
+<li> Writers <i>might</i> wait for Readers (of the same data)</li>
+<li> Writers wait for other Writers (of the same data)</li>
+</ul>
+<p>Comparing this  with Oracle, it might initially appear that SQL Server will spend a lot more time waiting, but consider, if many users are waiting for the one process with a lock, then that process will finish faster (having more or less exclusive access to the disk), the next process in line will then obtain it's lock and gain access to those blocks of data (which are probably now in cache anyway), also bear in mind that any user accessing a <i>different</i> row (or page) will not have to wait for a lock.</p>
+<p>In terms of performance this 'locking &amp; waiting' approach of SQL server is not significantly faster or slower than Oracle's multiversioning. The important difference is in the way that data changes become  visible to concurrent transactions.</p>
+<p>SQL Server has a choice of 4 isolation levels, these  follow the ANSI/ISO SQL92 standard (1992)</p>
+<p>READ COMMITTED<br>
+Shared locks are held while the data is being read. This option is the SQL Server 2000 default. <br>
+Data can be changed before the end of the transaction, resulting in nonrepeatable reads (phantom data).<br>
+(Writers do not wait for Readers)</p>
+<p>READ UNCOMMITTED<br>
+Implements dirty reads,  this allows Readers to be nonblocking, (as in Oracle) but also means that Readers ignore exclusive locks, so values in the data can be changed and rows can appear or disappear in the data set before the end of a transaction. Reading uncommitted data means an application will read data that has been changed by another user but has not yet been committed. </p>
+<p>REPEATABLE READ<br>
+Locks are placed on all data that is used in a query, preventing other users from <b>updating</b> the data, but new phantom rows can be inserted into the data set by another user.</p>
+<p>SERIALIZABLE<br>
+Places a range lock on the data set, preventing other users from <b>updating</b> or <b>inserting</b> rows into the data set until the transaction is complete. (Writers wait for Readers)</p>
+<p>Both Oracle and SQL Server do  conform to the ACID properties (atomicity, consistency, isolation, and durability) but achieve this in different ways.</p>
+<p> <span class="quote"><i>&quot;Concurrency Controls - understand them or you <b>will</b> corrupt your data&quot; ~ Thomas Kyte</i></span><br>
+<br>
+<b>See also</b><br>
+<a href="transaction_s.html">SET TRANSACTION</a></p><!-- #BeginLibraryItem "/Library/foot_ora.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- oracle-footer -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4275490898"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="syntax-locking.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

@@ -1,0 +1,393 @@
+<!doctype html><html>
+<head><meta charset="UTF-8">
+<META NAME="Description" CONTENT="Convert between Hex and Decimal, bits, Bytes and KiloBytes">
+<link rel="STYLESHEET" href="main.css" type="text/css">
+<title>Convert Hex, Decimal, Bytes</title>
+<style type="text/css">
+.tblhead{ text-align: center; }
+.raised {padding-left:1px; color:windowtext; font-weight:400; text-decoration:none; vertical-align:bottom; border:none; padding-top: 1px; padding-right: 1px;}
+.smallnotes {font-size: smaller}
+.notes {
+font-size: 100%;
+font-family:Helvetica,Arial,Verdana,sans-serif;}
+</style>
+<script type="text/javascript">
+function convert1(f) {
+  f.byte2.value=f.byte.value
+  f.kib.value=Math.round(f.byte.value/1024*100000)/100000
+  f.mib.value=Math.round(f.byte.value/1048576*100000)/100000
+  f.gib.value=Math.round(f.byte.value/1073741824*100000)/100000
+  f.tib.value=Math.round(f.byte.value/1099511627776*100000)/100000
+
+  f.kb.value=Math.round(f.byte.value/1000*100000)/100000
+  f.mb.value=Math.round(f.byte.value/1000000*100000)/100000
+  f.gb.value=Math.round(f.byte.value/1000000000*100000)/100000
+  f.tb.value=Math.round(f.byte.value/1000000000000*100000)/100000
+}
+function convert2(f) {
+  f.byte.value=f.byte2.value
+  f.kib.value=Math.round(f.byte2.value/1024*100000)/100000
+  f.mib.value=Math.round(f.byte2.value/1048576*100000)/100000
+  f.gib.value=Math.round(f.byte2.value/1073741824*100000)/100000
+  f.tib.value=Math.round(f.byte2.value/1099511627776*100000)/100000
+
+  f.kb.value=Math.round(f.byte2.value/1000*100000)/100000
+  f.mb.value=Math.round(f.byte2.value/1000000*100000)/100000
+  f.gb.value=Math.round(f.byte2.value/1000000000*100000)/100000
+  f.tb.value=Math.round(f.byte2.value/1000000000000*100000)/100000
+}
+function convertkib(f) {
+  f.byte.value=Math.round(f.kib.value*1024*100000)/100000
+  f.byte2.value=Math.round(f.kib.value*1024*100000)/100000
+  f.mib.value=Math.round(f.kib.value/1024*100000)/100000
+  f.gib.value=Math.round(f.kib.value/1048576*100000)/100000
+  f.tib.value=Math.round(f.kib.value/1073741824*100000)/100000
+
+  f.kb.value=Math.round(f.byte2.value/1000*100000)/100000
+  f.mb.value=Math.round(f.kb.value/1000*100000)/100000
+  f.gb.value=Math.round(f.kb.value/1000000*100000)/100000
+  f.tb.value=Math.round(f.kb.value/1000000000*100000)/100000
+}
+function convertkb(f) {
+  f.byte.value=Math.round(f.kb.value*1000*100000)/100000
+  f.byte2.value=Math.round(f.kb.value*1000*100000)/100000
+  f.mb.value=Math.round(f.kb.value/1000*100000)/100000
+  f.gb.value=Math.round(f.kb.value/1000000*100000)/100000
+  f.tb.value=Math.round(f.kb.value/1000000000*100000)/100000
+
+  f.kib.value=Math.round(f.byte2.value/1024*100000)/100000
+  f.mib.value=Math.round(f.byte2.value/1048576*100000)/100000
+  f.gib.value=Math.round(f.mib.value/1024*100000)/100000
+  f.tib.value=Math.round(f.mib.value/1048576*100000)/100000
+}
+function convertmib(f) {
+  f.byte.value=Math.round(f.mib.value*1048576*100000)/100000
+  f.byte2.value=Math.round(f.mib.value*1048576*100000)/100000
+  f.kib.value=Math.round(f.mib.value*1024*100000)/100000
+  f.gib.value=Math.round(f.mib.value/1024*100000)/100000
+  f.tib.value=Math.round(f.mib.value/1048576*100000)/100000
+
+  f.mb.value=Math.round(f.byte2.value/1000000*100000)/100000
+  f.kb.value=Math.round(f.mb.value*1000*100000)/100000
+  f.gb.value=Math.round(f.mb.value/1000*100000)/100000
+  f.tb.value=Math.round(f.mb.value/1000000*100000)/100000
+}
+function convertmb(f) {
+  f.byte.value=Math.round(f.mb.value*1000000*100000)/100000
+  f.byte2.value=Math.round(f.mb.value*1000000*100000)/100000
+  f.kb.value=Math.round(f.mb.value*1000*100000)/100000
+  f.gb.value=Math.round(f.mb.value/1000*100000)/100000
+  f.tb.value=Math.round(f.mb.value/1000000*100000)/100000
+
+  f.kib.value=Math.round(f.byte2.value/1024*100000)/100000
+  f.mib.value=Math.round(f.byte2.value/1048576*100000)/100000
+  f.gib.value=Math.round(f.mib.value/1024*100000)/100000
+  f.tib.value=Math.round(f.mib.value/1048576*100000)/100000
+}
+
+function convertgib(f) {
+  f.byte.value=Math.round(f.gib.value*1073741824*100000)/100000
+  f.byte2.value=Math.round(f.gib.value*1073741824*100000)/100000
+  f.kib.value=Math.round(f.byte2.value/1024*100000)/100000
+  f.mib.value=Math.round(f.byte2.value/1048576*100000)/100000
+  f.tib.value=Math.round(f.mib.value/1048576*100000)/100000
+
+  f.kb.value=Math.round(f.byte2.value/1000*100000)/100000
+  f.mb.value=Math.round(f.byte2.value/1000000*100000)/100000
+  f.gb.value=Math.round(f.byte2.value/1000000000*100000)/100000
+  f.tb.value=Math.round(f.byte2.value/1000000000000*100000)/100000
+}
+function convertgb(f) {
+  f.byte.value=Math.round(f.gb.value*1000000000*100000)/100000
+  f.byte2.value=Math.round(f.gb.value*1000000000*100000)/100000
+  f.kb.value=Math.round(f.gb.value*1000000*100000)/100000
+  f.mb.value=Math.round(f.gb.value*1000*100000)/100000
+  f.tb.value=Math.round(f.gb.value/1000000*100000)/100000
+
+  f.kib.value=Math.round(f.byte2.value/1024*100000)/100000
+  f.mib.value=Math.round(f.byte2.value/1048576*100000)/100000
+  f.gib.value=Math.round(f.mib.value/1024*100000)/100000
+  f.tib.value=Math.round(f.mib.value/1048576*100000)/100000
+}
+function converttib(f) {
+  f.byte.value=Math.round(f.tib.value*1099511627776*100000)/100000
+  f.byte2.value=Math.round(f.tib.value*1099511627776*100000)/100000
+  f.kib.value=Math.round(f.tib.value*1073741824*100000)/100000
+  f.mib.value=Math.round(f.tib.value*1048576*100000)/100000
+  f.gib.value=Math.round(f.tib.value*1024*100000)/100000
+
+  f.kb.value=Math.round(f.byte2.value/1000*100000)/100000
+  f.mb.value=Math.round(f.byte2.value/1000000*100000)/100000
+  f.gb.value=Math.round(f.byte2.value/1000000000*100000)/100000
+  f.tb.value=Math.round(f.byte2.value/1000000000000*100000)/100000
+}
+function converttb(f) {
+  f.byte.value=Math.round(f.tb.value*1000000000000*100000)/100000
+  f.byte2.value=Math.round(f.tb.value*1000000000000*100000)/100000
+  f.kb.value=Math.round(f.tb.value*1000000000*100000)/100000
+  f.mb.value=Math.round(f.tb.value*1000000*100000)/100000
+  f.gb.value=Math.round(f.tb.value*1000*100000)/100000
+
+  f.kib.value=Math.round(f.byte2.value/1024*100000)/100000
+  f.mib.value=Math.round(f.byte2.value/1048576*100000)/100000
+  f.gib.value=Math.round(f.mib.value/1024*100000)/100000
+  f.tib.value=Math.round(f.mib.value/1048576*100000)/100000
+}
+
+
+
+/**
+ * A function for converting hex <-> dec w/o loss of precision.
+ *
+ This code may be used under the Apache 2 license.
+ source:http://www.danvk.org/hex2dec.html
+ http://www.apache.org/licenses/LICENSE-2.0.html
+  
+ * The problem is that parseInt("0x12345...") isn't precise enough to convert
+ * 64-bit integers correctly.
+ *
+ * Internally, this uses arrays to encode decimal digits starting with the least
+ * significant:
+ * 8 = [8]
+ * 16 = [6, 1]
+ * 1024 = [4, 2, 0, 1]
+ */
+
+// Adds two arrays for the given base (10 or 16), returning the result.
+// This turns out to be the only "primitive" operation we need.
+function add(x, y, base) {
+  var z = [];
+  var n = Math.max(x.length, y.length);
+  var carry = 0;
+  var i = 0;
+  while (i < n || carry) {
+    var xi = i < x.length ? x[i] : 0;
+    var yi = i < y.length ? y[i] : 0;
+    var zi = carry + xi + yi;
+    z.push(zi % base);
+    carry = Math.floor(zi / base);
+    i++;
+  }
+  return z;
+}
+
+// Returns a*x, where x is an array of decimal digits and a is an ordinary
+// JavaScript number. base is the number base of the array x.
+function multiplyByNumber(num, x, base) {
+  if (num < 0) return null;
+  if (num == 0) return [];
+
+  var result = [];
+  var power = x;
+  while (true) {
+    if (num & 1) {
+      result = add(result, power, base);
+    }
+    num = num >> 1;
+    if (num === 0) break;
+    power = add(power, power, base);
+  }
+
+  return result;
+}
+
+function parseToDigitsArray(str, base) {
+  var digits = str.split('');
+  var ary = [];
+  for (var i = digits.length - 1; i >= 0; i--) {
+    var n = parseInt(digits[i], base);
+    if (isNaN(n)) return null;
+    ary.push(n);
+  }
+  return ary;
+}
+
+function convertBase(str, fromBase, toBase) {
+  var digits = parseToDigitsArray(str, fromBase);
+  if (digits === null) return null;
+
+  var outArray = [];
+  var power = [1];
+  for (var i = 0; i < digits.length; i++) {
+    // invariant: at this point, fromBase^i = power
+    if (digits[i]) {
+      outArray = add(outArray, multiplyByNumber(digits[i], power, toBase), toBase);
+    }
+    power = multiplyByNumber(fromBase, power, toBase);
+  }
+
+  var out = '';
+  for (var i = outArray.length - 1; i >= 0; i--) {
+    out += outArray[i].toString(toBase);
+  }
+  return out;
+}
+
+function decToHex(decStr) {
+  var hex = convertBase(decStr, 10, 16);
+  return hex ? '0x' + hex : null;
+}
+
+function hexToDec(hexStr) {
+  if (hexStr.substring(0, 2) === '0x') hexStr = hexStr.substring(2);
+  hexStr = hexStr.toLowerCase();
+  return convertBase(hexStr, 16, 10);
+}
+</script>
+
+</head>
+<body>
+<div id="tnav">
+<ul>
+<li class="tbtn"><a href="index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="tools.html">Tools</a></li>
+<li class="tbtn"><a href="colour.html">Colour</a></li>
+<li>
+<div id="search">
+<form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onBlur="if(this.value=='')this.value='Search...';" onClick="if(this.value=='Search...')this.value='';" value="Search...">
+<input type="hidden" name="sitesearch" value="ss64.com">
+</form>
+</div>
+</li>
+</ul>
+</div>
+<h1>Convert Bits and Bytes</h1>
+<div>  <blockquote>
+<form action="convert.html#">
+<table id="example">
+<tr> 
+<td class="tblhead">Bytes</td>
+<td class="tblhead">KiB</td>
+<td class="tblhead">MiB</td>
+<td class="tblhead"> GiB</td>
+<td class="tblhead"> TiB</td>
+<td>&nbsp;</td>
+</tr>
+<tr> 
+<td ><input type="text" size="20" name="byte" value="1073741824" tabindex=10 onblur="return convert1(this.form)"></td>
+<td ><input type="text" size="20" name="kib" value="1048576" tabindex=9 onblur="return convertkib(this.form)"></td>
+<td ><input type="text" size="10" name="mib" value="1024" tabindex=8 onblur="return convertmib(this.form)"></td>
+<td ><input type="text" size="10" name="gib" value="1" tabindex=7 onblur="return convertgib(this.form)"></td>
+<td ><input type="text" size="10" name="tib" value="0.00098" tabindex=6 onblur="return converttib(this.form)"></td>
+<td ><input type="button" name="B2" value="Convert"></td>
+</tr>
+<tr> 
+<td class="tblhead">Bytes</td>
+<td class="tblhead">KB</td>
+<td class="tblhead">MB</td>
+<td class="tblhead"> GB</td>
+<td class="tblhead"> TB</td>
+<td>&nbsp;</td>
+<tr> 
+<td ><input type="text" size="20" name="byte2" value="1073741824" tabindex=5 onblur="return convert2(this.form)"></td>
+<td ><input type="text" size="20" name="kb" value="1073741.824" tabindex=4 onblur="return convertkb(this.form)"></td>
+<td ><input type="text" size="10" name="mb" value="1073.74182" tabindex=3 onblur="return convertmb(this.form)"></td>
+<td ><input type="text" size="10" name="gb" value="1.07374" tabindex=2 onblur="return convertgb(this.form)"></td>
+<td ><input type="text" size="10" name="tb" value="0.00107" tabindex=1 onblur="return converttb(this.form)"></td>
+<td ><input type="button" name="B2" value="Convert"></td>
+</tr>
+</table>
+</form></blockquote></div>
+<blockquote>
+<p class="notes">Computer storage disks and RAM are manufactured in <a href="https://www.youtube.com/watch?v=b6vHZ95XDwU">binary units</a> (<a href="https://en.wikipedia.org/wiki/Power_of_two">power of 2</a>) Bytes, KiB, MiB &hellip;<br>
+The <a href="https://en.wikipedia.org/wiki/Binary_prefix">binary prefix</a> convention allows common numbers such as 2048 bytes to display as round numbers, so 2 <a href="docs/bytes.html">KiB</a><br><br>
+Power of <a href="https://en.wikipedia.org/wiki/Power_of_10">10</a> numbers are also calculated above (KB, MB&hellip;) these are used by <a href="http://support.apple.com/kb/TS2419">Apple</a> and some hard drive manufacturers.<br>
+</p>
+<p class="notes">Many documents still refer to byte measues with the old-style prefixes: <span class="code"> KB,MB,GB&hellip;</span> <br>  
+These are case sensitive and easily confused with bits: <span class="code"> Kb,Mb,Gb&hellip;<br>
+&nbsp;&nbsp;1 Byte = 8 bits</span><br>
+  <b>Bytes</b> are used to measure disc/file sizes.<br>
+<b>bits</b> are used to measure network or download speeds.</p>
+<p class="notes"><i>Typical throughputs:</i><br>
+Hard disk = 30 MiB per second. (x8 = 240 Mb/Sec) <br>
+Gigabit Ethernet = 125 MiB per second. (x8 = 1,000 Mb/Sec) <br>
+Solid state disc = 250 MiB per second. (x8 = 2,000 Mb/Sec) <br>
+Fibre Channel = 2,550 MiB per second. (x8 = 20,400 Mb/Sec) <br>
+</p>
+</blockquote>
+
+<h1>Convert Hex to Decimal</h1>
+<blockquote>
+<p>Type any hex or decimal number:</p>
+<input type="text" size=40 id="in" onkeyup="convert()" value="12345678909876543" />
+<p id="result"></p>
+</blockquote>
+
+<script type="text/javascript">
+function str_or_null(x) {
+   return x === null ? 'null' : x;
+}
+
+// "1.234e+5" -> "12340"
+function expandExponential(x) {
+var pos = x.indexOf("e");
+ if (pos === -1) pos = x.indexOf("E");
+ if (pos === -1) return x;
+
+ var base = x.substring(0, pos);
+ var pow = parseInt(x.substring(pos + 1), 10);
+ if (pow < 0) return x;  // not supported.
+
+ var dotPos = base.indexOf('.');
+ if (dotPos === -1) dotPos = base.length;
+
+  var ret = base.replace('.', '');
+  while (ret.length < dotPos + pow) ret += '0';
+  return ret;
+}
+
+function boldDifference(correct, actual) {
+ for (var i = 0, j = 0; i < correct.length && j < actual.length; i++, j++) {
+ if (correct[i] !== actual[j]) {
+ break;
+  }
+  }
+if (j < actual.length) {
+  return actual.substring(0, j) + '<b>' + actual.substring(j) + '</b>';
+} else {
+ return actual;
+}
+}
+
+function convert() {
+ var input = document.getElementById("in").value;
+if (input) {
+  var aHex = str_or_null(decToHex(input));
+  var aDec = str_or_null(hexToDec(input));
+  var bHex = '0x' + (parseInt(input, 10)).toString(16);
+  var bDec = "" + expandExponential("" +parseInt(input, 16));
+
+  var html = '<code><p>hexToDec(' + input + ') = ' + aDec + '</p>';
+ html += '<p>decToHex(' + input + ') = ' + aHex + '</p></code>';
+
+  document.getElementById('result').innerHTML = html;
+  }
+}
+convert();
+
+function viewSource() {
+  window.location = 'view-source:' + window.location.href;
+}
+</script>
+
+<p class="quote">&ldquo;Kilted Men Given Testosterone Perform Exceedingly Zealous Yoga - Mnemonic for Kilo, Mega, Giga, Tera, Peta, Exa, Zeta, Yotta&rdquo; ~ David Wu</p>
+<p><b>Related:</b></p>
+<p><a href="ascii.html">ASCII Table</a><br>
+<a href="nt/certutil.html">CERTUTIL</a> - Convert to Base64<br>
+</p><!-- #BeginLibraryItem "/Library/foot_root.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- General300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="7010419507"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="convert.html#"><img src="images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div>
+<!-- #EndLibraryItem --></body>
+</html>

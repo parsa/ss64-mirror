@@ -1,0 +1,72 @@
+<!DOCTYPE HTML><html lang="en">
+<head><meta charset="UTF-8">
+<meta name="Description" content="The default properties (font, width height, etc) for every object type (text box, combo box etc) can be set with the toolbar">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Database Design 3rd normal form | Access | SS64.com</title></head>
+<body><!-- #BeginLibraryItem "/Library/head_access_syntax.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../access.1.html">Access</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/access/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>Database Design - 1st, 2nd and 3rd normal form</h1>
+<p>In a relational database you can design separate tables and columns to hold sets of related data. </p>
+<p>This is vaguely similar to a spreadsheet with multiple tabs holding different data but with three key extra benefits: </p>
+<ol>
+<li>You can strictly define the type of data to be stored in each place (Numbers/dates/text) </li>
+<li>Dates and numbers can be restricted to sensible values - <span class="code">Date_of_Birth</span> must be in the past, <span class="code">Zip_code</span> must be 20 characters or less etc.</li>
+<li> You can define exactly how the tables are linked (related) to one another.</li>
+</ol>
+<p>It has been shown; in a series of systematic field audits  and lab experiments; that around <b>88% </b>of all spreadsheets contain errors (<a href="http://panko.shidler.hawaii.edu/SSR/Mypapers/whatknow.htm">Raymond R. Panko</a>, University of Hawai’i, 1998, Revised 2008) <br>
+Moving data into a structured relational database can prevent many of these errors.</p>
+<h2>First Normal Form</h2>
+<blockquote>
+<p>The &nbsp;First Normal Form states that <i>all column values must be atomic</i> (singular)<br>
+So the value for one column (in a record) must contain a single value, not a list of items or a coded value that has more than one meaning </p>
+<p>For example an <span class="code">order_type</span> of 'A' meaning <i>Overseas+ Airmail</i>, then <span class="code">order_type</span> of 'B' meaning <i>Overseas+ Ship by boat</i> would fail to meet First Normal Form. Changing to separate columns will fix this and allow for the case of Airmail within the same country.</p>
+<p>First Normal Form also prohibits the <i>presence of repeating groups even if they are stored in composite columns</i>.<br>
+This means that a table for sales <span class="code">Orders</span> containing the columns:<br>
+<span class="code">Order_No, Staff_id, Item1_description, Item2Description, </span><span class="code">Item3Description</span><br>
+would fail to meet First Normal Form, even though the descriptions are in separate columns.</p>
+<p>Changing the design so that every item gets it's own row in the table means that we can have any number of items from 1 upwards, the table columns then become:<br>
+<span class="code">Order_No, Item_no,   Staff_id, Description</span> <br>
+with a primary key of <span class="code">Order_No + Item_no</span> (concatenated) this is a valid First Normal Form table.</p>
+</blockquote><h2>Second Normal Form</h2>
+<blockquote>
+<p>The &nbsp;Second Normal Form implies that a tableis in First Normal Form and <i>every non-key column is fully dependent on the entire primary key</i>. In plain language the table should contain data relating to one 'thing' and the primary key will uniquely identify each 'thing'.</p>
+<p>In the example above the <span class="code">Staff_id</span> field is <b>not</b> <i>fully dependent on the entire primary key</i>, assuming only one member of staff would enter all the items in  each order, then if you know the <span class="code">Order_No</span> you will know the <span class="code">Staff_id</span> without having to know the <span class="code">Item_no</span></p>
+<p>This typically means that some   data items need to be split into a separate table, in this case an <span class="code">Order_items</span> table which  would link back to the main <span class="code">Orders</span> table.</p>
+<p>Orders table:<br>
+<span class="code">Order_No,    Staff_id</span></p>
+<p>Order_Items table:<br>
+<span class="code">Order_No, Item_no,   Quantity, Description</span></p>
+</blockquote>
+<h2>Third Normal Form</h2>
+<blockquote>
+<p>To meet the requirements of&nbsp;Third Normal Form a table must meet the requirements of Second normal form plus <i>all non-key columns are mutually independent</i>. </p>
+<p>Orders table:<br>
+<span class="code">Order_No,    Staff_id</span></p>
+<p>Order_Items table:<br>
+<span class="code">Order_No, Item_no,   Description</span></p>
+</blockquote>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p class="quote"><i>&ldquo;My favorite things in life don't cost any money. It's really clear that the most precious resource we all have is time&rdquo; ~ Steve Jobs</i></p>
+<p><b>Related:</b></p>
+<p><a href="syntax-naming.html">Naming conventions</a> - The standard 'Reddick VBA Naming convention' for Access.<br>
+<a href="syntax-datatypes.html">Number Data Types</a> - Access data Types.</p><!-- #BeginLibraryItem "/Library/foot_access.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- access -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4313908313"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="syntax-design.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

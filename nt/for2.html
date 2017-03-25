@@ -1,0 +1,77 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>For - Loop through files | Windows CMD | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_nt.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../nt.1.html">CMD</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/nt/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>FOR</h1> 
+<p>Conditionally perform a command on several files. </p>
+<pre>Syntax
+      FOR %%parameter IN (<i>set</i>) DO <i>command</i>
+
+Key
+   <i>set</i>         : A set of one or more files, separated by any standard <a href="syntax-esc.html#delimiters">delimiter</a>.
+                 <a href="syntax-wildcards.html">Wildcards</a> can be used.
+
+ <i>  command</i>     : The command to carry out, including any command-line parameters.
+
+   %%parameter : A replaceable parameter:
+                 e.g. in a batch file use %%G 
+                      (on the command line %G)</pre>
+<p> <b>Examples</b><br>
+  <br>
+  Copy a single file<br>
+  <span class="code">FOR %%G IN (MyFile.txt) DO copy %%G d:\backups\</span><br>
+  <br>
+  Copy a list of several files<br>
+<span class="code">FOR %%G IN (Myfile.txt SecondFile.txt) DO copy %%G d:\backups\</span></p>
+<p><span class="code">FOR %%G IN (&quot;C:\demo files\file1.txt&quot; &quot;C:\demo files\File2.txt&quot;) DO copy %%G d:\backups\</span><br>
+  <br>
+  The FOR command is mostly used to process files, but you can also process a text string:<br>
+  <span class="code">FOR %%G IN (&quot;Hello World&quot;) DO Echo %%G</span><br>
+This is not really useful being much the same as <span class="code">Echo Hello World</span><br>
+<br>
+  Although wildcards can be used, an alternative method of processing files is 
+  to let <a href="for_f.html">FOR /F</a> process the output of the command <a href="dir.html">'DIR /b'</a>  This can be useful when you want to use   DIR 
+options like sorting.</p>
+<h2>Errorlevels</h2>
+<blockquote>
+<p>The FOR command does not generally set any <a href="errorlevel.html">errorlevels</a>, leaving that to the <i>command</i> being called. <br>
+One exception is  using a wildcard, if the wildcard does not match any files, then FOR will return %ERRORLEVEL% = 5</p>
+</blockquote>
+<p>FOR is an <a href="syntax-internal.html">internal</a> command.</p>
+<p><span class="quote"><i>&quot;Darkness reigns at the foot of the lighthouse&quot; ~ Japanese Proverb</i></span><i><br>
+  </i><br>
+  <b>Related:</b><br>
+  <br>
+  <a href="for.html">FOR</a> - Loop commands<br>
+  <a href="for_r.html">FOR /R</a> - Loop through files (recurse subfolders) <a href="for_d.html"><br>
+  FOR /D</a> - Loop through several folders<br>
+  <a href="for_l.html">FOR /L</a> - Loop through a range of numbers<br>
+  <a href="for_f.html">FOR /F</a> - Loop through items in a text file<br>
+  <a href="for_cmd.html">FOR /F</a> - Loop through the output of a command<br>
+  <a href="forfiles.html">FORFILES</a> - Batch process multiple files<br>
+  <a href="goto.html">GOTO</a> - Direct a batch program to jump to a labelled
+    line<br>
+  <a href="if.html">IF</a> - Conditionally perform a command <br>
+  Equivalent bash command (Linux): 
+<a href="../bash/for.html">for</a> - Expand <var>words</var>, and execute <var>commands</var></p><!-- #BeginLibraryItem "/Library/foot_nt.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- windows300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="7649547908"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="for2.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

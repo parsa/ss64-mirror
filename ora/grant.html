@@ -1,0 +1,165 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Grant - Oracle privileges | Oracle | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_ora.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../ora.1.html">Oracle</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>GRANT Statement</h1> 
+<p>Grant privileges to a user (or to a user role)<br>
+  <br>
+  Syntax:</p>
+<pre>Grant System-wide Privs:
+
+   GRANT <i>system_priv(s)</i> TO <i>grantee</i> 
+      [IDENTIFIED BY <i>password</i>] [WITH ADMIN OPTION]
+
+   GRANT <i>role</i> TO <i>grantee</i> 
+      [IDENTIFIED BY <i>password</i>] [WITH ADMIN OPTION]
+
+   GRANT ALL PRIVILEGES TO <i>grantee</i> 
+      [IDENTIFIED BY <i>password</i>] [WITH ADMIN OPTION]
+
+Grant privs on specific objects:
+
+   GRANT <i>object_priv</i> [(<i>column</i>, <i>column</i>,…)]
+      ON [schema.]<b>object</b>
+         TO <i>grantee</i> [WITH GRANT OPTION] [WITH HIERARCHY OPTION]
+
+   GRANT <b>ALL PRIVILEGES</b> [(column, column,…)]
+      ON [schema.]object
+         TO <i>grantee</i> [WITH GRANT OPTION] [WITH HIERARCHY OPTION]
+
+   GRANT <i>object_priv</i> [(column, column,…)]
+      ON <b>DIRECTORY</b> directory_name
+         TO <i>grantee</i> [WITH GRANT OPTION] [WITH HIERARCHY OPTION]
+
+   GRANT <i>object_priv</i> [(column, column,…)]
+      ON <b>JAVA</b> [RE]SOURCE [schema.]object
+         TO <i>grantee</i> [WITH GRANT OPTION] [WITH HIERARCHY OPTION]
+
+grantee:
+   <i>user</i> 
+   <i>role</i>
+   PUBLIC
+
+system_privs:
+   CREATE SESSION - Allows user to connect to the database
+   UNLIMITED TABLESPACE  - Use an unlimited amount of any tablespace.
+   SELECT ANY TABLE - Query tables, views, or mviews in any schema<br>   UPDATE ANY TABLE - Update rows in tables and views in any schema
+   INSERT ANY TABLE - Insert rows into tables and views in any schema
+   Also System Admin rights to CREATE, ALTER or DROP:
+     cluster, context, database, link, dimension, directory, index,
+     materialized view, operator, outline, procedure, profile, role,
+     rollback segment, sequence, session, synonym, table, tablespace,
+     trigger, type, user, view. (<a href="grant_privs.html">full list of system privs</a>)
+
+object_privs:
+   SELECT, UPDATE, INSERT, DELETE, ALTER, DEBUG, EXECUTE, INDEX, REFERENCES 
+   
+roles:
+   SYSDBA, SYSOPER, OSDBA, OSOPER, EXP_FULL_DATABASE, IMP_FULL_DATABASE
+   SELECT_CATALOG_ROLE,  EXECUTE_CATALOG_ROLE, DELETE_CATALOG_ROLE
+   AQ_USER_ROLE, AQ_ADMINISTRATOR_ROLE - advanced queuing
+   SNMPAGENT - Enterprise Manager/Intelligent Agent.
+   RECOVERY_CATALOG_OWNER - rman
+   HS_ADMIN_ROLE - heterogeneous services
+
+   plus any user defined roles you have available</pre>
+<p>Notes:</p>
+<p>Several Object_Privs can be assigned in a single
+    GRANT statement<br>
+  e.g.<br>
+GRANT SELECT (empno), UPDATE (sal) ON scott.emp TO emma</p>
+<p>WITH HIERARCHY OPTION will grant the object privilege on all
+subobjects, including any created after  the GRANT statement is issued.</p>
+<p>WITH GRANT OPTION will enable the grantee to grant those object privileges
+  to
+  other users and roles.<br>
+  <br>
+&quot;GRANT ALL PRIVILEGES…&quot; can also be written as &quot;GRANT ALL…&quot; </p>
+<p><b>SYSDBA</b> role permissions: </p>
+<blockquote>
+  <p>   CREATE DATABASE<br>
+    CREATE SPFILE<br>
+    STARTUP and SHUTDOWN <br>
+    ALTER DATABASE: open, mount, back up, or change character set<br>
+    ARCHIVELOG and RECOVERY<br>
+    Includes the RESTRICTED SESSION privilege</p>
+</blockquote>
+<p><b>SYSOPER </b>role permissions:</p>
+<blockquote>
+  <p>   CREATE SPFILE<br>
+    STARTUP and SHUTDOWN <br>
+    ALTER DATABASE: open, mount, back up<br>
+    ARCHIVELOG and RECOVERY<br>
+    Includes the RESTRICTED SESSION privilege</p>
+</blockquote>
+<p>The roles CONNECT, RESOURCE and DBA are now deprecated (supported only for
+    backwards compatibility) unless you are still running Oracle 6.0 use <a href="role_c.html">CREATE
+    ROLE</a></span> instead. Using deprecated roles is likely to result in a database installation that is not secure. Also beware of 3rd party packages that 
+    issue GRANT CONNECT instead of GRANT CREATE SESSION.</p>
+<ul>
+  <li>Create a Role</li>
+  <li>Grant object and system priviliges to the role</li>
+  <li>Grant the role to individual
+          Users.</li>
+</ul>
+<p> When using roles, parse performance is faster (one role vs multiple permissions) </p>
+<p>Changes in a grant applied to a role will be immediately picked up by all logged-in users.<br>
+  Changes in
+a grant applied directly to a user require a logoff and re-login. </p>
+<p>Grants of UNLIMITED TABLESPACE must be
+  direct.<br>
+  Grants to users running background jobs (dbms_job.submit) have to be
+  direct; 
+when the job starts running no roles are active.</p>
+<pre>GRANT CREATE session, CREATE table, CREATE view, 
+      CREATE procedure,CREATE synonym,
+      ALTER table, ALTER view, ALTER procedure,ALTER synonym,
+      DROP table, DROP view, DROP procedure,DROP synonym,
+      TO MyRole;</pre>
+<p><a href="http://www.petefinnigan.com/ramblings/how_to_grant_all_privs.htm">Example</a> - granting all privileges (Pete Finnigan) </p>
+<p><i> <span class="quote">&ldquo;A people that values its privileges above it's principles soon loses both&rdquo; ~ Dwight D. 
+  Eisenhower </span></i><b><br>
+  <br>
+  Related Commands:<br>
+  <br>
+  </b> <a href="audit.html">AUDIT</a><br>
+  <a href="role_c.html">CREATE ROLE</a> <br>
+  <a href="user_c.html">CREATE USER</a>  <br>
+  <a href="revoke.html">REVOKE</a> <b><br>
+  </b>ORA-01031 - Insufficient privileges<br>
+To grant permissions in bulk to the objects owner by a user, see the <a href="../orad/USER_OBJECTS.html">USER_OBJECTS</a> view (with example script.) </p>
+<p><b>Related Views:</b></p>
+<p class="code"> <a href="../orad/DBA_COL_PRIVS.html">DBA_COL_PRIVS</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="../orad/ALL_COL_PRIVS.html">ALL_COL_PRIVS</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="../orad/USER_COL_PRIVS.html">USER_COL_PRIVS</a>&nbsp;<br>
+  <a href="../orad/COLUMN_PRIVILEGES.html">COLUMN_PRIVILEGES</a> <br>                      
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="../orad/ALL_COL_PRIVS_MADE.html">ALL_COL_PRIVS_MADE</a>&nbsp;&nbsp;<a href="../orad/USER_COL_PRIVS_MADE.html">USER_COL_PRIVS_MADE</a> <br>                      
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="../orad/ALL_COL_PRIVS_RECD.html">ALL_COL_PRIVS_RECD</a>&nbsp;&nbsp;<a href="../orad/USER_COL_PRIVS_RECD.html">USER_COL_PRIVS_RECD</a> <br>
+  <a href="../orad/DBA_ROLE_PRIVS.html">DBA_ROLE_PRIVS</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="../orad/USER_ROLE_PRIVS.html">USER_ROLE_PRIVS</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="../orad/ROLE_ROLE_PRIVS.html">ROLE_ROLE_PRIVS</a> <br>
+  <a href="../orad/DBA_SYS_PRIVS.html">DBA_SYS_PRIVS</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="../orad/USER_SYS_PRIVS.html">USER_SYS_PRIVS</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="../orad/ROLE_SYS_PRIVS.html">ROLE_SYS_PRIVS</a> <br>                                                                
+  <a href="../orad/SESSION_PRIVS.html">SESSION_PRIVS</a> <br>
+ <a href="../orad/DBA_TAB_PRIVS.html">DBA_TAB_PRIVS</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="../orad/ALL_TAB_PRIVS.html">ALL_TAB_PRIVS</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="../orad/USER_TAB_PRIVS.html">USER_TAB_PRIVS<br>
+ </a>
+ <a href="../orad/TABLE_PRIVILEGES.html">TABLE_PRIVILEGES</a> <br>                                                                
+  <a href="../orad/ROLE_TAB_PRIVS.html">ROLE_TAB_PRIVS</a> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="../orad/ALL_TAB_PRIVS_MADE.html">ALL_TAB_PRIVS_MADE</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="../orad/USER_TAB_PRIVS_MADE.html">USER_TAB_PRIVS_MADE</a> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="../orad/ALL_TAB_PRIVS_RECD.html">ALL_TAB_PRIVS_RECD</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="../orad/USER_TAB_PRIVS_RECD.html">USER_TAB_PRIVS_RECD</a> </p><!-- #BeginLibraryItem "/Library/foot_ora.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- oracle-footer -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4275490898"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="grant.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

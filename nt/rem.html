@@ -1,0 +1,128 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Rem - Comment | Windows CMD | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_nt.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../nt.1.html">CMD</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/nt/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>REM</h1> 
+<p> In a batch file 
+REM at the start of a line signifies a comment or REMARK, 
+alternatively adding <span class="code">::</span> at
+  the start of a line has a similar effect.<br>
+  <br>
+  For example:<br>
+  <br>
+<span class="code">@ECHO OFF<br>
+  ::<br>
+  :: First comment<br>
+  <br>
+  REM Second comment<br>
+REM<br>
+<br>
+Echo Hello REM This remark is displayed by echo<br>
+Echo Hello &amp; REM This remark is ignored by echo<br>
+<br>
+Copy work.xls backup.xls <a href="syntax-redirection.html">&amp;</a>:: We backed up the file<br> 
+</span><br>
+Although you can use Rem without a comment to add vertical spacing to a batch
+file, you can also use completely blank lines. The blank lines are ignored when processing
+the batch program.</p>
+<p>The double-colon is not documented as a comment command, it
+  is
+  a special case of a  <a href="call.html">label</a> that  acts as a comment.</p>
+<p>An alternative approach is to use plain text and a <a href="goto.html">goto</a> command to jump execution past the comments:</p>
+<pre>@Echo OFF
+Goto :START</pre>
+<pre>Description can go here
+which can even include - | &gt; characters
+
+:START</pre>
+<h2> Comments within bracketed code blocks.</h2>
+<blockquote>
+<p>When labels are used as comments within a <a href="syntax-brackets.html">bracketed code block</a> or FOR command, the command processor will expect (not unreasonably) that every label is followed by at least one command. (That way if you jump to the label it will have  something to execute.) In fact the CMD shell will attempt to execute the second line <a href="https://ss64.org/viewtopic.php?id=1459">even if it is formatted as a label</a>:</p>
+<p class="code">(<br>
+  echo This example will fail<br>
+  :: some comment<br>
+  )<br>
+</p>
+<pre>(<br>:NormalLabel &amp; echo this will not be executed <br>:SecondaryLine &amp; echo This will be executed <br>) </pre>
+<p>When working within parenthesis/brackets it is probably safer to use REM for all comment lines.</p>
+</blockquote>
+<h2>Bugs<b><br>
+</b></h2>
+<blockquote>
+<p>  A comment like the examples below will
+  be interpreted as a command and  will produce a fatal error:<br>
+  <span class="code">::%~ </span><br>
+  or <br>
+  <span class="code">REM %~<br>
+<br>
+</span>or similarly with a variable<span class="code"><br>
+set var=demo
+<br>
+rem %var:=<br>
+</span>or<span class="code"> <br>
+rem %var:*=<br>
+</span><br>
+There errors will terminate all further batch processing and return an error message:<br>
+<i>The following usage of the path operator in batch-parameter substitution is
+invalid: %~</i><br>
+</p>
+<p>This behaviour is a result of the <a href="https://stackoverflow.com/questions/4094699/how-does-the-windows-command-interpreter-cmd-exe-parse-scripts/4095133#4095133">batch parsing rules</a> used by CMD.EXE and so is unlikely to ever change.</p>
+<p>A <span class="code">REM</span> comment can be significantly slower to process than <span class="code">::</span><br>
+In Windows NT 4 the REM comment would incorrectly reset the %errorlevel% to 0.<br>
+</p>
+<p>To avoid these issues, make sure your comments do not contain % chars or any <a href="syntax-redirection.html">redirection</a> operators.</p>
+</blockquote>
+<h2>Registry Comments</h2>
+<blockquote>
+<p>Within a registry .REG 
+  file comments can be preceded by<span class="code"> ; </span><br>
+  <br>
+  <span class="code">;<br>
+  ; Turn the NUMLOCK on at login<br>
+  ; <br>
+  [HKEY_CURRENT_USER\Control Panel\Keyboard] <br>
+"InitialKeyboardIndicators"="2"</span></p>
+</blockquote>
+<h2>FTP Comments</h2>
+<blockquote>
+<p>There is no valid comment character for <a href="ftp.html">FTP</a> but you can cheat
+  by escaping to the shell and running REM<br>
+  e.g.<br>
+  <br>
+  <span class="code">C:\WORK&gt;type ftpscript<br>
+  !REM This is a remark<br>
+  bye</span></p>
+<p class="code">C:\WORK&gt;ftp -s:ftpscript<br>
+ftp&gt; !REM This is a remark<br>
+ftp&gt; bye</p>
+<p class="code">C:\WORK&gt;</p>
+</blockquote>
+<p>REM is an <a href="syntax-internal.html">internal</a> command.</p>
+<p class="quote"><i>#Now stand in the place where you work,
+Now face West<br>
+Think about the place where you live, 
+Wonder why you haven't before# - REM 'Stand' </i></p>
+<p>  <b>Related:</b></p>
+<p>  Powershell: # - Comment / Remark<br>
+  Equivalent  bash command: <a href="../bash/rem.html">###</a> - Comment / Remark</p><!-- #BeginLibraryItem "/Library/foot_nt.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- windows300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="7649547908"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="rem.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

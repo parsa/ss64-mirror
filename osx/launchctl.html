@@ -1,0 +1,412 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>launchctl OSX Man Page | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_osx.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../osx.1.html">macOS</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/osx/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>launctl</h1> 
+<p>Interfaces with <a href="https://en.wikipedia.org/wiki/Launchd">launchd</a> to load, unload daemons/agents and generally control launchd. launchctl supports taking subcommands on the
+command line, interactively or even redirected from standard input.</p>
+<pre>Syntax
+      launchctl [<i>subcommand</i> [<i>arguments</i> ...]]
+
+Many subcommands in launchctl take a specifier which indicates the target
+domain or service for the subcommand. 
+This specifier may take one of the following forms:
+
+     system/[<i>service-name</i>]
+              Targets the system domain or a service within the system domain.
+              The system domain manages the root Mach bootstrap and is consid-
+              ered a privileged execution context. Anyone may read or query
+              the system domain, but root privileges are required to make mod-
+              ifications.
+
+     user/<uid>/[<i>service-name</i>]
+              Targets the user domain for the given UID or a service within
+              that domain. A user domain may exist independently of a logged-
+              in user. User domains do not exist on iOS.
+
+     login/<asid>/[<i>service-name</i>]
+              Targets a user-login domain or service within that domain. A
+              user-login domain is created when the user logs in at the GUI
+              and is identified by the audit session identifier associated
+              with that login. If a user domain has an associated login
+              domain, the print subcommand will display the ASID of that login
+              domain. User-login domains do not exist on iOS.
+
+     gui/<uid>/[<i>service-name</i>]
+              Another form of the login specifier. Rather than specifying a
+              user-login domain by its ASID, this specifier targets the domain
+              based on which user it is associated with and is generally more
+              convenient.
+
+              Note: GUI domains and user domains share many resources. For the
+              purposes of the Mach bootstrap name lookups, they are "flat", so
+              they share the same set of registered names. But they still have
+              discrete sets of services. So when printing the user domain's
+              contents, you may see many Mach bootstrap name registrations
+              from services that exist in the GUI domain for that user, but
+              you will not see the services themselves in that list.
+
+     session/<asid>/[<i>service-name</i>]
+              Targets the session domain for the given audit session ID or a
+              service within that domain. For more information about audit
+              sessions, see auditon(2) and libbsm(3)
+
+     pid/<pid>/[<i>service-name</i>]
+              Targets the domain for the given PID or a service within that
+              domain. Each process on the system will have a PID domain asso-
+              ciated with it that consists of the XPC services visible to that
+              process which can be reached with xpc_connection_create(3).
+
+SUBCOMMANDS
+
+
+     bootstrap | bootout <i>domain-target</i> [<i>service-path service-path2</i> ...] |
+              service-target
+              Bootstraps or removes domains and services. Services may be
+              specified as a series of paths or a service identifier. Paths
+              may point to XPC service bundles, launchd.plist(5) s, or a
+              directories containing a collection of either. If there were one
+              or more errors while bootstrapping or removing a collection of
+              services, the problematic paths will be printed with the errors
+              that occurred.
+
+              If no paths or service target are specified, these commands can
+              either bootstrap or remove a domain specified as a domain tar-
+              get. Some domains will implicitly bootstrap pre-defined paths as
+              part of their creation.
+
+     enable | disable <i>service-target</i>
+              Enables or disables the service in the requested domain. Once a
+              service is disabled, it cannot be loaded in the specified domain
+              until it is once again enabled. This state persists across boots
+              of the device. This subcommand may only target services within
+              the system domain or user and user-login domains.
+
+     uncache <i>service-name</i>
+              This subcommand instructs launchd to bypass its service cache
+              for the named service and instead read the service's configura-
+              tion file directly from disk.  launchd maintains an in-memory
+              cache of XPC service configuration files to minimize the disk
+              I/O. This subcommand will remove a cached entry so that develop-
+              ers may more rapidly iterate on a service's configuration. It
+              should not ever be used as part of production workflow.
+
+     kickstart [-kp] <i>service-target</i>
+              Instructs launchd to kickstart the specified service.
+
+              -k       If the service is already running, kill the running
+                       instance before restarting the service.
+
+              -p       Upon success, print the PID of the new process or the
+                       already-running process to stdout.
+
+     attach [-ksx] <i>service-target</i>
+              Attaches the system's debugger to the process currently backing
+              the specified service. By default, if the service is not run-
+              ning, this subcommand will block until the service starts.
+
+              -k       If the service is already running, kill the running
+                       instance.
+
+              -s       Force the service to start.
+
+              -x       Attach to xpcproxy(3) before it execs and becomes the
+                       service process. This flag is generally not useful for
+                       anyone but the launchd maintainer.
+
+     debug <i>service-target</i> [--program <program path>] [--guard-malloc]
+              [--malloc-stack-logging] [--debug-libraries]
+              [--introspection-libraries] [--NSZombie] [--32] [--stdin]
+              [--stdout] [--stderr] [--environment] [--] [argv0 argv1 argv2
+              ...]
+              Configures the next invocation of a service for debugging. This
+              subcommand allows you to temporarily replace the main executable
+              of the service with one at a different path, enable
+              libgmalloc(3), set environment variables, set the argument vec-
+              tor and more. This is a convenient alternative to editing the
+              launchd.plist(5) for the service and then reloading it, as the
+              additional debugging properties are cleared once the service has
+              run once with them.
+
+              --program <program-path>
+                       Instructs launchd(8) to use program-path as the
+                       service's executable.
+
+              --guard-malloc
+                       Turns on libgmalloc(3) for the service.
+
+              --malloc-stack-logging
+                       Turns on malloc(3) stack logging for the service.
+
+              --malloc-nano-allocator
+                       Turns on the malloc(3) nano allocator for the service.
+
+              --debug-libraries
+                       Sets the DYLD_IMAGE_SUFFIX for the service to "_debug",
+                       which prefers the debug variants of libraries if they
+                       exist. See dyld(1) for more information.
+
+              --introspection-libraries
+                       Adds /usr/lib/system/introspection to the
+                       DYLD_LIBRARY_PATH environment variable for the service.
+                       This causes the system to prefer the introspection
+                       variants of libraries if they exist.
+
+              --NSZombie
+                       Enables NSZombie.
+
+              --32     Runs the service in the appropriate 32-bit architec-
+                       ture. Only available on 64-bit platforms.
+
+              --stdin [stdin-path]
+                       Sets the service's standard input to be stdin-path.  If
+                       no file is given, uses the current terminal as the ser-
+                       vice's standard input. If stdin-path does not exist, it
+                       is created.
+
+              --stdout [stdout-path]
+                       Sets the service's standard input to be stdout-path.
+                       If no file is given, uses the current terminal as the
+                       service's standard input. If stdout-path does not
+                       exist, it is created.
+
+              --stderr [stderr-path]
+                       Sets the service's standard input to be stderr-path.
+                       If no file is given, uses the current terminal as the
+                       service's standard input. If stderr-path does not
+                       exist, it is created.
+
+              --environment VARIABLE0=value VARIABLE1=value ...
+                       Sets the given environment variables on the service.
+
+              -- argv0 argv1 ...
+                       Any arguments following the -- are given to the service
+                       as its argument vector.
+
+                       IMPORTANT: These arguments replace the service's
+                       default argument vector; they are not merged in any
+                       way. The first argument following -- is given as the
+                       initial (zeroth) element of the service's argument vec-
+                       tor. As with the ProgramArguments launchd.plist(5) key,
+                       you should read carefully and understand the execve(2)
+                       man page.
+
+     kill <i>signal-name</i> | <i>signal-number service-target</i>
+              Sends the specified signal to the specified service if it is
+              running. The signal number or name (SIGTERM, SIGKILL, etc.) may
+              be specified.
+
+     blame <i>service-target</i>
+              If the service is running, prints a human-readable string
+              describing why launchd launched the service. Note that services
+              may run for many reasons; this subcommand will only show the
+              most proximate reason. So if a service was run due to a timer
+              firing, this subcommand will print that reason, irrespective of
+              whether there were messages waiting on the service's various
+              endpoints. This subcommand is only intended for debugging and
+              profiling use and its output should not be relied upon in pro-
+              duction scenarios.
+
+     print <i>domain-target</i> | <i>service-target</i>
+              Prints information about the specified service or domain. Domain
+              output includes various properties about the domain as well as a
+              list of services and endpoints in the domain with state pertain-
+              ing to each. Service output includes various properties of the
+              service, including information about its origin on-disk, its
+              current state, execution context, and last exit status.
+
+              IMPORTANT: This output is NOT API in any sense at all. Do NOT
+              rely on the structure or information emitted for ANY reason. It
+              may change from release to release without warning.
+
+     print-cache
+              Prints the contents of the launchd service cache.
+
+     print-disabled
+              Prints the list of disabled services.
+
+     plist [<i>segment</i>,<i>section</i>] Mach-O
+              Prints the the property list embedded in the __TEXT,__info_plist
+              segment/section of the target Mach-O or the specified seg-
+              ment/section.
+
+     procinfo pid
+              Prints information about the execution context of the specified
+              PID. This information includes Mach task-special ports and
+              exception ports (and when run against a DEVELOPMENT launchd,
+              what names the ports are advertised as in the Mach bootstrap
+              namespace, if they are known to launchd) and audit session con-
+              text. This subcommand is intended for diagnostic purposes only,
+              and its output should not be relied upon in production scenar-
+              ios. This command requires root privileges.
+
+     hostinfo
+              Prints information about the system's host-special ports,
+              including the host-exception port. This subcommand requires root
+              privileges.
+
+     resolveport <i>owner-pid port-name</i>
+              Given a PID and the name of a Mach port right in that process'
+              port namespace, resolves that port to an endpoint name known to
+              launchd.  This subcommand requires root privileges.
+
+     examine [<i>tool arg0 arg1</i> @<i>PID</i> ...]
+              Causes launchd to fork(2) itself for examination by a profiling
+              tool and prints the PID of this new instance to stdout. You are
+              responsible for killing this snapshot when it is no longer
+              needed.
+
+              Many profiling tools cannot safely examine launchd because they
+              depend on the functionality it provides. This subcommand creates
+              an effective snapshot of launchd that can be examined indepen-
+              dently. Note that on Darwin platforms, fork(2) is implemented
+              such that only the thread which called fork(2) is replicated
+              into the new child process, so this subcommand is not useful for
+              examining any thread other than the main event loop.
+
+              This subcommand takes an optional invocation of a tool to be
+              used on the launchd snapshot. Where you would normally give the
+              PID of the process to be examined in the tool's invocation,
+              instead specify the argument "@PID", and launchctl will substi-
+              tute that argument with the PID of the launchd snapshot in its
+              subsequent execution of the tool. If used in this form,
+              launchctl will automatically kill the snapshot instance when the
+              examination tool exits.
+
+              This subcommand may only be used against a DEVELOPMENT launchd.
+
+     config system | <i>user parameter value</i>
+              Sets persistent configuration information for launchd(8)
+              domains. Only the system domain and user domains may be config-
+              ured. The location of the persistent storage is an implementa-
+              tion detail, and changes to that storage should only be made
+              through this subcommand. A reboot is required for changes made
+              through this subcommand to take effect.
+
+              Supported configuration parameters are:
+
+              umask    Sets the umask(2) for services within the target domain
+                       to the value specified by value.  Note that this value
+                       is parsed by strtoul(3) as an octal-encoded number, so
+                       there is no need to prefix it with a leading '0'.
+
+              path     Sets the PATH environment variable for all services
+                       within the target domain to the string value.  The
+                       string value should conform to the format outlined for
+                       the PATH environment variable in environ(7).  Note that
+                       if a service specifies its own PATH, the service-spe-
+                       cific environment variable will take precedence.
+
+                       NOTE: This facility cannot be used to set general envi-
+                       ronment variables for all services within the domain.
+                       It is intentionally scoped to the PATH environment
+                       variable and nothing else for security reasons.
+
+     reboot [system|userspace|halt|logout|apps|reroot <mount-point>]
+              Instructs launchd to begin tearing down userspace. With no argu-
+              ment given or with the system argument given, launchd will make
+              the reboot(2) system call when userspace has been completely
+              torn down. With the halt argument given, launchd will make the
+              reboot(2) system call when userspace has been completely torn
+              down and pass the RB_HALT flag, halting the system and not ini-
+              tiating a reboot.
+
+              With the userspace argument given, launchd will re-exec itself
+              when userspace has been torn down and bring userspace back up.
+              This is useful for rebooting the system quickly under conditions
+              where kernel data structures or hardware do not need to be re-
+              initialized.
+
+              With the reroot argument given, launchd will perform a userspace
+              shutdown as with the userspace argument, but it will exec a copy
+              of launchd from the specified mount-point.  This mechanism is a
+              light-weight way of changing boot partitions. As part of this
+              process, launchd will make mount-point the new root partition
+              and bring userspace up as if the kernel had designated
+              mount-point as the root partition.
+
+              IMPORTANT: This type of reboot will, in no way, affect the
+              already-running kernel on the host. Therefore, when using this
+              option to switch to another volume, you should only target vol-
+              umes whose userspace stacks are compatible with the already-run-
+              ning kernel.
+
+              NOTE: As of the date of this writing, this option does not com-
+              pletely work.
+
+              With the logout argument given, launchd will tear down the
+              caller's GUI login session in a manner similar to a logout ini-
+              tiated from the Apple menu. The key difference is that a logout
+              initiated through this subcommand will be much faster since it
+              will not give apps a chance to display modal dialogs to block
+              logout indefinitely; therefore there is data corruption risk to
+              using this option. Only use it when you know you have no unsaved
+              data in your running apps.
+
+              With the apps argument given, launchd will terminate all apps
+              running in the caller's GUI login session that did not come from
+              a launchd.plist(5) on-disk. Apps like Finder, Dock and Syste-
+              mUIServer will be unaffected. Apps are terminated in the same
+              manner as the logout argument, and all the same caveats apply.
+
+              -s       When rebooting the machine (either a full reboot or
+                       userspace reboot), brings the subsequent boot session
+                       up in single-user mode.
+
+     error [posix|mach|bootstrap] <i>code</i>
+              Prints a human-readable string of the given error code.  By
+              default, launchctl will attempt to guess which error domain the
+              code given belongs to. The caller may optionally specify which
+              domain (either posix, mach, or bootstrap) to interpret the given
+              code as an error from that subsystem.
+
+     variant  Prints the launchd variant currently active on the system. Pos-
+              sible variants include RELEASE, DEVELOPMENT and DEBUG.
+
+     version  Prints the launchd version string.</pre>
+<h2>Files</h2>
+<blockquote>
+<p><span class="code">~/Library/LaunchAgents</span> Per-user agents provided by the user. <br>
+<span class="code">/Library/LaunchAgents</span> Per-user agents provided by the administrator. <br>
+<span class="code">/Library/LaunchDaemons</span> System wide daemons provided by the administrator. <br>
+<span class="code">/System/Library/LaunchAgents</span> OS X Per-user agents. <br>
+<span class="code">/System/Library/LaunchDaemons</span> OS X System wide daemons.</p>
+<p>launchd no longer loads configuration files from the network</p>
+</blockquote>
+<p>Subcommands from the previous implementation of launchd are generally      available see <span class="code">man launchctl</span> for details.</p>
+<p>launchctl will exit with status 0 if the subcommand succeeded. 
+Otherwise,      it will exit with an error code that can be given to the <span class="code">error</span> subcommand      to be decoded into human-readable form.</p>
+<p>Run launchctl with <a href="sudo.html">sudo</a> to see system-owned tasks.</p>
+<p><b>Examples</b></p>
+<p> Display the launch scripts that are currently loaded:<br>
+<span class="code">$ sudo launchctl list</span><br>
+<br>
+Enable remote SSH login <br>
+<span class="code">$ sudo launchctl load -w /System/Library/LaunchDaemons/ssh.plist </span></p>
+<p> Disable remote SSH login: <br>
+<span class="code">$ sudo launchctl unload -w /System/Library/LaunchDaemons/ssh.plist</span></p>
+<p class="quote"><i>&ldquo;A good rule for rocket experimenters to follow is this: always assume that it will explode&rdquo; ~ 'Astronautics,' issue 38, October 1937</i></p>
+<p><b>Related:</b></p>
+<p><a href="https://developer.apple.com/legacy/library/documentation/Darwin/Reference/ManPages/man1/launchctl.1.html">launchctl man page</a> - Apple.com<br>
+launchd.plist(5), launchd.conf(5), launchd(8)</p><!-- #BeginLibraryItem "/Library/foot_osx.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- OSX300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="1823340303"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="launchctl.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

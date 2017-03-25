@@ -1,0 +1,627 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Oracle Data Types | Oracle | SS64.com</title>
+<style type="text/css">
+.depracatedsty {color: #666666}
+.tabsty {
+width: 100%;
+border: 2px;
+border-collapse: collapse;
+}
+.tabsty td, th{
+border: 1px solid #999;
+padding: 6px 8px;}
+th{  background-color: #aaa;}
+
+#datatypes tbody tr:hover td { background-color: #ddd; }
+</style>
+</head><body><!-- #BeginLibraryItem "/Library/head_orasyntax.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../ora.1.html">Oracle</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>Oracle Datatypes</h1> 
+<p> Data types for Oracle 8 to Oracle 11g</p>
+<table id="datatypes" class="tabsty">
+  <tr> 
+    <th>Datatype</th>
+    <th><b>Description</b></th>
+    <th><b>Max Size:<br>
+      Oracle 8</b></th>
+    <th><b>Max Size:<br>
+      Oracle 9i/10g</b></th>
+    <th><b>Max Size:<br>
+Oracle 11g</b></th>
+    <th><b>Max Size: <br>
+  PL/SQL </b></th>
+    <th><b>PL/SQL<br>
+      Subtypes/ <br>
+      Synonyms </b></th>
+  </tr>
+  <tr> 
+    <td>VARCHAR2(<i>size</i>)</td>
+    <td>Variable length character string having maximum length <i>size</i> 
+      bytes.<br>
+      You must specify size</td>
+    <td><b>4000 </b>bytes<br>
+      minimum is 1 </td>
+    <td><b>4000 </b>bytes<br>
+      minimum is 1 </td>
+    <td><b>4000 </b>bytes<br>
+minimum is 1 </td>
+<td>32,767 bytes<br>
+  minimum is 1</td>
+    <td>STRING<br>
+      VARCHAR </td>
+  </tr>
+  <tr> 
+    <td>NVARCHAR2(<i>size</i>)</td>
+    <td>Variable length national character set string having maximum 
+      length <i>size</i> bytes.<br>
+      You must specify size</td>
+    <td>4000 bytes<br>
+      minimum is 1 </td>
+    <td>4000 bytes<br>
+      minimum is 1 </td>
+    <td>4000 bytes<br>
+minimum is 1 </td>
+<td>32,767 bytes<br>
+  minimum is 1</td>
+    <td>STRING<br>
+      VARCHAR</td>
+  </tr>
+  <tr class="depracatedsty"> 
+    <td>VARCHAR</td>
+    <td>Now deprecated (provided for backward compatibility only)<br>
+VARCHAR is a synonym for VARCHAR2 but this usage might change in future versions.</td>
+    <td> -</td>
+    <td>-</td>
+    <td>-</td>
+<td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td>CHAR(<i>size</i>)</td>
+    <td>Fixed length character data of length size bytes. This should be used for fixed length data. Such as codes A100, B102…</td>
+    <td><b>2000</b> bytes<br>
+      Default and minimum size is 1 byte.</td>
+  <td><b>2000</b> bytes<br>
+    Default and minimum size is 1 byte.</td>
+    <td><b>2000</b> bytes<br>
+Default and minimum size is 1 byte.</td>
+<td>32,767 bytes<br>
+  Default and minimum size is 1 byte. </td>
+    <td>CHARACTER</td>
+  </tr>
+  <tr> 
+    <td>NCHAR(<i>size</i>)</td>
+    <td>Fixed length national character set data of length size bytes. 
+      This should be used for fixed length data. Such as codes A100, B102…</td>
+    <td>2000 bytes<br>
+      Default and minimum size is 1 byte. </td>
+    <td>2000 bytes<br>
+      Default and minimum size is 1 byte. </td>
+    <td>2000 bytes<br>
+Default and minimum size is 1 byte. </td>
+<td>32767 bytes<br>
+  Default and minimum size is 1 byte. </td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td>NUMBER(<i>p,s</i>)</td>
+    <td>Number having <a href="syntax-datatypes.html#precision">precision</a> <i>p</i> and scale <i>s</i>.</td>
+    <td>The precision p can range from 1 to 38.<br>
+      <br>
+      The scale s can range from -84 to 127.</td>
+    <td>The precision p can range from 1 to 38.<br>
+      <br>
+      The scale s can range from -84 to 127.</td>
+    <td>The precision p can range from 1 to 38.<br>
+<br>
+The scale s can range from -84 to 127.</td>
+<td>Magnitude <br>
+  1E-130 .. 10E125<br>
+  <br>
+  maximum precision of 126 binary digits, which is roughly equivalent to 38 
+  decimal digits<br>
+  <br>
+  The scale s can range from -84 to 127. <br>
+  <br>
+  For floating point don't specify p,s<br>
+  <br>
+  REAL has a maximum precision of 63 binary digits, which is roughly equivalent 
+  to 18 decimal digits </td>
+    <td><p>Fixed-point numbers:<br>
+      DEC <br>
+      DECIMAL <br>
+      NUMERIC <br>
+      <br>      
+      Floating-Point: <br>
+      DOUBLE PRECISION FLOAT<br>
+<br>
+    integers:<br>
+INTEGER<br>
+INT <br>
+SMALLINT<br>
+</p>
+<p>BOOLEAN<br>
+REAL </p></td>
+  </tr>
+  <tr>
+<td>BINARY_FLOAT</td>
+<td>A 32-bit, single-precision floating-point number data type. Each BINARY_FLOAT value requires 4 bytes. Supports the special values infinity and NaN (not a number).</td>
+<td>-</td>
+<td>Magnitude: <br>
+1.17549E-38F<br>
+&hellip;<br>
+3.40282E+38F</td>
+<td><p>Magnitude: <br>
+1.17549E-38F<br>
+&hellip;<br>
+3.40282E+38F<br>
+</p></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>BINARY_DOUBLE</td>
+<td> A 64-bit, double-precision floating-point number data type. Each BINARY_DOUBLE value requires 8 bytes. Supports the special values infinity and NaN (not a number).</td>
+<td>-</td>
+<td>Magnitude:<br>
+2.22507485850720E-308 <br>
+&hellip;<br>
+1.79769313486231E+308</td>
+<td>Magnitude:<br>
+2.22507485850720E-308 <br>
+&hellip;<br>
+1.79769313486231E+308</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+  <td>BOOLEAN</td>
+  <td>True, False or NULL</td>
+  <td>n/a<br>
+  Use either Number or CHAR</td>
+  <td>n/a<br>
+Use either Number or CHAR</td>
+  <td>n/a<br>
+Use either Number or CHAR</td>
+  <td>BOOLEAN</td>
+  <td>&nbsp;</td>
+</tr>
+  <tr> 
+    <td>PLS_INTEGER</td>
+    <td>signed integers<br>
+      PLS_INTEGER values require less storage and provide better performance than 
+      NUMBER values.</td>
+    <td>PL/SQL only</td>
+    <td>PL/SQL only</td>
+    <td>PL/SQL only</td>
+<td> magnitude range is -2,147,483,647 .. 2,147,483,647 </td>
+    <td><p>SIMPLE_INTEGER<br>
+a sub-type of PLS_INTEGER that is always NOT NULL. (11g)</p></td>
+  </tr>
+  <tr> 
+    <td>BINARY_INTEGER</td>
+    <td>signed integers (older slower version of PLS_INTEGER)</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+<td>magnitude range is -2,147,483,647 .. 2,147,483,647</td>
+    <td> NATURAL<br>
+NATURALN<br>
+POSITIVE<br>
+POSITIVEN<br>
+SIGNTYPE</td>
+  </tr>
+  <tr class="depracatedsty"> 
+    <td>LONG</td>
+    <td>Character data of variable length (A bigger version the VARCHAR2 
+      datatype)</td>
+    <td>2 Gigabytes</td>
+    <td>2 Gigabytes - but now deprecated (provided for backward compatibility only).</td>
+    <td>2 Gigabytes - but now deprecated (provided for backward compatibility only).</td>
+<td>32760 bytes<br>
+  Note this is smalller than the maximum width of a LONG column </td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td>DATE</td>
+    <td>Valid date range</td>
+    <td>from January 1, 4712 BC to December 31, <b>9999</b> AD.</td>
+    <td>from January 1, 4712 BC to December 31, <b>9999</b> AD.</td>
+    <td>from January 1, 4712 BC to December 31, <b>9999</b> AD.</td>
+<td>from January 1, 4712 BC to December 31, <b>9999</b> AD. <br>
+  (in Oracle7 = 4712 AD)</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td>TIMESTAMP (<i>fractional_seconds_precision</i>) </td>
+    <td>the number of digits in the fractional part of the SECOND 
+      datetime field. </td>
+    <td>-</td>
+    <td>Accepted values of <i>fractional_seconds_precision</i> are 0 to 9. 
+      (default = 6) </td>
+    <td>Accepted values of <i>fractional_seconds_precision</i> are 0 to 9. (default = 6) </td>
+<td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td>TIMESTAMP (<i>fractional_seconds_precision</i>) WITH {LOCAL} TIMEZONE</td>
+    <td>As above with time zone displacement value</td>
+    <td>-</td>
+    <td>Accepted values of <i>fractional_seconds_precision</i> are 0 to 9. 
+      (default = 6) </td>
+    <td>Accepted values of <i>fractional_seconds_precision</i> are 0 to 9. (default = 6) </td>
+<td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>INTERVAL YEAR (<i>year_precision</i>) TO MONTH</td>
+    <td>Time in years and months, where <i>year_precision</i> is the number 
+      of digits in the YEAR datetime field. </td>
+    <td>-</td>
+    <td>Accepted values are 0 to 9. (default = 2) </td>
+    <td>Accepted values are 0 to 9. (default = 2) </td>
+<td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>INTERVAL DAY (<i>day_precision</i>) TO SECOND (<i>fractional_seconds_precision</i>) 
+    </td>
+    <td>Time in days, hours, minutes, and seconds.<br>
+      <br>
+      <i>day_precision</i> is the maximum number of digits in 'DAY' <br>
+      <br>
+      <i>fractional_seconds_precision</i> is the max number of fractional digits 
+      in the SECOND field. </td>
+    <td>-</td>
+    <td><i>day_precision</i> can be 0 to 9. (default = 2) 
+      <p><i>fractional_seconds_precision</i> can be 0 to 9. (default = 6) 
+    </td>
+    <td><i>day_precision</i> can be 0 to 9. (default = 2)
+<p><i>fractional_seconds_precision</i> can be 0 to 9. (default = 6) </td>
+<td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td>RAW(<i>size</i>)</td>
+    <td>Raw binary data of length size bytes.<br>
+      You must specify size for a RAW value.</td>
+    <td>Maximum size is <b>2000</b> bytes</td>
+    <td>Maximum size is <b>2000</b> bytes</td>
+    <td>Maximum size is <b>2000</b> bytes</td>
+<td>32767 bytes</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr class="depracatedsty"> 
+    <td>LONG RAW</td>
+    <td>Raw binary data of variable length. (not intrepreted by PL/SQL)</td>
+    <td>2 Gigabytes.</td>
+    <td>2 Gigabytes - but now deprecated (provided for backward compatibility only)</td>
+    <td>2 Gigabytes - but now deprecated (provided for backward compatibility only)</td>
+<td>32760 bytes<br>
+  Note this is smalller than the maximum width of a LONG RAW column </td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td><a href="http://www.orafaq.com/wiki/ROWID">ROWID</a></td>
+    <td>Hexadecimal string representing the unique address of a row 
+      in its table.<br>
+      (primarily for values returned by the ROWID pseudocolumn.)</td>
+    <td>10 bytes </td>
+    <td>10 bytes </td>
+    <td>10 bytes </td>
+<td>Hexadecimal string representing the unique address of a row 
+      in its table.<br>
+  (primarily for values returned by the ROWID pseudocolumn.)</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td>UROWID</td>
+    <td>Hex string representing the logical address of a row of an 
+      index-organized table</td>
+    <td>The maximum size and default is 4000 bytes</td>
+    <td>The maximum size and default is 4000 bytes</td>
+    <td>The maximum size and default is 4000 bytes</td>
+<td>universal rowid - Hex string representing the logical address 
+      of a row of an index-organized table, either physical, logical, or foreign 
+      (non-Oracle) </td>
+    <td>See <a href="syntax-functions.html">CHARTOROWID</a> and the package: 
+      <a href="../orap/DBMS_ROWID.html">DBMS_ROWID</a></td>
+  </tr>
+  <tr> 
+    <td>MLSLABEL</td>
+    <td>Binary format of an operating system label.This datatype is 
+      used with Trusted Oracle7.</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+<td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td>CLOB</td>
+    <td>Character Large Object</td>
+    <td>4 Gigabytes</td>
+    <td><p>8 TB</p>
+</td>
+    <td><p>8 TB to 128 TB</p>
+<p>(4 Gigabytes - 1) * (database block size) </p></td>
+<td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td>NCLOB</td>
+    <td>National Character Large Object</td>
+    <td>4 Gigabytes</td>
+    <td><p>8 TB</p>
+</td>
+    <td><p>8 TB to 128 TB</p>
+<p>(4 Gigabytes - 1) * (database block size) </p></td>
+<td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td>BLOB</td>
+    <td>Binary Large Object </td>
+    <td>4 Gigabytes</td>
+    <td><p>8 TB</p>
+</td>
+    <td><p>8 TB to 128 TB</p>
+<p>(4 Gigabytes - 1) * (database block size) </p></td>
+<td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td>BFILE</td>
+    <td>pointer to binary file on disk</td>
+    <td>4 Gigabytes</td>
+    <td><p>8 TB</p>
+</td>
+    <td><p>8 TB to 128 TB</p>
+<p>(4 Gigabytes - 1) * (database block size) </p></td>
+<td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>XMLType</td>
+    <td>A system-defined type for storing binary XML data stored internally as a CLOB (starting with 11gR1 stored as a BLOB)</td>
+    <td>-</td>
+    <td>64K</td>
+    <td>In 11gR1 the limit is 2G/4G depending on DB character set.</td>
+<td>Populate with XML from a CLOB, BLOB or VARCHAR2.<br>
+  <br> 
+or query from another XMLType column. </td>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+<h2>Notes and Examples</h2>
+<p>VARCHAR2:<br>
+Storing character data as Varchar2 will save space:</p>
+<pre>Store 'SMITH' not 'SMITH     '</pre>
+<p> Oracle9i and above allow Varchar2 columns to be defined as a number of bytes <span class="code">VARCHAR2(50 BYTE)</span> or a number of characters <span class="code">VARCHAR2(50 CHAR)</span>, the latter is useful if the database is ever converted to run a double-byte character set (such as Japanese), you won't have to edit the column sizes. The default measure, normally <span class="code">BYTE</span>, is set with <a href="syntax-initora.html">nls_length_semantics</a>.</p>
+<p> If you create a column as 
+<span class="code">Varchar2 (50)</span> but only store 10 bytes, then Oracle will only save 10 bytes to disk. 
+This does <b>not</b> mean that you should just create <span class="code">Varchar2 (4000)</span> columns 'just in case the space is needed', that is <a href="https://asktom.oracle.com/pls/asktom/f?p=100:11:0::::P11_QUESTION_ID:1145132537055">a really bad idea</a> which will reduce the performance and maintainability of your application.</p>
+<p>CHAR:<br>
+Over time, when varchar2 columns are updated they will sometimes create chained rows,  CHAR columns are fixed width they are not affected by this, so less DBA effort is required to maintain performance.<br>
+<br>
+PL/SQL<br>
+When retrieving data for a NUMBER column, consider  using the PL/SQL datatype: PLS_INTEGER for better performance.<br>
+<br>
+LONG<br>
+Use BLOB instead of LONG</p>
+<p>INTEGER<br>
+This ANSI datatype will be accepted by Oracle - it is actually a synonym for NUMBER(38)</p>
+<p>The FLOAT datatype<br>
+This ANSI datatype will be accepted by Oracle - Very similar to NUMBER it stores zero, positive, and negative floating-point numbers</p>
+<p><a id="precision"></a>The NUMBER datatype <br>
+  Stores zero, positive, and negative numbers, fixed or floating-point numbers</p>
+<blockquote> 
+<p>Fixed-point NUMBER<br>
+<span class="code">NUMBER(<i>p</i>,<i>s</i>)</span><br>
+precision <i>p</i> = length of the number in digits <br>
+scale <i>s</i> = places after the decimal point, or (for negative scale values) significant 
+places before the decimal point. </p>
+<p>Integer NUMBER<br>
+<span class="code">NUMBER(<i>p</i>)</span><br>
+This is a fixed-point number with precision <i>p</i> and scale 0. Equivalent to NUMBER(<i>p</i>,0) 
+<br>
+<br>
+Floating-Point NUMBER<br>
+<span class="code">NUMBER</span><br>
+floating-point number with decimal precision 38 </p>
+</blockquote>
+<h2>PRECISION and SCALE</h2>
+<blockquote>
+<p>Oracle stores all numeric data in variable length format - storage space is therefore dependent on the length of all the individual values stored in the table. Precision and scale settings do not affect storage requirements. SCALE might appear to be truncating data, but Oracle  does still store the entire number as  typed.</p>
+<p> PRECISION can be used to constrain input values.</p>
+<p>If a column is defined like <span class="code">CREATE TABLE demo ( empid number(4) );</span> then an attempt to insert a 5 digit number <span class="code">10045</span> will fail.  If you need to constrain values to a specific range of numbers (e.g. <span class="code">&lt;85</span> rather than the round number<span class="code"> &lt;100</span>), then add a <a href="clause_constraint_col.html">column constraint</a>  .</p>
+<p>Note that  the Units of measure for PRECISION are different if the datatype is <span class="code">FLOAT</span>:</p>
+<p>For NUMBER data types: precision <i>p</i> = Number of Digits<br>
+For FLOAT data types: precision <i>p</i> = Binary Precision (multiply by 0.30103 to convert)<br>
+<br>
+So FLOAT = FLOAT (126) = 126 x 0.30103 = approx 37.9 digits of precision.</p>
+<p>In theory it is possible to save storage space by having an application truncate a fractional value before inserting into a table, but you would have to be very sure the business logic made sense. This would have to be done at the application level. </p>
+<p>If a table is created without any Precision/Scale <span class="code">CREATE TABLE demo ( empid number ); </span>then  the column will simply store values as given. When no scale is specified, the scale is zero.</p>
+</blockquote>
+<h2>Function parameters</h2>
+<blockquote>
+<p>Oracle does not allow  a specific precision for  <a href="procedure_c.html">function parameters</a>, only type of the variable. This means that a parameter defined as integer or number(38) can accept fractional values. if you want to have an integer passed to a procedure/function, use <span class="code">pls_integer</span> instead of <span class="code">integer</span>. </p>
+<p>Alternatively reassigning to a variable within the procedure will force Oracle to implicitly convert the datatype and precision to match the variable, thie requires a slightly different definition, e.g.<span class="code"> number(37)</span> .</p>
+</blockquote>
+<p><b>Example</b></p>
+<pre>    The value 7456123.89 will display as follows
+
+NUMBER        7456123.89 
+NUMBER(9)     7456124 
+NUMBER(9,1)   7456123.9
+NUMBER(*,1)   7456123.9    
+NUMBER(9,2)   7456123.89 
+NUMBER(6)    [not accepted exceeds precision] 
+NUMBER(7,-2)  7456100 
+FLOAT         7456123.89 
+FLOAT(12)     7456000.0</pre>
+<p class="code">Select COLUMN_NAME, DATA_TYPE, DATA_LENGTH, DATA_PRECISION, DATA_SCALE <br>
+ From cols Where table_name = '<i>Your_Table</i>';</p>
+<h2>Varchar2 memory allocation</h2>
+<blockquote>
+<p>For a CHAR variable, PL/SQL allocates at <b>compile time</b> enough memory for the <b>maximum</b> size.</p>
+<p>For a VARCHAR2 variable, memory allocation depends on the variables maximum size:</p>
+<ul>
+<li>If the maximum size is less than 4,000 bytes, PL/SQL allocates at <b>compile time</b> enough memory for the <b>maximum</b> size.</li>
+<li>If the maximum size is 4,000 bytes or more, PL/SQL allocates at <b>run time</b> enough memory for the <b>actual</b> value.</li>
+<li>(Prior to Oracle  11g Release 2 the cutover value was 2,000 bytes instead of 4,000)
+</li>
+</ul>
+<p>In this way, PL/SQL optimizes smaller VARCHAR2 variables for performance and larger ones for efficient memory use.</p>
+<p>For example, if you assign the same 500-byte value to VARCHAR2(3999 BYTE) and VARCHAR2(4000 BYTE) variables, PL/SQL allocates 3999 bytes for the former variable at compile time and 500 bytes for the latter variable at run time.</p>
+</blockquote>
+<h2>Boolean data</h2>
+<blockquote>
+<p>An old space-saving trick was   to store <b>boolean</b> values as an Oracle CHAR, rather than NUMBER. Storing <span class="code">Y</span> and <span class="code">N</span> requires no more (but also no less) than storing <span class="code">0</span> and <span class="code">1</span> but saves you the effort of writing a decode statement to display it. Of course if/when the application has to support other languages then you will need to add the <a href="syntax-decode.html">decode</a> anyway. </p>
+<p class="code">Create TABLE my_demo (accountcode NUMBER,
+postableYN CHAR check (postableYN in (0,1)) );</p>
+<p class="code">-- Standard <a href="https://en.wikipedia.org/wiki/Boolean_datatype">Boolean</a> values:  False=0 and True=1<br>
+Insert into my_demo values(525, '1');<br>
+Insert into my_demo values(526, '0');</p>
+<p class="code">Select accountcode, decode(postableYN,1,'True',0,'False') FROM my_demo; <br>
+-- or in French: <br>
+Select accountcode, decode(postableYN,1,'Vrai',0,'Faux') FROM my_demo;</p>
+</blockquote>
+<h2>Comparison with other RDBMS's</h2>
+<table class="tabsty">
+  <tr> 
+    <td>&nbsp;</td>
+    <td><b>int10</b></td>
+    <td><b>int6</b></td>
+    <td><b>int1</b></td>
+    <td><b>char(n)</b></td>
+    <td><b>blob</b></td>
+    <td><b>XML</b></td>
+  </tr>
+  <tr> 
+    <td>Oracle 11 </td>
+    <td>NUMBER(10)</td>
+    <td>NUMBER(6)</td>
+    <td>NUMBER(1)</td>
+    <td>VARCHAR2(n)</td>
+    <td>BLOB </td>
+    <td>XMLType</td>
+  </tr>
+  <tr>
+<td>MS SQL Server 2008</td>
+<td>NUMERIC(10) </td>
+<td>NUMERIC(6)</td>
+<td>TINYINT</td>
+<td>VARCHAR(max) </td>
+<td>IMAGE</td>
+<td>XML</td>
+</tr>
+<tr>
+  <td>MS SQL Server 2005 </td>
+  <td>NUMERIC(10) </td>
+  <td>NUMERIC(6)</td>
+  <td>TINYINT</td>
+  <td>VARCHAR(n) </td>
+  <td>IMAGE</td>
+  <td>XML</td>
+</tr>
+  <tr> 
+    <td>Sybase system 10</td>
+    <td>NUMERIC(10)</td>
+    <td>NUMERIC(6)</td>
+    <td>NUMERIC(1)</td>
+    <td>VARCHAR(n)</td>
+    <td>IMAGE</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td>MS Access (Jet)</td>
+    <td>Long Int or Double</td>
+    <td>Single</td>
+    <td>Byte</td>
+    <td>TEXT(n)</td>
+    <td>LONGBINARY</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td>TERADATA</td>
+    <td>INTEGER</td>
+    <td>DECIMAL(6)</td>
+    <td>DECIMAL(1)</td>
+    <td>VARCHAR(n)</td>
+    <td>VARBYTE(20480)</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td>DB2</td>
+    <td>INTEGER</td>
+    <td>DECIMAL(6)</td>
+    <td>DECIMAL(1)</td>
+    <td>VARCHAR(n)</td>
+    <td>VARCHAR(255) </td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td>RDB</td>
+    <td>INTEGER</td>
+    <td>DECIMAL(6)</td>
+    <td>DECIMAL(1)</td>
+    <td>VARCHAR(n)</td>
+    <td>LONG VARCHAR </td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td>INFORMIX</td>
+    <td>INTEGER</td>
+    <td>DECIMAL(6)</td>
+    <td>DECIMAL(1)</td>
+    <td>VARCHAR(n)</td>
+    <td>BYTE</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td>RedBrick</td>
+    <td>integer</td>
+    <td>int</td>
+    <td>int</td>
+    <td>char(n) </td>
+    <td>char(1024) </td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td>INGRES</td>
+    <td>INTEGER</td>
+    <td>INTEGER</td>
+    <td>INTEGER</td>
+    <td>VARCHAR(n)</td>
+    <td>VARCHAR(1500) </td>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+<p> Also consider the maximum length of a table name (or column name)  and the maximum size of an SQL statement  - these limits vary considerably between products and versions.</p>
+<p class="quote"><i>&ldquo;Computer programmers do it byte by byte&rdquo;</i></p>
+<p><b>Related</b></p>
+<p><a href="table_c.html">CREATE TABLE</a><br>
+<a href="http://docs.oracle.com/cd/E11882_01/server.112/e17118/sql_elements001.htm">Data Types</a> - Oracle 11g Database SQL Language Reference<br>
+for older versions see the Oracle 'Database Concepts' Manuals at <a href="http://docs.oracle.com">docs.oracle.com</a></p><!-- #BeginLibraryItem "/Library/foot_ora.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- oracle-footer -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4275490898"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="syntax-datatypes.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

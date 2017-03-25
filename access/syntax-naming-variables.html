@@ -1,0 +1,140 @@
+<!DOCTYPE HTML><html lang="en">
+<head><meta charset="UTF-8">
+<meta name="Description" content="An introduction to Hungarian notation">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<link rel="STYLESHEET" href="../tables.css" type="text/css">
+<title>VBA Naming Convention - Variables | Access | SS64.com</title></head>
+<body><!-- #BeginLibraryItem "/Library/head_access_syntax.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../access.1.html">Access</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/access/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>The Reddick <a href="syntax-naming.html">VBA Naming Conventions</a> - Introduction - Variable and Procedure names</h1>
+<p>An introduction to Hungarian notation</p>
+<p>The RVBA conventions are based on the Hungarian style, named for the native country of Charles Simonyi,the inventor of this style of naming objects. The objective of Hungarian is to convey information about the object concisely and efficiently. Hungarian takes some getting used to, but once adopted, it quickly becomes second nature. The format of a Hungarian object name is as follows:</p>
+<p class=code>[prefixes]<b>tag</b>[BaseName[Suffixes]]</p><p>The square brackets indicate optional parts of the object name. These components have the following meanings:
+<p>·<b>Prefixes</b>—Modify the tag to indicate additional information. Prefixes are in all lowercase letters. They are usually picked from a standardized list of prefixes, given later in this article.</p>
+<p>.<b>Tag</b>—Short set of characters, usually mnemonic, that indicates the type of the object. The tag is in all lowercase letters. It’s usually selected from a standardized list of tags, given later in this article.</p>
+<p>.<b>BaseName</b>—One or more words that indicate what the object represents. The first letter of each word in the base name is capitalized.</p>
+<p>.<b>Suffixes</b>—Additional information about the meaning of the BaseName. The first letter of each word in the Suffix is capitalized. They are usually picked from a standardized list of suffixes, given later in this article</p>
+<p>Notice that the only required part of the object name is the tag. This might seem counterintuitive; you may feel that the base name is the most important part of the object name. However, consider a generic procedure that operates on any form. The fact that the routine operates on a form is the important thing, not what that form represents. Because the routine may operate on forms of many different types, you don’t necessarily need a base name. However, if you have more than one object of a type referenced in the routine, you must have a base name on all but one of the object names to differentiate them. Also, unless the routine is generic, the base name conveys information about the variable.<br>
+In most cases a variable should include a base name.</p>
+<h2>Tags</h2>
+<p>You use tags to indicate the datatype of an object, and you construct them using the techniques described in the following sections.</p>
+<h2>Variable tags</h2>
+<p>Use the tags listed in <b>Table 1</b> for VBA datatypes. You can also use a specific tag instead of “obj” for any datatype defined by the host application or one of its objects. (See the section “Host Application and Component Extensions to the Conventions” later in this article.)</p>
+<p><b>Table 1.</b> Tags for VBA variables.</p>
+<table border=1 cellspacing=0 cellpadding=0>
+<tr>
+<th><p>Tag</p></th>
+<th><p>Object Type</p></th>
+</tr>
+<tr>
+<td><p>byt</p></td>
+<td><p>Byte</p></td>
+</tr>
+<tr>
+<td><p>f</p></td>
+<td><p>Boolean</p></td>
+</tr>
+<tr>
+<td><p>int</p></td>
+<td><p>Integer</p></td>
+</tr>
+<tr>
+<td><p>lng</p></td>
+<td><p>Long</p></td>
+</tr>
+<tr>
+<td><p>sng</p></td>
+<td><p>Single</p></td>
+</tr>
+<tr>
+<td><p>dbl</p></td>
+<td><p>Double</p></td>
+</tr>
+<tr>
+<td><p>cur</p></td>
+<td><p>Currency</p></td>
+</tr>
+<tr>
+<td><p>dat</p></td>
+<td><p>Date</p></td>
+</tr>
+<tr>
+<td><p>obj</p></td>
+<td><p>Object</p></td>
+</tr>
+<tr>
+<td><p>str</p></td>
+<td><p>String</p></td>
+</tr>
+<tr>
+<td><p>stf</p></td>
+<td><p>String (fixed length)</p></td>
+</tr>
+<tr>
+<td><p>var</p></td>
+<td><p>Variant</p></td>
+</tr>
+</table>
+<p>Here are several examples:</p>
+<p class=code>lngCount</p>
+<p class=code>intValue</p>
+<p class=code>strInput</p>
+<p>You should explicitly declare all variables, each on a line by itself. Don’t use the old type declaration characters, such as %, &amp;, and $. They are extraneous if you use the naming conventions, and there’s no character for some of the datatypes, such as Boolean. You should explicitly declare all variables of type Variant, the default, as type Variant. For example:</p>
+<p class=code>Dim intTotal As Integer</p>
+<p class=code>Dim varField As Variant</p>
+<p class=code>Dim strName As String</p>
+<h2>Constant tags</h2>
+<p>You should indicate generic constants by using the tag “con.” If you need to differentiate one class of constants from another, you can invent a class name, such as glr (for Getz, Litwin, and Reddick), and append the letter “c” to the class—for example, glrcPi. You may want to do this if you have some specific component that has global constants and you want to ensure they don’t conflict with other constants. For example:</p>
+<p class=code>conPi</p>
+<p class=code>glrcError205</p>
+<p>Tags for user-defined types and classes</p>
+<p>User-defined types and user-created class objects are treated the same because user-defined types are really a kind of simple user-defined class. These objects have two components: the class name that defines the structure of the class and a tag that is used for instances of that class. Choose an appropriate name for the class. For example, if you had a user-defined class that described a glyph bitmap created at runtime on a form, the class name would be glyph. The tag would be an abbreviation of glyph—perhaps gph. If you had another class that was a collection of these objects, it would use glyphs and gphs, respectively. Some host applications, such as Access, don’t support class modules yet; however, you can also treat a form as a user-defined class with a user interface. For example:</p>
+<p class=code>gphGlyph</p>
+<p class=code>nclName</p>
+<h2>Collection tags</h2>
+<p>You treat a collection object with a special tag. You construct the tag using the datatype of the collection followed by the letter “s<i>.</i><span style='font-style:normal'>” For example, if you had a collection of Longs, the tag would be lngs. If it were a collection of user-defined types with the tag gph, the collection would be gphs. Although, in theory, a collection can hold objects of different data types, in practice, each of the data types in the collection is the same. If you do want to use different data types in a collection, use the tag objs. For example:</p>
+<p class=code>intsEntries</p>
+<p class=code>erhsHandler</p>
+<p class=code>bscsBaseClass</p>
+<h2>Constructing procedures</h2>
+<p>VBA procedures require you to name various objects: procedure names, labels, and parameters. These objects are described in the following sections.</p>
+<p>Constructing procedure names</p>
+<p>VBA names event procedures, and you can’t change them. You should use the capitalization defined by the system. For user-defined procedure names, capitalize the first letter of each word in the name. For example:</p>
+<p class=code>cmdOK_Click</p>
+<p class=code>GetTitleBarString</p>
+<p class=code>PerformInitialization</p>
+<p>  Procedures should always have a scope keyword, Public or Private, when they are declared. For example:</p>
+<p class=code>Public Function GetTitleBarString() As String</p>
+<p class=code>Private Sub PerformInitialization</p>
+<p>Naming parameters</p>
+<p>You should prefix all parameters in a procedure call with ByVal or ByRef, even though ByRef is optional and redundant. Procedure arguments are named the same as simple variables of the same type, except that arguments passed by reference use the prefix “r”. For example:</p>
+<p class=code>Sub TestValue(<b>ByVal</b> intInput As Integer, <b>ByRef</b> rlngOutput As Long)</p>
+<p class=code>Function GetReturnValue(<b>ByVal</b> strKey As String, <b>ByRef</b> rgph As Glyph) As Boolean</p>
+<p>Copyright © 1995 Greg Reddick. You can freely distribute this document.</p>
+<p><b>Related:</b></p>
+<ol>
+<li>Introduction - Variable and Procedure names</li>
+<li><a href="syntax-naming-prefix.html">Prefixes</a></li>
+<li><a href="syntax-naming-suffix.html">Suffixes</a></li>
+<li><a href="syntax-naming-object-vars.html">Object variables and DAO</a> - variables</li>
+<li><a href="syntax-naming-database.html">Database Explorer objects</a> - Table, Query, Form etc </li>
+<li><a href="syntax-naming-objects.html">Object Names</a></li></ol><!-- #BeginLibraryItem "/Library/foot_access.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- access -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4313908313"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="syntax-naming-variables.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

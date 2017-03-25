@@ -1,0 +1,90 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Enable-PSRemoting | PowerShell | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_ps.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../ps.1.html">PowerShell</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/ps/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>Enable-PSRemoting</h1> 
+<p> Configure the computer to receive remote commands. Run PowerShell commands on remote computers.</p>
+<pre>Syntax
+      Enable-PSRemoting [-Force] [-SkipNetworkProfileCheck]
+         [-Confirm] [-WhatIf] [<i>CommonParameters</i>]
+
+Key:
+   -Force
+       Suppress all user prompts. By default, you are prompted to confirm each operation.
+
+   -SkipNetworkProfileCheck
+       Enable remoting on client versions of Windows when the computer is on a public network.
+       This parameter enables a firewall rule for public networks that allows remote access only from
+       computers in the same local subnet.
+       This parameter has no effect on server versions of Windows, which, by default, have a
+       local subnet firewall rule for public networks. If the local subnet firewall rule is disabled on
+       a server version of Windows, Enable-PSRemoting re-enables it, regardless of the value of this parameter.
+       To remove the local subnet restriction and enable remote access from all locations on public networks,
+       use the  Set-NetFirewallRule cmdlet in the NetSecurity module.  (PowerShell 3.0+)
+
+   -confirm
+       Prompt for confirmation before executing the command.
+
+   -whatIf
+       Describe the command without actually executing it.
+
+   <a href="common.html">CommonParameters</a>:
+       -Verbose, -Debug, -ErrorAction, -ErrorVariable, -WarningAction, -WarningVariable,
+       -OutBuffer -OutVariable.</pre>
+<p>Enable-PSRemoting configures a computer to receive  PowerShell remote commands sent with  WS-Management technology.</p>
+<p>To run this cmdlet, start PowerShell with the &quot;<a href="syntax-elevate.html">Run as administrator</a>&quot; option.</p>
+<p>PS Remoting only needs to be enabled once on each computer that will <i>receive </i>commands. <br>
+Computers that only <i>send</i> commands do not need to have PS Remoting enabled; because the configuration activates listeners (and starts the WinRM <a href="../nt/syntax-services.html">service</a>), it is prudent to run it only where needed.</p>
+<p>To run a command on the remote system, use <a href="invoke-command.html">Invoke-Command</a> or <a href="enter-pssession.html">Enter-PSSession</a> for multiple commands.</p>
+<p>If your computers <b>aren’t </b>on a domain, you’ll need to perform the following extra steps:<br>
+On both computers:</p>
+<blockquote>
+<p>Configure the TrustedHosts setting so the computers will trust each other:     <br>
+<span class="code">Set-Item WSMan:\localhost\client\trustedhosts PC64,PC65,PC66</span><br>
+The  comma-separated list can be  IP addresses or computer names or even a * wildcard to match all.</p>
+<p>run :     <span class="code">Restart-Service WinRM</span></p>
+<p>To view the current trusted hosts:<span class="code"><br>
+Get-Item WSMan:\localhost\Client\TrustedHosts</span></p>
+</blockquote>
+<p><b>Examples</b></p>
+<p>Configure the local computer to receive remote commands:</p>
+<p><span class="code">PS C:\&gt; Enable-PSRemoting</span> </p>
+<p>Configure the computer to receive remote commands &amp; suppress user prompts:</p>
+<p><span class="code">PS C:\&gt; Enable-PSRemoting -Force</span></p>
+<p>Configure the remote computer workstation64 to receive remote commands, via psexec. If you are running this from an account which is NOT a domain administrator, then specify the username/password of an account with admin rights to the remote machine:</p>
+<pre>PS C:\&gt; <a href="../nt/psexec.html">psexec</a> \\<span class="code">PC64</span> -u adminUser64 -p pa$$w0rd -h -d powershell.exe &quot;enable-psremoting -force&quot;
+</pre>
+<p>Test that the computer computer64 is setup to receive remote commands:</p>
+<p class="code">PS C:\&gt; Test-WsMan PC64</p>
+<p>Run a single command on the remote computer using <a href="invoke-command.html">Invoke-Command</a>:</p>
+<pre class="code">PS C:\&gt; Invoke-Command -ComputerName PC64 -ScriptBlock { Get-ChildItem C:\ } -credential jdoe</pre>
+<p> Run multiple commands by starting a Remote PowerShell Session: </p>
+<p><span class="code">PS C:\&gt; Enter-PSSession -ComputerName PC64 -Credential AshleyT<br>
+</span></p>
+<p class="quote"><i>“He who lies hid in remote places is a law unto himself” ~ Publilius Syrus</i></p><p><b>Related:</b></p>
+<p><a href="enter-pssession.html">Enter-PSSession</a> - Start an interactive session with a remote computer.<br>
+<a href="disable-psremoting.html">Disable-PSRemoting</a> - Prevent remote users from running commands on the local computer.<br>
+<a href="test-wsman.html">Test-WSMan</a> - Test if a computer is setup to receive remote commands via the  WinRM service.<br>
+<a href="invoke-command.html">Invoke-Command</a> - Run commands on local and remote computers.<br>
+<a href="../nt/winrm.html">WINRM</a> - Windows Remote Management </p><!-- #BeginLibraryItem "/Library/foot_ps.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- PowerShell300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="6253539900"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="enable-psremoting.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

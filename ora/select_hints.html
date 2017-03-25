@@ -1,0 +1,126 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Select statement hints | Oracle | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_ora.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../ora.1.html">Oracle</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>SELECT Statement Hints</h1> 
+<p>An SQL Hint is a type of  comment added to a <a href="select.html">Select</a>, <a href="insert.html">Insert</a>, <a href="update.html">Update</a> or <a href="delete.html">Delete</a> SQL statement. The hint passes instructions  to the  optimizer as a suggested execution plan for the SQL statement. In the majority of cases the Cost Based Optimiser (when properly setup) will perform better than manually hinted SQL. <br>
+  <br>
+  Hints:</p>
+<pre><i>Optimizer Mode</i> 
+  ALL_ROWS            Use the cost-based optimiser for this query.
+  FIRST_ROWS(<i>n</i>)       Cost-based, return the first <i>n</i> rows most efficiently.
+  CHOOSE              Use cost-based optimisation only if stats are available.
+  RULE                Use the Rule-based optimiser for this query.
+
+<i>Index and Cluster Hints</i> 
+  AND_EQUAL (table index [index] [index])   Merge scans on several single-column indexes
+  CLUSTER(table)                 Choose a cluster scan (for clusters only)
+  FULL(table)                    Full table scan
+  HASH(table)                    Hash scan (for clusters only)
+  INDEX(table index..)          Index scan for the table
+  NO_INDEX(table index..)       Don't choose an index scan for the table
+  INDEX_ASC(table index..)      Index scan &amp; where appropriate scan ascending
+  INDEX_DESC(table index..)     Index scan &amp; where appropriate scan decending
+  INDEX_COMBINE(table index..)  Bitmap index scan for the table
+  INDEX_FFS(table index..)      Fast full index scan
+  ROWID
+
+Join Order Hints
+  ORDERED             Join tables in the order in which they appear in the WHERE clause.
+                      Oracle recommend that you use the LEADING hint, which is more versatile than the ORDERED hint.
+  ORDERED_PREDICATES  Preserve the order of predicate evaluation, except where used as an index key
+  STAR
+ 
+<i>Joins</i> 
+  DRIVING_SITE
+  HASH_SJ             Hash semi-join (Exists subquery)
+  MERGE_SJ            Sort merge semi-join (Exists subquery)
+  NL_SJ               Nested loop semi-join (Exists subquery)
+  LEADING(table)      Use the table as the first table in the join order. 
+  USE_HASH 
+  USE_MERGE
+  USE_NL 
+    
+<i>Parallel Execution Hints</i> 
+  <a href="syntax-parallel.html">PARALLEL</a>(table <i>int</i>|DEFAULT…)        Desired number of concurrent servers for a parallel operation
+  NOPARALLEL                            Override a PARALLEL specification in the table clause
+  PARALLEL_INDEX(table index<i> i</i><i>nt</i>|DEFAULT…)  Parallelize index range scans for partitioned indexes. 
+  PQ_DISTRIBUTE(table, outer_dist inner_dist) Specify how joined rows should be distributed among query servers
+  NOPARALLEL_INDEX      Avoid a parallel index scan
+
+Query Transformation Hints
+  EXPAND_GSET_TO_UNION
+  NO_EXPAND             Do not consider expanding OR or IN-List
+  FACT(table)           Consider the hinted table a fact table
+  NOFACT(table)         Don't consider the hinted table a fact table
+  MERGE(table)          Merge a view definition into the accessing statement
+                        complex merging of subqueries is not normally considered by the optimiser
+  NO_MERGE              Do not consider merging views
+  REWRITE 
+  NOREWRITE             Disable query rewrite for the query block (disables function-based indexes)
+  STAR_TRANSFORMATION
+  USE_CONCAT 
+ 
+<i>Other Hints</i>
+  <b>APPEND</b>                Enable direct-path INSERTs
+  NOAPPEND              Enable conventional INSERTs
+  CACHE (table)         Cache in most recently used end of the LRU
+  NOCACHE (table)       Cache in least recently used end of the LRU (default)
+  CURSOR_SHARING_EXACT 
+  DYNAMIC_SAMPLING
+  NESTED_TABLE_GET_REFS 
+  UNNEST 
+  NO_UNNEST             Turn off unnesting for specific subquery blocks.
+  PUSH_PRED 
+  NO_PUSH_PRED          Prevent pushing a join predicate into the view
+  PUSH_SUBQ 
+  NO_PUSH_SUBQ          Evaluate the non-merged subquery last. </pre>
+<p> Use any of the above hints  <b>/*+</b> like this <b>*/</b></p>
+<p>Examples</p>
+<p class="code">SELECT /*+ some_hint */ <i>column</i> FROM <i>my_table</i>; </p>
+<p class="code">UPDATE /*+ some_hint */ <i>my_table</i> SET <i>column </i>= <i>value</i>; </p>
+<p class="code">INSERT /*+ some_hint */ INTO <i>my_table value,value </i>; </p>
+<p><i>Life is like a 10 speed bicycle. Most of us have gears we never use. 
+  - C. Schultz </i><b><br>
+  </b><br>
+<b> Related:</b></p>
+<p> 
+  <a href="http://sqlcourse.com/">SQLcourse.com</a><a href="../links/oralinks.html#sql"><br>
+SQL reference books</a></p>
+<blockquote> 
+<p><a href="delete.html">DELETE</a><a href="insert.html"><br>
+    </a><a href="explain.html">EXPLAIN PLAN</a> <br>
+    <a href="insert.html">INSERT</a><br>
+    <a href="select.html">SELECT</a> <a href="truncate.html"><br>
+    TRUNCATE</a><br>
+    <a href="update.html">UPDATE</a> <br>
+    <a href="../orap/DBMS_LOCK.html">DBMS_LOCK</a> <br>
+  <a href="../orap/DBMS_SQL.html">DBMS_SQL</a> </p>
+</blockquote>
+<pre>  <a href="../orad/DBA_SNAPSHOTS.html">DBA_SNAPSHOTS</a>        <a href="../orad/ALL_SNAPSHOTS.html">ALL_SNAPSHOTS</a>        <a href="../orad/USER_SNAPSHOTS.html">USER_SNAPSHOTS</a> 
+  <a href="../orad/DBA_ALL_TABLES.html">DBA_ALL_TABLES</a>       <a href="../orad/ALL_ALL_TABLES.html">ALL_ALL_TABLES</a>       <a href="../orad/USER_ALL_TABLES.html">USER_ALL_TABLES</a>
+  <a href="../orad/DBA_TABLES.html">DBA_TABLES</a>           <a href="../orad/ALL_TABLES.html">ALL_TABLES</a>           <a href="../orad/USER_TABLES.html">USER_TABLES</a>         <a href="../orad/TAB.html">TAB</a>
+  <a href="../orad/DBA_VIEWS.html">DBA_VIEWS</a>            <a href="../orad/ALL_VIEWS.html">ALL_VIEWS</a>            <a href="../orad/USER_VIEWS.html">USER_VIEWS</a>
+                                                                <a href="../orad/DICTIONARY.html">DICTIONARY</a>
+                                                                <a href="../orad/DICT_COLUMNS.html">DICT_COLUMNS</a></pre><!-- #BeginLibraryItem "/Library/foot_ora.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- oracle-footer -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4275490898"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="select_hints.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

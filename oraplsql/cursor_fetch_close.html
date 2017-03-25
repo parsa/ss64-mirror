@@ -1,0 +1,137 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Fetch and close a cursor | Oracle PL/SQL | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_orapl.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../oraplsql.1.html">PL/SQL</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>Fetch and Close a Cursor</h1> 
+<pre><b>FETCH</b> a cursor:
+
+  FETCH <i>cursor_name</i> INTO [<i>variable1</i>, <i>variable2</i>,...]
+                         | <i>record_name</i>;
+</pre>
+<p> The variables must match (both in number and positionally) the 
+columns listed in the cursor definition.<br>
+Also the data types must either match or be compatible.<br>
+<br>
+A fetch statement retrieves rows one at a time from
+the result set of a multi-row query - in other words it<br>
+advances the cursor to the next row.<br>
+</p>
+<pre>
+<b>CLOSE</b> a cursor:
+
+  CLOSE <i>cursor_name</i>;
+</pre>
+<p> Closing a cursor releases the context area. <br>
+<br>
+Cursor Attributes:<br>
+</p>
+<pre>
+cursor<b>%ROWCOUNT</b> - int - number of rows fetched so far
+cursor<b>%ROWTYPE</b>  - returns the datatype of the underlying table
+cursor<b>%FOUND</b>    - bool - TRUE if >1 row returned
+cursor<b>%NOTFOUND</b> - bool - TRUE if 0 rows returned
+cursor<b>%ISOPEN</b>   - bool - TRUE if cursor still open 
+</pre>
+<p><b>Notes:</b></p>
+<p>Cursor<b>%ROWCOUNT</b> will  display the number of rows  retrieved so far. <br>
+  Until Oracle has retrieved all the rows then by definition it does not have an accurate record of how many there are. Of course <a href="../orad/USER_TABLES.html">user_tables </a>or <a href="../orad/DBA_TABLES.html">dba_tables</a> will have a count of the number of rows (NUM_ROWS), but this is only as up to date as the statistics.<br>
+    <br>
+  <b>Examples:</b></p>
+<pre>
+--Opening a cursor only if necessary
+
+   IF NOT trip_cursor%ISOPEN THEN
+      OPEN trip_cursor
+   END IF;
+
+--Fetching a maximum of 20 records (or less if the table is smaller)
+
+DECLARE
+   v_trip_id    business_trips.bt_id_pk%TYPE;
+   v_hotel_id   business_trips.bt_hotel_id%TYPE;
+   CURSOR trip_cursor IS 
+      SELECT
+          bt_id_pk, bt_hotel_id
+      FROM
+          business_trips;
+BEGIN
+   OPEN trip_cursor;
+   LOOP
+      FETCH trip_cursor INTO v_trip_id, v_hotel_id;
+      EXIT WHEN trip_cursor%ROWCOUNT > 20 OR trip_cursor%NOTFOUND;
+   ...
+   END LOOP;
+   CLOSE trip_cursor;
+END;
+
+--Taking this a step further by fetching into a ROWTYPE Record variable
+
+DECLARE
+   CURSOR trip_cursor IS 
+      SELECT bt_id_pk, bt_hotel_id
+      FROM business_trips;
+   trip_record trip_cursor%ROWTYPE
+
+BEGIN
+   OPEN trip_cursor;
+   LOOP
+      FETCH trip_cursor INTO trip_record;
+      EXIT WHEN trip_cursor%NOTFOUND;
+      INSERT INTO copy_of_business_trips (bt_id_pk, bt_hotel_id)
+      VALUES (trip_record.bt_id_pk, trip_record.bt_hotel_id);
+   END LOOP;
+   CLOSE job_cursor;
+END;
+
+--Retrieve all trips from the t_business_trips table using a cursor 
+and print only those with a duration of one day:
+
+SET SERVEROUTPUT ON
+DECLARE
+   CURSOR trip_cursor IS
+      SELECT bt_id_pk, bt_duration
+      FROM business_trips;
+BEGIN
+   FOR trip_record IN trip_cursor LOOP
+      -- implicit open/fetch occur
+      IF trip_record.bt_duration = 1 THEN
+        DBMS_OUTPUT_LINE ('Trip Number ' || trip_record.bt_id_pk
+                        || ' is a one day trip');
+      END IF;
+   END LOOP; -- IMPLICIT CLOSE OCCURS
+END;
+/
+
+--In reality this last example would be better written 
+as the trivial SQL statement:
+
+  SELECT 
+      'Trip Number ' || bt_id_pk || ' is a one day trip'
+  FROM
+      business_trips
+  WHERE
+      bt_duration = 1;</pre>
+<p> <span class="body"><b> Related Commands:<br>
+  <br>
+  </b> <a href="ref_cursor_fetch_close.html">Fetch and CLOSE a REF cursor</a><b> 
+  </b></span></p><!-- #BeginLibraryItem "/Library/foot_ora.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- oracle-footer -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4275490898"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="cursor_fetch_close.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

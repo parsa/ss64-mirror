@@ -1,0 +1,89 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>lpr OSX Man Page | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_osx.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../osx.1.html">macOS</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/osx/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>lpr</h1> 
+<p>Print files</p>
+<pre>Syntax
+      lpr  [-E]  <b>[</b>-H <i>server</i>[:<i>port</i>]<b>]</b>  [-U  <i>username</i>] <b>[</b>-P <i>destination</i>[/<i>instance</i>] <b>]</b>
+         [ -# <i>num-copies</i>  [-h] [-l] [-m] [-o <i>option</i>[=<i>value</i>] ]
+            [-p] [-q] [-r] [-C/-J/-T <i>title</i>] [ <i>file(s)</i> ]
+
+Options
+   -E   Force encryption when connecting to the server.
+
+   -H <i>server</i>[:<i>port</i>]
+        Specify an alternate server.
+
+   -C "<i>name</i>"   Set the job name/title.
+   -J "<i>name</i>"   Set the job name/title.
+   -T "<i>name</i>"   Set the job name/title.
+
+   -P destination[/instance]
+        Print files to the named printer.
+
+   -U <i>username</i>
+        Specifies an alternate username.
+
+   -# <i>copies</i>
+        Sets the number of copies to print.
+
+   -h   Disables  banner  printing.
+        This option is equivalent to -o job-sheets=none.
+
+   -l   Specifies that the print file is already formatted for the destination and
+        should be sent without filtering. This option is equivalent to -o raw.
+
+   -m   Send an email on job completion.
+
+   -o option[=value]
+        Sets a job option.
+
+   -p   Specifies  that  the  print file should be formatted with a shaded header
+        with the date, time,  job  name,  and  page  number.
+        This option  is  equivalent  to  -o prettyprint and is only useful when
+        printing text files.
+
+   -q   Hold job for printing.
+
+   -r   Specifies that the named print files should be deleted after  submitting them.</pre>
+<p>lpr submits files for printing. Files named on the command line 
+  are sent to the named printer (or the system default destination if no des- 
+  tination is specified). If no files are listed on the command-line lpr reads 
+the print file from the standard input.</p>
+<p>THE DEFAULT DESTINATION        CUPS  provides many ways to set the default destination. The LPDEST and        PRINTER environment variables are consulted first.  If neither are set,        the  current  default  set using the lpoptions(1) command is used, fol-        lowed by the default set using the lpadmin(8) command.</p>
+<p>The -c, -d, -f, -g, -i, -n, -t, -v, and -w options are not supported by        CUPS and produce a warning message if used.</p>
+<p class="quote"><i>"Documentation 
+  is the castor oil of programming. Managers know it must be good because the 
+  programmers hate it so much&quot; ~ Anon </i></p>
+<p><b>Related:</b></p>
+<p>
+<a href="https://developer.apple.com/legacy/library/documentation/Darwin/Reference/ManPages/man1/lpr.1.html">lpr man page</a> - Apple.com<br>
+<a href="enable.html">enable</a> - Stop or start printers and classes. <br>
+<a href="lprm.html">lprm</a> - Remove jobs from the print queue<br>
+<a href="lpstat.html">lpstat</a> - Printer status information <br>
+<a href="cancel.html">cancel</a> - Cancel print jobs<br>
+<a href="lp.html">lp</a> - print files<br>
+lpadmin - printer admin<br>
+<a href="lpc.html">lpc</a> - Line printer control program</p><!-- #BeginLibraryItem "/Library/foot_osx.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- OSX300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="1823340303"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="lpr.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

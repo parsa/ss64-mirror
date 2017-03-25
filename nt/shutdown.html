@@ -1,0 +1,152 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Shutdown - Shutdown the computer | Windows CMD | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_nt.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../nt.1.html">CMD</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/nt/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>SHUTDOWN.exe (for Terminal Services use: <a href="tsshutdn.html">TsShutDn</a>)</h1> 
+<p>Shutdown the computer</p>
+<pre>Syntax
+      SHUTDOWN [<i>logoff_option</i>]  [/m \\<i>Computer</i>] [<i>options</i>]
+
+logoff_options:
+    /i         Display the GUI (must be the first option)
+    /l         Log off. This cannot be used with /m or /d option.
+    /s         Shutdown.
+    /r         Shutdown and Restart.
+    /g         Shutdown and Restart, after restarting restart any registered applications.
+    /a         Abort a system shutdown during the time-out period.
+    /p         Turn off the local computer with no time-out or warning
+               (only with /d)
+    /h         Hibernate the local computer (can be used with /f )
+    /e         Document the reason for an unexpected shutdown of a computer.
+
+Options:<br>
+   /m \\<i>Computer</i>  A remote computer to shutdown.
+
+   /t <i>xxx</i>         Time until system shutdown in seconds. 
+                  The valid range is xxx=0-<b>600</b> seconds. [default=30]
+
+   /c "<i>Msg</i>"       An optional shutdown message [Max 127 chars]
+
+   /f             Force running applications to close.
+                  This will not prompt for File-Save in any open applications.
+                  so will result in a loss of any unsaved data.
+
+   /d u:<i>xx:yy</i>     List a USER (unplanned) reason code for the shutdown. 
+   /d P:<i>xx:yy</i>     List a PLANNED reason code for the shutdown.
+                    <i>xx</i> = The Major reason code (0-255)
+                    <i>yy</i> = The Minor reason code (0-65536)
+</pre>
+<p>In Windows 7, the maximum <span class="code">/t</span> timeout increased from 600 seconds to 315,360,000 seconds (10 years)<br>
+If you need to FORCE a shutdown, or target multiple computers at once; use <a href="psshutdown.html">PsShutdown</a> instead. </p>
+<h2> Alert Messages to logged in users
+</h2>
+<p>Shutdown will display one or two alert messages to the user depending on the delay (set with <span class="code">/t</span>) as follows:</p>
+<p><span class="code">Delay<br>
+&lt; 3 minutes</span> - A custom popup alert appears immediately (default).<br>
+<span class="code">&gt;=3 mins and &lt;=10 mins</span> - 
+A custom popup alert  immediately and then a generic popup alert<b> 2 mins</b> before shutdown.<br>
+<span class="code">&gt; 10 mins and &lt; 11 mins</span> -  A  system tray alert (with custom message) appears immediately, and then nothing else.<br>
+<span class="code">&gt;=11 mins </span>- A  system tray alert (with custom message) appears immediately, and then a generic popup alert <b>10 mins</b> before shutdown.</p>
+<p> System Tray alerts can be disabled/hidden by the user.<br>
+Also, if the computer goes to sleep (due to Power management) before the shutdown actually occurs, then the countdown will resume after the machine is re-awakened - so the delay is running time not clock time. <br>
+For these reasons, setting a delay longer than 10 minutes (600 seconds) is not recommended.</p>
+<p>If the computer is manually restarted before the schedule set with Shutdown.exe, the scheduled shutdown will be  aborted.</p>
+<p>If two shutdown commands are issued against the same computer,  the first command will run and the second will fail with errorlevel 1190. If you need to make a change, abort the first command with <span class="code">shutdown /a</span></p>
+<h2>Event Log</h2>
+<p>Shutdown.exe will record events in the Windows SYSTEM Event log with a Source=User32</p>
+<ul>
+<li>When a Shutdown command is issued with a timeout of &gt; 120 seconds, event ID 1074 is logged.</li>
+<li> Just before the computer is shutdown, event ID 1074  is logged along with any custom message &amp; reason code.</li>
+</ul>
+<p>The event log is the only way to tell that a reboot triggered from Shutdown.exe is pending. It also records the username and date/time when the shutdown command was issued.</p>
+<p>When using Shutdown.exe to reboot a server, the shutdown process will normally allow  30 seconds to ensure each running service has time to stop. Services are shutdown in alphabetical order. Halting the services manually in  a specific order with <a href="net-service.html">NET STOP</a> or <a href="sc.html">SC</a> can be slightly faster.</p>
+<h2>   Reason codes</h2>
+<p>  E = Expected<br>
+  &nbsp;U = Unexpected <span class="code">0x00000000</span><br>
+&nbsp;&nbsp;&nbsp;P = Planned<span class="code"> 0x80000000</span><br>
+&nbsp;&nbsp;&nbsp;C = customer defined <span class="code">0x40000000</span></p>
+<pre>
+Type    Major Minor Title
+ U      0     0   Other (Unplanned)
+E       0     0   Other (Unplanned)
+E P     0     0   Other (Planned)
+ U      0     5   Other Failure: System Unresponsive
+E       1     1   Hardware: Maintenance (Unplanned)
+E P     1     1   Hardware: Maintenance (Planned)
+E       1     2   Hardware: Installation (Unplanned)
+E P     1     2   Hardware: Installation (Planned)
+  P     2     3   Operating System: Upgrade (Planned)
+E       2     4   Operating System: Reconfiguration (Unplanned)
+E P     2     4   Operating System: Reconfiguration (Planned)
+  P     2     16  Operating System: Service pack (Planned)
+        2     17  Operating System: Hot fix (Unplanned)
+  P     2     17  Operating System: Hot fix (Planned)
+        2     18  Operating System: Security fix (Unplanned)
+  P     2     18  Operating System: Security fix (Planned)
+E       4     1   Application: Maintenance (Unplanned)
+E P     4     1   Application: Maintenance (Planned)
+E P     4     2   Application: Installation (Planned)
+E       4     5   Application: Unresponsive
+E       4     6   Application: Unstable
+ U      5     15  System Failure: Stop error
+E       5     19  Security issue
+ U      5     19  Security issue
+E P     5     19  Security issue
+E       5     20  Loss of network connectivity (Unplanned)
+ U      6     11  Power Failure: Cord Unplugged
+ U      6     12  Power Failure: Environment
+  P     7     0   Legacy API shutdown</pre>
+<p>The reason codes logged in the event log are standard Windows <a href="https://msdn.microsoft.com/en-us/library/aa376885.aspx">System Shutdown Reason Codes</a> (in Hex)</p>
+<p><b>Examples</b></p>
+<p> Shutdown the local system immediately:<br>
+<br>
+<span class="code">SHUTDOWN.exe /s /f</span><br>
+<br>
+Restart the local system in 60 seconds time and specify the reason &quot;Application: Installation (Planned)&quot; : </p>
+<p class="code"> SHUTDOWN.exe /r /f /t 60  /d P:4:2</p>
+<p>Restart the  remote system <span class="code">server64</span> and specify the reason &quot;Security Fix, Planned&quot; </p>
+<p class="code">SHUTDOWN.exe /r /f /m \\server64 /d P:2:17</p>
+<p>Using PowerShell, remotely restart a list of computers from a text file of computer names.</p>
+<pre>
+$msg = &quot;Due to network maintenance, this computer must be restarted. You have 5 minutes to save your work&quot;
+$delay = 300  # seconds
+$computers = <a href="../ps/get-content.html">get-content</a> E:\work\MachineNames.txt
+foreach ($computer in $computers)
+{
+   &amp; 'C:\Windows\System32\<span class="code">SHUTDOWN.exe</span>' &quot;-m \\$computer <b>-r</b> -c $msg -t $delay&quot;
+}</pre>
+<p class="quote"><i> &ldquo;I shall go the way of the open sea, To the lands I knew before you came,<br>
+And the cool ocean breezes shall blow from me, The memory of your name&rdquo; ~ <a href="https://en.wikipedia.org/wiki/Laurence_Hope">Laurence Hope</a></i></p>
+<p>  <b> Related:</b><br>
+  <br>
+  <a href="logoff.html">LOGOFF</a> - Log off a user.<br>
+  <a href="bootcfg.html">BootCFG</a> - Edit Boot.ini settings. <br>
+  <a href="psshutdown.html">PsShutdown</a> - SysInternals command line tool<br>
+<a href="schtasks.html">SCHTASKS</a> - Schedule a command to run at a specific time<br>
+<a href="tsshutdn.html">TsShutDn</a> - Terminal Services Shutdown<br>
+<a href="eventcreate.html">EVENTCREATE</a> - Add a message to the Windows event log<br>
+Powershell:<br>
+<span class="code"> $os = (<a href="../ps/get-wmiobject.html">Get-WmiObject</a> Win32_OperatingSystem -ComputerName <i>MyServer64</i>)<br>
+$os.psbase.Scope.Options.EnablePrivileges = $true<br>
+$os.reboot()</span></p><!-- #BeginLibraryItem "/Library/foot_nt.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- windows300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="7649547908"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="shutdown.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

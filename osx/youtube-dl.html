@@ -1,0 +1,106 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>youtube-dl Man Page | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_osx.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../osx.1.html">macOS</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/osx/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>youtube-dl (<a href="https://github.com/rg3/youtube-dl">download</a> via GitHub)</h1> 
+<p>Download  video+audio either single files or entire playlists. Supports YouTube, Vimeo etc.</p>
+<pre>Syntax
+      youtube-dl [<i>OPTIONS</i>] <i>URL</i> [URL...]
+
+Options
+   -F, --list-formats         List all available formats.
+   -f, --format <i>FORMAT</i>        Video format code, see example below.
+   -i, --ignore-errors        Continue on download errors, for example to skip unavailable
+                              videos in a playlist.
+   --abort-on-error           Abort downloading of further videos (in the playlist or the
+                              command line) if an error occurs.
+   --no-playlist              Download only the video, if the URL refers to a video and a playlist.
+   --yes-playlist             Download the playlist, if the URL refers to a video and a playlist.
+   -a, --batch-file <i>FILE</i>      File containing URLs to download ('-' for stdin.)
+   --restrict-filenames       Restrict filenames to only ASCII characters, and avoid &quot;&amp;&quot; and
+                              spaces in filenames.
+   -w, --no-overwrites        Do not overwrite files.
+   --write-description        Write video description to a .description file.
+   --write-info-json          Write video metadata to a .info.json file.
+   --write-annotations        Write video annotations to a .annotations.xml file.
+   -q, --quiet                Activate quiet mode.
+   --no-mtime                 Set the file last modified date/time to the download date/time.
+   --no-warnings              Ignore warnings.
+   --console-title            Display progress in console titlebar.
+   --sleep-interval <i>SECONDS</i>   Number of seconds to sleep before each download.
+   -h, --help                 Print this help text and exit.
+   -U, --update               Update this program to latest version. Make sure that you have
+                              sufficient permissions (run with sudo if needed.)
+   --version                  Print program version and exit.</pre>
+<p>Above is  a summary of the options, for a full list including network/proxy/filtering options, run <span class="code">youtube-dl --help</span></p>
+<p>The files are downloaded to the <a href="cd.html">current directory</a>.</p>
+<h2>Installation</h2>
+<blockquote>
+<p>1) download <span class="code"><a href="https://github.com/rg3/youtube-dl">youtube-dl</a></span> and copy it to <span class="code">/usr/local/bin/</span></p>
+<p>( If /usr/local/bin does not already exist, then create it with <span class="code">sudo <a href="mkdir.html">mkdir</a> -p /usr/local/bin</span> )</p>
+<p>2) download <a href="https://www.ffmpeg.org/download.html"><span class="code">ffmpeg</span></a> and copy it to <span class="code">/usr/local/bin/</span></p>
+</blockquote>
+<p><b>Example</b></p>
+<p>First list the available formats with -F<br>
+</p>
+<pre>$ youtube-dl -F https://www.youtube.com/watch?v=VG1VVFfOnYQ
+
+140          m4a        audio only DASH audio  127k , m4a_dash container, aac  @128k (44100Hz), 3.77MiB
+141          m4a        audio only DASH audio  255k , m4a_dash container, aac  @256k (44100Hz), 7.57MiB ***
+160          mp4        256x144    DASH video  113k , 12fps, video only, 3.24MiB
+133          mp4        426x240    DASH video  269k , 24fps, video only, 7.27MiB
+134          mp4        640x360    DASH video  272k , 24fps, video only, 6.55MiB
+244          webm       854x480    DASH video  504k , 24fps, video only, 7.95MiB
+135          mp4        854x480    DASH video  540k , 24fps, video only, 13.33MiB
+136          mp4        1280x720   DASH video 1155k , 24fps, video only, 26.62MiB
+248          webm       1920x1080  DASH video 1797k , 24fps, video only, 30.81MiB
+137          mp4        1920x1080  DASH video 2750k , 24fps, video only, 57.97MiB   ***   
+43           webm       640x360    
+18           mp4        640x360    
+22           mp4        1280x720   (best)</pre>
+<p> Using the codes on the left hand size, you can select a specific size of Video and Audio.<br>
+So in this example, we want 1080p video (<span class="code">137</span>) plus 255K audio (<span class="code">141</span>) so the command becomes:<br>
+</p>
+<pre>$ youtube-dl -f 137+141 https://www.youtube.com/watch?v=VG1VVFfOnYQ</pre>
+<p>If you just want the highest possible quality, this is the default so all you need is:</p>
+<p class="code">$ youtube-dl   https://www.youtube.com/watch?v=VG1VVFfOnYQ</p>
+<p>By default the date/time of the downloaded file will be equal to the upload date/time to hopefully give an approximately correct date of the files creation, to disable this and return the downloaded date use the option <span class="code">--no-mtime</span> </p>
+<h2>Automator</h2>
+<blockquote>
+<p>You can run youtube-dl directly from any web browser (or any other application) using OS X services and Automator.</p>
+<p>Choose Applications | Automator and
+then 
+create a new Service (click the Service icon.)<br>
+Set the drop-down lists as shown below, pass input 'as arguments'<br>
+The Shell script can just be two lines, one to <a href="cd.html">cd</a> change directory to where you want the movie saved, and the second to run youtube-dl passing the URL.</p>
+<p>With that done save the Automator Service with a suitable name like <b>&quot;Save Youtube Movie&quot;</b><br>
+</p>
+<p><img src="ytdl.jpg" width="537" height="334" alt="Use Automator to run a Shell Script"></p>
+<p>To run this, select any URL, in the web browser address bar, or even just a suitable url within a text document, then go to the services menu and select the name of your Automator service <b>&quot;Save Youtube Movie&quot;</b>.<br>
+(Automator Services are automatically saved to <span class="code">~/Library/Services/ </span>) </p>
+</blockquote>
+<p><i class="quote">&ldquo;Make each program do one thing well. <br>
+To do a new job, build afresh rather than complicate old programs by adding new features&rdquo; ~ <a href="http://www.catb.org/esr/writings/taoup/html/ch01s06.html">Ken Thompson</a></i></p>
+<p><b>Related:</b></p>
+<p><a href="rsync.html">rsync</a> - Remote file copy</p><!-- #BeginLibraryItem "/Library/foot_osx.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- OSX300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="1823340303"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="youtube-dl.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

@@ -1,0 +1,49 @@
+     /*  
+        Multiple line comments
+        Can go between these delimiters
+
+     */ 
+
+SET TERM      OFF 
+-- TERM = ON will display on terminal screen (OFF = show in LOG only)
+
+SET ECHO      ON 
+-- ECHO = ON will Display the command on screen (+ spool)
+-- ECHO = OFF will Display the command on screen but not in spool files.
+-- Interactive commands are always echoed to screen/spool.
+
+SET TRIMOUT   ON 
+-- TRIMOUT = ON will remove trailing spaces from output
+
+SET TRIMSPOOL ON 
+-- TRIMSPOOL = ON will remove trailing spaces from spooled output
+
+SET HEADING   OFF 
+-- HEADING = OFF will hide column headings
+
+SET FEEDBACK  OFF 
+-- FEEDBACK = ON will count rows returned
+
+SET PAUSE     OFF 
+-- PAUSE = ON .. press return at end of each page
+
+SET PAGESIZE  0   
+-- PAGESIZE = height 54 is 11 inches (0 will supress all headings and page brks)
+
+SET LINESIZE  80 
+-- LINESIZE = width of page (80 is typical)
+
+SET VERIFY    OFF 
+-- VERIFY = ON will show before and after substitution variables
+
+-- Start spooling to a log file
+SPOOL C:\TEMP\MY_LOG_FILE.LOG
+
+--
+-- The rest of the SQL commands go here
+--
+SELECT * FROM GLOBAL_NAME;
+
+SPOOL OFF
+
+

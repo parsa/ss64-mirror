@@ -1,0 +1,150 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>DBA_INDEXES | Oracle | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_orad.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../ora.1.html">Oracle</a></li>
+<li class="tbtn"><a href="../orad.1.html">Dictionary</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>DBA_INDEXES </h1><p> Description for all indexes in the database </p> 
+ 
+<pre>Columns
+   ___________________________
+ 
+   OWNER
+      Username of the owner of the index
+   INDEX_NAME
+      Name of the index
+   INDEX_TYPE
+      --
+   TABLE_OWNER
+      Owner of the indexed object
+   TABLE_NAME
+      Name of the indexed object
+   TABLE_TYPE
+      Type of the indexed object
+   UNIQUENESS
+      Uniqueness status of the index: "UNIQUE","NONUNIQUE" or "BITMAP"
+   COMPRESSION
+      Compression property of the index: "ENABLED","DISABLED" or NULL
+   PREFIX_LENGTH
+      Number of key columns in the prefix used for compression
+   TABLESPACE_NAME
+      Name of the tablespace containing the index
+   INI_TRANS
+      Initial number of transactions
+   MAX_TRANS
+      Maximum number of transactions
+   INITIAL_EXTENT
+      Size of the initial extent
+   NEXT_EXTENT
+      Size of secondary extents
+   MIN_EXTENTS
+      Minimum number of extents allowed in the segment
+   MAX_EXTENTS
+      Maximum number of extents allowed in the segment
+   PCT_INCREASE
+      Percentage increase in extent size
+   PCT_THRESHOLD
+      Threshold percentage of block space allowed per index entry
+   INCLUDE_COLUMN
+      User column-id for last column to be included in index-only table top index
+   FREELISTS
+      Number of process freelists allocated in this segment
+   FREELIST_GROUPS
+      Number of freelist groups allocated to this segment
+   PCT_FREE
+      Minimum percentage of free space in a block
+   LOGGING
+      Logging attribute
+   BLEVEL
+      B-Tree level
+   LEAF_BLOCKS
+      The number of leaf blocks in the index
+   DISTINCT_KEYS
+      The number of distinct keys in the index
+   AVG_LEAF_BLOCKS_PER_KEY
+      The average number of leaf blocks per key
+   AVG_DATA_BLOCKS_PER_KEY
+      The average number of data blocks per key
+   CLUSTERING_FACTOR
+      A measurement of the amount of (dis)order of the table this index is for
+   STATUS
+      Whether non-partitioned index is in UNUSABLE state or not
+   NUM_ROWS
+      --
+   SAMPLE_SIZE
+      The sample size used in analyzing this index
+   LAST_ANALYZED
+      The date of the most recent time this index was analyzed
+   DEGREE
+      The number of threads per instance for scanning the partitioned index
+   INSTANCES
+      The number of instances across which the partitioned index is to be scanned
+   PARTITIONED
+      Is this index partitioned? YES or NO
+   TEMPORARY
+      Can the current session only see data that it place in this object itself?
+   GENERATED
+      Was the name of this index system generated?
+   SECONDARY
+      Is the index object created as part of icreate for domain indexes?
+   BUFFER_POOL
+      The default buffer pool to be used for index blocks
+   USER_STATS
+      Were the statistics entered directly by the user?
+   DURATION
+      If index on temporary table,then duration is sys$session or sys$transaction else NULL
+   PCT_DIRECT_ACCESS
+      If index on IOT,then this is percentage of rows with Valid guess
+   ITYP_OWNER
+      If domain index,then this is the indextype owner
+   ITYP_NAME
+      If domain index,then this is the name of the associated indextype
+   PARAMETERS
+      If domain index,then this is the parameter string
+   GLOBAL_STATS
+      Are the statistics calculated without merging underlying partitions?
+   DOMIDX_STATUS
+      Is the indextype of the domain index valid
+   DOMIDX_OPSTATUS
+      Status of the operation on the domain index
+   FUNCIDX_STATUS
+      Is the Function-based Index DISABLED or ENABLED?
+   JOIN_INDEX
+      Is this index a join index?</pre>
+<p><b>Related</b></p>
+<p><a href="DBA_INDEXTYPES.html">DBA_INDEXTYPES</a><br>
+<a href="DBA_IND_COLUMNS.html">DBA_IND_COLUMNS</a><br>
+<a href="DBA_IND_EXPRESSIONS.html">DBA_IND_EXPRESSIONS</a><br>
+<a href="DBA_IND_STATISTICS.html">DBA_IND_STATISTICS</a><br>
+<a href="DBA_IND_PARTITIONS.html">DBA_IND_PARTITIONS</a><br>
+</p>
+<p>Show All Indexes</p>
+<p class="code">set pagesize 300<br>
+COLUMN owner FORMAT A10<br>
+COLUMN index_name FORMAT A35<br>
+COLUMN tablespace_name FORMAT A15</p>
+<p class="code">Select owner, index_name, tablespace_name <br>
+From dba_indexes <br>
+Where owner NOT IN('SYSTEM','DBSNMP', 'ORDSYS', 'OUTLN','SYS') <br>
+and table_type = 'TABLE'<br>
+Order By owner, index_name, tablespace_name;</p><!-- #BeginLibraryItem "/Library/foot_orad.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- oracle-footer -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4275490898"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="DBA_INDEXES.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div>
+<!-- #EndLibraryItem --></body>
+</html>

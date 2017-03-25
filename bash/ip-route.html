@@ -1,0 +1,294 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>ip route Man Page | Bash | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_bash.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../bash.1.html">Bash</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/bash/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1><a href="ip.html">ip route</a></h1>
+<p>Manipulate route entries in the kernel routing tables keep information about paths to other networked nodes.<br>
+<span class="code">route</span> can be abbreviated to<span class="code"> r</span></p>
+<p> <span class="code">ip route add</span> - add new route<br>
+<span class="code">ip route change</span> - change route<br>
+<span class="code">ip route replace</span> - change or add new route<br>
+<span class="code">ip route delete</span> - delete route<br>
+<span class="code">ip route show</span> - list routes<br>
+<span class="code">ip route flush</span> - flush routing tables<br>
+<span class="code">ip route get</span> - get a single route<br>
+</p>
+<pre>Syntax
+      <b>ip route</b> { list | flush } <i>SELECTOR</i>
+
+      <b>ip route get</b> <i>ADDRESS</i> [ from <i>ADDRESS</i> iif <i>STRING</i> ] [ oif <i>STRING</i> ] [ tos <i>TOS</i> ]
+
+      <b>ip route</b> { add | del | change | append | replace | monitor } <i>ROUTE</i>
+
+         SELECTOR := [ root <i>PREFIX</i> ] [ match <i>PREFIX</i> ] [ exact <i>PREFIX</i> ] [ table <i>TABLE_ID</i> ]
+                        [ proto <i>RTPROTO</i> ] [ type <i>TYPE</i> ] [ scope <i>SCOPE</i> ]
+
+         ROUTE := NODE_SPEC [ <i>INFO_SPEC</i> ]
+
+         NODE_SPEC := [ <i>TYPE</i> ] <i>PREFIX</i> [ tos <i>TOS</i> ] [ table <i>TABLE_ID</i> ] [ proto <i>RTPROTO</i> ] [ scope <i>SCOPE</i> ] [ metric <i>METRIC</i> ]
+
+         INFO_SPEC := <i>NH OPTIONS FLAGS</i> [ nexthop <i>NH</i> ] ...
+
+         NH := [ via <i>ADDRESS</i> ] [ dev <i>STRING</i> ] [ weight <i>NUMBER</i> ] <i>NHFLAGS</i>
+
+         OPTIONS := <i>FLAGS</i> [ mtu <i>NUMBER</i> ] [ advmss <i>NUMBER</i> ] [ rtt <i>TIME</i> ] [ rttvar <i>TIME</i> ]
+                       [ window <i>NUMBER</i> ] [ cwnd <i>NUMBER</i> ] [ initcwnd <i>NUMBER</i> ] [ ssthresh <i>REALM</i> ]
+                          [ realms <i>REALM</i> ] [ rto_min <i>TIME</i> ] [ initrwnd <i>NUMBER</i> ]
+
+         TYPE := [ unicast | local | broadcast | multicast | throw | unreachable | prohibit | blackhole | nat ]
+
+         TABLE_ID := [ local| main | default | all | <i>NUMBER</i> ]
+
+         SCOPE := [ host | link | global | <i>NUMBER</i> ]
+
+         FLAGS := [ equalize ]
+
+         NHFLAGS := [ onlink | pervasive ]
+
+         RTPROTO := [ kernel | boot | static | <i>NUMBER</i> ]
+
+Key
+   to <i>TYPE PREFIX</i> (default)
+      the destination prefix of the route. If TYPE is omitted, ip assumes type unicast.
+      Other values of TYPE are listed above. PREFIX is an IP or IPv6 address optionally
+      followed by a slash and the prefix length. If the length of the prefix is missing,
+      ip assumes a full-length host route. There is also a special PREFIX default - which
+      is equivalent to IP 0/0 or to IPv6 ::/0. 
+   tos <i>TOS</i>
+   dsfield <i>TOS</i>
+      the Type Of Service (TOS) key. This key has no associated mask and the longest match
+      is understood as: First, compare the TOS of the route and of the packet. If they are
+      not equal, then the packet may still match a route with a zero TOS. TOS is either an
+      8 bit hexadecimal number or an identifier from /etc/iproute2/rt_dsfield. 
+   metric <i>NUMBER</i>
+   preference <i>NUMBER
+</i>      the preference value of the route. NUMBER is an arbitrary 32bit number. 
+   table TABLEID
+      the table to add this route to. TABLEID may be a number or a string from the file
+      /etc/iproute2/rt_tables. If this parameter is omitted, ip assumes the main table,
+      with the exception of local , broadcast and nat routes, which are put into the local table by default. 
+   dev <i>NAME</i>
+      the output device name. 
+   via <i>ADDRESS</i>
+      the address of the nexthop router. Actually, the sense of this field depends on the
+      route type. For normal unicast routes it is either the true next hop router or, if it
+      is a direct route installed in BSD compatibility mode, it can be a local address of the
+      interface. For NAT routes it is the first address of the block of translated IP destinations. 
+   src <i>ADDRESS</i>
+      the source address to prefer when sending to the destinations covered by the route prefix. 
+   realm <i>REALMID</i>
+      the realm to which this route is assigned. REALMID may be a number or a string from the
+      file /etc/iproute2/rt_realms. 
+   mtu MTU
+   mtu lock <i>MTU</i>
+      the MTU along the path to the destination. If the modifier lock is not used, the MTU
+      may be updated by the kernel due to Path MTU Discovery. If the modifier lock is used,
+      no path MTU discovery will be tried, all packets will be sent without the DF bit in
+      IPv4 case or fragmented to MTU for IPv6. 
+   window <i>NUMBER</i>
+      the maximal window for TCP to advertise to these destinations, measured in bytes.
+      It limits maximal data bursts that our TCP peers are allowed to send to us. 
+   rtt <i>TIME</i>
+      the initial RTT ('Round Trip Time') estimate. If no suffix is specified the units
+      are raw values passed directly to the routing code to maintain compatability with
+      previous releases. Otherwise if a suffix of s, sec or secs is used to specify
+      seconds; ms, msec or msecs to specify milliseconds; us, usec or usecs to specify microseconds;
+      ns, nsec or nsecs to specify nanoseconds; j, hz or jiffies to specify jiffies,
+      the value is converted to what the routing code expects. 
+   rttvar <i>TIME</i> (2.3.15+ only)
+      the initial RTT variance estimate. Values are specified as with rtt above. 
+   rto_min <i>TIME</i> (2.6.23+ only)
+      the minimum TCP Retransmission TimeOut to use when communicating with this destination.
+      Values are specified as with rtt above. 
+   ssthresh <i>NUMBER</i> (2.3.15+ only)
+      an estimate for the initial slow start threshold. 
+   cwnd <i>NUMBER</i> (2.3.15+ only)
+      the clamp for congestion window. It is ignored if the lock flag is not used. 
+   initcwnd <i>NUMBER</i>
+      the maximum initial congestion window (cwnd) size in MSS of a TCP connection. 
+   initrwnd NUMBER (2.6.33+ only)
+      the initial receive window size for connections to this destination.
+      Actual window size is this value multiplied by the MSS of the connection.
+      The default value is zero, meaning to use Slow Start value. 
+   advmss <i>NUMBER</i> (2.3.15+ only)
+      the MSS ('Maximal Segment Size') to advertise to these destinations when establishing
+      TCP connections. If it is not given, Linux uses a default value calculated
+      from the first hop device MTU. (If the path to these destination is asymmetric,
+      this guess may be wrong.) 
+   reordering <i>NUMBER</i> (2.3.15+ only)
+      Maximal reordering on the path to this destination.
+      If it is not given, Linux uses the value selected with sysctl variable net/ipv4/tcp_reordering. 
+   nexthop <i>NEXTHOP</i>
+      the nexthop of a multipath route.
+      <i>NEXTHOP</i> is a complex value with its own syntax similar to the top level argument lists: 
+
+   via <i>ADDRESS</i> - is the nexthop router.
+
+   dev <i>NAME</i> - is the output device.
+
+   weight <i>NUMBER</i> - is a weight for this element of a multipath route reflecting its relative bandwidth or quality.
+
+   scope <i>SCOPE_VAL</i>
+      the scope of the destinations covered by the route prefix.
+      SCOPE_VAL may be a number or a string from the file /etc/iproute2/rt_scopes.
+      If this parameter is omitted, ip assumes scope global for all gatewayed unicast
+      routes, scope link for direct unicast and broadcast routes and scope host for local routes. 
+   protocol <i>RTPROTO</i>
+      the routing protocol identifier of this route. RTPROTO may be a number or a string
+      from the file /etc/iproute2/rt_protos. If the routing protocol ID is not given, ip
+      assumes protocol boot (i.e. it assumes the route was added by someone who doesn't
+      understand what they are doing). Several protocol values have a fixed interpretation. Namely: 
+
+         redirect - the route was installed due to an ICMP redirect.
+
+         kernel - the route was installed by the kernel during autoconfiguration.
+
+         boot - the route was installed during the bootup sequence. If a routing daemon starts, it will purge all of them.
+ 
+         static - the route was installed by the administrator to override dynamic routing.
+                  Routing daemon will respect them and, probably, even advertise them to its peers.
+
+         ra - the route was installed by Router Discovery protocol.
+
+      The rest of the values are not reserved and the administrator is free to
+      assign (or not to assign) protocol tags. 
+
+   onlink
+      pretend that the nexthop is directly attached to this link, even if it does not match any interface prefix.
+   equalize
+      allow packet by packet randomization on multipath routes. Without this modifier, the route will
+      be frozen to one selected nexthop, so that load splitting will only occur on per-flow base.
+      equalize only works if the kernel is patched. </pre>
+<p> ip route delete - delete route, 
+ip route del has the same arguments as ip route add, but their semantics are a bit different.<br>
+</p>
+<pre>
+Key values (to, tos, preference and table) select the route to delete. 
+If optional attributes are present, ip verifies that they coincide with the attributes of the route to delete.
+If no route with the given key and attributes was found, ip route del fails.</pre>
+<p> ip route show - list routes, 
+the command displays the contents of the routing tables or the route(s) selected.<br>
+</p>
+<pre>   to <i>SELECTOR</i> (default)
+    only select routes from the given range of destinations.
+    <i>SELECTOR</i> consists of an optional modifier (root, match or exact) and a prefix.
+    root <i>PREFIX</i> selects routes with prefixes not shorter than <i>PREFIX</i>.
+    F.e. root 0/0 selects the entire routing table. match <i>PREFIX</i> selects routes with prefixes not
+    longer than <i>PREFIX</i>. F.e. match 10.0/16 selects 10.0/16, 10/8 and 0/0, but it does not select
+    10.1/16 and 10.0.0/24. And exact <i>PREFIX</i> (or just <i>PREFIX</i>) selects routes with this exact prefix.
+    If neither of these options are present, ip assumes root 0/0 i.e. it lists the entire table. 
+   tos <i>TOS</i>
+    dsfield <i>TOS</i> only select routes with the given <i>TOS</i>. 
+   table <i>TABLEID</i>
+    show the routes from this table(s). The default setting is to show tablemain.
+    <i>TABLEID</i> may either be the ID of a real table or one of the special values: 
+
+   all - list all of the tables.
+
+   cache - dump the routing cache.
+
+   cloned
+
+   cached
+      list cloned routes i.e. routes which were dynamically forked from other routes because some
+      route attribute (f.e. MTU) was updated. Actually, it is equivalent to table cache.
+   from <i>SELECTOR</i>
+      the same syntax as for to, but it binds the source address range rather than destinations.
+      Note that the from option only works with cloned routes. 
+   protocol <i>RTPROTO</i>
+      only list routes of this protocol. 
+   scope <i>SCOPE_VAL</i>
+      only list routes with this scope. 
+   type <i>TYPE</i>
+      only list routes of this type. 
+   dev <i>NAME</i>
+      only list routes going via this device. 
+   via <i>PREFIX</i>
+      only list routes going via the nexthop routers selected by PREFIX. 
+   src <i>PREFIX</i>
+      only list routes with preferred source addresses selected by PREFIX. 
+   realm <i>REALMID</i>
+   realms <i>FROMREALM</i>/<i>TOREALM</i>
+      only list routes with these realms. </pre>
+<p> ip route flush - flush routing tables, 
+this command flushes routes selected by some criteria.<br>
+</p>
+<pre>
+The arguments have the same syntax and semantics as the arguments of ip route show, but routing tables
+are not listed but purged.
+The only difference is the default action: show dumps all the IP main routing table but flush prints the helper page.
+
+With the -statistics option, the command becomes verbose. It prints out the number of deleted routes and
+the number of rounds made to flush the routing table. If the option is given twice, ip route flush also
+dumps all the deleted routes in the format described in the previous subsection.</pre>
+<p>ip route get - get a single route, 
+this command gets a single route to a destination and prints its contents exactly as the kernel sees it.<br>
+</p>
+<pre>   to <i>ADDRESS</i> (default)
+      the destination address. 
+   from <i>ADDRESS</i>
+      the source address. 
+   tos TOS
+  dsfield TOS
+      the Type Of Service. 
+   iif <i>NAME</i>
+      the device from which this packet is expected to arrive. 
+   oif <i>NAME</i>
+      force the output device on which this packet will be routed. 
+   connected
+      if no source address (option from) was given, relookup the route with the source set to the preferred
+      address received from the first lookup. If policy routing is used, it may be a different route. 
+      Note that this operation is not equivalent to ip route show. show shows existing routes.
+      get resolves them and creates new clones if necessary.
+      Essentially, get is equivalent to sending a packet along this path. If the iif argument is not given,
+      the kernel creates a route to output packets towards the requested destination. This is equivalent to
+      pinging the destination with a subsequent ip route ls cache, however, no packets are actually sent.
+      With the iif argument, the kernel pretends that a packet arrived from this interface and searches for
+      a path to forward the packet. </pre>
+<p>Route types:</p>
+<blockquote>
+<p>unicast - the route entry describes real paths to the destinations covered by the route prefix.</p>
+<p>unreachable - these destinations are unreachable. Packets are discarded and the ICMP message host unreachable is generated. The local senders get an EHOSTUNREACH error.</p>
+<p>blackhole - these destinations are unreachable. Packets are discarded silently. The local senders get an EINVAL error.</p>
+<p>prohibit - these destinations are unreachable. Packets are discarded and the ICMP message communication administratively prohibited is generated. The local senders get an EACCES error.</p>
+<p>local - the destinations are assigned to this host. The packets are looped back and delivered locally.</p>
+<p>broadcast - the destinations are broadcast addresses. The packets are sent as link broadcasts. </p>
+<p>throw - a special control route used together with policy rules. If such a route is selected, lookup in this table is terminated pretending that no route was found. Without policy routing it is equivalent to the absence of the route in the routing table. The packets are dropped and the ICMP message net unreachable is generated. The local senders get an ENETUNREACH error.</p>
+<p>nat - a special NAT route. Destinations covered by the prefix are considered to be dummy (or external) addresses which require translation to real (or internal) ones before forwarding. The addresses to translate to are selected with the attribute Warning: Route NAT is no longer supported in Linux 2.6.</p>
+</blockquote>
+<p>via.</p>
+<blockquote>
+<p>anycast - not implemented the destinations are anycast addresses assigned to this host. They are mainly equivalent to local with one difference: such addresses are invalid when used as the source address of any packet.</p>
+<p>multicast - a special type used for multicast routing. It is not present in normal routing tables.</p>
+</blockquote>
+<p>Route tables: Linux-2.x can pack routes into several routing tables identified by a number in the range from 1 to 255 or by name from the file /etc/iproute2/rt_tables By default all normal routes are inserted into the main table (ID 254) and the kernel only uses this table when calculating routes. </p>
+<p>Actually, one other table always exists, which is invisible but even more important. It is the local table (ID 255). This table consists of routes for local and broadcast addresses. The kernel maintains this table automatically and the administrator usually need not modify it or even look at it. The multiple routing tables enter the game when policy routing is used.</p>
+<p><b>Examples</b>:</p>
+<p>Delete the default gateway:<br>
+<span class="code">$ 
+ip route del default</span><br>
+</p>
+<p class="quote">“No camel route is long, with good company” ~ Turkish Proverb</p><p><b>Related:</b></p>
+<p><a href="ip.html">ip</a> - Routing, devices and tunnels<br>
+Equivalent Windows  command: <a href="../nt/route.html">ROUTE</a> - Manipulate network routing tables</p><!-- #BeginLibraryItem "/Library/foot_bash.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- bash300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4615356305"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="ip-route.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

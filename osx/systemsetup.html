@@ -1,0 +1,240 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>systemsetup OSX Man Page | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_osx.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../osx.1.html">macOS</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/osx/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>systemsetup</h1> 
+<p>Configure certain per-machine settings      typically configured in the System Preferences application.  <br>
+The      systemsetup command requires at least &quot;admin&quot; privileges to run.</p>
+<pre>Syntax
+      systemsetup [-getdate] [-setdate <i>mm:dd:yy</i>] [-gettime] [-settime <i>hh:mm:ss</i>]
+                 [-gettimezone] [-listtimezones] [-settimezone <i>timezone</i>]
+                 [-getusingnetworktime] [-setusingnetworktime on | off]
+                 [-getnetworktimeserver] [-setnetworktimeserver <i>timeserver</i>]
+                 [-getsleep] [-setsleep <i>minutes</i>] [-getcomputersleep]
+                 [-setcomputersleep <i>minutes</i>] [-getdisplaysleep]
+                 [-setdisplaysleep <i>minutes</i>] [-getharddisksleep]
+                 [-setharddisksleep <i>minutes</i>] [-getwakeonmodem]
+                 [-setwakeonmodem on | off] [-getwakeonnetworkaccess]
+                 [-setwakeonnetworkaccess on | off] [-getrestartpowerfailure]
+                 [-setrestartpowerfailure on | off] [-getrestartfreeze]
+                 [-setrestartfreeze on | off]
+                 [-getallowpowerbuttontosleepcomputer]
+                 [-setallowpowerbuttontosleepcomputer on | off]
+                 [-getremotelogin] [-setremotelogin on | off]
+                 [-getremoteappleevents] [-setremoteappleevents on | off]
+                 [-getcomputername] [-setcomputername computername]
+                 [-getstartupdisk] [-liststartupdisks] [-setstartupdisk <i>path</i>]
+                 [-getwaitforstartupafterpowerfailure]
+                 [-setwaitforstartupafterpowerfailure <i>value</i>]
+                 [-getdisablekeyboardwhenenclosurelockisengaged]
+                 [-setdisablekeyboardwhenenclosurelockisengaged yes | no]
+                 [-getkernelbootarchitecturesetting]
+                 [-setkernelbootarchitecture i386 | x86_64 | default]
+                 [-version] [-help] [-printCommands]
+Key:
+   -getdate
+       Display the current date.
+
+   -setdate <i>mm:dd:yy</i>
+       Set the current month, day, and year.
+
+   -gettime
+       Display the current time in 24-hour format.
+
+   -settime <i>hh:mm:ss</i>
+       Set the current time. The provided time argument should be in 24-hour format.
+
+   -gettimezone
+       Display current time zone.
+
+   -listtimezones
+       List all time zones supported by this machine.
+
+   -settimezone <i>timezone</i>
+       Set the local time zone. 
+       Use "-listtimezones" to list valid timezone arguments.
+
+   -getusingnetworktime
+       Display whether network time is on or off.
+
+   -setusingnetworktime on | off
+       Set whether using network time is on or off.
+
+   -getnetworktimeserver
+       Display the currently set network time server.
+
+   -setnetworktimeserver <i>timeserver</i>
+       Designate a network time server.
+        Enter the IP address or DNS name for the network time server.
+
+   -getsleep
+       Display amount of idle time until machine sleeps.
+
+   -setsleep <i>minutes</i>
+       Set amount of idle time until computer sleeps. 
+       Specify "Never" or "Off" for computers that should never sleep.
+       Important: if you set the system to sleep, you will not be able to administer the
+       server remotely while it is sleeping.
+
+   -getcomputersleep
+       Display amount of idle time until computer sleeps.
+
+   -setcomputersleep <i>minutes</i>
+       Set amount of idle time until computer sleeps. Specify "Never" or "Off" for never.
+
+   -getdisplaysleep
+       Display amount of idle time until display sleeps.
+
+   -setdisplaysleep <i>minutes</i>
+       Set amount of idle time until display sleeps. Specify "Never" or "Off" for never.
+
+   -getharddisksleep
+       Display amount of idle time until hard disk sleeps. Specify "Never" or "Off" for never.
+
+   -setharddisksleep <i>minutes</i>
+       Set amount of idle time until hard disk sleeps. Specify "Never" or "Off" for never.
+
+   -getwakeonmodem
+       Display whether wake on modem is on or off.
+
+   -setwakeonmodem on | off
+       Use this command to specify whether or not the server will wake
+       from sleep when modem activity is detected.
+
+   -getwakeonnetworkaccess
+       Display whether wake on network access is on or off.
+
+   -setwakeonnetworkaccess on | off
+       Use this command to specify whether the server wakes from sleep
+       when a network admin packet is sent to it.
+
+   -getrestartpowerfailure
+       Display whether restart on power failure is on or off.
+
+   -setrestartpowerfailure on | off
+       Specify whether the server should automatically restart after a power failure.
+
+   -getrestartfreeze
+       Display whether restart on freeze is on or off.
+
+   -setrestartfreeze on | off
+       Specify whether the server should restart automatically after the system freezes.
+
+   -getallowpowerbuttontosleepcomputer
+       Enable or disable whether the power button can sleep the computer.
+
+   -setallowpowerbuttontosleepcomputer on | off
+       Enable or disable whether the power button can sleep the computer.
+
+   -getremotelogin
+       Displays whether remote login (SSH) is on or off.
+
+   -setremotelogin [-f] on | off
+       Set remote login (SSH) to either on or off.
+       Important  If you turn off remote login, you won't be able to administer the server
+       using remote command line tools and SSH. To turn remote login back on, you'll need
+       to connect a monitor and keyboard to the server to administer it locally.
+       Use "setremotelogin -f off" to suppress prompting when turning remote login off.
+
+   -getremoteappleevents
+       Display whether remote apple events are on or off.
+
+   -setremoteappleevents on | off
+       Set whether the server responds to events sent by other computers (such as AppleScripts).
+
+   -getcomputername
+       Display computer name.
+
+   -setcomputername <i>computername</i>
+       Sets computer name to <i>computername</i>. This name is used by AFP.
+
+   -getlocalsubnetname
+       Display local subnet name.
+
+   -setlocalsubnetname name
+       Set local subnet name to <i>name</i>.
+
+   -getstartupdisk
+       Display current startup disk.
+
+   -liststartupdisks
+       List all valid startup disks on this computer.
+
+   -setstartupdisk <i>path</i>
+       Set current startup disk to the indicated path. Valid arguments
+       can be listed using "-liststartupdisks."
+
+   -getwaitforstartupafterpowerfailure
+       Get the number of seconds after which the computer will start up
+       after a power failure.
+
+   -setwaitforstartupafterpowerfailure <i>seconds</i>
+       Set the number of seconds after which the computer will start up
+       after a power failure. The <i>seconds</i> value must be a multiple of 30 seconds.
+
+   -getdisablekeyboardwhenenclosurelockisengaged
+       Get whether or not the keyboard should be disabled when the X
+       Serve enclosure lock is engaged.
+
+   -setdisablekeyboardwhenenclosurelockisengaged yes | no
+       Set whether or not the keyboard should be disabled when the X
+       Serve enclosure lock is engaged.
+
+   -getkernelbootarchitecturesetting
+       Gets the Kernel Architecture setting from the com.apple.Boot.plist.
+
+   -setkernelbootarchitecture i386 | x86_64 | default
+       Set the kernel to boot in 32 or 64 bit mode on next boot. default
+       removes the setting.
+
+   -version
+       Displays version of systemsetup tool.
+
+   -help
+       Displays a list of all the commands available in the System Setup
+       Tool, with explanatory information.
+
+   -printCommands
+       Displays a list of systemsetup commands with no detail.</pre>
+<p>Files: /usr/sbin/systemsetup</p>
+<p>  <b>Examples</b> </p>
+<p class="code">$ sudo systemsetup -getcomputername</p>
+<p>Set the date/time:</p>
+<p class="code">$ sudo systemsetup -setdate 12:31:17</p>
+<p class="code"> $ sudo systemsetup -settime 16:20:00</p>
+<p>List the Available Timezones:</p>
+<p class="code">$ sudo systemsetup -listtimezones</p>
+<p class="code">$ sudo systemsetup -settimezone US/Pacific      </p>
+<p class="code">$ sudo systemsetup -setnetworktimeserver time.apple.com</p>
+<p>Alternatively set the time zone automatically using current location <br>
+$<span class="code"> sudo <a href="defaults.html">defaults</a> write /Library/Preferences/com.apple.timezone.auto.plist Active -bool false</span></p>
+<p>DIsplay the restart@system freeze feature, by default this is on: <br>
+   
+<span class="code">$ sudo systemsetup -getrestartfreeze </span></p>
+<p>Turn the restart@system freeze feature off, useful for debugging: <br>
+<span class="code">sudo systemsetup -setrestartfreeze off<br>
+</span><br>
+<i class="quote">“Some old wounds never truly heal, and bleed again at the slightest word” - George R.R. Martin</i></p>
+<p><b>Related:</b></p>
+<p>networksetup - Configuration tool for network settings</p><!-- #BeginLibraryItem "/Library/foot_osx.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- OSX300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="1823340303"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="systemsetup.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

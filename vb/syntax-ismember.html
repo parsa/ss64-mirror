@@ -1,0 +1,46 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>isMember  | VBScript | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_vbsyntax.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../vb.1.html">VBScript</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/vb/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>VBScript isMember function </h1> 
+<p>Some <a href="function.html">functions</a> to determine group membership.</p>
+<p>You can find an excellent, tried and tested VBScript program to enumerate members of a group<br>
+over at hilltop labs - <a href="http://www.rlmueller.net/Programs/EnumGroup2.txt">http://www.rlmueller.net/Programs/EnumGroup2.txt</a></p>
+<p>Example</p>
+<p>List all members of group64<br>
+<br>
+<span class="code">cscript //nologo EnumGroup2.vbs &quot;group64&quot;</span></p>
+<h2>IsMember</h2>
+<p>There are several approaches for checking group membership in VBScript - consider if you need to check Local or Domain groups, and to include or not include nested permissions.</p>
+<p> There are also <a href="http://www.rlmueller.net/MemberOf.htm">some gotchas</a> to consider - when enumerating the members of a group it is possible that nothing will be returned, one member is returned or multiple members returned. Test your code with all these possibilities.</p>
+<p>Richard mueller has <a href="http://www.rlmueller.net/freecode1.htm">a number of IsMember scripts</a></p>
+<blockquote>
+<p>Test group membership <a href="http://www.rlmueller.net/Programs/IsMember1.txt">for a single user</a>.</p>
+<p>Test group membership (including nested groups)<a href="http://www.rlmueller.net/Programs/IsMember2.txt"> for a single user or computer</a>.<br>
+</p>
+</blockquote>
+<p><b>Related</b></p>
+<p><a href="../nt/ifmember.html">IFMEMBER</a> - Is the current user a member of a group.<br>
+Powershell equivalent: <a href="../ps/get-adgroupmember.html">Get-adGroupMember -Recursive</a> - Get the members of an AD group.</p>
+<p class="quote"><i>&ldquo;If I had to live my life again, I'd make the same mistakes, only sooner&rdquo; ~ Tallulah Bankhead.</i></p><!-- #BeginLibraryItem "/Library/foot_vb.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- VB300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="1683739502"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="syntax-ismember.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

@@ -1,0 +1,222 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>If - Conditionally perform command | Windows CMD | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_nt.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../nt.1.html">CMD</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/nt/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>IF</h1> 
+<p>Conditionally perform a command.</p>
+<pre><b>File syntax</b>
+   IF [NOT] EXIST <i>filename command</i> 
+
+   IF [NOT] EXIST <i>filename</i> (<i>command</i>) ELSE (<i>command</i>)
+
+<b>String syntax</b>
+   IF [/I] [NOT] <b><i>item1</i></b>==<b><i>item2</i></b> <i>command</i> 
+
+   IF [/I] <b><i>item1</i></b> <i>compare-op</i> <b><i>item2</i></b> <i>command</i>
+
+   IF [/I] <b><i>item1</i></b> <i>compare-op</i> <b><i>item2</i></b> (<i>command</i>) ELSE (<i>command</i>)
+
+<b>Error Check Syntax</b>
+   IF [NOT] DEFINED <i>variable command</i>
+
+   IF [NOT] <a href="errorlevel.html">ERRORLEVEL</a> <i>number command</i> 
+
+   IF CMDEXTVERSION <i>number command</i>
+
+<b>key</b>
+   <i>item</i>        A text string or environment variable, for more complex
+               comparisons, a variable can be modified using
+               either <a href="syntax-substring.html">Substring</a> or <a href="syntax-replace.html">Search syntax</a>.
+
+   <i>command</i>     The command to perform.
+
+   <i>filename</i>    A file to test or a <a href="syntax-wildcards.html">wildcard</a> pattern.
+
+   NOT         perform the command if the condition is false. 
+
+   <b>==</b>          perform the command if the two strings are equal. 
+
+   /I          Do a case Insensitive string comparison.
+
+   <i>compare-op</i>  can be one of
+                EQU : Equal
+                NEQ : Not equal
+
+                LSS : Less than &lt;
+                LEQ : Less than or Equal &lt;=
+
+                GTR : Greater than &gt;
+                GEQ : Greater than or equal &gt;=
+
+                This 3 digit syntax is necessary because the &gt; and &lt;
+                symbols are recognised as redirection operators</pre>
+<p> IF will only parse numbers when one of (<a href="equ.html">EQU</a>,  <a href="neq.html">NEQ</a>, <a href="lss.html">LSS</a>, <a href="leq.html">LEQ</a>, <a href="gtr.html">GTR</a>, <a href="geq.html">GEQ</a>) is used. <br>
+The <span class="code">==</span> comparison operator always results in a string comparison.</p>
+<h2>ERRORLEVEL </h2>
+<blockquote>
+<p>There are two different methods of checking an errorlevel, the first syntax provides compatibility with ancient batch files from the days of Windows 95</p>
+<p>The exit code is made available via <span class="code">IF ERRORLEVEL </span>...&nbsp; or the <span class="code">%ERRORLEVEL%</span> variable.</p>
+<p><span class="code">IF ERRORLEVEL <i>n </i></span>statements should be read as IF <i>Errorlevel</i> <span class="code">&gt;=</span> <i>number</i><br>
+i.e.<br>
+<span class="code">IF ERRORLEVEL 0 </span>will return TRUE whether the errorlevel is 0, 1 or 5 or 64 <br>
+<span class="code">IF ERRORLEVEL 1 </span>will return TRUE whether the errorlevel is 1 or 5 or 64<br>
+<span class="code">IF NOT ERRORLEVEL 1</span> means if ERRORLEVEL is less than 1 (Zero or negative).<br>
+This is not very readable or user friendly and  does not account for negative error numbers.</p>
+<p>A better (more logical) method of checking Errorlevels is to use the <span class="code">%ERRORLEVEL%</span> variable:</p>
+<p><span class="code">IF %ERRORLEVEL% NEQ 0 Echo An error was found<br>
+IF %ERRORLEVEL% EQU 0 Echo No error  found<br>
+<br>
+</span><span class="code">IF %ERRORLEVEL% EQU 0 (Echo No error found) ELSE (Echo An error was found)<br>
+</span><span class="code">IF %ERRORLEVEL% EQU 0 Echo No error found <a href="syntax-conditional.html">||</a> Echo An error was found</span></p>
+<p>This allows you to trap errors that can be negative numbers, you can also test for specific errors:<br>
+<span class="code">IF %ERRORLEVEL% EQU 64 ...</span><br>
+</p>
+<p>To deliberately raise an ERRORLEVEL in a batch script use the <a href="exit.html">EXIT /B </a> command. </p>
+<p>It is possible (though not a good idea) to create a string variable called %ERRORLEVEL% (user variable)<br>
+if present such a variable will prevent the real ERRORLEVEL (a system variable) from being used by commands such as ECHO and IF.
+</p>
+</blockquote>
+<h2><a id="exist"></a>Test if a variable is empty</h2>
+<blockquote>
+<p>To test for the existence of a <a href="syntax-args.html">command line parameter</a> - use empty brackets like this<br>
+<span class="code"><br>IF [%1]==[] ECHO Value Missing</span><br>
+or<br>
+<span class="code">IF [%1] EQU [] ECHO Value Missing </span><br>
+<br>
+In the case of a variable that might be NULL - a null variable will remove the variable definition altogether, so testing for a NULL becomes:<br>
+<br>
+<span class="code">IF NOT DEFINED <i>_example</i> ECHO Value Missing</span><br>
+<br>
+IF DEFINED will return true if the variable contains any value (even if the value is just a space)
+</p>
+<p>To test for the existence of a user variable use <span class="code"><a href="set.html">SET</a> <i>VariableName</i></span>, or<span class="code"> IF DEFINED <i>VariableName</i></span></p>
+</blockquote>
+<h2>Test the existence of files and folders </h2>
+<blockquote>
+<p><span class="code">IF EXIST <i>filename</i></span> &nbsp;&nbsp;Will detect the existence of a file or a folder.</p>
+<p>The script <a href="empty.html">empty.cmd</a> will show if the folder is empty or not (this is not case sensitive).</p>
+</blockquote>
+<h2>  Parenthesis</h2>
+<blockquote>
+<p>  <a href="syntax-brackets.html">Parenthesis</a> can be used to split commands  across multiple lines. This enables  writing more complex IF&hellip; ELSE&hellip;  commands:</p>
+<pre>IF EXIST filename.txt <b>(</b>
+    Echo deleting filename.txt
+    Del filename.txt
+ <b>)</b> ELSE <b>( </b>
+    Echo The file was not found.
+ <b>)</b></pre>
+<p>When using parenthesis the CMD shell will expand [read] all the <a href="syntax-variables.html">variables</a> at the beginning of the code block and use those values even if the variables value has just been changed. Turning on <a href="delayedexpansion.html">DelayedExpansion</a> will force the shell to read variables at the start of every line.</p>
+</blockquote>
+<h2>Pipes</h2>
+<blockquote>
+<p>When <a href="syntax-redirection.html">piping</a> commands, the expression is evaluated from left to right, so </p>
+<p><span class="code"> IF <i>SomeCondition</i> <i>Command1 | Command2</i></span>is equivalent to:</p>
+<p><span class="code">(IF <i>SomeCondition</i> <i>Command1 </i>) | <i>Command2</i></span><br>
+The pipe is always created and <i class="code">Command2</i> is always run, regardless whether <i class="code">SomeCondition</i> is TRUE or FALSE</p>
+<p>You can  use brackets and <a href="syntax-redirection.html">conditionals</a> around the <i>command</i> with this syntax:</p>
+<p><span class="code">IF <i>SomeCondition</i> (<i>Command1</i> | <i>Command2</i>)</span><br>
+If the condition is met then Command1 will run, and its output will be piped to Command2.
+</p>
+<p>The IF command will interpret brackets around a <i><b>condition</b></i> as just another character to compare (like # or @) for example:<br>
+<span class="code">IF <b>(</b>%_var1%==<b>(</b>demo Echo the variable _var1 contains the text demo</span></p>
+<p>Placing an IF command on the right hand side of a pipe is also possible but the CMD shell <a href="https://stackoverflow.com/questions/36763782/why-does-the-error-message-appear-when-if-comparison-is-in-the-piped-block-com">is buggy in this area</a> and can swallow one of the delimiter characters causing unexpected results.<br>
+A simple example that does work:</p>
+<p class="code">Echo Y | IF red==blue del *.log</p>
+</blockquote>
+<h2>Chaining IF  commands (AND).</h2>
+<blockquote>
+<p>The only logical operator directly supported by <span class="code">IF</span> is <span class="code">NOT</span>, so to perform an <span class="code">AND</span> requires chaining multiple IF statements: </p>
+<pre>IF <i>SomeCondition</i> (
+   IF <i>SomeOtherCondition</i> (
+     <i>Command_if_both_are_true</i>
+   )
+)</pre>
+</blockquote>
+<h2>If either condition is true (OR)</h2>
+<blockquote>
+<p>This can be tested  using a temporary variable:</p>
+<p class="code">Set &quot;_tempvar=&quot;<br>
+If <i>SomeCondition</i> Set _tempvar=1<br>
+If <i>SomeOtherCondition</i> Set _tempvar=1<br>
+if %_tempvar% EQU 1 <i>Command_to_run_if_either_is_true</i></p>
+</blockquote>
+<h2>Delimiters</h2>
+<blockquote>
+<p>If the string being compared by an IF command includes <a href="syntax-esc.html">delimiters</a> such as [Space] or [Comma], then either the delimiters must be escaped with a caret ^ or the whole string must be &quot;quoted&quot;.<br>
+This is so that the IF statement will treat the string as a single item and not as several separate strings.</p>
+</blockquote>
+<h2>Test Numeric values </h2>
+<blockquote>
+<p>IF only parses <i>numbers</i> when one of the <span class="code">compare-op </span>operators (<span class="code">EQU, NEQ, LSS, LEQ, GTR, GEQ</span>) is used. <br>
+The <span class="code">==</span> comparison operator always results in a <i>string</i> comparison.
+</p>
+<p>This is an important difference because if you  compare numbers as  strings it can lead to unexpected results: &quot;2&quot; will be greater than &quot;19&quot; and &quot;026&quot; will be greater than &quot;26&quot;.
+</p>
+<p>Correct numeric comparison:<br>
+  <span class="code">IF 2 GEQ 15 echo &quot;bigger&quot; </span>
+</p>
+<p>Using parenthesis or quotes will force a string comparison:<br>
+  <span class="code">IF (2) GEQ (15) echo &quot;bigger&quot;</span><br>
+  <span class="code">IF &quot;2&quot; GEQ &quot;15&quot; echo &quot;bigger&quot;</span><br>
+</p>
+<p>This behaviour is exactly opposite to the <a href="set.html">SET</a> /a command where quotes are required.
+</p>
+</blockquote>
+<h2>Wildcards</h2>
+<blockquote>
+<p>Wildcards are not supported by IF, so <span class="code">%COMPUTERNAME%==SS6*</span> will not match SS64 <br><br>
+A workaround is to  retrieve the substring and compare just those characters: <br>
+<span class="code">SET _prefix=%COMPUTERNAME:~0,3% 
+<br>
+IF  %_prefix%==SS6 GOTO they_matched</span></p>
+</blockquote>
+<p>If <a href="cmd.html">Command Extensions</a> are disabled IF will only support  direct comparisons: IF ==, IF EXIST, IF ERRORLEVEL <br>
+also the system variable <span class="code">CMDEXTVERSION</span> will be disabled.</p>
+<p><b>Examples:</b></p>
+<pre>
+IF EXIST C:\logs\*.log (Echo Log file exists)
+
+IF EXIST C:\logs\install.log (Echo Complete) ELSE (Echo failed)
+
+IF DEFINED _department ECHO Got the _department variable
+
+IF DEFINED _commission SET /A _salary=%_salary% + %_commission% 
+
+IF CMDEXTVERSION 1 GOTO start_process
+
+IF %ERRORLEVEL% EQU 2 goto sub_problem2</pre>
+<p>IF is an <a href="syntax-internal.html">internal</a> command.</p>
+<p class="quote"><i>You see things; and you say 'Why?' But I dream things that never were; and I say 'why not?' ~ George  Bernard Shaw </i></p>
+<p> <b>Related:</b><br>
+</p>
+<p><a href="syntax-brackets.html">Using parenthesis </a>to group and expand expressions.<br>
+<a href="syntax-conditional.html">Conditional execution</a> syntax (AND / OR)<br>
+<a href="set.html">SET</a> - Display or Edit  environment variables<br>
+<a href="echo.html">ECHO</a> - Display message on screen<br>
+<a href="exit.html">EXIT</a> - Set a specific ERRORLEVEL<br>
+<a href="ifmember.html">IFMEMBER</a> - group member (Resource kit)<br>
+<a href="sc.html">SC</a> - Is a Service running (Resource kit)<br>
+Powershell: <a href="../ps/if.html">if</a> - Conditionally perform a command<br>
+Equivalent bash command (Linux): 
+<a href="../bash/if.html">if</a> - Conditionally perform a command</p><!-- #BeginLibraryItem "/Library/foot_nt.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- windows300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="7649547908"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="if.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

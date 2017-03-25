@@ -1,0 +1,87 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Create Tablespace | Oracle | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_ora.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../ora.1.html">Oracle</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>CREATE TABLESPACE</h1> 
+<p>Create a permanent tablespace.<br>
+  <br>
+  Syntax:</p>
+<pre>   CREATE [UNDO] TABLESPACE tablespace_name
+      DATAFILE <i>Datafile_Options Storage_Options</i>;
+
+<i>Datafile_Options:</i>
+
+    '<a href="clause_filespec.html">filespec</a>' [AUTOEXTEND OFF]
+    '<a href="clause_filespec.html">filespec</a>' [AUTOEXTEND ON [NEXT <i>int</i> K | M] [MAXSIZE <i>int</i> K | M]]</pre>
+<p>The Autoextend Maxsize clause will default to UNLIMITED if no value is specified.</p>
+<pre><i>Storage_Options:
+
+</i>    DEFAULT [COMPRESS|NOCOMPRESS] STORAGE <a href="clause_storage.html">storage_clause</a>
+    MINIMUM EXTENT <i>int</i> {K|M}
+    BLOCKSIZE <i>int</i> K
+    LOGGING | NOLOGGING
+    FORCE LOGGING
+    <u>ONLINE</u> | OFFLINE
+    <u>PERMANENT</u> | TEMPORARY
+    EXTENT MANAGEMENT {DICTIONARY |
+       LOCAL {AUTOALLOCATE | UNIFORM [SIZE <i>int</i> K | M]} }
+    SEGMENT SPACE MANAGEMENT {MANUAL | AUTO}
+</pre>
+<p><b>Examples</b></p>
+<p>-- With Autoextend: </p>
+<p class="code">CREATE TABLESPACE ts_mydemo DATAFILE<br>
+'/data/ts_mydemo01.dbf' SIZE 50M,<br>
+'/data/ts_mydemo02.dbf' SIZE 64M<br>
+logging<br>
+
+autoextend on<br>
+next 32m maxsize 2048m<br>
+extent management local;</p>
+<p>-- With specified datafile sizes:</p>
+<p class="code">CREATE TABLESPACE ts_myapp DATAFILE<br>
+'/data/ts_myapp01.dbf' SIZE 200M,<br>
+'/data/ts_myapp02.dbf' SIZE 500M<br>
+logging<br>
+autoextend off<br>
+
+extent management local;</p>
+<p>-- Undo tablespace</p>
+<p class="code">CREATE UNDO TABLESPACE ts_undo01 DATAFILE<br>
+'/data/ts_undo01.dbf SIZE 50000M REUSE<br> 
+autoextend on<br>
+RETENTION NOGUARANTEE;</p>
+<p>Retention guarantee can also be enabled for UNDO tablespaces with the option <span class="code">RETENTION GUARANTEE</span>, this  should be used with caution - it can easily cause updates to fail due to a lack of space in the undo tablespace.</p>
+<p><i class="quote">&quot;A place for everything and everything in its place&quot; ~ Isabella 
+  Mary Beeton, The Book of Household Management</i><br>
+  <br>
+<b> Related Commands:</b></p>
+<p><a href="tablespace_a.html">ALTER TABLESPACE</a> <br>
+<a href="temp_tspace_c.html">CREATE TEMPORARY TABLESPACE</a><br>
+  <a href="tablespace_d.html">DROP TABLESPACE</a> <br>
+  <br>
+<b>Related Views:</b></p>
+<pre> <a href="../orad/DBA_DATA_FILES.html">DBA_DATA_FILES</a> 
+ <a href="../orad/DBA_TABLESPACES.html">DBA_TABLESPACES</a>                           <a href="../orad/USER_TABLESPACES.html">USER_TABLESPACES</a>
+ <a href="../orad/DBA_TEMP_FILES.html">DBA_TEMP_FILES</a> 
+ <a href="../orad/DBA_TS_QUOTAS.html">DBA_TS_QUOTAS</a>                             <a href="../orad/USER_TS_QUOTAS.html">USER_TS_QUOTAS</a>       </pre><!-- #BeginLibraryItem "/Library/foot_ora.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- oracle-footer -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4275490898"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="tablespace_c.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

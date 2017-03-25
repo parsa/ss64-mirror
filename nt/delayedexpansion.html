@@ -1,0 +1,148 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>EnableDelayedExpansion | Windows CMD | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_nt.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../nt.1.html">CMD</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/nt/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>EnableDelayedExpansion</h1> 
+<p> Delayed Expansion will cause   variables within a batch file to be expanded at execution time rather than at parse time, this option is turned on with the <span class="code"><a href="setlocal.html">SETLOCAL</a> EnableDelayedExpansion</span> command. </p>
+<p>When delayed expansion is in effect variables can be referenced using <span class="code">!variable_name!</span> (in addition to the normal <span class="code">%variable_name%</span> ) </p>
+<p>When a batch file is executed, the command processor (<a href="cmd.html">CMD.exe</a>) will parse complete lines and complete <a href="syntax-redirection.html">compound commands</a>. Variables are replaced by their values just once, BEFORE the commands of the line are executed. </p>
+<p><b>Example:</b></p>
+<p><span class="code">@echo off<br>
+SETLOCAL<br>
+Set &quot;_var=first&quot;<br>
+Set &quot;_var=second&quot;<b> &amp; Echo %_var%</b></span><span class="code"><br>
+</span><br>
+This will  output:<span class="code"> first
+</span><br>
+The value of %_var% was read into memory BEFORE the Set command which changes it.<span class="code"></span></p>
+<p>Now repeating this with Delayed Expansion:</p>
+<p><span class="code">@echo off<br>
+SETLOCAL <b>EnableDelayedExpansion</b><br>
+Set &quot;_var=first&quot;<br>
+Set &quot;_var=second&quot; <b>&amp; Echo %_var% !_var!</b></span></p>
+<p>This will  output:<span class="code"> </span> <span class="code">first second</span>  <br>
+T
+he value of the <span class="code">!_var!</span> variable is evaluated  as late as possible while the <span class="code">%_var%</span>  variable works just as before.<span class="code"></span></p>
+<p>There are some advantages - we can  swap the value of two variables in one line:</p>
+<p class="code">Set &quot;var1=%var2%&quot; &amp; set &quot;var2=%var1%&quot;</p>
+<h2>Why  this behaviour? </h2>
+<blockquote>
+<p>The SET command was first introduced with MS-DOS 2.0 in March 1983, at that time memory and CPU were very limited and the expansion of  variables once per line was enough.<br>
+Delayed  Expansion was introduced some 16 years later in 1999 by which time millions of batch files had been written using the earlier syntax. Retaining immediate expansion as the default preserved backwards compatibility with existing batch files.</p>
+<p>This is not how anyone would design a language if starting from scratch, indeed PowerShell behaves like this:</p>
+<p class="code">PS C:\&gt; $demo = &quot;First&quot;<br>
+PS C:\&gt; $demo = &quot;Second&quot; ; echo $demo<br>
+Second
+</p>
+</blockquote>
+<h2>Other effects - Punctuation<br>
+</h2>
+<blockquote>
+<p>Because DelayedExpansion expands variables later, that means that any <a href="syntax-esc.html">escape characters</a> (^) and <a href="syntax-redirection.html">redirection characters</a> in your expressions will be evaluated before the variable expansion and this can be very useful:</p>
+<pre>@echo off
+Setlocal
+Set _html=Hello^&gt;World
+Echo %_html%</pre>
+<p> In the above, the Echo command will create a text file called 'world' - not quite what we wanted! This is because the variable is expanded at parse time, so the last line is executing <span class="code">Echo Hello &gt; World</span> and the &gt; character is interpreted as a redirection operator.</p>
+<p>If we now try the same thing with <span class="code">EnableDelayedExpansion</span>:</p>
+<p><span class="code">Setlocal EnableDelayedExpansion<br>
+Set _html=Hello^&gt;World<br>
+Echo !_html!</span></p>
+<p>With delayed expansion, the  variable (including the <span class="code">&gt;</span> ) is only expanded at execution time so the <span class="code">&gt;</span> character is never interpreted as a redirection operator.
+<br>
+This makes it possible to work with HTML and XML formatted strings in a variable.</p>
+<p>When delayed expansion is enabled AND at least one exclamation mark in a line is present, then any carets will be interpreted as an escape and so will disappear from the output:</p>
+<p><span class="code">Setlocal EnableDelayedExpansion<br>
+Echo &quot;Hello^World&quot;</span><br>
+<span class="code">Echo &quot;Hello^World<b>!</b>&quot;</span></p>
+<p> The above will output:</p>
+<p><span class="code">&quot;Hello^World&quot;<br>
+&quot;HelloWorld&quot;</span><br>
+</p>
+<p>Even if you double the carets ^^, which normally would act as an escape, or add an escape just before the exclamation mark, the presence of an exclamation mark anywhere in the line will still have this effect.</p></blockquote><h2>FOR Loops</h2>
+<blockquote>
+<p>Delayed  variable expansion is often useful when working with FOR Loops, normally an entire FOR loop is evaluated as a single command even if it spans multiple lines of a batch script.<br>
+This is the default behaviour of a FOR loop:</p>
+<pre>@echo off
+setlocal
+:: count to 5 storing the results in a variable
+set _tst=0
+FOR /l %%G in (1,1,5) Do (echo [<b>%_tst%</b>] &amp; set /a _tst+=1)
+echo Total = %_tst%
+
+C:\&gt; demo_batch.cmd
+[0]
+[0]
+[0]
+[0]
+[0]
+Total = 5</pre>
+<p>Notice that  when the FOR loop finishes we get the correct total, so the variable correctly increments,  but during each iteration of the loop the variable is stuck at it's initial value of 0 </p>
+<p>The same script with <b>EnableDelayedExpansion</b>, gives the same final result but also displays the intermediate values:</p>
+<pre>@echo off
+setlocal EnableDelayedExpansion 
+:: count to 5 storing the results in a variable
+set _tst=0
+FOR /l %%G in (1,1,5) Do (echo [<b>!_tst!</b>] &amp; set /a _tst+=1)
+echo Total = %_tst%
+
+C:\&gt; demo_batch.cmd
+[0]
+[1]
+[2]
+[3]
+[4]
+Total = 5</pre>
+<p>Notice that within the for loop we use <span class="code">!variable!</span> instead of <span class="code">%variable%.</span></p>
+<p>A one line example - Setting and then Echoing the same variable within a FOR command:</p>
+<p><span class="code">Setlocal EnableDelayedExpansion <br>
+  for /f %%G in ("abc") do ( set _demo=%%G &amp; echo !_demo!) </span><br>
+</p>
+<p>Example of <a href="syntax-replace.html">replacing</a> a variable name using  values from  another variable:</p>
+<pre>@echo off
+setlocal EnableDelayedExpansion
+Set var1=Hello ABC how are you
+Set var2=ABC
+Set result=!var1:%var2%=Beautiful!
+Echo [!result!]</pre>
+<p>An alternative method for replacing a variable named with the content of another is <a href="call.html#advanced">CALL SET</a></p>
+</blockquote>
+<h2>Some unexpected behaviours when using delayed variable expansion</h2>
+<blockquote>
+<p>If <i>DelayedExpansion</i> is used in conjunction with a FOR command looping through a set of files, if any file in the set has an  exclamation mark '!' in the <a href="syntax-filenames.html">filename</a>, that will be interpreted like a <span class="code">!variable!</span>. <br>
+Although this is not a common character used in filenames, it can cause scripts to fail. This happens because the parameter expansion (%%P) happens just before the delayed expansion phase tries to interpret <span class="code">my!filen!ame.txt</span></p>
+<p>When <i>DelayedExpansion</i> is used inside a <i>code block</i> (one or several commands grouped between parentheses) whose output is <a href="syntax-redirection.html"><i>Piped</i></a>, the <a href="http://stackoverflow.com/questions/8192318/why-does-delayed-expansion-fail-when-inside-a-piped-block-of-code">variable expansion will be skipped</a>. <br>
+When you use a pipe, both parts of the pipe will be executed in a new cmd.exe instance and these instances are started by default with disabled delayed expansion.</p>
+</blockquote>
+<p><i>EnableDelayedExpansion</i> is Disabled by default.<br>
+<i>EnableDelayedExpansion</i> can also be enabled by starting <a href="cmd.html">CMD</a> with the<span class="code"> /v </span>switch.</p>
+<p><i>EnableDelayedExpansion</i> can also be set in the registry under HKLM or HKCU:</p>
+<p><span class="code">[HKEY_CURRENT_USER\Software\Microsoft\Command Processor]<br>
+</span><span class="code">&quot;DelayedExpansion&quot;= </span>(REG_DWORD)<br> 
+<span class="code">1</span>=enabled <span class="code">0</span>=disabled (default)</p>
+<p class="quote"><i>“At times it is folly to hasten at other times, to delay. The wise do everything in its proper time” - Ovid</i></p>
+<p> <b>Related:</b></p>
+<p><a href="https://ss64.org/viewtopic.php?id=985">Forum discussion</a> - EnableDelayedExpansion (many thanks to Jeb and Aacini for clarifying quite a few points)<br>
+<a href="https://blogs.msdn.com/b/oldnewthing/archive/2006/08/23/714650.aspx">OldNewThing</a> - Longer explanation of EnableDelayedExpansion<br>
+<a href="setlocal.html">SETLOCAL</a> - Start localisation of environment changes in a batch file.</p><!-- #BeginLibraryItem "/Library/foot_nt.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- windows300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="7649547908"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="delayedexpansion.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

@@ -1,0 +1,231 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>OFA Optimal Flexibile Architecture - Oracle | Oracle | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_orasyntax.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../ora.1.html">Oracle</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>OFA: Optimal Flexibile Architecture</h1>
+<p>This page includes a summary of OFA with examples.</p>
+<blockquote>
+  <p><b>What is OFA<br>
+    </b>The OFA standard is a series of recommendations for naming files and folders when installing and implementing an Oracle database. <br>
+    The official OFA advice can be found in the manuals at <a href="http://docs.oracle.com/">docs.oracle.com</a> (<i>Installing Oracle</i>)</p>
+  <p>The OFA standard is designed to organize large amounts of complex software and data  on disk, simplify administration tasks, maximise performance and assist switching
+  between Oracle databases. </p>
+  <p><b>Benefits</b><br>
+    The file system of an OFA-Compliant Database is organized to enable easy administration for issues such as adding hardware, creating databases and adding items to
+  an existing database.</p>
+  <p>Other benefits are that I/O loads are distributed across enough disk drives to prevent performance bottlenecks. Home directories can be distributed across more than one disk drive: You can add, move, or delete login home directories without having to revise programs that refer to them.</p>
+  <p><b>Consistent File Naming</b><br>
+    Files are named such that Control files, redo log files, and datafiles are identifiable as such.<br>
+    Files of one database are easily distinguishable from files of another database.<br>
+  The association of datafile to tablespace is clearly indicated.</p>
+  <p>Categories of files are separated into independent UNIX directory subtrees so that files in one category are minimally affected by operations on files in other categories.</p>
+  <p>You can execute multiple versions of application software simultaneously.
+    This simplifies the process of switching an instance to an upgraded version of oracle.</p>
+  <p>OFA separates the administrative information for each database. <br>
+    Tablespace contents are also separated to minimize free space fragmentation and I/O request contention.</p>
+  <p>OFA under Windows?<br>
+    The basic principles behind OFA were written with UNIX in mind, some but not all, of these principles can be applied to a windows installation. Arguably OFA is less important under Windows because few organisations will actually take the risk of installing multiple versions of Oracle along with multiple database instances on a single Wintel Box.</p>
+</blockquote>
+<p><b>1) Mount Points </b><br>
+  Naming strategy as recommended by the OFA standard implemented on UNIX.</p>
+<blockquote>
+  <p>An Oracle installation requires at least <b>two</b> mount points: one for the software and at least one for the database files. To implement OFA fully, requires at least <b>four</b> mount points: one for the software and at least three for database files.</p>
+<p><b>Mount Point Syntax</b><br>
+<br>
+    <span class="code">/pm</span><br>
+    where <i>p</i> is a string constant <br>
+    <i>m</i> is a unique fixed-length key (a two-digit number) used to distinguish each  mount point. <br>
+    For example: <br>
+  /u01 and /u02,
+    or <br>
+/disk01 and /disk02.</p>
+  <p>  Mount Points for Very Large Databases (VLDBs)<br>
+    If each disk drive contains database files for one application only,
+      use the syntax<br>
+    <span class="code">/pm/q/dm </span><br>
+    where<br>
+    <i>pm</i> A mount point name<br>
+    <i>q</i> A string denoting that Oracle data is stored in this directory<br>
+    <i>dm</i> The value of the initialization parameter DB_NAME (synonymous with the instance sid for single-instance databases)</p>
+  <p>For example, mount points named <br>
+  /u01/oradata/test and<br>
+    /u02/oradata/test allocate two drives for the Oracle <i>test</i> database.</p>
+  <p>Multiple drives for the same database help to prevent I/O bottlenecks.</p>
+</blockquote>
+<p><b>2) Directories</b><br>
+  This section describes the OFA naming convention for directories.</p>
+<blockquote>
+  <p><b>Software Directories</b><br>
+    To support the  execution of multiple <b>versions</b> of Oracle at the same time, store each version of the Oracle Server software in a directory matching the pattern: <br>
+  <span class="code">/ MountPoint/ StdDirectoryName/ OwnerOfDirectory/ product/ version</span></p>
+  <blockquote>
+    <p>e.g. <br>
+      /u01/app/oracle/product/9.2.0.1.0<br>
+    C:\oracle\product\ora911\</p>
+    <p>Set the environment variable to match:<br>
+      ORACLE_HOME=/u01/app/oracle/product/9.2.0.1.0</p>
+  </blockquote>
+  <p>For Oracle 10g, the OFA recommended path is extended to:<br>
+    <span class="code">/ MountPoint/ StdDirectoryName/ OwnerOfDirectory/ product/ version/
+    type[_n]</span><br>
+    Where <i>type</i> is the type of Oracle home, e.g. Database (db) or Client (client), and <i>n</i> is an optional counter.<br>
+    e.g. <br>
+    <span class="code">/u01/app/oracle/product/10.1.0/type[_n]</span><br>
+    This extended syntax allows you to install different products with the same release number in the same<br>
+  base directory, or install the same product version more than once.</p>
+  <p>Note: Under Windows, Multiple Oracle Homes are only available starting with  Oracle 8.0.4<br>
+    Before installing mutiple versions on a windows box read the metalink advice:<br>
+  Doc ID: Note:73963.1 Subject: WIN: Using multiple ORACLE HOMES on Windows platform </p>
+  <p><b>Data directories</b></p>
+  <p>Store data files in directories separate from the software.<br>
+    In subdirectories matching the pattern <br>
+    <span class="code">/MountPoint/oradata/ sid/ </span></p>
+  <blockquote>
+    <p>e.g.<br>
+      <span class="code">/u02/oradata/fas/<br>
+    D:\oradata\fas\</span></p>
+  </blockquote>
+  <p>Scroll down for details of the data filenames.</p>
+  <p><b>Admin files</b><br>
+    Store administration files in directories separate from the software and data.<br>
+  This keeps all the files that DBA's need to tinker with in one place.</p>
+  <p>Subdirectories match the pattern <b><br>
+  /oracle/admin/<i>DB_Name</i>/TypeOfAdminFile/</b></p>
+  <p>e.g. The adhoc subdirectory for the database named fas.</p>
+  <blockquote>
+    <p>/u01/app/oracle/admin/fas/adhoc/ <br>
+    E:\oracle\admin\fas\adhoc\</p>
+  </blockquote>
+  <p>The admin subfolders will normally include: SQL scripts, Archive Logs, audit
+      and trace files, export dump files, creation sql scripts, log files and init.ora
+      parameter files.<br>
+    (sub folders: adhoc, arch, adump, bdump, cdump, create, exp, logbook, pfile,
+    udump.)</p>
+  <p>Initialization file (init.ora) parameters need to be set to match these locations.</p>
+  <p><b>Home Directory Syntax</b><br>
+    Name UNIX home directories using the syntax <br>
+    <span class="code">/MountPoint /StdDirectoryName/OwnerOfDirectory</span></p>
+  <p>e.g.<br>
+    <span class="code">/u01/app/oracle </span><br>
+    The Oracle software owner home directory (Oracle base directory, default used
+  by the installer) </p>
+  <p><span class="code">/u01/app/applmgr</span> is an Oracle applications software owner home directory.</p>
+  <p>Placing home directories at the same level in the UNIX file system is advantageous
+      because it allows the collection of applications owner login home directories
+      on different mount points to be referred to using the single pattern matching
+    string, /*/app/*.</p>
+  <p>Refer to explicit pathnames only in files designed specifically to store them,
+    such as the password file, /etc/passwd, and the Oracle oratab file. </p>
+  <p>Refer to group memberships only in the /etc/group file.</p>
+</blockquote>
+<p><b>3) Database Files</b><br>
+  The following naming convention for database files ensures that they are
+        easily<br>
+  identifiable:</p>
+<blockquote>
+  <blockquote>
+    <p>Control files <b><br>
+      </b><span class="code">/MountPoint/ oradata/ sid/ control.ctl</span><b><br>
+      </b>There must be at least 2 control files, each on a different device.<b><br>
+      </b><span class="code">/u01/oradata/fas/control.dbf<br>
+      /u02/oradata/fas/control.dbf<br>
+      D:\oradata\fas\control.dbf<br>
+      E:\oradata\fas\control.dbf</span></p>
+    <p>Redo log files <b><br>
+      </b><span class="code">/MountPoint/ oradata/ sid/ redonn.log<br>
+      /u02/oradata/fas/redo01.dbf<br>
+    D:\oradata\fas\redo01.dbf</span></p>
+    <p>Datafiles <b><br>
+      </b><span class="code">/pm/q/d/tn.dbf<br>
+      /MountPoint/oradata/ sid / TblSpacenn.dbf<br>
+      /u02/oradata/fas/system01.dbf<br>
+    D:\oradata\fas\system01.dbf</span></p>
+  </blockquote>
+  <p>Note: Do not store files other than control files, redo log files, or datafiles
+    under the oradata path.</p>
+  <p><b>Separate Tablespaces </b><br>
+    Create Separate Tablespaces for segments with different lifespans, I/O request
+  demands, or backup frequencies.</p>
+  <p>As a minimum each database will require Rollback segments (RBS), Data dictionary
+        (SYSTEM) and Temporary segments (TEMP). Additional tablespaces can be created
+    as required.</p>
+  <p>As an example the additional Tablespaces created by the Database Configuration
+        Assistant.<br>
+    CWMLITE - OLAP catalog metadata repository (CWMLite)<br>
+    DEMO - Demo schema<br>
+    DRSYS - Oracle Text segment<br>
+    INDX - Index associated with data in the USERS tablespace<br>
+    OEM_REPOSITORY - Repository for Oracle Enterprise Manager<br>
+    USERS - Miscellaneous user segments<br>
+    XDB - Data that is stored in the Oracle XML DB repository.</p>
+  <p>Data dictionary segments are never dropped, and no other segments that can
+        be dropped are allowed in the SYSTEM tablespace. <br>
+    Rollback segments should not be stored in tablespaces holding application data.</p>
+  <p><b>Naming Tablespaces</b><br>
+    Tablespace names can be a maximum of 30 characters long.<br>
+    Tablespace filenames can be a maximum of 10 characters long (plus a 3 digit
+  extension).</p>
+  <p>Portable UNIX filenames are restricted to 14 characters. <br>
+    (Windows filenames under NTFS are no longer restricted to 8.3 characters, but
+      there are performance benefits from shorter names and directory paths.)</p>
+  <p>Name datafiles as <b>tn.dbf</b><br>
+  where t is a short description and n is a two-digit string. </p>
+  <p>e.g. <br>
+    The tablespace GENERAL_LEDGER might have the data file GLD01.dbf (for data)
+          and GLX01.dbf (for indexes) The description of GL helps to associate the
+      datafile with the tablespace. </p>
+  <p>Note: Do not embed reminders of the word &quot;tablespace&quot; in tablespace
+    names. This should be distinguishable by context, i.e where they are stored.</p>
+  <p>Portable filename character set - The set of characters from which portable
+    filenames are constructed: ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789._-</p>
+</blockquote>
+<p>Directory Structure</p>
+<pre>/u01… /u99     User data directories
+/*/home/*        User home directories
+/*/app/*         User application software directories
+/*/app/applmgr   Oracle applications software subtrees
+
+
+/*/app/oracle/product              Oracle software subtrees
+/*/app/oracle/product/9.2.0.1.0    Oracle Server distribution files
+/*/app/oracle/admin/fas fas        database administrative subtrees
+/*/app/oracle/admin/fas/arch/*     fas database archived log files
+
+
+/*/oradata                         Oracle data directories
+/*/oradata/fas/*                   fas database files
+/*/oradata/fas/*.log               fas database redo log files
+</pre>
+<p><b>Key Filename Extensions</b></p>
+<pre> .ctl  SQL*Loader control file; Oracle Server control file
+ .dat  SQL*Loader datafile
+ .dbf  Tablespace data file
+ .dmp  Export file
+ .log  Installation log files; Oracle Server redo log file
+ .ora  Oracle configuration file (initN.ora)
+ .sql  SQL script file
+ .tab  SQL script file
+ .trc  Trace file</pre>
+<p>  <b>See also:</b></p>
+<p><a href="syntax-naming.html">Oracle naming conventions</a></p><!-- #BeginLibraryItem "/Library/foot_ora.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- oracle-footer -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4275490898"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="syntax-ofa.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

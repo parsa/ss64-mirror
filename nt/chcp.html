@@ -1,0 +1,127 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<link rel="STYLESHEET" href="../tables.css" type="text/css">
+<title>Chcp - Change Code Page | Windows CMD | SS64.com</title>
+</head>
+<body><!-- #BeginLibraryItem "/Library/head_nt.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../nt.1.html">CMD</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/nt/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>CHCP.com </h1> 
+<p>Change the active console <a href="https://en.wikipedia.org/wiki/Code_page">Code Page</a>. The default code page is determined by the Windows <a href="../locale.html">Locale</a>.
+<pre>Syntax
+      CHCP <i>code_page</i>
+
+Key
+   <i>code_page</i>  A code page number (e.g. 437)  </pre>
+<p>This command is  rarely required as most GUI programs and PowerShell now support Unicode. When working with characters outside the <a href="../ascii.html">ASCII</a> range of 0-127, the choice of code page will determine the set of characters displayed.</p>
+<p>Programs that you start after you assign a new code page will use the new  code page, however, programs (except Cmd.exe) that you started before  assigning the new code page will use the original code page. </p>
+<table>
+  <tbody>
+    <tr>
+      <th colspan="1">Code page </th>
+      <th colspan="1"> Country/ Region/ Language </th>
+    </tr>
+    <tr>
+      <td colspan="1">437</td>
+      <td colspan="1">United States</td>
+    </tr>
+    <tr>
+      <td colspan="1">850</td>
+      <td colspan="1">Multilingual (Latin I)</td>
+    </tr>
+    <tr>
+      <td colspan="1">852</td>
+      <td colspan="1">Slavic (Latin II)</td>
+    </tr>
+    <tr>
+      <td colspan="1">855</td>
+      <td colspan="1">Cyrillic (Russian)</td>
+    </tr>
+    <tr>
+      <td colspan="1">857</td>
+      <td colspan="1">Turkish</td>
+    </tr>
+    <tr>
+      <td colspan="1">860</td>
+      <td colspan="1">Portuguese</td>
+    </tr>
+    <tr>
+      <td colspan="1">861</td>
+      <td colspan="1">Icelandic</td>
+    </tr>
+    <tr>
+      <td colspan="1">863</td>
+      <td colspan="1">Canadian-French</td>
+    </tr>
+    <tr>
+      <td colspan="1">865</td>
+      <td colspan="1">Nordic</td>
+    </tr>
+    <tr>
+      <td colspan="1">866</td>
+      <td colspan="1">Russian</td>
+    </tr>
+    <tr>
+      <td colspan="1">869</td>
+      <td colspan="1">Modern Greek</td>
+    </tr>
+    <tr>
+      <td colspan="1">1252</td>
+      <td colspan="1">West European Latin</td>
+    </tr>
+<tr>
+<td colspan="1">65000  </td>
+<td colspan="1">UTF-7 *</td>
+</tr>
+<tr>
+<td colspan="1">65001  </td>
+<td colspan="1">UTF-8 *</td>
+</tr>
+  </tbody>
+</table>
+<p>* The 65000/1 code pages are encoded as UTF-7/8 to allow to working with unicode data in 7-bit and 8-bit environments, however </p>
+<p>Even if you use CHCP to run the Windows Console in a unicode code page, many applications will assume that the default still applies, e.g. Java requires the-Dfile option: <a href="http://horstmann.com/unblog/2016-05-06/index.html" class="code">java -Dfile.encoding=UTF-8</a></p>
+<p>Unicode characters will only display if the current console font contains the characters. So use a <a href="../fonts.html">TrueType font</a> like Lucida Console instead of the CMD default Raster Font.</p>
+<h2> The CMD Shell (which runs inside the Windows Console) </h2>
+<blockquote>
+<p><a href="cmd.html">CMD.exe</a> only supports two character encodings Ascii and Unicode (CMD /A and CMD /U)</p>
+<p> If you need full unicode support use <a href="../ps.1.html">PowerShell</a>. There is still <a href="https://stackoverflow.com/questions/1259084/what-encoding-code-page-is-cmd-exe-using">VERY limited support</a> for unicode in the CMD shell, piping, redirection and most commands are still ANSI only. The only commands that work are DIR, FOR /F and <a href="type.html">TYPE</a>, this allows reading and writing (UTF-16LE  / BOM) files and filenames but not much else.</p>
+</blockquote>
+<h2>Defaults</h2>
+<blockquote>
+<p>The default code page in the USA is <span class="code">437</span>, the default in most of Europe is <span class="code">850</span>. The number of supported code pages was greatly increased in Windows 7. For a full list of code pages supported on your machine, run <span class="code">NLSINFO</span> (Resource Kit Tools)</p>
+<p>Files saved in Windows Notepad will be in <a href="../ascii.html">ANSI format</a> by default, but can also be saved as Unicode UTF-16LE or UTF -8 and for unicode files, will include a BOM. <br>
+A BOM will make a batch file not executable on Windows, so batch files must be saved as ANSI, not Unicode.</p>
+</blockquote>
+<p><b>Examples:</b></p>
+<p>View the current code page:<br>
+<span class="code">chcp</span></p>
+<p>Change the code page to Unicode/65001:<br>
+<span class="code">chcp 65001</span></p>
+<p><i class="quote">&ldquo;Remember that there is no code faster than no code&rdquo; ~ Taligent's Guide to Designing Programs </i><br>
+<br>
+<b>Related:</b></p>
+<p><a href="type.html">TYPE</a> - can print UTF-16LE files with a BOM regardless of the current codepage.<br>
+<a href="../locale.html">Windows Locale codes</a><br>
+<a href="http://www.joelonsoftware.com/articles/Unicode.html">What every software developer must know about Unicode and Character Sets</a> ~ Joel Spolsky<br>
+Powershell: All text input is automatically converted to <a href="../convert.html">Unicode</a> <br>
+Equivalent bash command (Linux): LANG  -  locale category environment variable &amp; LC_* variables for locale category </p><!-- #BeginLibraryItem "/Library/foot_nt.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- windows300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="7649547908"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="chcp.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

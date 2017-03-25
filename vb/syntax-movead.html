@@ -1,0 +1,113 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Move an AD object to a new Organisational Unit | VBScript | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_vbsyntax.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../vb.1.html">VBScript</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/vb/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>Move an AD object   to a new Organisational Unit.</h1> 
+<p>This script can be used to move an AD object (User,  Group, computer etc) to a different OU within Active Directory.<br>
+</p>
+<pre>Option Explicit
+' Move-object.vbs ObjectToMove TargetOU ObjectType
+'
+' Move an AD object into a specific OU
+' Search AD (from the root) to find the current location of the object.
+
+On Error Resume Next
+Dim strObject,strTargetOU,objTargetOU,objRootDSE,strDNSDomain,strTarget,objConnection,objCmd,objRecordSet
+Dim Object,strParent,objParentOU,strObjectName,strObjectDN,strObjectOU
+
+strObject =  Wscript.Arguments(0)
+strTargetOU = Wscript.Arguments(1)
+strObjectType = Wscript.Arguments(2)
+
+wscript.Echo "Move the Object " & strObject 
+'wscript.Echo & "into the OU: " & strTargetOU
+
+Set objTargetOU = GetObject("LDAP://" & strTargetOU)
+
+' Connect to the LDAP server's root object
+Set objRootDSE = GetObject("LDAP://RootDSE")
+strDNSDomain = objRootDSE.Get("defaultNamingContext")
+strTarget = "LDAP://" & strDNSDomain
+
+' Connect to AD Provider
+Set objConnection = CreateObject("ADODB.Connection")
+objConnection.Provider = "ADsDSOObject"
+objConnection.Open "Active Directory Provider"
+
+' Search command
+Set objCmd = CreateObject("ADODB.Command")
+Set objCmd.ActiveConnection = objConnection 
+
+' Query to match Object name
+objCmd.CommandText = "SELECT Name, ADsPath,distinguishedName FROM '" & strTarget & "' WHERE objectCategory = strObjectType AND name='" & strObject & "'"
+' Run the Search command
+Const ADS_SCOPE_SUBTREE = 2
+objCmd.Properties("Page Size") = 100
+objCmd.Properties("Timeout") = 30
+objCmd.Properties("Searchscope") = ADS_SCOPE_SUBTREE
+objCmd.Properties("Cache Results") = False
+Set objRecordSet = objCmd.Execute
+
+' Iterate through the results
+objRecordSet.MoveFirst
+Do Until objRecordSet.EOF
+   strObjectName = objRecordSet.Fields("Name")
+   wscript.Echo "Object Name: " & strObjectName
+   strObjectDN = objRecordSet.Fields("distinguishedName")
+   wscript.Echo "Object DN: " & strObjectDN
+   objRecordSet.MoveNext
+Loop
+
+' Having the current OU we can bind directly to the Object that will be moved.
+Set Object = GetObject("LDAP://" & strObjectDN)
+wscript.Echo Object.ADsPath
+
+' Optionally you may want to display the parent OU.
+ strParent = Object.Parent
+ 'wscript.Echo "Parent: " & strParent
+ Set objParentOU = GetObject(strParent)
+ strObjectOU = objParentOU.distinguishedName
+ 'wscript.Echo "ParentOU: " & strObjectOU
+
+
+' Move the Object
+On Error Resume Next
+wscript.Echo "Move the Object [" & strObject & "] to " & strTargetOU
+objTargetOU.MoveHere Object.ADsPath, vbNullString
+
+if err.number <> 0 then
+   wscript.Echo "Error - failed."
+else
+   wscript.Echo "Complete."
+end if 
+
+On Error Goto 0
+</pre>
+<p>The valid AD Object types are: User, Contact, Group, Shared Folder, Printer, Computer, Domain Controllers, OU</p>
+<p><b>Example</b></p>
+<p class="code">cscript Move-object.vbs &quot;johndoe&quot; &quot;LDAP://OU=Users,DC=ss64,DC=com&quot; &quot;User&quot;<br>
+</p>
+<p class="quote"><i>&ldquo;The majority of men meet with failure because of their lack of persistence in creating new plans to take the place of those which fail&rdquo; ~   Napoleon Hill</i></p>
+<p><b>Related:</b></p>
+<p><a href="syntax-ad.html">SearchAD</a> - Search AD for Users, Computers or groups</p><!-- #BeginLibraryItem "/Library/foot_vb.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- VB300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="1683739502"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="syntax-movead.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

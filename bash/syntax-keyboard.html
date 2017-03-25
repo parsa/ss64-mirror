@@ -1,0 +1,120 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>bash keyboard shortcuts | Bash | SS64.com</title>
+</head><!-- #BeginLibraryItem "/Library/head_bashsyntax.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../bash.1.html">Bash</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/bash/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>Bash Keyboard Shortcuts</h1> 
+<h2>Moving the cursor:</h2>
+<pre>  Ctrl + a   Go to the beginning of the line (Home)
+  Ctrl + e   Go to the End of the line (End)
+  Ctrl + p   Previous command (Up arrow)
+  Ctrl + n   Next command (Down arrow)
+   Alt + b   Back (left) one word
+   Alt + f   Forward (right) one word
+  Ctrl + f   Forward one character
+  Ctrl + b   Backward one character
+  Ctrl + xx  Toggle between the start of line and current cursor position</pre>
+<h2>Editing:</h2>
+<pre> Ctrl + L   Clear the Screen, similar to the clear command
+
+  Alt + Del Delete the Word before the cursor.
+  Alt + d   Delete the Word after the cursor.
+ Ctrl + d   Delete character under the cursor
+ Ctrl + h   Delete character before the cursor (Backspace)
+
+ Ctrl + w   Cut the Word before the cursor to the clipboard.
+ Ctrl + k   Cut the Line after the cursor to the clipboard.
+ Ctrl + u   Cut/delete the Line before the cursor to the clipboard.
+
+  Alt + t   Swap current word with previous
+ Ctrl + t   Swap the last two characters before the cursor (typo).
+ Esc  + t   Swap the last two words before the cursor.
+
+ ctrl + y   Paste the last thing to be cut (yank)
+  Alt + u   UPPER capitalize every character from the cursor to the end of the current word.
+  Alt + l   Lower the case of every character from the cursor to the end of the current word.
+  Alt + c   Capitalize the character under the cursor and move to the end of the word.
+  Alt + r   Cancel the changes and put back the line as it was in the history (revert).
+ ctrl + _   Undo
+ 
+ TAB        Tab completion for file/directory names</pre>
+<blockquote><p>For example, to move to a directory 'sample1'; Type<span class="code"> cd sam</span> ;  then press <span class="code">TAB</span> and <span class="code">ENTER</span>. <br>
+type just enough characters to uniquely identify the directory you wish to open.</p>
+</blockquote>
+<h2>Special keys: Tab, Backspace, Enter, Esc</h2>
+<blockquote>
+<p>Text Terminals send characters (bytes), not key strokes. <br>
+Special keys such as Tab, Backspace, Enter and Esc are  encoded as control characters. <br>
+Control characters are not printable, they display in the terminal as <span class="code">^</span> and are intended to have an effect on applications.<br>
+<span class="code"><br>
+Ctrl+I = Tab<br>
+Ctrl+J = Newline<br>
+Ctrl+M = Enter</span><span class="code"><br>
+Ctrl+[ = Escape</span></p>
+<p>Many terminals will also send control characters for  keys in the digit row: <br>
+<span class="code">Ctrl+2 → ^@<br>
+Ctrl+3 → ^[ </span>Escape<span class="code"><br>
+Ctrl+4 → ^\<br>
+Ctrl+5 → ^]<br>
+Ctrl+6 → ^^<br>
+Ctrl+7 → ^_ </span>Undo<span class="code"><br>
+Ctrl+8 → ^? </span>Backward-delete-char</p>
+<p><span class="code">Ctrl+v</span> tells the terminal to not interpret the following character, so <span class="code">Ctrl+v Ctrl-I</span> will display a tab character, <br>
+similarly <span class="code">Ctrl+v ENTER</span> will display the escape sequence for the Enter key: <span class="code">^M</span></p>
+</blockquote>
+<h2>History:</h2>
+<pre>  Ctrl + r   Recall the last command including the specified character(s)
+             searches the command history as you type.
+             Equivalent to : vim ~/.bash_history. 
+  Ctrl + p   Previous command in history (i.e. walk back through the command history)
+  Ctrl + n   Next command in history (i.e. walk forward through the command history)
+
+  Ctrl + s   Go back to the next most recent command.
+             (beware to not execute it from a terminal because this will also launch its XOFF).
+  Ctrl + o   Execute the command found via Ctrl+r or Ctrl+s
+  Ctrl + g   Escape from history searching mode
+        !!   Repeat last command
+      !<i>abc</i>   Run last command starting with <i>abc</i><br>    !<i>abc</i>:p   Print last command starting with <i>abc</i><br>        !$   Last argument of previous command<br>   ALT + .   Last argument of previous command<br>        !*   All arguments of previous command<br>^<i>abc</i>­^­<i>def</i>   Run previous command, replacing <i>abc</i> with <i>def</i></pre>
+<h2>Process control:</h2>
+<pre> Ctrl + C   Interrupt/Kill whatever you are running (SIGINT)
+ Ctrl + l   Clear the screen
+ Ctrl + s   Stop output to the screen (for long running verbose commands)
+            Then use PgUp/PgDn for navigation
+ Ctrl + q   Allow output to the screen (if previously stopped using command above)
+ Ctrl + D   Send an EOF marker, unless disabled by an option, this will close the current shell (EXIT)
+ Ctrl + Z   Send the signal SIGTSTP to the current task, which suspends it.
+            To return to it later enter <a href="fg.html">fg</a> 'process name' (foreground).</pre>
+<h2>Emacs mode vs Vi Mode</h2>
+<blockquote>
+<p>All the above assume that bash is running in the default Emacs setting, if you prefer this can be switched to <a href="../vi.html">Vi</a> shortcuts instead. </p>
+<p>Set Vi Mode in bash:</p>
+<pre>$ set -o vi </pre>
+<p>Set Emacs Mode in bash:</p>
+<pre>$ set -o emacs </pre>
+</blockquote>
+<p class="quote"><i>&ldquo;...emacs, which might be thought of as a thermonuclear word processor&rdquo; ~ <a href="http://c2.com/cgi/wiki?EmacsVsVi">Emacs vs. Vi</a> Wiki</i></p>
+<p><b>Related:</b></p>
+<p><a href="syntax-jobs.html">fg</a> - Bring a command to the foreground.<br>
+<a href="../vi.html">vi editor</a> - A one page reference to the vi editor.<br>
+~./.bash_history - Text file with command history.<br>
+<a href="http://catern.com/posts/terminal_quirks.html">Terminals Are Weird</a> - How and why of terminal keybindings.<br>
+Equivalent <a href="../nt/syntax-keyboard.html">Windows Keyboard shortcuts</a></p><!-- #BeginLibraryItem "/Library/foot_bash.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- bash300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4615356305"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="syntax-keyboard.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body></html>

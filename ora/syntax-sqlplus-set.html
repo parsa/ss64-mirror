@@ -1,0 +1,285 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>sqlplus set command | Oracle | SS64.com</title>
+<style type="text/css">
+.depracate_st {color: #666666}
+</style>
+</head><body><!-- #BeginLibraryItem "/Library/head_orasyntax.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../ora.1.html">Oracle</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>SQL*PLUS - SET Statement</h1> 
+<p>Set sqlplus system settings and defaults.<br>
+  <br>
+  Syntax:</p>
+<pre>   SET <i>option</i> value
+
+   SHO[W] <i>option</i>
+
+<i>Options: most of the options listed below have an abbreviated and a long form
+           e.g. </i>APPINFO<i> or </i>APPI <i>will do the same thing</i>
+
+APPI[NFO] {ON|<u>OFF</u>|<i>text</i>}
+   Application info for performance monitor (see <a href="../orap/DBMS_APPLICATION_INFO.html">DBMS_APPLICATION_INFO</a>)
+
+ARRAY[SIZE] {<u>15</u>|<i>n</i>}
+   Fetch size (1 to 5000) the number of rows that will be retrieved in one go.
+
+AUTO[COMMIT] {<u>OFF</u>|ON|IMM[EDIATE]|<i>n</i>} 
+   Autocommit commits after each SQL command or PL/SQL block
+
+AUTOP[RINT] {<u>OFF</u>|ON}
+   Automatic PRINTing of bind variables.(see PRINT)
+
+AUTORECOVERY [ON|<u>OFF</u>]
+   Configure the RECOVER command to automatically apply 
+   archived redo log files during recovery - without any user confirmation.
+
+<a href="explain.html">AUTOT[RACE]</a> {<u>OFF</u>|ON|TRACE[ONLY]} [EXP[LAIN]] [STAT[ISTICS]] 
+   Display a trace report for SELECT, INSERT, UPDATE or DELETE statements
+   EXPLAIN shows the query execution path by performing an EXPLAIN PLAN.
+   STATISTICS displays SQL statement statistics.
+   Using ON or TRACEONLY with no explicit options defaults to EXPLAIN STATISTICS
+
+BLO[CKTERMINATOR] {<u>.</u>|<i>c</i>|OFF|<u>ON</u>}
+   Set the non-alphanumeric character used to end PL/SQL blocks to c
+
+CMDS[EP] {;|<i>c</i>|<u>OFF</u>|ON}
+   Change or enable command separator - default is a semicolon (;)
+
+COLSEP {<u> </u>|text} 
+   The text to be printed between SELECTed columns normally a space.
+
+COM[PATIBILITY] {V5|V6|V7|V8|<u>NATIVE</u>}
+   Version of oracle - see also init.ora COMPATIBILITY=
+   You can set this back by up to 2 major versions e.g. Ora 9 supports 8 and 7
+
+CON[CAT] {<u>.</u>|<i>c</i>|OFF|<u>ON</u>}
+   termination character for substitution variable reference
+   default is a period.
+
+COPYC[OMMIT] {<u>0</u>|<i>n</i>}
+   The COPY command will fetch n batches of data between commits.
+   (n= 0 to 5000) the size of each fetch=ARRAYSIZE.
+   If COPYCOMMIT = 0, COPY will commit just once - at the end.
+
+COPYTYPECHECK {OFF|<u>ON</u>}
+   Suppres the comparison of datatypes while inserting or appending to DB2
+
+DEF[INE] {<u>&</u>|<i>c</i>|OFF|<u>ON</u>}
+   c =  the char used to prefix substitution variables. 
+   ON or OFF controls whether to replace substitution variables with their values.
+   (this overrides SET SCAN) 
+
+DESCRIBE [DEPTH {<u>1</u>|<i>n</i>|ALL}][LINENUM {ON|<u>OFF</u>}][INDENT {ON|<u>OFF</u>}]
+   Sets the depth of the level to which you can recursively describe an object
+   (1 to 50) see the <a href="desc.html">DESCRIBE</a> command 
+
+ECHO {<u>OFF</u>|ON}
+   Display commands as they are executed
+
+EMB[EDDED] {<u>OFF</u>|ON}
+   OFF = report printing will start at the top of a new page.
+   ON = report printing can begin anywhere on a page.
+ 
+ESC[APE] {<u>\</u>|<i>c</i>|<u>OFF</u>|ON} 
+    Defines the <a href="syntax-escape.html">escape character</a>. OFF undefines. ON enables. 
+
+FEED[BACK] {<u>6</u>|<i>n</i>|OFF|<u>ON</u>}
+   Display the number of records returned (when rows &gt;= n )
+   OFF (or n=0) will turn the display off
+   ON will set n=1
+
+FLAGGER {<u>OFF</u>|ENTRY|INTERMED[IATE]|FULL}
+   Checks to make sure that SQL statements conform to the ANSI/ISO SQL92 standard.
+   non-standard constructs are flagged as errors and displayed 
+   See also <a href="session_a.html">ALTER SESSION</a> SET FLAGGER.
+
+FLU[SH] {OFF|ON}
+   Buffer display output (OS)
+   (no longer used in Oracle 9)
+
+HEA[DING] {OFF|<u>ON</u>}
+   print column headings
+
+HEADS[EP] {<u>|</u>|<i>c</i>|OFF|<u>ON</u>}
+   Define the heading separator character (used to divide a column heading onto &gt; one line.)
+   OFF will actually print the heading separator char
+   see also: COLUMN command
+
+INSTANCE [instance_path|<u>LOCAL</u>] 
+   Change the default instance for your session, this command can only be issued when 
+   not already connected and requires Net8
+
+LIN[ESIZE] {<u>150</u>|<i>n</i>} 
+   Width of a line (before wrapping to the next line)
+   Earlier versions default to 80, Oracle 9 is 150
+
+LOBOF[FSET] {<i>n</i>|<u>1</u>}
+   Starting position from which CLOB and NCLOB data is retrieved and displayed
+
+LOGSOURCE [<i>pathname</i>] 
+   Change the location from which archive logs are retrieved during recovery
+   normally taken from LOG_ARCHIVE_DEST 
+
+LONG {<u>80</u>|<i>n</i>}
+   Set the maximum width (in chars) for displaying and copying LONG values.
+
+LONGC[HUNKSIZE] {<u>80</u>|<i>n</i>}
+   Set the fetch size (in chars) for retrieving LONG values.
+
+MARK[UP] HTML [ON|<u>OFF</u>]
+  [HEAD <i>text</i>] [BODY <i>text</i>] [TABLE <i>text</i>] 
+     [ENTMAP {<u>ON</u>|OFF}][SPOOL {ON|<u>OFF</u>}]
+        [PRE[FORMAT] {ON|<u>OFF</u>}]
+   Output HTML text, which is the output used by iSQL*Plus.
+
+NEWP[AGE] {1|<i>n</i>}
+   The number of blank lines between the top of each page and the top title.
+   0 = a formfeed between pages.
+
+NULL <i>text</i>
+   Replace a null value with 'text'
+   The NULL clause of the <a href="syntax-sqlplus-col.html">COLUMN</a> command will override this for a given column.
+
+NUMF[ORMAT] <i>format</i>
+   The default number format.
+   see <a href="syntax-sqlplus-col.html">COLUMN FORMAT</a>. 
+
+NUM[WIDTH] {10|<i>n</i>}
+   The default width for displaying numbers.
+
+PAGES[IZE] {<u>14</u>|<i>n</i>}
+   The height of the page - number of lines.
+   0 will suppress all headings, page breaks, titles
+
+PAU[SE] {<u>OFF</u>|ON|<i>text</i>}
+   press [Return] after each page
+   enclose <i>'text'</i> in single quotes
+
+RECSEP {<u>WR[APPED]</u>|EA[CH]|OFF}
+   Print a single line of the RECSEPCHAR between each record.
+   WRAPPED = print only for wrapped lines
+   EACH=print for every row
+
+RECSEPCHAR {_|<i>c</i>}
+   Define the RECSEPCHAR character, default= ' '
+<span class="depracate_st">
+SCAN {OFF|ON}
+   OFF = disable substitution variables and parameters</span>
+
+SERVEROUT[PUT] {OFF|<u>ON</u>} [SIZE <i>n</i>] [FOR[MAT] {WRA[PPED]|<u>WOR[D_WRAPPED]</u>|TRU[NCATED]}] 
+   whether to display the output of stored procedures (or PL/SQL blocks)
+   i.e., <a href="../orap/DBMS_OUTPUT.html">DBMS_OUTPUT.PUT_LINE</a>
+
+   SIZE = buffer size (2000-1,000,000) bytes
+
+SHOW[MODE] {OFF|ON}
+   Display old and new settings of a system variable<span class="depracate_st">
+
+SPA[CE] {1|<i>n</i>}
+   The number of spaces between columns in output (1-10)
+
+</span>SQLBL[ANKLINES] {ON|<u>OFF</u>} 
+   Allow blank lines within an SQL command. reverts to OFF after the curent command/block.
+
+SQLC[ASE] {<u>MIX[ED</u>]|LO[WER]|UP[PER]} 
+   Convert the case of SQL commands and PL/SQL blocks
+   (but not the SQL buffer itself)
+
+SQLPLUSCOMPAT[IBILITY] {x.y[.z]}
+  Set the behavior or output format of VARIABLE to that of the
+  release or version specified by x.y[.z]. 
+
+SQLCO[NTINUE] {> |<i>text</i>}
+   Continuation prompt (used when a command is continued on an additional line using a hyphen -)
+
+SQLN[UMBER] {OFF|ON}
+   Set the prompt for the second and subsequent lines of a command or PL/SQL block.
+   ON = set the SQL prompt = the line number.
+   OFF = set the SQL prompt = SQLPROMPT.
+
+SQLPRE[FIX] {#|<i>c</i>}
+   set a non-alphanumeric prefix char for immediately executing one line of SQL (#)
+
+SQLP[ROMPT] {<u>SQL></u>|<i>text</i>}
+   Set the command prompt.
+
+SQLT[ERMINATOR] {<u>;</u>|<i>c</i>|OFF|<u>ON</u>}| 
+   Set the char used to end and execute SQL commands to <i>c</i>. 
+   OFF disables the command terminator - use an empty line instead.
+   ON resets the terminator to the default semicolon (;).
+ 
+SUF[FIX] {SQL|<i>text</i>} 
+   Default file extension for SQL scripts
+
+TAB {OFF|ON}
+   Format white space in terminal output.  
+   OFF = use spaces to format white space.
+   ON = use the TAB char.
+   Note this does not apply to spooled output files.
+   The default is system-dependent. Enter SHOW TAB to see the default value. 
+
+TERM[OUT] {OFF|ON}
+   OFF suppresses the display of output from a command file
+   ON displays the output.
+   TERMOUT OFF does not affect the output from commands entered interactively. 
+
+TI[ME] {OFF|ON}
+   Display the time at the command prompt.
+
+TIMI[NG] {OFF|ON}
+   ON = display timing statistics for each SQL command or PL/SQL block run.
+   OFF = suppress timing statistics
+
+TRIM[OUT] {OFF|ON}
+   Display trailing blanks at the end of each line.
+   ON = remove blanks, improving performance
+   OFF = display blanks. 
+   This does not affect spooled output.
+   SQL*Plus ignores TRIMOUT ON unless you set TAB ON.
+
+TRIMS[POOL] {ON|OFF}
+   Allows trailing blanks at the end of each spooled line.
+   This does not affect terminal output.
+
+UND[ERLINE] {<u>-</u>|<i>c</i>|<u>ON</u>|OFF}
+   Set the char used to underline column headings to c.
+
+VER[IFY] {OFF|ON}
+   ON = list the text of a command before and after replacing substitution variables with values.
+   OFF = dont display the command.
+
+WRA[P] {OFF|ON}
+   Controls whether to truncate or wrap the display of long lines. 
+   OFF = truncate 
+   ON = wrap to the next line
+   The <a href="syntax-sqlplus-col.html">COLUMN</a> command (WRAPPED and TRUNCATED clause) can override this for specific columns. 
+</pre>
+<p>The items in <span class="depracate_st">Gray</span> on this page are deprecated from Oracle 9 onwards - also note that several of the options above have 'gone missing' 
+  from the official documentation set - HELP SET is a more accurate reference.</p>
+<p> Get a list of these SET options in sql*plus with the command: <br>
+<span class="code"> SQLPLUS&gt; HELP SET</span></p>
+<p><span class="code"></span><b>Example</b></p>
+<p> A <a href="syntax-sqlplus-set-commands.txt">demo SQL script</a> with the most common 
+SET options</p>
+<p><b>Related:</b><br>
+<a href="syntax-sqlplus.html">SQL*Plus commands</a></p><!-- #BeginLibraryItem "/Library/foot_ora.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- oracle-footer -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4275490898"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="syntax-sqlplus-set.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

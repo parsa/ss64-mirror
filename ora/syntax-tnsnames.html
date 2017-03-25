@@ -1,0 +1,147 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>TNSNAMES and Listener.ora | Oracle | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_orasyntax.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../ora.1.html">Oracle</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>Oracle Networking - TNSNames, Listener.ora </h1> 
+<p> A quick overview showing how to connect an Oracle client to an Oracle server.</p>
+<p>The  basic steps are</p>
+<ol>
+<li>Set a global_name for the database</li>
+<li>Configure the Listener (Listener.ora)</li>
+<li>Configure the client (Tnsnames.ora)</li>
+<li><i>Optional </i>- Configure Oracle Enterprise Manager (services.ora)</li>
+</ol>
+<h2>1. Set a global_name for the database</h2>
+<blockquote>
+<p>When creating a database with 'Oracle Database Configuration Assistant' (DBCA) specify a new, unique global_name.<br>
+In the example below I'm using the domain &quot;.ss64.com&quot; you should change this for your own domain name: </p>
+<p><img src="syntax-tnsnamesdbca.jpg" alt="global_name" width="556" height="171" border="2"></p>
+<p>Many small and medium sized companies do everything under a single domain name, in which case these global names will seem like unnecessary work but if you do end up managing multiple domains at some point in the future (e.g. if your company is merged with another company) then having global names in place will make things much easier to manage. </p>
+<p>To change the <span class="code">Global_Name</span> of an existing database: </p>
+<p class="code">ALTER DATABASE rename global_name to demo.example.com;</p>
+</blockquote>
+<h2>2. 
+  Configure the Listener </h2>
+<blockquote>
+<p>Run 'Oracle Net Manager' on the server, choose Database Services - Add Database and fill in the global_name. </p>
+<p>If this fails to work, rename Listener.ora to Listener.OLD and then run 'Oracle Net Manager' again. </p>
+<p><img src="syntax-tnsnames.jpg" alt="Net Manager" width="637" height="318" border="2"></p>
+<p>File, Save will save this configuration into the Listener.ora file. </p>
+<p>Then load  Listener.ora into memory to make the settings active</p>
+<p>From the OS command line <span class="code">LSNRCTL reload</span></p>
+<p>Alternatively stop and start the listener completely: <br>
+<span class="code">LSNRCTL stop<br>
+LSNRCTL start </span></p>
+</blockquote>
+<h2>3. Configure the client</h2>
+<blockquote>
+<p>The TNSNAMES.ORA file is a client side file (typically on a remote PC).<br>
+The client uses the  TNSNAMES.ORA file to obtain connection details for the desired database. (Of course often you will want to install client software on the server as well for testing with SQL*Plus etc but that is  optional.) </p>
+<p>On a client PC run the 'Oracle Net Configuration Assistant' choose Local Net Service Name (TNSNames) </p>
+<p><img src="syntax-tnsnames1.jpg" alt="configuration" width="351" height="277" border="2"></p>
+<p>Specify a global_name that exactly matches the listener settings and fill in the other prompts.</p>
+<p>These settings will be saved in $oracle_home<span class="code">/network/admin/Tnsnames.ora</span></p>
+<p><img src="syntax-tnsnames2.jpg" alt="Service name" width="406" height="152" border="2"></p>
+<p>At this point you should be able to connect to the database with sql*plus </p>
+<p class="code">SQL &gt; connect scott/tiger@Live.ss64.com </p>
+<p>If it fails, rename Tnsnames.ora to Tnsnames.OLD and  run the Assistant  again. </p>
+</blockquote>
+<h2>4. Configure Oracle Enterprise Manager </h2>
+<blockquote>
+<p>Start the Oracle  Agent service on the server.</p>
+<p>If it's already running, stop and restart it. </p>
+<p>If the agent fails to start, Backup and Delete the following and try again:<br>  
+<span class="code">$Oracle_home/network/agent/*.Q<br>
+$Oracle_Home/network/admin/SNMP_RO.ora<br>
+$Oracle_Home/network/admin/SNMP_RW.ora, <br>
+$Oracle_Home/network/admin/dbsnmp.ver <br>
+$Oracle_Home/network/admin/services.ora </span></p>
+<p>On the client, Start the OEM Console, the default OEM administrator is &quot;sysman&quot; with a password of &quot;oem_temp&quot;.<br>
+Navigate to menu &quot;Navigator/ Discover Nodes&quot;<br>
+In case of problems you can delete the Node from the OEM client and re-discover it. </p>
+</blockquote>
+<p>If you create a database using DBCA, you'll find some of the settings above will have been set automatically.</p>
+<p>This page only scratches the surface of Oracle network configuration,  full documentation can be found at docs.oracle.com</p>
+<h2>SQLNET.ora </h2>
+<p>Other options  can be set in the $oracle_home/network/admin/sqlnet.ora file:</p>
+<p class="code">names.default_domain = <i>your_network_domain_name</i> </p>
+<blockquote>
+<p>When you set a default domain name (for example, ss64.com), that domain name will be automatically appended to any unqualified name, so typing @Live will be interpreted as @Live.ss64.com To force a lookup without the DEFAULT_DOMAIN being appended, append a dot to the tnsname:
+  <span class="code">TNSPING LIVE.</span></p>
+</blockquote>
+<p class="code"> names.directory_path = (TNSNAMES,ONAMES,HOSTNAME)</p>
+<blockquote>
+<p>A list of naming adaptors to be used when resolving a name. These will be used in the order listed. <br>
+TNSNAMES = tnsnames.ora file, ONAMES = Oracle Names,  HOSTNAME = use the hostname, NDS = Novell Netware,  NIS, CDS = OSF DCE's Cell Directory Service</p>
+</blockquote>
+<p class="code">log_directory_client = /oracle/network/log</p>
+<blockquote>
+<p>The  directory to which  client log file will be written. <br>
+If you notice SQLNET.LOG files littering your disk and turning up in many directories, this is because the default value of
+LOG_DIRECTORY_CLIENT is the current working directory. Specify one folder here and you will tidy things up. </p>
+</blockquote>
+<p class="code">log_directory_server = /oracle/network/log</p>
+<blockquote>
+<p>The directory to which log files from the  server are written</p>
+</blockquote>
+<p class="code">sqlnet.authentication_services = NONE </p>
+<blockquote>
+<p>Password authentication services: {beq, none, all, NTS, kerberos5, cybersafe, radius} </p>
+</blockquote>
+<p class="code">trace_level_server = OFF</p>
+<blockquote>
+<p>The level at which the server program is to be traced: {OFF,USER,ADMIN,SUPPORT, 0-16}</p>
+</blockquote>
+<p class="code">trace_directory_server = /oracle/network/trace</p>
+<blockquote>
+<p>The name of the directory to which trace files from the server are written </p>
+</blockquote>
+<p class="code">trace_level_client = OFF</p>
+<blockquote>
+<p>Indicates the level at which the client program is to be traced in the log file.<br>
+Possible values: {OFF,USER,ADMIN,SUPPORT, 0-16} <br>
+Default: OFF (0)</p>
+</blockquote>
+<p class="code">trace_directory_client = /oracle/network/trace</p>
+<blockquote>
+<p>The directory to which trace files from the client are written.</p>
+</blockquote>
+<p class="code">tnsping.trace_level = OFF</p>
+<blockquote>
+<p>The level at which TNS is to be traced: {OFF,USER,ADMIN,SUPPORT, 0-16}</p>
+</blockquote>
+<p class="code">sqlnet.expire_time = 10</p>
+<blockquote>
+<p>Verify the client session is alive every n minutes (reclaim   resources on a dead client)</p>
+</blockquote>
+<p class="code">sqlnet.connect_timeout = 5</p>
+<blockquote>
+<p>Maximum time interval (in seconds) for the database session to establish a connection between a client and  server. This can be used to limit the effect of Denial of Service or brute force dictionary attacks. ( 0 = off)</p>
+</blockquote>
+<p><b>Related</b></p>
+<p><a href="syntax-errors.html">Common Oracle error codes</a><br>
+<a href="syntax-ora-12154.html">Oracle error ORA-12154</a><br>
+agentctl, 
+lsnrctl, 
+oemctl</p><!-- #BeginLibraryItem "/Library/foot_ora.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- oracle-footer -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4275490898"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="syntax-tnsnames.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

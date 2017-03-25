@@ -1,0 +1,63 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Set default printer | VBScript | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_vb.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../vb.1.html">VBScript</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/vb/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>WshNetwork.SetDefaultPrinter</h1> 
+<p>Assign a remote printer the role Default Printer. </p>
+<pre>Syntax 
+      WshNetwork.SetDefaultPrinter(strPrinterName)
+
+Arguments
+
+   strPrinterName : The remote printer's UNC name.
+
+<b class="body">Examples</b>
+
+'Set the Default Printer to \\research\library1
+
+Dim WshNetwork
+Set WshNetwork = CreateObject("<a href="network.html">WScript.Network</a>")    
+WshNetwork.SetDefaultPrinter "\\research\library1"
+
+
+' Connect to \\research\library1  and set it as the default.
+
+Set PrinterPath = "\\research\library1"
+Set WshNetwork = WScript.CreateObject("<a href="network.html">WScript.Network</a>")
+Set rc = WshNetwork.AddWindowsPrinterConnection(PrinterPath)
+If Not rc then
+      WScript.Echo("Printer Connection Failed!")
+End If
+WshNetwork.SetDefaultPrinter PrinterPath</pre>
+<p>  This method fails when using a DOS-based printer connection.<br>
+You cannot use 
+the SetDefaultPrinter method find out the name of the current default printer.</p>
+<p><i class="quote">&ldquo;People think that being famous is just about having your picture taken all the time and being rich rich rich, and you know what?... They're absolutely right&rdquo; ~ Madonna 
+  </i><b><br>
+  <br>
+Related:</b></p>
+<p>  Printer, add printer - <a href="addprinterconnection.html">WshNetwork.AddPrinterConnection</a> 
+  <br>
+  Printer, add Network printer - <a href="addwindowsprinterconnection.html">WshNetwork.AddWindowsPrinterConnection</a><br>
+<a href="../nt/prnmngr.html">PRNMNGR</a> - Add, delete, list printers and printer connections.</p><!-- #BeginLibraryItem "/Library/foot_vb.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- VB300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="1683739502"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="setdefaultprinter.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

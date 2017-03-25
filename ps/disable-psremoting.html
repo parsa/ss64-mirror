@@ -1,0 +1,58 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Enable-PSRemoting | PowerShell | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_ps.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../ps.1.html">PowerShell</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/ps/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>Disable-PSRemoting</h1> 
+<p>Prevent remote users from running commands on the local computer.</p>
+<pre>Syntax
+      <span class="code">Disable</span>-PSRemoting [-Force] [-Confirm] [-WhatIf] [<i>CommonParameters</i>]
+
+Key:
+   -Force
+       Suppress all user prompts. By default, you are prompted to confirm each operation.
+
+   -confirm
+       Prompt for confirmation before executing the command.
+
+   -whatIf
+       Describe the command without actually executing it.
+
+   <a href="common.html">CommonParameters</a>:
+       -Verbose, -Debug, -ErrorAction, -ErrorVariable, -WarningAction, -WarningVariable,
+       -OutBuffer -OutVariable.</pre>
+<p>Enable-PSRemoting prevents users on other computers from running commands on the local computer.</p>
+<p>To run this cmdlet, start PowerShell with the &quot;<a href="syntax-elevate.html">Run as administrator</a>&quot; option.</p>
+<p> To enable remote access to selected session configurations, use  <a href="set-pssessionconfiguration.html" class="code">Set-PSSessionConfiguration -AccessMode</a><br>
+You can also use  <a href="enable-pssessionconfiguration.html">Enable-PSSessionConfiguration</a> and <a href="disable-pssessionconfiguration.html">Disable-PSSessionConfiguration</a>  to enable and      disable session configurations for all users.</p>
+<p>On systems that have both  PowerShell 3.0 and the PowerShell 2.0 engine, do not use      PowerShell 2.0 to run the Enable-PSRemoting or Disable-PSRemoting cmdlets.</p>
+<p><b>Example</b></p>
+<p>Configure the local computer to prevents remote access to all session configurations on the computer:</p>
+<p><span class="code">PS C:\&gt; Disable-PSRemoting</span> </p>
+<p>Prevent remote access to all session configurations on the computer &amp; suppress user prompts:</p>
+<p><span class="code">PS C:\&gt; Disable-PSRemoting -Force</span></p>
+<p>Display the session configurations on the      computer:</p>
+<p class="code">PS C:\&gt; <a href="get-pssessionconfiguration.html">Get-PSSessionConfiguration</a> | Format-Table -Property Name, Permission -Auto</p>
+<p class="quote"><i>“Everyone has a strategy until they get punched in the face” ~ Mike Tyson</i></p><p><b>Related:</b></p>
+<p><a href="enable-psremoting.html">Enable-PSRemoting</a> - Allow the computer to receive remote commands.<br>
+<a href="invoke-command.html">Invoke-Command</a> - Run commands on local and remote computers.</p><!-- #BeginLibraryItem "/Library/foot_ps.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- PowerShell300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="6253539900"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="disable-psremoting.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

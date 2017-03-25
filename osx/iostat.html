@@ -1,0 +1,132 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>iostat OSX Man Page | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_osx.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../osx.1.html">macOS</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/osx/"></form></div></li>
+</ul></div><!-- #EndLibraryItem -->
+<h1>iostat</h1> 
+<p>Report Central Processing Unit (CPU) statistics and i/o statistics for devices, partitions and network filesystems (NFS).</p>
+<pre>Syntax
+      iostat [-CUdKIoT?] [-c <i>count</i>] [-n <i>devs</i>] [-w <i>wait</i>] [<i>drives</i>]
+
+Options
+
+     -C    Display CPU statistics.
+           This is on by default, unless -d is specified.
+
+     -c    Repeat the display count times.  If no wait interval is specified,
+           the default is 1 second.
+
+     -d    Display only device statistics.  If this flag is turned on, only
+           device statistics will be displayed, unless -C or -U or -T is also
+           specfied to enable the display of CPU, load average or TTY statis-
+           tics.
+
+     -I    Display total statstics for a given time period, rather than aver-
+           age statistics for each second during that time period.
+
+     -K    In the blocks transferred display (-o), display block count in
+           kilobytes rather then the device native block size.
+
+     -n    Display up to devs number of devices.  iostat will display fewer
+           devices if there aren't devs devices present.
+
+     -o    Display old-style iostat device statistics.  Sectors per second,
+           transfers per second, and miliseconds per seek are displayed.  If
+           -I is specified, total blocks/sectors, total transfers, and
+           miliseconds per seek are displayed.
+
+     -T    Display TTY statistics.  This is on by default, unless -d is speci-
+           fied.
+
+     -U    Display system load averages.  This is on by default, unless -d is
+           specified.
+
+     -w    Pause wait seconds between each display.  If no repeat count is
+           specified, the default is infinity.
+
+     -?    Display a usage statement and exit.
+
+Iostat displays its information in the following format:
+     tty
+           tin     characters read from terminals
+           tout    characters written to terminals
+
+     devices
+           Device operations.  The header of the field is the device name and
+           unit number.  iostat will display as many devices as will fit in a
+           standard 80 column screen, or the maximum number of devices in the
+           system, whichever is smaller.  If -n is specified on the command
+           line, iostat will display the smaller of the requested number of
+           devices, and the maximum number of devices in the system.  To force
+           iostat to display specific drives, their names may be supplied on
+           the command line.  iostat will not display more devices than will
+           fit in an 80 column screen, unless the -n argument is given on the
+           command line to specify a maximum number of devices to display, or
+           the list of specified devices exceeds 80 columns.  If fewer devices
+           are specified on the command line than will fit in an 80 column
+           screen, iostat will show only the specified devices.
+
+           The standard iostat device display shows the following statistics:
+
+           KB/t    kilobytes per transfer
+           tps     transfers per second
+           MB/s    megabytes per second
+
+           The standard iostat device display, with the -I flag specified,
+           shows the following statistics:
+
+           KB/t    kilobytes per transfer
+           xfrs    total number of transfers
+           MB      total number of megabytes transferred
+
+           The old-style iostat display (using -o) shows the following statis-
+           tics:
+
+           sps     sectors transferred per second
+           tps     transfers per second
+           msps    average milliseconds per transaction
+
+           The old-style iostat display, with the -I flag specified, shows the
+           following statistics:
+
+           blk     total blocks/sectors transferred
+           xfr     total transfers
+           msps    average milliseconds per transaction
+
+     cpu
+           us      % of cpu time in user mode
+           sy      % of cpu time in system mode
+           id      % of cpu time in idle mode</pre>
+<p><b>Examples</b></p>
+<p>Display statistics for the first and third disk devices device every sec-      ond ad infinitum:</p>
+<p class="code">$ iostat -w 1 disk0 disk2</p>
+<p>Display the statistics for the first four devices in the system twice,      with a one second display interval:</p>
+<p class="code">$ iostat -c 2</p>
+<p>Display total statistics every three seconds ad infinitum:</p>
+<p class="code">$ iostat -Iw 3</p>
+<p class="quote"><i>&ldquo;Celebrity is a mask that eats into the face. As soon as one is aware of being somebody, to be watched and listened to with extra interest, input ceases, and the performer goes blind and deaf in his over animation. One can either see or be seen&rdquo; ~ John Updike</i></p><p><b>Related:</b></p>
+<p> fstat(1), netstat(1), pstat(8)<br>
+<a href="ps.html">ps</a> - Process status<br>
+<a href="top.html">top</a> - List processes running on the system</p>
+<!-- #BeginLibraryItem "/Library/foot_osx.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- OSX300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="1823340303"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="iostat.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

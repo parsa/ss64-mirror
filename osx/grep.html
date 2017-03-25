@@ -1,0 +1,302 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>grep OSX Man Page | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_osx.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../osx.1.html">macOS</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/osx/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>grep</h1> 
+<p>Search file(s) for specific text.</p>
+<pre>Syntax
+      grep &lt;options&gt; &quot;Search String&quot; [<i>filename</i>]
+
+      grep &lt;options&gt; [-e <i>PATTERN</i>] [<i>FILE</i>...]
+
+      grep &lt;options&gt; [-f <i>FILE</i>] [<i>FILE</i>...]
+
+A simple example
+grep   &quot;Needle in a Haystack&quot;  /etc/*</pre>
+<p>Grep searches the named input FILEs (or standard input if no files 
+  are named, or the file name - is given) for lines containing a match to the 
+  given PATTERN. By default, grep prints the matching lines. </p>
+<p>In addition, two 
+  variant programs <span class="code">egrep</span> and <span class="code">fgrep</span> are available. Egrep is the same as <span class="code">grep -E</span>. 
+  Fgrep is the same as <span class="code">grep -F</span>. </p>
+<pre>Options
+   -A <i>NUM</i>
+   --after-context=<i>NUM</i>
+       Print <i>NUM</i> lines of trailing context after matching lines.
+       Places a line containing -- between contiguous groups of matches. 
+   -a
+   --text
+       Process a binary file as if it were text; this is equivalent
+       to the --binary-files=text option.
+
+   -B <i>NUM
+  </i> --before-context=<i>NUM</i>
+       Print <i>NUM</i> lines of leading context before matching lines.
+       Places a line containing -- between contiguous groups of matches.
+
+   -b
+   --byte-offset
+       Print the byte offset within the input file before each line of output. 
+
+   --colour[=<i>WHEN</i>]
+   --color[=<i>WHEN</i>]
+       Surround the matching string with the marker from the GREP_COLOR environment variable.
+       WHEN can be 'never', 'always', or 'auto' e.g. --color=always<br>       By default the matched text will be colored red.
+       If grep is made to match several strings, all of the matches will be colored, one exception
+       is the regex ^ (match beginning of every line), the beginning of a line has no length so will
+       not be coloued.
+       So to return all lines and colour only matches: egrep --color=always '^|string1|string2'
+
+   -C <i>NUM</i>
+   --context=<i>NUM</i>
+       Print NUM lines of output context.
+       Print num lines of leading and trailing context surrounding each match.
+       The default is 2 and is equivalent to -A 2 -B 2.
+       Note: no whitespace may be given between the option and its argument.
+
+   -c
+   --count
+       Suppress normal output; instead print a count of matching lines for each input file.
+       With the -v, --invert-match option (see below), count non-matching lines.
+
+   -D <i>ACTION</i>
+   --devices=<i>ACTION</i>
+       If an input file is a device, FIFO or socket, use <i>ACTION</i> to process it.
+       By default, <i>ACTION</i> is read, which means that devices are read just as if they were
+       ordinary files. If <i>ACTION</i> is skip, devices are silently skipped.
+
+   -d <i>ACTION</i>
+   --directories=<i>ACTION</i>
+       If an input file is a directory, use <i>ACTION</i> to process it.
+       By default, <i>ACTION</i> is read, which means that directories are read just as if they
+       were ordinary files. If <i>ACTION</i> is skip, directories are silently skipped.
+       If <i>ACTION</i> is recurse, grep reads all files under each directory, recursively; this
+       is equivalent to the -R and -r option.
+
+   -E
+   --extended-regexp
+       Interpret <a href="grep-pattern.html">PATTERN</a> as an extended regular expression
+
+   -e <i>PATTERN</i>
+   --regexp=<i>PATTERN</i>
+       Use<a href="grep-pattern.html"> PATTERN </a>as the pattern; useful to protect patterns beginning with -
+
+   --exclude
+       If specified, it excludes files matching the given filename pattern from
+       the search.  Note that --exclude patterns take priority over --include patterns,
+       and if no --include pattern is specified, all files are searched that are not excluded.
+       Patterns are matched to the full path specified, not only to the filename component.
+
+   --exclude-dir
+       If -R is specified, it excludes directories matching the given filename pattern from
+       the search.  Note that --exclude-dir patterns take priority over --include-dir patterns,
+       and if no --include-dir pattern is specified, all directories are searched that are not excluded.
+
+   -F
+   --fixed-strings
+       Interpret<a href="grep-pattern.html"> PATTERN </a>as a list of fixed strings, separated by newlines,
+       any of which is to be matched.
+
+   -f <i>FILE</i>
+   --file=<i>FILE</i>
+       Obtain patterns from <i>FILE</i>, one per line. The empty file contains zero
+       patterns, and therefore matches nothing.
+
+   -G
+   --basic-regexp
+       Interpret<a href="grep-pattern.html"> PATTERN </a>as a basic regular expression This is the default.
+ 
+   -H
+   --with-filename
+       Print the filename for each match. 
+   -h
+   --no-filename
+       Suppress the prefixing of filenames on output when multiple files are searched. 
+   --help
+      Output a brief help message.
+
+   -I
+      Process a binary file as if it did not contain matching data; this is
+      equivalent to the --binary-files=without-match option.
+   -i
+   --ignore-case
+      Ignore case distinctions in both the <i>PATTERN</i> and the input files.
+
+   --include
+      If specified, only files matching the given filename pattern are searched.
+      Note that --exclude patterns take priority over --include patterns.  Patterns are
+      matched to the full path specified, not only to the filename component.
+
+   --include-dir
+      If -R is specified, only directories matching the given filename pattern are searched.
+      Note that --exclude-dir patterns take priority over --include-dir patterns.
+
+   -J, --bz2decompress
+      Decompress the bzip2(1) compressed file before looking for the text.
+
+   -L
+   --files-without-match
+      Suppress normal output; instead print the name of each input file from which
+      no output would normally have been printed. The scanning will stop on the first match. 
+   -l
+   --files-with-matches
+      Suppress normal output; instead print the name of each input file from which
+      output would normally have been printed. The scanning will stop on the first match.
+
+   --mmap
+      Use mmap(2) instead of read(2) to read input, which can result in better performance under
+      some circumstances but can cause undefined behaviour.
+
+   -m <i>NUM</i>
+   --max-count=<i>NUM</i>
+      Stop reading a file after NUM matching lines.
+      If the input is standard input from a regular file, and NUM matching lines are
+      output, grep ensures that the standard input is positioned to just after the last
+      matching line before exiting, regardless of the presence of trailing context lines.
+      This enables a calling process to resume a search. When grep stops after <i>NUM</i> matching
+      lines, it outputs any trailing context lines.
+      When the -c or --count option is also used, grep does not output a count greater
+      than <i>NUM</i>. When the -v or --invert-match option is also used, grep stops after
+      outputting <i>NUM</i> non-matching lines. 
+
+   -n
+   --line-number
+      Prefix each line of output with the line number within its input file. 
+
+   --null   Print a zero-byte after the file name.
+
+   -O
+      If -R is specified, follow symbolic links only if they were explicitly listed on the
+      command line.  The default is not to follow symbolic links.
+
+   -o
+   --only-matching
+      Show only the part of a matching line that matches <i>PATTERN</i>.
+
+   -p
+      If -R is specified, no symbolic links are followed.  This is the default.
+
+   -q
+   --quiet
+   --silent
+      Quiet mode: suppress normal output.  grep will only search a file until a match
+      has been found, making searches potentially less expensive.
+
+   -R
+   -r
+   --recursive
+      Read all files under each directory, recursively
+      This is equivalent to the <b>-d recurse</b> option. 
+
+   -s
+   --no-messages
+      Silent mode.  Nonexistent and unreadable files are ignored
+      (i.e. their error messages are suppressed).
+
+   -U
+   --binary
+      Search binary files, but do not attempt to print them.
+
+   -V
+   --version
+      Display version information and exit.
+
+   -v
+   --invert-match
+      Selected lines are those not matching any of the specified patterns.
+
+   -w
+    --word-regexp
+      The expression is searched for as a word
+      (as if surrounded by `[[:&lt;:]]' and `[[:&gt;:]]'; see re_format(7)).
+
+   -x
+   --line-regexp
+      Only input lines selected against an entire fixed string or regular expression
+      are considered to be matching lines.
+
+   -y      Equivalent to -i.  Obsoleted.
+
+   -Z
+   -z
+   --decompress
+      Force grep to behave as zgrep.
+
+   --binary-files=<i>value</i>
+      Controls searching and printing of binary files.  Options are <u>binary</u>, the
+      default: search binary files but do not print them; <u>without-match</u>: do not search
+      binary files; and <u>text</u>: treat all files as text.
+
+   --context[=<i>num</i>]
+      Print <i>num</i> lines of leading and trailing context.  The default is 2.
+
+   --line-buffered
+      Force output to be line buffered.  By default, output is line buffered
+      when standard output is a terminal and block buffered otherwise.</pre>
+<p> If no file arguments are specified, the standard input is used.</p>
+<p>Grep stands for: Global Regular Expression Print.</p>
+<h2> Environment variables</h2>
+<blockquote>
+<p> Grep's behavior can be affected by setting the following environment variables<br>
+</p>
+<pre>
+GREP_OPTIONS                 - default options
+LC_ALL, LC_MESSAGES, LANG    - language for messages
+LC_CTYPE                     - foreign characters
+POSIXLY_CORRECT              - Posix behaviour
+_N_GNU_nonoption_argv_flags_ - ignore an operand
+
+see `info grep' for more</pre>
+</blockquote>
+<h2> Exit Status</h2>
+<pre>   grep exits with one of the following values:
+
+   0     One or more lines were selected.
+   1     No lines were selected.
+   >1    An error occurred - syntax error in <i>pattern</i>, inaccessible input files, or other system error.</pre>
+<blockquote>
+<p> The `-v' option can be used to effectively invert the exit status.</p>
+</blockquote>
+<p>Searching an entire hard drive with grep can be very slow, using <a href="mdfind.html">mdfind</a> to identify files containing text is orders of magnitude <a href="http://hints.macworld.com/article.php?story=20100320112701285">faster</a>. </p>
+<p><b>Examples</b></p>
+<p>Search the file example.txt, including binary data (-a) for the string 'hunting the snark':</p>
+<p class="code">$ sudo grep -a  'hunting the snark' example.txt</p>
+<p>Search the whole partition (/disk0), including binary data (-a) for the string 'hunting the snark' return all the lines<br>
+starting 25 <b>B</b>efore the text found and 50 lines <b>A</b>fter the matching text found, this can be a way to discover fragments of deleted files:</p>
+<p><span class="code">$ sudo grep -a -B 25 -A 50 'hunting the snark' /dev/disk0</span>&gt; results.txt</p>
+<p>Search the file <span class="code">wordlist.txt</span> for any lines that <b>don't </b>include at least one vowel:</p>
+<p class="code">$ grep -v [aeiou] wordlist.txt</p>
+<p>Remove lines from <span class="code">invoices.txt</span> if they appear in <span class="code">paid.txt</span>:</p>
+<p class="code">$ grep -F -x -v -f paid.txt invoices.txt &gt;paidinvoices.txt</p>
+<p>List all the file <a href="../bash/alias.html">links</a> in the current folder - in the ouptut of <span class="code">ls</span> each symbolic directory has<span class="code"> l </span>permission at the begining of the permission flags, so <span class="code">grep ^l </span>will list only symbolic links:<br>
+<span class="code">$ ls -lR | grep ^l</span><br>
+A less cryptic method is to use <span class="code">find . -type l</span></p>
+<p class="quote"><i> &quot;The most dangerous of all falsehoods is a slightly distorted truth&quot; ~ G. C. Lichtenberg </i></p>
+<p><b>Related:</b></p>
+<p><a href="https://developer.apple.com/legacy/library/documentation/Darwin/Reference/ManPages/man1/grep.1.html">grep man page</a> - Apple.com<br>
+<a href="pkill.html">pgrep</a> - List processes by a full or partial name<br>  
+<a href="awk.html">awk</a> - Find and Replace text within file(s)<br>
+<a href="mdfind.html">mdfind</a> - 
+Spotlight search<br>
+<a href="tr.html">tr</a> - Translate, squeeze, and/or delete characters </p><!-- #BeginLibraryItem "/Library/foot_osx.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- OSX300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="1823340303"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="grep.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

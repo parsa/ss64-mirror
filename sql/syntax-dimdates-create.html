@@ -1,0 +1,103 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>SQL Server Date Dimension Data Warehouse | SQL Server | SS64.com</title>
+<style type="text/css">
+.style1 {
+	color: #009900;
+	font-weight: bold;
+}
+</style>
+</head><body><!-- #BeginLibraryItem "/Library/head_sql.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../sql.1.html">SQL</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/sql/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>Create Table script for a <a href="syntax-dimdates.html">Date Dimension</a> </h1>
+<pre>USE [SS64_DATA_WAREHOUSE]
+GO
+
+IF OBJECT_ID('dimDates') IS NOT NULL
+	DROP TABLE dimDates
+GO
+
+CREATE TABLE dbo.dimDates (
+ DateKey AS Convert(int, Convert(char(8), ActualDate, 112)) PERSISTED NOT NULL
+,ActualDate DATETIME NOT NULL
+,YYYYMMDD As Year(ActualDate) * 10000 + Month(ActualDate) * 100 + DAY(ActualDate) PERSISTED NOT NULL
+,YYYY AS YEAR(ActualDate) PERSISTED NOT NULL
+,CalendarYear AS Convert(char(4), YEAR(ActualDate)) PERSISTED NOT NULL
+,CalendarYearNumber AS (DatePart(year,[ActualDate])) PERSISTED NOT NULL
+,YearStart AS DateAdd(year,DATEDIFF(year,0,ActualDate),0) PERSISTED NOT NULL
+,FinancialYYYY AS YEAR(DateAdd(month,6,ActualDate)) PERSISTED NOT NULL <span class="style1">--Varies between countries</span> see http://en.wikipedia.org/wiki/Fiscal_year
+,FinancialYear AS Convert(char(4),YEAR(DateAdd(month,6,ActualDate))-1) + '/' + RIGHT(Convert(char(4),Year(DateAdd(month,6,ActualDate))),2) PERSISTED NOT NULL
+,FinancialYearStart AS DateAdd(month,-6,DateAdd(year,DATEDIFF(year,0,DateAdd(Month,6,ActualDate)),0)) PERSISTED NOT NULL
+,MonthKey AS Convert(int, Convert(char(6),ActualDate,112)) PERSISTED NOT NULL
+,MonthName AS CASE Month(ActualDate)
+                 WHEN 1 then 'Jan'
+                 WHEN 2 then 'Feb'
+                 WHEN 3 then 'Mar'
+                 WHEN 4 then 'Apr'
+                 WHEN 5 then 'May'
+                 WHEN 6 then 'Jun'
+                 WHEN 7 then 'Jul'
+                 WHEN 8 then 'Aug'
+                 WHEN 9 then 'Sep'
+                 WHEN 10 then 'Oct'
+                 WHEN 11 then 'Nov'
+                 WHEN 12 then 'Dec'
+               END
+                  + ' ' + Convert(char(4), YEAR(ActualDate)) PERSISTED NOT NULL
+,FrenchMonthName AS CASE MONTH(ActualDate)
+                 WHEN 1 THEN 'janv'
+                 WHEN 2 THEN 'févr'
+                 WHEN 3 THEN 'mars'
+                 WHEN 4 THEN 'avr'
+                 WHEN 5 THEN 'mai'
+                 WHEN 6 THEN 'juin'
+                 WHEN 7 THEN 'juil'
+                 WHEN 8 THEN 'Août'
+                 WHEN 9 THEN 'sept'
+                 WHEN 10 THEN 'oct'
+                 WHEN 11 THEN 'nov'
+                 WHEN 12 THEN 'Déc'
+               END
+                  + ' ' + Convert(char(4), YEAR(ActualDate)) PERSISTED NOT NULL
+, [QuarterNumber] AS (DatePart(quarter,[ActualDate]))PERSISTED NOT NULL
+, [QuarterName] AS ('QTR'+Convert([varchar](1),DatePart(quarter,[ActualDate]),(0))) PERSISTED NOT NULL
+, [MonthNumber] AS (DatePart(month,[ActualDate])) PERSISTED NOT NULL
+, [DayOfWeek] AS CASE (datediff(dd,dateadd(dd,(datediff(dd,convert(DATETIME,-53690+((7+5)%7),112),[ActualDate])/7)*7,convert(DATETIME,-53690+((7+5)%7),112)), [ActualDate])
+) --We avoid using DatePart/weekday here so that the result is deterministic and can be persisted.
+                 WHEN 1 THEN 'Sunday'
+                 WHEN 2 THEN 'Monday'
+                 WHEN 3 THEN 'Tuesday'
+                 WHEN 4 THEN 'Wednesday'
+                 WHEN 5 THEN 'Thursday'
+                 WHEN 6 THEN 'Friday'
+                 WHEN 0 THEN 'Saturday'
+End PERSISTED NOT NULL
+, [CalendarDayNumberOfMonth] AS (DatePart(day,[ActualDate])) PERSISTED NOT NULL
+, [FirstDayofMonth] as DateAdd(mm, DateDiff(mm,0,[ActualDate]), 0) PERSISTED NOT NULL
+, [LastDayofMonth] as DateAdd(ms,-3,DateAdd(mm, DATEDIFF(m,0,[ActualDate]  )+1, 0)) PERSISTED NOT NULL
+);
+GO
+</pre>
+<p class="quote"><i>“I don't understand how a woman can leave the house without fixing herself up a little - if only out of politeness. And then, you never know, maybe that's the day she has a date with destiny. And it's best to be as pretty as possible for destiny” - Coco Chanel</i></p>
+<p><b>Related</b></p>
+<p><a href="syntax-dimdates.html">Date Dimension</a></p><!-- #BeginLibraryItem "/Library/foot_sql.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ss64-sql -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="6953563613"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="syntax-dimdates-create.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

@@ -1,0 +1,116 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>CSVDE and LDIFDE | Windows CMD | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_nt.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../nt.1.html">CMD</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/nt/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1> CSVDE / <abbr title="LDAP Data Interchange Format">LDIF</abbr>DE (installable option either via <abbr title="Remote Server Administrative Tools / Active Directory Domain Services"><a href="../links/windows.html">RSAT</a> /AD DS</abbr> or <a href="../links/windows.html">adminpack.msi</a>)</h1>
+<p>Import or Export Active Directory data to a file. The syntax
+  of these two commands is identical, the difference being that one works with
+  CSV files and one with LDIF files.</p>
+<pre>Syntax
+
+   Export to file:
+             CSVDE [-f <i>FileName</i>] [<i>options</i>]
+            LDIFDE [-f <i>FileName</i>] [<i>options</i>]<br>
+   Import from File:
+             CSVDE <b>-i</b> [-f <i>FileName</i>] [<i>options</i>]
+            LDIFDE <b>-i</b> [-f <i>FileName</i>] [<i>options</i>]
+Key
+     -f  <i>Filename</i>     Input or Output filename
+     -s  <i>servername</i>   The server to bind to
+     -c  <i>FromDN ToDN</i>  Replace occurrences of <i>FromDN</i> to <i>ToDN</i>
+     -v               Verbose
+     -j  <i>Path </i>        Folder to store log files
+     -t  <i>Port_Number</i>  (default = 389)
+     -?               Help
+</pre>
+<pre>
+Export options
+     -d <i>RootDN</i>        The root of the LDAP search (Default to Naming Context)
+     -r <i>Filter</i>        <a href="../ps/syntax-ldap.html">LDAP search</a> filter (Default to "(objectClass=*)")
+     -p <i>SearchScope</i>   Search Scope (Base/OneLevel/Subtree)
+     -l <i>list</i>          Attributes to look for in an <b>L</b>DAP search
+                      (comma separated List)
+     -o <i>list</i>          Attributes  to <b>o</b>mit from input
+                      (comma separated list)
+     -g               Disable Paged Search
+     -m               Enable the SAM logic on export
+     -n               Do not export binary values
+  
+ Import options
+     -k               Ignore 'Constraint Violation' and 'Object Already Exists' errors.
+
+                      To successfully import a file it must contain as a minimum:
+                      The DN(distinguished name), DisplayName and ObjectClass
+
+Username/Password credentials
+     -a      Set the command to run using the supplied user distinguished name
+             and password. For example: "cn=yourname,dc=yourcompany,dc-com password&quot;
+
+     -b      Set the command to run as username domain/password.
+
+     The default is to run using the credentials of the currently logged on user.
+</pre>
+<p><span class="body"> </span><span class="body">CSV (comma-separated value)
+    format files can be read with MS Excel and are easily modified with a batch
+    script. <br>
+LDIF files (Ldap Data Interchange Format) are a cross-platform standard. This
+
+provides a method to populate Active Directory with data from other directory
+services. (e.g. Oracle Directory Server,  <a href="https://www.netiq.com/products/edirectory/">eDirectory</a>)</span></p>
+<p><b>Passwords<br>
+  </b>For security reasons neither of these tools will export 
+  passwords. When you import an account
+  it is given  a null password, if the domain has a password length
+  policy, then the account will be disabled (You can <a href="http://www.computerperformance.co.uk/ezine/ezine23.htm">re-enable
+  accounts in bulk with a script</a>)</p>
+<p><b>Compatibility<br>
+</b>CSVDE and LDIFDE are supplied with Windows 2000/2003 Server but can also be run on Win2000 Professional and XP Professional
+(i.e run remotely against the Active Directory Server.)</p>
+<p><span class="body"><b>Examples</b></span></p>
+<p><span class="body">Export the whole domain<br>
+</span><span class="code">CSVDE -f MyDomain.csv</span><span class="body"><br>
+<br>
+Export all users with a particular surname: <br>
+</span><span class="code">CSVDE -f MyUsers.csv -r (and(objectClass=User)(sn=<i>Surname</i>))</span></p>
+<p><span class="body">Import the whole domain and create C:\MyLogfiles\csv.log and C:\MyLogfiles\csv.err<br>
+</span><span class="code">CSVDE -i -f MyDomain.csv -j C:\MyLogfiles\</span></p>
+<p><i class="quote">&ldquo;Give me your tired, your poor,
+Your huddled masses yearning to breathe free,<br>
+The wretched refuse of your teeming shore.<br>
+Send these, the homeless, tempest-tossed to me,
+I lift my lamp beside the golden door!&rdquo; ~ Emma Lazarus</i><br>
+<br>
+<b>Related:</b><br>
+<br>
+<a href="https://support.microsoft.com/?id=271517">Q271517</a> -
+Ldifde fails if an attribute contains blank spaces.<br>
+<a href="https://support.microsoft.com/?id=327620">Q327620</a> - Import contacts
+and users with CSVDE<br>
+<a href="https://support.microsoft.com/?id=263991">Q263991</a>  -
+How to set a user's password with Ldifde  <br>
+<a href="https://support.microsoft.com/?id=276440">Q276440</a>  -
+Backup and Restore Connection Agreements with CSVDE<br>
+PowerShell equivalent: <a href="../ps/new-aduser.html">New-AdUser</a><br>
+
+Equivalent bash command (Linux): ldapadd - Add LDAP information</p><!-- #BeginLibraryItem "/Library/foot_nt.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- windows300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="7649547908"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="csvde.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

@@ -1,0 +1,89 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Partitioning clause | Oracle | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_ora.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../ora.1.html">Oracle</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>PARTITIONING Clause</h1> 
+<p>Specify table partitioning <br>
+  <br>
+  Syntax:</p>
+<pre>   <b>PARTITION BY RANGE</b> (<i>column</i>,<i>column</i>,…) [<i>subptn_clause</i>] 
+     <b>(</b>PARTITION <i>partition </i>VALUES LESS THAN (<i>values_list</i>)
+          <i>Partition_def</i>
+      [,PARTITION <i>partition</i>…]<b>)</b>
+
+   <b>PARTITION BY HASH</b> (<i>column</i>) individual or by qty - see the Oracle docs.
+
+   <b>PARTITION BY LIST</b> (<i>column</i>)
+     <b>(</b>PARTITION <i>partition</i>
+         VALUES (DEFAULT | NULL | <i>value</i>,…)
+       <i>    Partition_def</i>
+      [,PARTITION <i>partition</i>…]<b>)</b>
+
+<i>Partition_def</i>:
+<i>   storage_options</i> [[NO]COMPRESS] [OVERFLOW <i>storage_options</i>]
+      [<a href="clause_lob.html">LOB_storage_clause</a>] [<a href="clause_varray.html">varray_storage_clause</a>]
+         [(SUBPARTITION subpartion [<a href="clause_lob.html">LOB_storage_clause</a>] [<a href="clause_varray.html">varray_storage_clause</a>] )]
+
+<i>storage_options</i>:
+   PCTFREE <i>int</i>
+   PCTUSED <i>int</i>
+   INITTRANS <i>int</i>
+   MAXTRANS <i>int</i>
+   STORAGE <a href="clause_storage.html">storage_clause</a>
+   TABLESPACE <i>tablespace</i>
+   [LOGGING|NOLOGGING]
+
+<i>subptn_clause</i>:
+   SUBPARTITION BY HASH (<i>column</i>,<i>column</i>,…)
+     [SUBPARTITIONS <i>quantity</i> [STORE IN (<i>tablespace</i>,…)] ]
+     [<i>subpartition_template</i>]
+   SUBPARTITION BY LIST (<i>column</i>)  [<i>subpartition_template</i>] </pre>
+<p><b>Example</b></p>
+<pre>partition by range (SA_DATE_PART) (
+  partition P01_JAN 
+     values less than (to_date('2005-02-01','yyyy-mm-dd'))
+     tablespace DATA01,
+  partition P02_FEB
+     values less than (to_date('2005-03-01','yyyy-mm-dd'))
+     tablespace DATA02,
+  partition P03_MAR 
+     values less than (to_date('2005-04-01','yyyy-mm-dd'))
+     tablespace DATA03,
+  partition P04_APR
+     values less than (to_date('2005-05-01','yyyy-mm-dd'))
+     tablespace DATA04, 
+  partition P05_REST
+     values less than (maxvalue))
+     tablespace DATA;</pre>
+<p><b> Related Commands:<br>
+  <br>
+  </b>TABLE - <a href="table_c.html">CREATE TABLE</a><br>
+  TABLE - <a href="table_a.html">ALTER TABLE</a></p>
+<p><b>Related Views:</b></p>
+<p class="code">  <a href="../orad/DBA_PART_COL_STATISTICS.html">DBA_PART_COL_STATISTICS</a> &nbsp;<a href="../orad/ALL_PART_COL_STATISTICS.html">ALL_PART_COL_STATISTICS</a>&nbsp;&nbsp;<a href="../orad/USER_PART_COL_STATISTICS.html">USER_PART_COL_STATISTICS</a> <br>  
+  <a href="../orad/DBA_PART_HISTOGRAMS.html">DBA_PART_HISTOGRAMS</a>&nbsp;&nbsp;&nbsp;<a href="../orad/ALL_PART_HISTOGRAMS.html">ALL_PART_HISTOGRAMS</a>&nbsp;&nbsp;&nbsp;<a href="../orad/USER_PART_HISTOGRAMS.html">USER_PART_HISTOGRAMS</a>  <br>  
+  <a href="../orad/DBA_PART_INDEXES.html">DBA_PART_INDEXES</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="../orad/ALL_PART_INDEXES.html">ALL_PART_INDEXES</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="../orad/USER_PART_INDEXES.html">USER_PART_INDEXES</a>    <br>  
+  <a href="../orad/DBA_PART_KEY_COLUMNS.html">DBA_PART_KEY_COLUMNS</a>&nbsp;&nbsp;<a href="../orad/ALL_PART_KEY_COLUMNS.html">ALL_PART_KEY_COLUMNS</a>&nbsp;&nbsp;<a href="../orad/USER_PART_KEY_COLUMNS.html">USER_PART_KEY_COLUMNS</a>  <br>  
+  <a href="../orad/DBA_PART_LOBS.html">DBA_PART_LOBS</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="../orad/ALL_PART_LOBS.html">ALL_PART_LOBS</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="../orad/USER_PART_LOBS.html">USER_PART_LOBS</a>       <br>  
+<a href="../orad/DBA_PART_TABLES.html">DBA_PART_TABLES</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="../orad/ALL_PART_TABLES.html">ALL_PART_TABLES</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="../orad/USER_PART_TABLES.html">USER_PART_TABLES</a>   </p><!-- #BeginLibraryItem "/Library/foot_ora.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- oracle-footer -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4275490898"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="clause_partition.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

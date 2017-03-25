@@ -1,0 +1,91 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Errorlevel | Windows CMD | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_nt.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../nt.1.html">CMD</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/nt/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>%Errorlevel%</h1>
+<p>Almost all applications and utilities will set an Exit Code when they complete/terminate.</p>
+<p>The exit codes that are set  do vary, in general a code of 0 (false) will indicate successful completion.</p>
+<p>The exit codes set by resource kit utilities are not always consistent, they can vary between machines with different Service packs/Resource kit updates applied. Some utilities will return negative numbers as an exit code.</p>
+<p>If you attempt to execute a non-existent command %ERRORLEVEL% = 9009</p>
+<h2>Detecting Errors</h2>
+<blockquote>
+<p>There are two different methods of checking an errorlevel, the first syntax provides compatibility with ancient batch files from the days of Windows 95</p>
+<p>The exit code is made available via  <a href="if.html">IF ERRORLEVEL </a>... or the <span class="code">%ERRORLEVEL%</span> variable.</p>
+<p><span class="code">IF ERRORLEVEL <i>n </i></span>statements should be read as IF <i>Errorlevel</i> <span class="code">&gt;=</span> <i>number</i><br>
+i.e.<br>
+<span class="code">IF ERRORLEVEL 0 </span>will return TRUE whether the errorlevel is 0, 1 or 5 or 64 <br>
+<span class="code">IF ERRORLEVEL 1 </span>will return TRUE whether the errorlevel is 1 or 5 or 64<br>
+<span class="code">IF NOT ERRORLEVEL 1</span> means if ERRORLEVEL is less than 1 (Zero or negative).<br>
+This is not very readable or user friendly and  does not account for negative error numbers.</p>
+<p>A better (more logical) method of checking Errorlevels is to use the <span class="code">%ERRORLEVEL%</span> variable:</p>
+<p><span class="code">IF %ERRORLEVEL% NEQ 0 Echo An error was found<br>
+IF %ERRORLEVEL% EQU 0 Echo No error  found</span></p>
+<p><span class="code">IF %ERRORLEVEL% EQU 0 (Echo No error found) ELSE (Echo An error was found)<br>
+</span><span class="code">IF %ERRORLEVEL% EQU 0 Echo No error found <a href="syntax-conditional.html">||</a> Echo An error was found</span></p>
+<p>This allows you to trap errors that can be negative numbers, you can also test for specific errors:<br>
+<span class="code">IF %ERRORLEVEL% EQU 64 ...</span></p>
+<p>When ending a <a href="call.html">subroutine</a>, you can use <a href="exit.html">EXIT /b <i>N</i></a> to set a specific ERRORLEVEL <i>N</i>.</p>
+<p>You should never attempt to write to the <span class="code">%ERRORLEVEL%</span> variable  because the value you set  will create a user variable named <span class="code">ERRORLEVEL</span> which then takes precedence over the internal pseudo variable <span class="code">ERRORLEVEL</span>.</p>
+<p>When an external command is run by CMD.EXE, it will detect the executable's return code and set the ERRORLEVEL to match. In most cases the ERRORLEVEL will be the same as the exit code, but there are a few buggy cases where this fails.</p>
+<p>The Exit Codes can be detected directly with  <a href="syntax-redirection.html">redirection operators</a> (Success/Failure ignoring the ERRORLEVEL)</p>
+</blockquote>
+<h2>Some commands don't follow the rules</h2>
+<blockquote>
+<p>Commands that do NOT affect the ERRORLEVEL: <br>
+<span class="code">BREAK, ECHO, ENDLOCAL, FOR,       IF,       PAUSE, REM,  RD/RMDIR, SET,      TITLE</span></p>
+<p>Commands that will set but not clear an ERRORLEVEL: <br>
+<span class="code">CLS, GOTO, KEYS, POPD, SHIFT </span></p>
+<p>Commands that set an Exit Code but not the ERRORLEVEL: <br>
+<span class="code">RD/RMDIR</span></p>
+<p>Commands that set an ERRORLEVEL but not the Exit Code (<a href="https://stackoverflow.com/questions/34936240/batch-goto-loses-errorlevel/34937706#34937706">SO explanation</a>): <br>
+<span class="code">MD/MKDIR</span></p>
+</blockquote>
+<h2>Batch files</h2>
+<blockquote>
+<p> You can make a <a href="syntax-run.html">batch file</a> return a non-zero exit code by using the <a href="exit.html">EXIT</a> command.</p>
+<p class="code">Exit 0<br>
+Exit /B 5</p>
+<p> To force an <span class="code">ERRORLEVEL</span> of 1 to be set <i>without</i> exiting, run a small but invalid command like <span class="code"><a href="color.html">COLOR</a> 00</span> <br>
+</p>
+<p>There is a key difference between the way .CMD and .BAT batch files set errorlevels:</p>
+<blockquote>
+<p> An old  .BAT batch script running the 'new' internal commands: APPEND, ASSOC, PATH, PROMPT,  FTYPE and SET will only set <span class="code">ERRORLEVEL</span> if an error occurs. 
+So if you have two  commands in the batch script and the first fails, the <span class="code">ERRORLEVEL</span> will remain set even after the second command succeeds.</p>
+<p> This can make debugging a problem BAT script more difficult, a CMD batch script is more consistent and will set <span class="code">ERRORLEVEL</span> after every command that you run [<a href="https://groups.google.com/forum/#!msg/microsoft.public.win2000.cmdprompt.admin/XHeUq8oe2wk/LIEViGNmkK0J">source</a>]. </p>
+</blockquote>
+</blockquote>
+<h2>PowerShell</h2>
+<blockquote>
+<p>In PowerShell<span class="code"> $? </span>contains <span class="code">True</span> if last operation succeeded and <span class="code">False</span> otherwise.</p>
+<p>The exit code of the last Win32 executable execution is stored in the automatic variable <span class="code">$LASTEXITCODE</span></p>
+<p>To read exit codes (other than 0 or 1) launch the PowerShell script and return the <span class="code">$LASTEXITCODE</span> in a single line like this:</p>
+<p><span class="code"><a href="../ps/powershell.html">powershell.exe</a> -noprofile C:\scripts\script.ps1; exit $LASTEXITCODE</span><br>
+</p>
+</blockquote>
+<p><i class="quote">&ldquo;I’d rather wake up in the middle of nowhere than in any city on earth&rdquo; ~ Steve McQueen</i><br>
+<b><br>
+Related:</b></p>
+<p><a href="robocopy-exit.html">Robocopy exit codes </a><br>
+<a href="syntax-conditional.html">Conditional Execution</a> - if <var>command1</var> succeeds then execute <var>command2</var><br>
+<a href="https://blogs.msdn.microsoft.com/oldnewthing/20080926-00/?p=20743">ERRORLEVEL is not %ERRORLEVEL%</a> - The old new thing blog</p><!-- #BeginLibraryItem "/Library/foot_nt.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- windows300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="7649547908"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="errorlevel.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

@@ -1,0 +1,70 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>net time / net print | Windows CMD | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_nt.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../nt.1.html">CMD</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/nt/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>NET.exe</h1> 
+<p>The <a href="net.html">NET</a> TIME Command is used to manage Network 
+Print jobs and Network Time.</p>
+<pre>Syntax
+     NET TIME [\\<i>ComputerName</i> | /DOMAIN[:<i>domainname</i>] | /RTSDOMAIN[:<i>domainname</i>]] [/SET]</pre>
+<p>  Display the time at this computer plus the <a href="date.html">DATE</a> in US 
+  Format:<br>
+  <span class="code">NET TIME \\%ComputerName%</span><br>
+  <br>
+  Display the date and time from another computer:<br>
+  <span class="code">NET TIME \\machinename</span><br>
+  <br>
+  Display the date and time from the logonserver:<br>
+  <span class="code">NET TIME %LOGONSERVER%</span><br>
+  <br>
+  Display the time from the domain timeserver:<br>
+  <span class="code">NET TIME /DOMAIN</span><br>
+  <br>
+  Display the time from another domain:<br>
+<span class="code">NET TIME /DOMAIN:domainname</span></p>
+<p> Synchronise the computer's clock with that of the domain:<br>
+  <span class="code">NET TIME /DOMAIN /SET /Y</span><br>
+  <br>
+  Synchronise the computer's clock with a different domain:<br>
+  <span class="code">NET TIME /DOMAIN:domainname /SET</span><br>
+  <br>
+  Synchronise the computer's clock with that of another computer (see the <a href="w32tm.html">w32tm</a> command)<br>
+  <span class="code">NET TIME \\servername /SET /YES</span><br>
+<br>
+  Synchronise the computer's clock with a time server in a different domain:<br>
+<span class="code">NET TIME /RTSDOMAIN:domainname /SET</span></p>
+<p>The NET TIME command requires the `server' service to be running on the machine 
+that is serving the time.</p>
+<p>  <b>Related:</b><br>
+  <br>
+  <a href="net.html">NET</a> - Manage network resources<a href="con2prt.html">.<br>
+</a><a href="w32tm.html">W32TM</a> - Configure the Windows Time Service<a href="con2prt.html">.<br>
+</a><a href="prncnfg.html">PRNCNFG</a> - configure or rename a printer.<br>
+  PRNJOBS - Pause, resume, cancel, or list print jobs.<br>
+<a href="prnmngr.html">PRNMNGR</a> - Add, delete, list printers and printer connections.<br>
+  VB Script: <a href="../vb/addprinterconnection.html">Add printer connection</a> <br>
+  VB Script: <a href="../vb/enumprinterconnections.html">List printers</a> <br>
+  VB Script: <a href="../vb/setdefaultprinter.html">Set default printer</a><br>
+  Equivalent bash command (Linux): <a href="../bash/lpc.html">lpc</a> - Line printer control program
+</p><!-- #BeginLibraryItem "/Library/foot_nt.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- windows300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="7649547908"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="net-time.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

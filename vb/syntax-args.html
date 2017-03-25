@@ -1,0 +1,66 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Command line arguments  | VBScript | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_vbsyntax.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../vb.1.html">VBScript</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/vb/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>VBScript command line arguments</h1> 
+<h2>Positional arguments</h2>
+<blockquote>
+<p>Calling a script with unnamed arguments is a simple method of passing values into a VBScript, those values can then be picked up within the script by reading the properties of <b>WScript.Arguments</b></p>
+<pre>cscript.exe demo.vbs December 500
+</pre>
+<p> [demo.vbs]<br>
+<span class="code">strMonth = WScript.Arguments.Item(0)<br>
+strPrice = WScript.Arguments.Item(1)<br>wscript.echo strMonth &amp; &quot; and &quot; &amp; strPrice</span><br>
+</p>
+<p>This can be extended to cope with a large number of arguments <span class="code">.Item(<i>n</i>)</span> but  every time the script is called all of the arguments must be present and passed in the same order. If any are missed out then the numbers will change <span class="code">.Item(4)</span> becomes <span class="code">.Item(3)</span>etc.</p>
+<p>Passing an argument that starts with “//” to a VBscript, will by default be taken as options for the windows script host itself (cscript or wscript). To avoid this <a href="https://ss64.com/vb/cscript&#32;own">pass a double slash &quot;//&quot; to end the argument parsing</a> of  cscript/wscript. Alternatively use a named argument as below.</p>
+</blockquote>
+<h2>Named arguments</h2>
+<blockquote>
+<p>A named argument begins with a slash (<span class="code">/</span>), and the name and the value are separated by a colon (<span class="code">:</span>) those values can then be picked up within the script by reading the collection <b>WScript.Arguments.Named</b> </p>
+<p><span class="code">cscript.exe demo2.vbs /month:April /price:500<br>
+<br>
+</span>[demo2.vbs]<span class="code"><br>
+Set colArgs = WScript.Arguments<b>.Named</b><br>
+strMonth = colArgs.Item(&quot;month&quot;)<br>
+strPrice = colArgs.Item(&quot;price&quot;)<br>
+wscript.echo strMonth &amp; &quot; and &quot; &amp; strPrice</span></p>
+<p>Named arguments can be given in any order</p>
+<p><span class="code">cscript.exe demo2.vbs /price:500</span><span class="code"> /month:April </span></p>
+<p>Named arguments are optional, so you can include a default:</p>
+<pre>If <span class="code">colArgs</span>.Exists(&quot;<span class="code">month</span>&quot;) Then  
+   <span class="code">strMonth</span> = <span class="code">colArgs</span>.Item(&quot;<span class="code">month</span>&quot;) 
+Else  
+   <span class="code">strMonth</span> = &quot;January&quot; 
+End If</pre>
+<p> To count the number of arguments:<br>
+</p>
+<p class="code">intCount = WScript.Arguments<b>.Count</b><br>
+wscript.echo intCount</p>
+</blockquote>
+<p class="quote"><i>&ldquo;Art, in itself, is an attempt to bring order out of chaos&rdquo; ~ Stephen Sondheim</i></p>
+<p>Related</p>
+<p><a href="arguments.html">Arguments</a> - Command line arguments<br>
+<a href="syntax-variables.html">Variables</a> - Define VBScript constants and variables<br>
+<a href="https://technet.microsoft.com/en-us/library/ee156618.aspx">Windows 2000 Scripting Guide</a> - Technet</p><!-- #BeginLibraryItem "/Library/foot_vb.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- VB300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="1683739502"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="syntax-args.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

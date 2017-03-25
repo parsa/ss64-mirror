@@ -1,0 +1,413 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>System preference settings for macOS | OS X | SS64.com</title>
+</head><!-- #BeginLibraryItem "/Library/head_osxsyntax.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../osx.1.html">macOS</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/osx/"></form></div></li>
+</ul></div><!-- #EndLibraryItem -->
+<h1>System preference settings for macOS</h1>
+<p>The preferences below can be applied using <a href="defaults.html" class="code"> defaults</a></p>
+<blockquote>
+<p><b>Use at your own risk.</b></p>
+</blockquote>
+<p>Many of these values can harm your system if used improperly. <br>
+Before making changes with <span class="code"> defaults write</span>, use <span class="code"> defaults read</span> and make a note of any current settings.<br>  
+<span class="code"> defaults delete</span> can be used to remove a preference completely.</p>
+<p>Some of these changes require a logout/restart to take effect. All settings are case sensitive. </p>
+<p>Applications do access the <i>defaults</i> system while they're running, so don't modify the      <i>defaults</i> of a running application. If you change a <i>default</i> in a domain that belongs to a running, application, the application won't see the change and might even overwrite the default. This includes the 'System Preferences' app.</p>
+<h2>GlobalPreferences</h2>
+<blockquote>
+<p> Enable multitouch trackpad auto orientation sensing (for all users) <br>
+$<span class="code"> defaults write /Library/Preferences/com.apple.MultitouchSupport ForceAutoOrientation -boolean </span></p>
+<p>Map navigation swipe to 3 fingers (turn this off to get 4-finger navigation swipe)<br>
+$<span class="code"> defaults write com.apple.systempreferences com.apple.preference.trackpad.3fdrag-4fNavigate -boolean-neg </span></p>
+<p>Hide Shutdown Button on Login Window:<br>
+$<span class="code"> defaults write com.apple.loginwindow ShutDownDisabled -bool </span></p>
+<p>Remove Restart Button From Login Window:<br>
+$<span class="code"> defaults write com.apple.loginwindow RestartDisabled -bool</span></p>
+<p>Disable creation of Metadata Files on Network Volumes (avoids creation of .DS_Store and AppleDouble files.)<br>
+$ <span class="code"> defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true</span></p>
+<p>Disable creation of Metadata Files on USB Volumes (avoids creation of .DS_Store and AppleDouble files.)<br>
+$ <span class="code"> defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true</span></p>
+<p>Disable Login for Hidden User &quot;&gt;Console&quot; <br>
+$<span class="code"> defaults write com.apple.loginwindow DisableConsoleAccess -bool true</span></p>
+<p>Add a message to the login screen:<br>
+$<span class="code"> sudo defaults write /Library/Preferences/com.apple.loginwindow LoginwindowText &quot;Your Message&quot;</span></p>
+<p>Change login screen background:<br>
+$<span class="code"> sudo defaults write /Library/Preferences/com.apple.loginwindow DesktopPicture "/Library/Desktop Pictures/Aqua Blue.jpg"</span></p>
+<p>Disable transparency in the menu bar and elsewhere  <br>
+Yosemite - equivalent to 
+System Preferences &gt; Accessibility &gt; Display &gt; &quot;Reduce Transparency&quot;<br>
+<span class="code">defaults write com.apple.universalaccess reduceTransparency -bool true</span></p>
+<p>Disable <i>Expose</i><br>
+$<span class="code"> defaults write com.apple.dock mcx-expose-disabled -boolean </span></p>
+<p>In <i>Expose</i>, only show windows from the current space:<br>
+$<span class="code"> defaults write com.apple.dock wvous-show-windows-in-other-spaces -bool FALSE </span><br>
+$<span class="code"> killall Dock</span></p>
+<p>In <i>Expose</i>, show other spaces' windows (default):<br>
+$<span class="code"> defaults delete com.apple.dock wvous-show-windows-in-other-spaces </span><br>
+$<span class="code"> killall Dock</span></p>
+<p>Enable 64-bit Kernel:<br>
+$<span class="code"> defaults write /Library/Preferences/SystemConfiguration/com.apple.Boot.plist Kernel Flags -string</span></p>
+<p> Turn off the “Application Downloaded from Internet” <a href="http://www.zoharbabin.com/hey-mac-i-dont-appreciate-you-spying-on-me-hidden-downloads-log-in-os-x/">quarantine</a> warning:<br>
+$<span class="code"> defaults write com.apple.LaunchServices LSQuarantine -bool NO</span></p>
+</blockquote>
+<h2>Every App</h2>
+<blockquote>
+<p>Restore the  the 'Save As' menu item (Equivalent to adding a Keyboard shortcut in the System Preferences.app )<br>
+$<span class="code"> defaults write -g NSUserKeyEquivalents -dict-add 'Save As...' '@$S'</span></p>
+<p>Save to disk (not to iCloud) by default:<br>
+$<span class="code"> defaults write -g NSDocumentSaveNewDocumentsToCloud -bool false</span></p>
+<p>Expand 'Save As&hellip;' dialog boxes by default:<br>
+<span class="code">defaults write -g NSNavPanelExpandedStateForSaveMode -boolean true</span><br>
+<span class="code">defaults write -g NSNavPanelExpandedStateForSaveMode2 -bool true</span></p>
+<p>Expand print panel dialog boxes by default:<br>
+<span class="code">defaults write -g PMPrintingExpandedStateForPrint -boolean true</span><br>
+<span class="code">defaults write -g PMPrintingExpandedStateForPrint2 -bool true</span></p>
+<p>Global User Interface Scale Multiplier:<br>
+$<span class="code"> defaults write -g AppleDisplayScaleFactor -float </span></p>
+<p> Enable continuous spell checking everywhere:<br>
+$<span class="code"> defaults write -g WebContinuousSpellCheckingEnabled -boolean </span></p>
+<p>Enable automatic dash replacement everywhere:<br>
+$<span class="code"> defaults write -g WebAutomaticDashSubstitutionEnabled -boolean </span></p>
+<p> Enable automatic text replacement everywhere:<br>
+$<span class="code"> defaults write -g WebAutomaticTextReplacementEnabled -boolean</span></p>
+<p>Quit Printer App after Print Jobs complete:<br>
+$ <span class="code"> defaults write com.apple.print.PrintingPrefs &quot;Quit When Finished&quot; -bool true</span></p>
+<p> Icon Size for Open Panels:<br>
+$<span class="code"> defaults write -g NSNavPanelIconViewIconSizeForOpenMode -number</span></p>
+<p>Keyboard press and hold behavior:<br>
+$<span class="code"> defaults write -g ApplePressAndHoldEnabled -boolean </span></p>
+</blockquote>
+<h2>Monitor font smoothing</h2>
+<blockquote>
+<p>Display the current font smoothing:<br>
+$<span class="code"> defaults -currentHost read -globalDomain AppleFontSmoothing<br>
+</span><br>
+Change the font smoothing (0=off, 1=light, 2=Medium/flat panel, 3=strong/blurred)<br>
+This is mostly needed for non-Apple displays.
+<br>
+$<span class="code"> defaults -currentHost write -globalDomain AppleFontSmoothing -int 0</span><br>
+Restart applications to see the effect<br>
+<br>
+Delete the setting completely (restore default)<br>
+$<span class="code"> defaults -currentHost delete -globalDomain AppleFontSmoothing</span></p>
+<p>Set the font anti-aliasing minimum sizes, globally or per-application:<br>
+$<span class="code"> defaults -currentHost write .GlobalPreferences AppleSmoothFontsSizeThreshold -int 16</span><br>
+$<span class="code"> defaults -currentHost write .GlobalPreferences AppleFontSmoothing -int 0</span><br>
+$<span class="code"> defaults -currentHost write com.apple.safari AppleAntiAliasingThreshold -int 16</span></p>
+</blockquote>
+<h2>Address Book</h2>
+<blockquote>
+<p> Show Contact Reflection:<br>
+$<span class="code"> defaults write com.apple.AddressBook reflection -boolean </span></p>
+</blockquote>
+<h2>bbedit</h2>
+<blockquote>
+<p>Use old style modal Find Dialog:<br>
+$<span class="code"> defaults write com.barebones.bbedit FindDialog:UseOldSk00lFindDialog -boolean </span></p>
+</blockquote>
+<h2>Dashboard launcher</h2>
+<blockquote>
+<p>Drag widgets out of dashboard (devmode) <br>
+$<span class="code"> defaults write com.apple.dashboard devmode -boolean</span></p>
+</blockquote>
+<h2> Dictionary</h2>
+<blockquote>
+<p>Reuse dictionary definition window:<br>
+$<span class="code"> defaults write com.apple.Dictionary ProhibitNewWindowForRequest -boolean </span></p>
+</blockquote>
+<h2>DiskUtility</h2>
+<blockquote>
+<p>Show hidden Partitions:<br>
+$<span class="code"> defaults write com.apple.DiskUtility DUShowEveryPartition -boolean</span></p>
+</blockquote>
+<h2>Dock</h2>
+<blockquote>
+<p>Show indicator lights for open applications in the dock:<br>
+$<span class="code"> defaults write com.apple.dock show-process-indicators -bool true</span><br>
+$<span class="code"> killall Dock</span><br>
+<br>
+Disable Bouncing dock icons:<br>
+$<span class="code"> defaults write com.apple.dock no-bouncing -bool True</span><br>
+$<span class="code"> killall Dock</span><br>
+To re-enable, set this back to False</p>
+<p>Minimize windows into their application’s icon <br>
+$<span class="code"> defaults write com.apple.dock minimize-to-application -bool true</span></p>
+<p> Make the Dock Icon of any 'Hidden' Applications Dim/Translucent:<br>
+$<span class="code"> defaults write com.apple.Dock showhidden -bool YES </span><br>
+$<span class="code"> killall Dock</span><br>
+</p>
+<p>Disable multi-display swoosh animations <br>
+$<span class="code"> defaults write com.apple.dock workspaces-swoosh-animation-off -boolean-neg</span></p>
+<p>Remove the animation when hiding or showing the dock<br>
+$ <span class="code"> defaults write com.apple.dock autohide-time-modifier -float 0</span></p>
+<p>Enable iTunes pop-up notifications:<br>
+$<span class="code"> defaults write com.apple.dock itunes-notifications -boolean  dock </span></p>
+<p>Minimize effect <br>
+$<span class="code"> defaults write com.apple.dock mineffect -string </span></p>
+<p>Turn the Dock icons translucent for applications that are open but hidden: <br>
+$<span class="code"> defaults write com.apple. Dock showhidden -bool YES;<br>
+</span>$<span class="code"> killall Dock</span><br>
+(replace 'YES' with 'NO' to disable this feature)</p>
+<p> Add a 'Recent Applications' stack to the Dock.<br>
+$<span class="code"> defaults write com.apple.dock persistent-others -array-add '{ "tile-data" = { "list-type" = 1; }; "tile-type" = "recents-tile"; }'</span><br>
+$<span class="code"> killall Dock</span><br>
+To remove - just drag out of the dock again<br>
+<br>
+Stacks, Activate Mouse Over Gradient:<br>
+$<span class="code"> defaults write com.apple.dock mouse-over-hilte-stack -boolean YES</span><br>
+$<span class="code"> killall Dock</span><br>
+To deactivate set back to NO</p>
+</blockquote>
+<h2>Finder</h2>
+<blockquote>
+<p> Show hidden files:<br>
+$<span class="code"> defaults write com.apple.finder AppleShowAllFiles TRUE</span><br>
+$<span class="code"> killall Finder</span><br>
+<br>
+Hide hidden files (default)<br>
+$<span class="code"> defaults write com.apple.finder AppleShowAllFiles FALSE</span><br>
+$<span class="code"> killall Finder</span></p>
+<p>Show all filename extensions <br>
+$<span class="code"> defaults write NSGlobalDomain AppleShowAllExtensions -bool true</span><br>
+<br>
+Disable the OS X Crash reporter (quit dialog after an application crash)<br>
+$<span class="code"> defaults write com.apple.CrashReporter DialogType none</span><br>
+To enable the crash reporter (default) change none to prompt<br>
+<br>
+Disable dashboard widgets (saves RAM)<br>
+$<span class="code"> defaults write com.apple.dashboard mcx-disabled -boolean YES</span><br>
+To Enable dashboard widgets (default) set this to NO<br>
+<br>
+Disable the New Window Animation:<br>
+$<span class="code"> defaults write NSGlobalDomain NSAutomaticWindowAnimationsEnabled -bool NO</span><br>
+To enable the animation (default) set this to YES</p>
+<p># Show the Status Bar, this can also be toggled on the View menu:<br>
+$ <span class="code">defaults write com.apple.finder ShowStatusBar -bool true</span><br>
+# Hide  the Status Bar (Default) <br>
+$ <span class="code">defaults write com.apple.finder ShowStatusBar -bool false</span></p>
+<p>Start the status bar Path at $HOME   (instead of Hard drive)<br>
+$<span class="code"> defaults write /Library/Preferences/com.apple.finder PathBarRootAtHome -bool </span></p>
+<p> Enable Remote Disc (1)<br>
+$<span class="code"> defaults write com.apple.NetworkBrowser EnableODiskBrowsing -boolean</span><br>
+</p>
+<p> Enable Remote Disc (2)<br>
+$<span class="code"> defaults write com.apple.NetworkBrowser ODSSupported -boolean</span></p>
+<p> Enable movie preview thumbnails:<br>
+$<span class="code"> defaults write com.apple.QuickLookDaemon QLDisableQTThumbnails -boolean-neg</span></p>
+<p> Minimum size for playable previews:<br>
+$<span class="code"> defaults write com.apple.finder QLInlinePreviewMinimumSupportedSize -integer</span></p>
+<p> Auto stop previews when scrolling:<br>
+$<span class="code"> defaults write com.apple.finder AutoStopWhenScrollingOffBounds -boolean</span></p>
+<p> Auto stop previews when selection changes:<br>
+$<span class="code"> defaults write com.apple.finder AutoStopWhenSelectionChanges -boolean </span></p>
+<p>CoverFlow background color:<br>
+$<span class="code"> defaults write com.apple.finder IKImageFlowBackgroundColor -boolean </span></p>
+<p> Show X-ray for folders with custom icons:<br>
+$<span class="code"> defaults write com.apple.DisableXRayForFoldersWithCustomIcons -boolean-neg</span></p>
+<p>Show X-ray folders in QuickLook:<br>
+$<span class="code"> defaults write com.apple.finder QLEnableXRayFolders -boolean</span></p>
+<p>Enable slow motion with shift key on QuickLook:<br>
+$<span class="code"> defaults write com.apple.finder QLEnableSlowMotion -boolean</span></p>
+<p> $ Hide QuickLook on deactivation or application switch:<br>
+$<span class="code"> defaults write com.apple.finder QLHidePanelOnDeactivate -boolean</span></p>
+<p>When performing a search, search the current folder by default (the default 'This Mac' is <span class="code">&quot;SCev&quot;</span>)<br>
+$<span class="code"> defaults write com.apple.finder FXDefaultSearchScope -string &quot;SCcf&quot;</span></p>
+<p> Show version column in search results<span class="code">:<br>
+</span>$<span class="code"> defaults write com.apple.finder SearchViewSettings.ListViewSettings.columns.version.visible -boolean </span></p>
+<p> Show label column in search results:<br>
+$<span class="code"> defaults write com.apple.finder SearchViewSettings.ListViewSettings.columns.label.visible -boolean</span></p>
+<p> Show comments column in search results:<br>
+$<span class="code"> defaults write com.apple.finder SearchViewSettings.ListViewSettings.columns.comments.visible -boolean </span></p>
+<p> Show size column in search results:<br>
+$<span class="code"> defaults write com.apple.finder SearchViewSettings.ListViewSettings.columns.size.visible -boolean</span></p>
+<p>Set the sidebar icon size to small, medium or Large:<br>
+$ <span class="code">defaults write NSGlobalDomain NSTableViewDefaultSizeMode -int 1</span><br>
+$ <span class="code">defaults write NSGlobalDomain NSTableViewDefaultSizeMode -int 2</span><br>
+$ <span class="code">defaults write NSGlobalDomain NSTableViewDefaultSizeMode -int 1</span></p>
+<p>Disable the warning when changing a file extension <br>
+$<span class="code"> defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false</span></p>
+<p>Use white text for desktop icons:<br>
+$<span class="code"> defaults write com.apple.finder Desktop.HasDarkBackground -boolean</span></p>
+<p>Show stripes in list views:<br>
+$<span class="code"> defaults write com.apple.finder FXListViewStripes -boolean </span></p>
+<p>Allow quitting Finder, like any other app. doing so will also hide desktop icons. <br>
+This is only really useful with a 3rd party file manager: <br>
+$<span class="code"> defaults write com.apple.finder QuitMenuItem -bool YES; killall Finder </span><br>
+</p>
+</blockquote>
+<h2>Front Row launcher </h2>
+<blockquote>
+<p>Set preferred display to use:<br>
+$<span class="code"> defaults write com.apple.frontrow FrontRowUsePreferredDisplayID -integer </span></p>
+</blockquote>
+<h2>iCal</h2>
+<blockquote>
+<p>Log HTTP Activity:<br>
+$<span class="code"> defaults write com.apple.iCal LogHTTPActivity -boolean</span></p>
+</blockquote>
+<h2>iTunes 10</h2>
+<blockquote>
+<p> Make the arrows next to artist &amp; album jump to local iTunes library folders instead of Store:<br>
+$<span class="code"> defaults write com.apple.iTunes show-store-link-arrows -bool YES</span><br>
+$<span class="code"> defaults write com.apple.iTunes invertStoreLinks -bool YES</span><br>
+To restore the default change the YES to NO<br>
+<br>
+Restore the standard close/minimise buttons:<br>
+$<span class="code"> defaults write com.apple.iTunes full-window -1<br>
+</span><br>
+Hide the iTunes Genre list:<br>
+$<span class="code"> defaults write com.apple.iTunes show-genre-when-browsing -bool FALSE </span></p>
+</blockquote>
+<h2>Mail</h2>
+<blockquote>
+<p>Close Apple Mail before making any changes.</p>
+<p> Set a minimum font size of 14px (affects reading and sending email):<br>
+$<span class="code"> defaults write com.apple.mail MinimumHTMLFontSize 14<br>
+</span><br>
+Force all  Mail messages to display as plain text:<br>
+$<span class="code"> defaults write com.apple.mail PreferPlainText -bool TRUE</span><br>
+For rich text (the default) set it to FALSE</p>
+<p>Disable tracking of Previous Recipients:<br>
+$<span class="code"> defaults write com.apple.mail SuppressAddressHistory -boolean</span></p>
+<p> Send Windows friendly attachments:<br>
+$<span class="code"> defaults write com.apple.mail SendWindowsFriendlyAttachments -boolean</span></p>
+</blockquote>
+<h2>Mouse </h2>
+<blockquote>
+<p>Enable momentum scrolling for Magic Mouse:<br>
+$<span class="code"> defaults write com.apple.driver.AppleBluetoothMultitouch.mouse MouseMomentumScroll -boolean</span></p>
+</blockquote>
+<h2>OmniGraffle</h2>
+<blockquote>
+<p> Allow scroll wheel zooming:<br>
+$<span class="code"> defaults write com.omnigroup.OmniGraffle DisableScrollWheelZooming -boolean-neg </span></p>
+<p> Allow scroll wheel zooming in OmniGrafflePro:<br>
+$<span class="code"> defaults write com.omnigroup.OmniGrafflePro DisableScrollWheelZooming -boolean-neg</span></p>
+</blockquote>
+<h2>Preview</h2>
+<blockquote>
+<p>Scale images by default when printing:<br>
+$<span class="code"> defaults write write com.apple.Preview PVImagePrintingScaleMode -boolean </span></p>
+<p>Preview Auto-rotate by default when printing:<br>
+$<span class="code"> defaults write write com.apple.Preview PVImagePrintingAutoRotate -boolean</span></p>
+<p>Quit Always Keeps Windows:<br>
+$<span class="code"> defaults write com.apple.Preview NSQuitAlwaysKeepsWindows -boolean</span></p>
+</blockquote>
+<h2>Quick Time  Player </h2>
+<blockquote>
+<p>Automatically show Closed Captions (CC) when  opening a Movie:<br>
+$<span class="code"> defaults -currentHost write com.apple.QuickTimePlayerX.plist MGEnableCCAndSubtitlesOnOpen -boolean</span></p>
+</blockquote>
+<h2>Safari</h2>
+<blockquote>
+<p>Enable encoding detector:<br>
+$<span class="code"> defaults write com.apple.Safari WebKitUsesEncodingDetector -boolean</span></p>
+<p>Tooltip Font Size:<br>
+$<span class="code"> defaults write com.apple.Safari NSToolTipsFontSize -float</span></p>
+<p>Enable debug menu:<br>
+$<span class="code"> defaults write com.apple.Safari IncludeDebugMenu -boolean</span></p>
+</blockquote>
+<h2>ScreenSharing</h2>
+<blockquote>
+<p>Debug (To Show Bonjour)<br>
+$<span class="code"> defaults write com.apple.ScreenSharing debug -boolean </span></p>
+<p>Do Not Send Special Keys to Remote Machine<br>
+$<span class="code"> defaults write com.apple.ScreenSharing DoNotSendSystemKeys -boolean</span></p>
+<p>Skip local address check:<br>
+$<span class="code"> defaults write com.apple.ScreenSharing skipLocalAddressCheck -boolean</span></p>
+<p>Screen sharing image quality <br>
+$<span class="code"> defaults write com.apple.ScreenSharing controlObserveQuality -integer </span></p>
+<p> Number of recent hosts on ScreenSharingMenulet:<br>
+$<span class="code"> defaults write com.klieme.ScreenSharingMenulet maxHosts -integer </span></p>
+<p>Display IP-Addresses of the local hosts on ScreenSharingMenulet:<br>
+$<span class="code"> defaults write com.klieme.ScreenSharingMenulet showIPAddresses -boolean</span></p>
+</blockquote>
+<h2>Software update</h2>
+<blockquote>
+<p>While applying any changes to <a href="softwareupdate.html">SoftwareUpdate</a> defaults, set software update to OFF to avoid any conflict with the defaults system cache. (Also close the System Preferences app)</p>
+<p class="code">sudo <a href="softwareupdate.html">softwareupdate</a> --schedule OFF<br>
+&lt;apply changes&gt;<br>
+sudo <a href="softwareupdate.html">softwareupdate</a> --schedule ON</p>
+<p>Automatically check for updates (required for any downloads):<br>
+$<span class="code"> sudo defaults write /Library/Preferences/com.apple.SoftwareUpdate.plist AutomaticCheckEnabled -bool YES</span></p>
+<p>Download updates automatically in the background<br>
+$<span class="code"> sudo defaults write /Library/Preferences/com.apple.SoftwareUpdate AutomaticDownload -bool YES</span></p>
+<p>Install app updates automatically:<br>
+$<span class="code"> sudo defaults write /Library/Preferences/com.apple.commerce AutoUpdate -bool YES</span></p>
+<p>Don't Install macos updates automatically<br>
+$<span class="code"> sudo defaults write /Library/Preferences/com.apple.commerce AutoUpdateRestartRequired -bool false</span></p>
+<p>Install system data file updates automatically:<br>
+$<span class="code"> sudo defaults write /Library/Preferences/com.apple.SoftwareUpdate.plist ConfigDataInstall -bool YES</span></p>
+<p>Install critical security updates automatically:<br>
+$<span class="code"> sudo defaults write /Library/Preferences/com.apple.SoftwareUpdate.plist CriticalUpdateInstall -bool YES</span></p>
+</blockquote>
+<h2>Spaces</h2>
+<blockquote>
+<p>When switching applications, switch to respective space<br>
+$<span class="code"> defaults write -g AppleSpacesSwitchOnActivate -bool true</span></p>
+</blockquote>
+<h2>RemoteManagement</h2>
+<blockquote>
+<p>Disable Multicast:<br>
+$<span class="code"> defaults write /Library/Preferences/com.apple.RemoteManagement ARD_MulticastAllowed -boolean </span></p>
+</blockquote>
+<h2>Remote Desktop</h2>
+<blockquote>
+<p> Set the maximum number of computers that can be observed:<br>
+$<span class="code"> defaults write com.apple.RemoteDesktop multiObserveMaxPerScreen -integer 9</span><br>
+(up to 50 opposed to the default of 9)<br>
+</p>
+</blockquote>
+<h2>Terminal<br>
+</h2>
+<blockquote>
+<p> Terminal windows take focus with mouse over window:<br>
+$<span class="code"> defaults write com.apple.terminal FocusFollowsMouse -string YES</span></p>
+<p>Terminal windows take focus with click (default)<br>
+$<span class="code"> defaults write com.apple.terminal FocusFollowsMouse -string NO</span></p>
+</blockquote>
+<h2>TextWrangler</h2>
+<blockquote>
+<p>Camel Case Navigation:<br>
+$<span class="code"> defaults write com.barebones.textwrangler Editor:ControlArrowCamelCase -bool</span></p>
+</blockquote>
+<h2>TimeMachine</h2>
+<blockquote>
+<p>Auto backup:<br>
+$<span class="code"> defaults write com.apple.TimeMachine AutoBackup =1 </span></p>
+<p>Backup frequency default= 3600 seconds (every hour) 1800 = 1/2 hour, 7200=2 hours <br>
+$<span class="code"> sudo defaults write /System/Library/Launch Daemons/com.apple.backupd-auto StartInterval -int 1800 </span></p>
+</blockquote>
+<p>X11 (2.4.0)</p>
+<blockquote>
+<p>Auto-quit on close last window (XQuartz) <br>
+$<span class="code"> defaults write org.macosforge.xquartz.X11 wm_auto_quit -boolean </span></p>
+<p>Focus follows mouse (10.5.5 and up) (XQuartz) <br>
+$<span class="code"> defaults write org.macosforge.xquartz.X11 wm_ffm -boolean</span></p>
+</blockquote>
+<p><b>Related:</b></p>
+<p><a href="defaults.html">defaults</a> - set preferences, for both OS X and individual applications.<br>
+<a href="https://github.com/mathiasbynens/dotfiles/blob/master/.osx">More OS X and App defaults</a> from Mathias Bynens<br>
+<a href="sudo.html">sudo</a> - Execute a command as another user. <br>
+<a href="syntax.html">OS X Syntax</a></p><!-- #BeginLibraryItem "/Library/foot_osx.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- OSX300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="1823340303"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="syntax-defaults.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

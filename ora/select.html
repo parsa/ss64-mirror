@@ -1,0 +1,142 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Select | Oracle | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_ora.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../ora.1.html">Oracle</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>SELECT Statement </h1> 
+<p>Retrieve data from one or more tables, views, or snapshots.<br>
+The syntax on this page should be read in conjunction with <a href="syntax-analytic.html">Analytic Features</a><br>
+<br>Summary of Syntax:</p>
+<pre>   <b>SELECT</b> [<a href="select_hints.html">hint</a>][DISTINCT] <i>select_list</i>
+      <b>FROM</b> <i>table_list</i>
+         [WHERE <i>conditions</i>]
+            [START WITH] <a href="connectby.html">[CONNECT BY]</a>
+               [<a href="select_group.html">GROUP BY</a> <i>group_by_list</i>]
+                  [HAVING <i>search_conditions</i>]
+                     [ORDER BY <i>order_list</i> [ASC | DESC] ]
+                        [FOR UPDATE <i>for_update_options</i>]</pre>
+<p>Key:</p>
+<blockquote><p><i class="code">select_list</i>
+<br>A comma-separated list of table columns (or expressions) eg: </p>
+  <pre>column1, column2, column3 
+table.column1, table.column2
+table.column1 Col_1_Alias, table.column2 Col_2_Alias
+schema.table.column1 Col_1_Alias, schema.table.column2 Col_2_Alias
+schema.table.*
+*
+expr1, expr2
+(subquery [WITH READ ONLY | WITH CHECK OPTION [CONSTRAINT constraint]])</pre>
+<p>In the  above, <span class="code">table</span> can be replaced with <span class="code">view</span> or <span class="code">snapshot</span>. 
+<br>
+Using the <span class="code">*</span> expression will return all columns.<br>
+If a Column Alias is specified this will appear as the column heading 
+in SQL*Plus output.</p>
+<p><span class="code">DISTINCT</span><br>
+Supress duplicate rows - display only the unique values.<br>
+Duplicate rows have matching values across every column (or expression) in the <i>select_list</i>. </p>
+<p> <span class="code">FROM <i> table_list</i> </span><br>
+Contains a list of the tables from which the result set data is retrieved. 
+<pre>[schema.]{table | view | snapshot}[@dblink] [t_alias]</pre>
+<p>When selecting from a table you can also specify Partition and/or Sample clauses (only for local tables, not remote objects via dblink) e.g. 
+<pre>[schema.]table [PARTITION (partition)] [SAMPLE (sample_percent)]</pre>
+<p> If the SELECT statement involves more than one table, the FROM clause can also contain join specifications (SQL1992 standard).</p>
+<p><span class="code">WHERE <i>search_conditions</i></span><i><br></i>A filter that defines the conditions each row in the source table(s) must meet to qualify for the SELECT. Only rows that meet the conditions will be included in the result set. The WHERE clause can also contain inner and outer join specifications (SQL1989 standard). e.g. </p>
+<pre>WHERE tableA.column = tableB.column
+WHERE tableA.column = tableB.column(+)
+WHERE tableA.column(+) = tableB.column</pre>
+<p><span class="code"> GROUP BY <i>group_by_list</i></span><i><br>
+</i>The <a href="select_group.html">GROUP BY</a> clause partitions the result set into groups.<br>
+The <i>group_by_list</i> can be one or more columns or expressions and can optionally include the CUBE / ROLLUP keywords for creating crosstab results.</p>
+<p>Heirarchical Queries<br>
+Any query that does *not* include a GROUP BY clause can include a CONNECT BY heirarchy clause: </p>
+<pre>[START WITH condition] CONNECT BY condition</pre>
+<p><span class="code"> HAVING <i>search_conditions</i> </span><br>
+An additional filter - the HAVING clause acts as an additional filter to the <b>grouped</b> result rows - as opposed to the WHERE clause that applies to individual rows. The HAVING clause is most commonly used in conjunction with 
+a <a href="select_group.html">GROUP BY</a> clause.<br>
+<span class="code"><br>
+ORDER BY <i>order_list</i> [ <u>ASC</u> | DESC ] [ NULLS { FIRST | LAST } 
+]</span><br>
+The ORDER BY clause defines the order in which the rows in the result set are sorted. <i>order_list</i> specifies the result set columns that make up the sort list. The ASC and DESC keywords are used to specify if the rows are sorted ascending (1…9 a…z) or descending (9…1 z…a). </p>
+<p>You can sort by any column even if that column is not actually in the main SELECT clause. If you do not include an ORDER BY clause then the order of the result set rows will be unpredictable (random or quasi random).<br>
+<br>
+<span class="code">FOR UPDATE <i>options</i> </span><br>
+This is often used within SL/SQL routines to <a href="syntax-locking.html">lock</a> the selected rows.<br>
+Oracle
+will wait for any locks to be released unless you specify NOWAIT</p>
+ <pre>FOR UPDATE [OF [ [<i>schema</i>.]{<i>table</i>|<i>view</i>}.] column] [NOWAIT]
+</pre><p>Undocumented syntax:</p>
+<pre>   SELECT… FOR UPDATE SKIP LOCKED</pre>
+<p><a href="http://www.ixora.com.au/q%2Ba/0010/17094208.htm">Skip Locked</a> will return all the 'non-locked' rows and lock them. While this syntax can be used effectively, it is generally not a good idea to use it within an application as undocumented syntax might be removed or changed in  a future release.</p>
+</blockquote>
+<p><b>Writing a SELECT statement</b></p>
+<p>The clauses (SELECT … FROM … WHERE … HAVING … ORDER BY … ) must be in this order.</p>
+<p>The position of commas and semicolons is not forgiving.</p>
+<p>Each expression must be unambiguous. In other words if two columns have the same name, then either prefix the columns with the tablename (or use an alias). </p>
+<pre>    SELECT DISTINCT
+        customer_id, 
+        oi_ship_date
+    FROM
+        customers,
+        order_items  
+    WHERE
+        customers.customer_id = order_items.customer_id
+        AND order_items.oi_ship_date &gt; '01-may-2001';</pre>
+<p>Table  names can also be qualified with the schema name (if you are
+  working with multiple schema's)<br> 
+  e.g. <code>scott.t_customers.customer_id</code></p>
+<p>SQL statements can be simplified, and made more readable by assigning a <b>table alias</b> (also known as a range variable or correlation name). <br>
+<br>With a table alias the fully qualified name has to be specified only in the FROM clause. All other table/view references  then use the alias name. e.g.</p>
+<pre>    SELECT DISTINCT
+        cst.customer_id, 
+        ord.oi_ship_date
+    FROM
+        customers <b>cst</b>,
+        order_items <b>ord</b>
+    WHERE
+        cst.customer_id = ord.customer_id
+        AND ord.oi_ship_date &gt; '01-may-2001';</pre>
+<p>More complex queries can be written by combining several SELECT commands in a single SQL statement:<br>
+  <span class="code">SELECT command { <a href="union.html">UNION</a> | <a href="union.html">UNION ALL</a> | <a href="union.html">INTERSECT</a> | <a href="union.html">MINUS</a> 
+} SELECT command</span></p>
+<p class="quote"><i>&ldquo;At school, new ideas are thrust at you every day. Out in the world, you'll have to find the inner motivation to search for new ideas on your own&rdquo; - Bill Watterson</i></p>
+<p>  <b> Related:<br>
+</b><br>
+<a href="delete.html">DELETE</a><a href="insert.html"><br>
+</a><a href="explain.html">EXPLAIN PLAN</a> 
+<br><a href="insert.html">INSERT</a>
+<br><a href="truncate.html">TRUNCATE</a><br>
+<a href="union.html">UNION</a><br>
+<a href="update.html">UPDATE</a> <br>
+<a href="../orap/DBMS_LOCK.html">DBMS_LOCK</a> <br>
+<a href="../orap/DBMS_SQL.html">DBMS_SQL</a><br>
+<a href="syntax-analytic.html">Analytic Features</a> (8i and above)<br>
+<a href="select_hints.html">Select Hints </a><br>
+<a href="http://www.jlcomp.demon.co.uk/faq/ind_faq.html#SQL_techniques">SQL Examples</a> - Oracle Co-Operative FAQ<br>
+<a href="../links/oralinks.html#sql">SQL Reference Books</a><br>
+<br><b>Related Views:</b></p>
+<pre>  <a href="../orad/DBA_SNAPSHOTS.html">DBA_SNAPSHOTS</a>        <a href="../orad/ALL_SNAPSHOTS.html">ALL_SNAPSHOTS</a>        <a href="../orad/USER_SNAPSHOTS.html">USER_SNAPSHOTS</a> 
+  <a href="../orad/DBA_ALL_TABLES.html">DBA_ALL_TABLES</a>       <a href="../orad/ALL_ALL_TABLES.html">ALL_ALL_TABLES</a>       <a href="../orad/USER_ALL_TABLES.html">USER_ALL_TABLES</a>
+  <a href="../orad/DBA_TABLES.html">DBA_TABLES</a>           <a href="../orad/ALL_TABLES.html">ALL_TABLES</a>           <a href="../orad/USER_TABLES.html">USER_TABLES</a>         <a href="../orad/TAB.html">TAB</a>
+  <a href="../orad/DBA_VIEWS.html">DBA_VIEWS</a>            <a href="../orad/ALL_VIEWS.html">ALL_VIEWS</a>            <a href="../orad/USER_VIEWS.html">USER_VIEWS</a>
+                                                                <a href="../orad/DICTIONARY.html">DICTIONARY</a>
+                                                                <a href="../orad/DICT_COLUMNS.html">DICT_COLUMNS</a></pre><!-- #BeginLibraryItem "/Library/foot_ora.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- oracle-footer -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4275490898"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="select.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

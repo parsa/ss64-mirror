@@ -1,0 +1,56 @@
+<!DOCTYPE HTML><html lang="en">
+<head><meta charset="UTF-8">
+<meta name="Description" content="If-Then-Else function.">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>iif function | Access | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_access.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../access.1.html">Access</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/access/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>iif - immediate if </h1>
+<p>  If-Then-Else function.</p>
+<pre>Syntax
+      iif (<i>condition</i>, <i>value_if_true</i>, <i>value_if_false</i>)
+
+Key
+   <i>condition</i>      The expression to test.
+                  For multiple conditions use AND / OR
+
+   <i>value_if_true</i>  The value returned if <i>condition</i> evaluates to TRUE.
+
+   <i>value_if_false</i> The value returned if <i>condition</i> evaluates to FALSE.
+</pre>
+<p>The iif() function can be used in VBA or in an <a href="syntax-functions.html">SQL query.</a> The value returned can be a text string, a number or a True/False literal value. </p>
+<p>An Excel <span class="code">AND()</span> function can be converted to Access like this:</p>
+<p><span class="code">=AND(<i>expression1</i>, <i>expression2</i>)<br>
+</span>becomes<span class="code"><br> 
+iif(<i>expression1</i> AND <i>expression2</i>, True) </span></p>
+<p> <b>Examples</b></p>
+<p class="code">Dim strLocal as String<br>
+Dim strDemo as String</p>
+<p class="code"> strLocal = iif ([State] = &quot;TX&quot;, &quot;Local&quot;, &quot;National&quot;)</p>
+<p class="code">strDemo = iif ([State] = &quot;TX&quot; OR [State] = &quot;OK&quot; , &quot;Free Delivery &quot;, &quot;&quot;)<br> 
+MsgBox strDemo<br>
+strDemo = iif ([State] = &quot;TX&quot; AND [Price] &gt; 20 , &quot;Free&quot;, &quot;Delivery $8 surcharge&quot;)</p>
+<p class="quote"><i>&ldquo;The test of a good teacher is not how many questions he can ask his pupils that they will answer readily, but how many questions he inspires them to ask him which he finds it hard to answer&rdquo; ~ Alice Wellington Rollins</i></p>
+<p><b>Related:</b></p>
+<p><a href="if.html">If Then Else</a> - If-Then-Else<br>
+<a href="case.html">Case</a> - If Then Else<br>
+<a href="nz.html">Nz</a> - Detect a NULL value</p><!-- #BeginLibraryItem "/Library/foot_access.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- access -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4313908313"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="iif.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

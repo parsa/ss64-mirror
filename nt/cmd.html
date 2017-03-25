@@ -1,0 +1,140 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>CMD.exe (Command Shell) | Windows CMD | SS64.com</title>
+</head><!-- #BeginLibraryItem "/Library/head_nt.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../nt.1.html">CMD</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/nt/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>CMD.exe</h1>  
+<p>Start a new CMD shell and (optionally) run a command/executable program.</p>
+<pre>Syntax
+      CMD [<i>charset</i>] [<i>options</i>]
+
+      CMD [<i>charset</i>] [<i>options</i>] [/C <i>Command</i>] 
+
+      CMD [<i>charset</i>] [<i>options</i>] [/K <i>Command</i>] 
+
+Options   
+   /C     Run <i>Command</i> and then terminate
+
+   /K     Run <i>Command</i> and then return to the CMD prompt.
+          This is useful for testing, to examine variables
+
+   <i>Command</i> : The command, program or batch script to be run.
+             This can even be several commands separated with '<a href="syntax-redirection.html">&</a>' 
+             (the whole should also be surrounded by &quot;quotes&quot;)
+
+   /T:<i>fg</i>  Sets the foreground/background <a href="color.html">colours</a> 
+   
+   /A     Output ANSI characters
+   /U     Output UNICODE characters (UCS-2 le)
+          These options will affect <a href="syntax-redirection.html">piping or redirecting</a> to a file.
+          Most common text files are ANSI, use these switches
+          when you need to convert the character set.
+
+   /D     Ignore registry AutoRun commands
+          HKLM | HKCU \Software\Microsoft\Command Processor\AutoRun
+
+   /E:ON  Enable CMD Command Extensions (default)
+   /X     Enable CMD Command Extensions (old switch for compatibility)
+   /E:OFF Disable CMD Command Extensions
+   /Y     Disable CMD Command Extensions (old switch for compatibility)
+
+   /F:ON  Enable auto-completion of pathnames entered at the CMD prompt
+   /F:OFF Disable auto-completion of pathnames entered at the CMD prompt (default)</pre>
+<blockquote>
+<blockquote>
+<p>At the command prompt <span class="code">Ctrl-D</span> gives fol<b>d</b>er name completion and 
+<span class="code">Ctrl-F</span> gives <b>F</b>ile and folder name completion.<br>
+<br>
+These key-strokes will display the
+first matching path. Thereafter, repeated pressing of the same control
+key will cycle through the list of matching paths.  Pressing SHIFT
+with the control key will move through the list backwards. </p>
+</blockquote>
+</blockquote>
+<pre>   /Q    Turn echo off
+
+   /S    Strip &quot; quote characters from <i>command.
+</i>         If <i>command</i> starts with a quote, the first and last quote chars in <i>command</i>
+         will be removed, whether /s is specified or not.
+
+   /V:ON Enable <a href="setlocal.html">delayed environment variable expansion</a> 
+         this allows a FOR loop to specify !variable! instead of %variable% 
+         expanding the variable at execution time instead of at input time. 
+   
+   /V:OFF
+         Disable delayed environment expansion.
+         Delayed Environment expansion can also be set with <a href="setlocal.html">SETLOCAL</a></pre>
+<p>If /C or /K is specified, then the remainder of the command line is 
+processed as an immediate command in the new shell. Multiple commands
+separated by the command separator  '&' or '<a href="syntax-redirection.html">&&</a>' are accepted if surrounded by quotes.</p>
+<p>In Windows Explorer, you can type &quot;<span class="code">cmd</span>&quot; in the address bar to open a prompt at the current location.<br>
+For more detail about the CMD shell:  QuickEdit, handing quotes, max line length etc, see the <a href="syntax-cmd.html">CMD Syntax page</a>.</p>
+<h2>ErrorLevel</h2>
+<blockquote>
+<p> CMD /C will return an errorlevel, for example <span class="code">CMD /c dir Z: </span>where the drive Z: does not exist, will return %errorlevel% =  1 to the calling CMD shell.</p>
+</blockquote>
+<h2>Launching CMD/batch files from a UNC path</h2>
+<blockquote>
+<p>While most command line utilities do fully support UNC paths, they cannot be set as the <a href="cd.html">current directory</a>. Launching a batch file from a UNC path will implicitly run CMD.exe with that UNC path, this will often return the error: <i>path is an invalid current directory path. UNC paths are not supported. Defaulting to Windows directory.</i><br>
+This can be dangerous if your batch file makes any assumptions about the current directory, <br>
+e.g. if it includes the line <span class="code">DEL&nbsp;*.ico</span>, that will delete  .ico files from the Windows directory instead of the folder where the batch file resides.<br>
+If you are confident that the batch file won't be affected by this, you can suppress the error in one of two ways: Add a <a href="cls.html">CLS</a> command as the first line of the batch script, or add the registry key <span class="code">DisableUNCCheck</span> as described in <a href="https://support.microsoft.com/en-us/kb/156276">Q156276</a></p>
+<p>Alternatively start the batch file with  <span class="code"><a href="pushd.html">pushd</a> &quot;%~dp0&quot;</span> <br>
+That will change directory to your batch file location (<span class="code"><a href="syntax-args.html">%0</a></span>), and for UNC paths it will auto-create a temporary drive map.<br>
+</p>
+</blockquote>
+<h2>Command Extensions</h2>
+<blockquote>
+<p>  Much of the functionality of CMD.exe can be disabled - this will affect all the internal commands, and most <a href="syntax-variables.html">dynamic/volatile environment variables</a> (%TIME% , %DATE% , %RANDOM% , %CD% etc)
+</p>
+<p>Command Extensions are enabled by default. This can be changed 
+  by setting a value in the registry: HKCU\Software\Microsoft\Command Processor\EnableExtensions<br>
+Command 
+Extensions can also be turned on or off by running <span class="code">CMD /e:on</span> or <span class="code">CMD /e:off<br>
+</span> or run <span class="code"><a href="setlocal.html">SETLOCAL</a> EnableExtensions</span> (SetLocal will take precedence)</p>
+</blockquote>
+<p><span class="code"></span><b>Examples</b>:</p>
+<p>Run a program and pass a Filename parameter:<br>
+<span class="code"> CMD /c write.exe c:\docs\sample.txt</span></p>
+<p>Run a program and pass a Long Filename:<br>
+<span class="code"> CMD /c write.exe &quot;c:\sample documents\sample.txt&quot;</span></p>
+<p>Spaces in Program Path:<br>
+<span class="code"> CMD /c &quot;&quot;c:\Program Files\Microsoft Office\Office\Winword.exe&quot;&quot;</span></p>
+<p>Spaces in Program Path + parameters:<br>
+<span class="code"> CMD /c &quot;&quot;c:\Program Files\demo.cmd&quot;&quot; Parameter1 Param2</span></p>
+<p>Spaces in Program Path + parameters with spaces:<br>
+<span class="code">CMD /k &quot;&quot;c:\batch files\demo.cmd&quot; &quot;Parameter 1 with space&quot; &quot;Parameter2 with space&quot;&quot;</span></p>
+<p>Launch Demo1 and then Launch Demo2:<br>
+<span class="code"> CMD /c &quot;&quot;c:\Program Files\demo1.cmd&quot; &amp; &quot;c:\Program Files\demo2.cmd&quot;&quot;</span></p>
+<p><i class="quote">&ldquo;Those who can command themselves, command others&rdquo; - Hazlitt</i><br>
+<br>
+<b>Related:</b></p>
+<p><a href="syntax-cmd.html">CMD Shell</a> - Tips on working in the Windows CMD shell.<br>
+<a href="exit.html">EXIT</a> - Use this to close a CMD shell and return. <br>
+<a href="call.html">CALL</a> - Call one batch program from another<br>
+<a href="start.html">START</a> - Run a  program,  command or batch file <br>
+<a href="doskey.html">DOSKEY</a> - Edit command line, recall commands<br>
+<a href="syntax-internal.html">CMD Internal</a> - Commands that are Internal to the CMD shell.<br>
+<a href="https://support.microsoft.com/kb/156276">Q156276</a> - Cmd does not support UNC names as the current directory<br>
+Powershell: You can run the CMD shell under  Powershell, Exit will return you to the PS prompt. <br>
+Equivalent bash command (Linux): bash - run the bash shell (also csh, ksh, sh)</p><!-- #BeginLibraryItem "/Library/foot_nt.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- windows300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="7649547908"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="cmd.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

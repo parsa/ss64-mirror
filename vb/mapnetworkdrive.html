@@ -1,0 +1,64 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>MapNetworkDrive | VBScript | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_vb.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../vb.1.html">VBScript</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/vb/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>.MapNetworkDrive</h1> 
+<p>Add a shared network drive mapping.</p>
+<pre>Syntax 
+      <i>objNetwork</i>.MapNetworkDrive(<i>strLocalDrive</i>, <i>strRemoteShare</i>, [<i>persistent</i>], [<i>strUser</i>], [<i>strPassword</i>])
+
+Key
+   objNetwork     : A WScript.network object
+
+   strLocalDrive  : The drive letter (e.g. L:)
+   
+   strRemoteShare : The UNC path to the remote drive \\MyServer\MyPrinter
+                    (String value)
+   
+   persistent     : True/False - store the mapping persistently in the users profile
+                    default = false
+   
+   strUser        :  The user name. (Optional)
+   
+   strPassword    :  The password. (Optional)</pre>
+<p><b>Example</b></p>
+<p class="code">Dim objNetwork,  strRemoteShare<br>
+Set objNetwork = WScript.CreateObject(&quot;<a href="network.html">WScript.Network</a>&quot;)<br>
+ strRemoteShare = &quot;\\myserver\users&quot;  <br>
+objNetwork<b>.MapNetworkDrive</b> &quot;H:&quot;, strRemoteShare, False</p>
+<p>To run these commands in PowerShell without calling cscript:</p>
+<p class="code">$network = New-Object -ComObject WScript.Network<br>
+$RemoteShare = '\\myserver\users'<br>
+$network<b>.MapNetworkDrive</b>('H:', $RemoteShare, $false) </p>
+<p>The example script below takes this a stage further, disconnecting the drive letter first (and coded to cope with persistent and/or disconnected drive shares) </p>
+<p><a href="syntax-mapdrive.html">DriveMap.vbs - Connect a local drive letter to a remote file share</a></p>
+<p>For  workgroup  machines  sharing  files via  pass-thru authentication with no domain  login script, a <i><a href="syntax-mapdrivepersistent.html">persistent</a></i> drive map can be used. Persistent drives will automatically connect to the resource whenever it is available. </p>
+<p class="quote"><i>&ldquo;The price one pays for pursuing any profession or calling is an intimate knowledge of its ugly side&rdquo; ~ James Baldwin</i></p>
+<p><b>Related:</b></p>
+<p>  NET, list drive mappings - <a href="enumnetworkdrives.html">.EnumNetworkDrives</a> 
+  <br>
+  NET, remove drive map - <a href="removenetworkdrive.html">.RemoveNetworkDrive</a><br>
+  <span class="body"><a href="https://support.microsoft.com/?kbid=138365">Q138365</a> - Autodisconnect (Red cross)<br>
+  <a href="https://support.microsoft.com/?kbid=305355">Q305355</a> - Drives disconnected, and a red &quot;X&quot; appears</span>  <br>
+  Equivalent Windows CMD command: <a href="../nt/net.html">NET</a> - Manage network resources</p><!-- #BeginLibraryItem "/Library/foot_vb.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- VB300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="1683739502"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="mapnetworkdrive.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

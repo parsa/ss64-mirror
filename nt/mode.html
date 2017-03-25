@@ -1,0 +1,115 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Mode - Com1, Com2, Lpt1, con | Windows CMD | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_nt.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../nt.1.html">CMD</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/nt/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>MODE</h1> 
+<p>Configure a system device: COM / LPT port, or CMD console CON.</p>
+<pre>Syntax
+   Serial port:
+      MODE COM<i>m</i>[:] [BAUD=<i>b</i>] [PARITY=<i>p</i>] [DATA=<i>d</i>] [STOP=<i>s</i>]
+                                [to=on|off] [xon=on|off] [odsr=on|off]
+                                [octs=on|off] [dtr=on|off|hs]
+                                [rts=on|off|hs|tg] [idsr=on|off]
+   Device Status:
+      MODE [<i>device</i>] [/STATUS]
+
+   Redirect printing:
+      MODE LPT<i>n</i>[:]=COM<i>m</i>[:]
+
+   Select code page:
+      MODE CON[:] CP SELECT=<i>yyy</i>
+
+   Code page status:
+      MODE CON[:] CP [/STATUS]
+
+   Display size - number of columns wide and number of lines deep:
+      MODE CON[:] [COLS=<i>c</i>] [LINES=<i>n</i>]
+
+   undocumented) abbreviated version of the above:
+      <span class="code">MODE <i>Cols, Lines</i></span>
+
+   Typematic rate:
+      MODE CON[:] [RATE=<i>r</i> DELAY=<i>d</i>]</pre>
+<p>Used without parameters, MODE displays the status of all devices installed on your system<br>
+(COM1, COM2, LPT1, CON) this output is language/locale specific.</p>
+<pre><span class="code">C:\&gt; MODE
+Status for device CON:
+----------------------
+    Lines:        240
+    Columns:       80
+    Keyboard Rate: 31
+    </span><span class="code">Keyboard </span>delay: 1
+    Code Page:    850  </pre>
+<p> Mode can be used to set the display window to be larger than the monitor width and/or height, in this case the CMD window size will be restricted to the display size but a scroll bar will appear. If the display window is made very large (many times the size of a typical display), the memory used by conhost.exe will increase, in extreme cases to over 1 GB.</p>
+<p>Show the status of a specific device:<br>
+<span class="code">MODE [<i>device</i>] </span><br><br>
+To additionally show the status of any redirected parallel printer:<br>
+<span class="code">MODE [<i>device</i>] [/STATUS] </span><b><br>
+</b></p>
+<h2>Keyboard</h2>
+<blockquote>
+<p> Typematic rate is the rate at which a character is repeated when 
+you hold down a key. <br>
+<span class="code">MODE CON[:] [RATE=<i>r</i> DELAY=<i>d</i>]</span></p>
+</blockquote>
+<h2>Printing</h2>
+<blockquote>
+<p> To redirect output from a parallel port (PRN, LPT1, LPT2, or LPT3) to a serial 
+port(COM1, COM2, COM3, etc). <br>
+You must be a member of the Administrators group to redirect printing. <br>
+<br>
+To configure a parallel printer port (PRN, LPT1, LPT2, or LPT3): <br>
+<span class="code">MODE LPT<i>n</i>[:]=COM<i>m</i>[:]</span><br>
+<br>
+To setup the parameters for a serial port. <br>
+<span class="code">MODE COM<i><b>m</b></i> [<i>options</i>*]</span><br>
+<br>
+Configure a printer connected to a parallel printer port. <br>
+<span class="code">mode LPT<i>n</i>[:] [<i>c</i>][,[<i>l</i>][,<i>r</i>]] <br>
+mode LPT<i>n</i>[:] [cols=<i>c</i>] [lines=<i>l</i>]</span><br>
+This allows you to configure a line printer connected to a parallel printer 
+port.</p>
+</blockquote>
+<h2> International Settings</h2>
+<blockquote>
+<p> Change the current code page: <br>
+<span class="code">MODE CON[:] CP SELECT=<i>yyy</i></span><br>
+<br>
+Display the current Code page: <br>
+<span class="code">MODE CON[:] CP [/STATUS]</span></p>
+</blockquote>
+<p><b>Examples:</b></p>
+<p class="code">MODE CON:cols=80 lines=25</p>
+<p class="code">MODE 80, 50</p>
+<p><img src="../images/mode2.jpg" width="412" height="104" alt="mode"><br>
+<br>
+<i class="quote">&ldquo;The dogma of the ghost in the machine&rdquo; ~ Gilbert 
+Ryle </i> <br>
+<br>
+<b>Related:<br>
+</b> <br>
+<a href="net.html">NET</a> - manage network resources<br>
+<a href="chcp.html">CHCP</a> - Display or change device settings<br>
+Equivalent bash command (Linux): 
+<a href="../bash/screen.html">screen</a> - Terminal window manager </p><!-- #BeginLibraryItem "/Library/foot_nt.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- windows300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="7649547908"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="mode.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

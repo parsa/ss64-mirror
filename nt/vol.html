@@ -1,0 +1,48 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Vol - volume label | Windows CMD | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_nt.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../nt.1.html">CMD</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/nt/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>VOL </h1> 
+<p>Display the volume label of a disk.</p>
+<pre>Syntax
+      VOL [<i>drive</i>:[<i>drive</i>:]]</pre>
+<p>If the drive exists, VOL will display it's disk <a href="label.html">label</a> and serial number and will return an <a href="errorlevel.html">%ERRORLEVEL%</a> of 0.</p>
+<p>If the drive does not exist or is not ready (CD/DVD drive with no disk  loaded), VOL will return an %ERRORLEVEL% of 1.</p>
+<p>If several drives are given, VOL will iterate through and check each of them. If any drive is invalid  it will change the errorlevel  but will still display information about the others.</p>
+<h2>Errorlevels</h2>
+<blockquote>
+<p>If the Volume label was successfully displayed <a href="errorlevel.html">%ERRORLEVEL%</a> = 0<br>
+If Drive not found or bad parameters given = 1</p>
+</blockquote>
+<p>VOL is an <a href="syntax-internal.html">internal</a> command.</p>
+<p><b>Example</b></p>
+<p class="code">vol c: h:</p>
+<p><i class="quote">&ldquo;I've found the Nobel label very handy because who'd want to hear anything from Betty Williams, ordinary housewife?&rdquo; ~ <a href="https://en.wikipedia.org/wiki/Betty_Williams_(nobel_laureate)">Betty Williams</a> Nobel Prize 1976 </i><br>
+<br>
+<b>Related:</b><br>
+<br>
+<a href="label.html">LABEL</a> - Edit the volume label of a disk<br>
+<a href="bootcfg.html">BootCFG</a> - Edit Boot.ini settings. <br>
+powershell: <a href="../ps/get-wmiobject.html">Get-WmiObject</a> Win32_LogicalDisk $label<br>
+  Equivalent bash command (Linux): <a href="../bash/hostname.html">hostname</a> - Print or set system name </p><!-- #BeginLibraryItem "/Library/foot_nt.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- windows300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="7649547908"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="vol.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

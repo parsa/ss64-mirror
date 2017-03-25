@@ -1,0 +1,163 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Alter Database | Oracle | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_ora.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../ora.1.html">Oracle</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>ALTER DATABASE</h1> 
+<p>Open an existing database, and /or modify associated files.<br>
+  <br>
+  Syntax:</p>
+<pre>   ALTER DATABASE database_name <i>options</i></pre>
+<p>Options: </p>
+<pre><i>open/mount options:</i>
+   MOUNT
+   MOUNT STANDBY DATABASE
+   MOUNT CLONE DATABASE
+   MOUNT PARALLEL
+   CONVERT
+   OPEN [READ ONLY]
+   OPEN [READ WRITE] [RESETLOGS|<u>NORESETLOGS</u>] [UPGRADE|DOWNGRADE]
+   ACTIVATE [PHYSICAL | LOGICAL] STANDBY DATABASE [FINISH APPLY]
+   [NATIONAL] CHARACTER SET <i>char_set</i>
+
+<i>archivelog options:</i>
+   ARCHIVELOG
+   NOARCHIVELOG
+
+<i>backup and recovery options:</i>
+   BEGIN BACKUP
+   BACKUP CONTROLFILE TO '<i>filename</i>' [REUSE]
+   BACKUP CONTROLFILE TO TRACE [RESETLOGS] [AS '<i>filename</i>' [REUSE]]
+   CREATE STANDBY CONTROLFILE AS '<i>filename</i>' [REUSE]
+   RECOVER <a href="clause_recover.html">recover_clause</a>
+   RECOVER MANAGED STANDBY <a href="clause_recover_standby.html">standby_recover_clause</a>
+   END BACKUP
+
+<i>Datafile options:</i>
+   CREATE DATAFILE '<i>filename</i>' [,'<i>filename</i>'...] AS <a href="clause_filespec.html">filespec</a> [,'<i>filespec</i>'...]
+   CREATE DATAFILE <i>filenunber</i> [,<i>filenunber</i>...] AS <a href="clause_filespec.html">filespec</a> [,'<i>filespec</i>'...]
+   DATAFILE '<i>filename</i>' ONLINE
+   DATAFILE '<i>filename</i>' OFFLINE [FOR DROP]
+   DATAFILE '<i>filename</i>' RESIZE <i>int</i> K | M
+   DATAFILE '<i>filename</i>' AUTOEXTEND OFF
+   DATAFILE '<i>filename</i>' AUTOEXTEND ON [NEXT <i>int</i> K | M] [MAXSIZE <i>int</i> K | M | UNLIMITED]
+   DATAFILE '<i>filename</i>' END BACKUP
+   RENAME FILE '<i>data_file_name</i>' TO '<i>data_file_name</i>'
+
+   TEMPFILE '<i>filename</i>' ONLINE
+   TEMPFILE '<i>filename</i>' OFFLINE
+   TEMPFILE '<i>filename</i>' DROP [INCLUDING DATAFILES]
+   TEMPFILE '<i>filename</i>' RESIZE <i>int</i> K | M
+   TEMPFILE '<i>filename</i>' AUTOEXTEND OFF
+   TEMPFILE '<i>filename</i>' AUTOEXTEND ON [NEXT <i>int</i> K | M] [MAXSIZE <i>int</i> K | M | UNLIMITED]
+
+<i>redo log options:</i>
+   ADD LOGFILE [THREAD <i>int</i>] [GROUP <i>int</i>] <a href="clause_filespec.html">filespec</a>
+   ADD LOGFILE MEMBER '<i>filename</i>' [REUSE] TO GROUP <i>int</i>
+   ADD LOGFILE MEMBER '<i>filename</i>' [REUSE] TO 'filename'
+   DROP LOGFILE GROUP <i>int</i>
+   DROP LOGFILE ('<i>filename</i>')
+   DROP LOGFILE MEMBER '<i>filename</i>'
+   RENAME FILE '<i>redolog_file_name</i>' TO '<i>redolog_file_name</i>'
+   CLEAR [UNARCHIVED] LOGFILE GROUP <i>int</i> [UNRECOVERABLE DATAFILE]
+   CLEAR [UNARCHIVED] LOGFILE ('<i>filename</i>') [UNRECOVERABLE DATAFILE]
+<i>
+Parallel server options:</i>
+   CREATE STANDBY CONTROLFILE AS '<i>filename</i>' [REUSE]
+   SET DBLOW = '<i>text</i>'
+   SET DBHIGH = '<i>text</i>'
+   SET DBMAC = ON | OFF
+   ENABLE [PUBLIC] THREAD <i>int</i>
+   DISABLE THREAD <i>int</i>
+
+<i>Backwards compatibility options:</i>
+   RENAME GLOBAL_NAME TO <i>database</i> [<i>domain</i>]
+   RESET COMPATIBILITY</pre>
+<p>Any option above that includes a 'filename' 
+  can be extended to cover multiple files using the syntax:<b> (</b>'filename1'<b>,</b> 
+'filename2')</p>
+<p> <span class="code">'<i>filename</i>' [offline] DROP</span> will only work on a tablespace consisting of a single datafile, for a tablespace comprising multiple datafiles you can only drop a datafile by dropping the entire
+tablespace.</p>
+<p>Some of the commands above can only be used when the database is in a particular 
+state:</p>
+<blockquote>
+<p>MOUNT, CONVERT - Require that the db is Not Mounted.<br>
+  ARCHIVELOG, NOARCHIVLOG, RECOVER - Require that the db is Mounted but not open 
+  (must be mount exclusive - not mount parallel).<br>
+ENABLE, DISABLE, RENAME GLOBAL_NAME, RESET, SET - Require that the db is Open.</p>
+</blockquote>
+<p>All other options will work with the db mounted, open or closed as long as none 
+of the files involved are 'in use'</p>
+<p><code>database_name</code> is defined when the database is created - it is normally set to the same as the database SID.</p>
+<p><b>Examples</b></p>
+<p>Resize datafile:</p>
+<pre>SQL&gt; ALTER DATABASE DATAFILE 'F:\oradata\live\Mydb02.ora' RESIZE 500m;</pre>
+<p>Take datafile offline:</p>
+<pre>SQL&gt; ALTER DATABASE DATAFILE 'F:\oradata\live\Mydb02.ora' OFFLINE;</pre>
+<pre>Database altered.
+</pre>
+<p>Take datafile online, when doing this, file recovery is needed to update the timestamp in the offline datafile header.:</p>
+<pre>SQL&gt; ALTER DATABASE DATAFILE 'F:\oradata\live\Mydb02.ora' ONLINE;
+ ALTER DATABASE DATAFILE 'F:\oradata\live\Mydb02.ora' ONLINE
+ *
+ ERROR at line 1:
+ ORA-01113: file 16 needs media recovery
+ ORA-01110: data file 16: 'F:\ORADATA\LIVE\Mydb02.ORA'
+</pre>
+<pre>SQL&gt; RECOVER DATAFILE 'F:\oradata\live\Mydb02.ora';
+ Media recovery complete.</pre>
+<pre>SQL&gt; ALTER DATABASE DATAFILE 'F:\oradata\live\Mydb02.ora' ONLINE;</pre>
+<pre>Database altered</pre>
+<p>Change the database character set to UTF8, this must be done with no users connected (restricted session) </p>
+<pre>SQL> SHUTDOWN IMMEDIATE;   -- or NORMAL
+    &lt;do a full backup&gt;
+SQL> STARTUP MOUNT;
+SQL> ALTER SYSTEM ENABLE RESTRICED SESSION;
+SQL> ALTER SYSTEM SET JOB_QUEUE_PROCESSES=0;
+SQL> ALTER DATABASE OPEN;
+SQL> ALTER DATABASE CHARACTER SET <b>UTF8</b>;
+SQL> SHUTDOWN IMMEDIATE;   -- or NORMAL
+SQL> STARTUP;
+</pre>
+<p><i class="quote">"You know, the very powerful and the very stupid have one thing in common, 
+  they don't alter their views to fit the facts, they alter the facts to fit the 
+  views, which can be uncomfortable, if you happen to be one of the facts that 
+  needs altering" ~ Doctor 
+  Who</i><br>
+<br>
+<b> Related Commands:</b></p>
+<p>DATABASE - <a href="database_c.html">CREATE DATABASE</a> 
+  <br>
+  <a href="recover.html">RECOVER</a> <br>
+  <a href="shutdown.html">SHUTDOWN</a> <br>
+  <a href="startup.html">STARTUP</a> <br>
+<a href="tablespace_a.html">ALTER TABLESPACE</a><br>
+  <a href="system_a.html">ALTER SYSTEM</a> </p>
+<p><b>Related Views:</b></p>
+<p class="code"> &nbsp;<a href="../orad/GLOBAL_NAME.html">GLOBAL_NAME</a>   
+&nbsp;<a href="../orad/DBA_DATA_FILES.html">DBA_DATA_FILES</a>   
+&nbsp;<a href="../orav/V$CONTROLFILE.html">V$CONTROLFILE</a>   
+&nbsp;<a href="../orav/V$DATABASE.html">V$DATABASE</a>   
+&nbsp;<a href="../orav/V$DATAFILE.html">V$DATAFILE</a>   
+&nbsp;<a href="../orav/V$LOG.html">V$LOG</a>   
+&nbsp;<a href="../orav/V$LOGFILE.html">V$LOGFILE</a> </p><!-- #BeginLibraryItem "/Library/foot_ora.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- oracle-footer -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4275490898"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="database_a.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

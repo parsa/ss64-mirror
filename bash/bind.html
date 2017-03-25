@@ -1,0 +1,89 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>bind Man Page | Bash | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_bash.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../bash.1.html">Bash</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/bash/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>bind</h1> 
+<p>Display current readline key and function bindings, bind a key sequence to a readline function or macro, or set a readline variable. </p>
+<pre>Syntax
+      bind [-m <i>keymap</i>] [-lpsvPSV] 
+      bind [-m <i>keymap</i>] [-q <i>function</i>] [-u <i>function</i>] [-r <i>keyseq</i>] 
+      bind [-m <i>keymap</i>] -f <i>filename</i> 
+      bind [-m <i>keymap</i>] -x <i>keyseq</i>:<i>shell-command</i> 
+      bind [-m <i>keymap</i>] <i>keyseq</i>:<i>function-name</i> or <i><a href="https://www.gnu.org/software/bash/manual/html_node/Bindable-Readline-Commands.html">readline-command</a></i>
+</pre>
+<p> Each non-option argument is a command as it would appear in <span class="code">.inputrc</span>, but each binding or command must be passed as a separate argument; e.g., <span class="code">'&quot;\C-x\C-r&quot;: re-read-init-file'</span>. <br>
+</p>
+<pre>Key
+
+   -m <i>keymap</i>    Use <i>keymap</i> as the keymap to be affected by the subsequent bindings.
+                Acceptable keymap names are emacs, emacs-standard, emacs-meta, emacs-ctlx, vi,
+                vi-move, vi-command, and vi-insert. vi is equivalent to vi-command;
+                emacs is equivalent to emacs-standard.
+
+   -l           List the <b>names</b> of all readline functions.
+
+   -p           Display readline function names and bindings in such a way that they can be re-read.
+
+   -P           List current readline function names and bindings.
+
+   -s           Display readline key sequences bound to macros and the strings they output in such a way that
+                they can be re-read.
+
+   -S           Display readline key sequences bound to macros and the strings they output.
+
+   -v           Display readline variable names and values in such a way that they can be re-read.
+
+   -V           List current readline variable <b>names</b> and <b>values</b>.
+
+   -f <i>filename</i>  Read key bindings from <i>filename</i>.
+
+   -q <i>function</i>  Query about which keys invoke the named function.
+
+   -u <i>function</i>  Unbind all keys bound to the named function.
+
+   -r <i>keyseq</i>    Remove any current binding for <i>keyseq</i>.
+
+   -x <i>keyseq</i>:<i>shell-command</i>   Cause <i>shell-command</i> to be executed whenever keyseq is entered.
+                When shell-command is executed, the shell sets the READLINE_LINE variable to the
+                contents of the readline line buffer and the READLINE_POINT variable to the current
+                location of the insertion point. If the executed command changes the value of
+                READLINE_LINE or READLINE_POINT, those new values will be reflected in the editing state.</pre>
+<p> The return value is 0 unless an unrecognized option is given or an error occurred.</p>
+<p>You can determine the character sequence emitted by a key by pressing <span class="code">Ctrl-v</span> at the command line, then pressing the key you're interested in. Alternatively run the <a href="read.html">read</a> command and then press the key(s) of interest, Control-c will return from the read builtin command. </p>
+<p>The <span class="code">\e</span> is the escape character, displayed as <span class="code">^[</span> in the shell output. </p>
+<p>bind is an internal command; bind key mappings can be abbreviated by ommiting the <span class="code">bind</span> command and the outer set of single quotes.</p>
+<p><b>Examples</b></p>
+<p>Setup the shell to perform a <a href="history.html">history</a> search when the Up and Down arrow keys are used. <br>
+This allows typing part of a command and then using the arrows to select matching commands from history.<br>
+(by default Up and Down will just select previous commands without any matching against history.)</p>
+<p class="code">bind '&quot;\e[A&quot;:history-search-backward' <br>
+bind '&quot;\e[B&quot;:history-search-forward'<br>
+bind '&quot;\e[C&quot;: forward-char'<br>
+bind '&quot;\e[D&quot;: backward-char'</p>
+<p>The last two bindings ensure that the left and right keys continue to work correctly.</p>
+<p class="quote"><i>&ldquo;No cord or cable can draw so forcibly, or bind so fast, as love can do with a single thread&rdquo; ~ Robert Burton</i></p>
+<p><b>Related:</b></p>
+<p><a href="syntax-bashrc.html">bashrc</a> - Set <span class="code">bind</span> commands  at every login.<br>
+<a href="https://www.gnu.org/software/bash/manual/html_node/Bindable-Readline-Commands.html">Bindable Readline Commands</a><br>
+<a href="https://en.wikipedia.org/wiki/GNU_Readline">Readline keyboard shortcuts</a> Wiki </p><!-- #BeginLibraryItem "/Library/foot_bash.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- bash300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4615356305"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="bind.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

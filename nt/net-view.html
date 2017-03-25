@@ -1,0 +1,69 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>net view / net session / net file / net use | Windows CMD | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_nt.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../nt.1.html">CMD</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/nt/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>NET.exe VIEW</h1> 
+<p>The <a href="net.html">NET Command</a> is used to manage File 
+Shares, Printer Shares and sessions.</p>
+<pre>Syntax
+      NET VIEW [\\<i>computername</i> [/CACHE] | [/ALL] | /DOMAIN[:<i>domainname</i>]]
+
+Key
+   /ALL            Display all the shares including the $ shares.
+   /CACHE          Display the offline client cache settings for resources on the specified computer.
+   computername    A computer whose shared resources you want to view. 
+   domainname      The domain to view, by default all domains in the LAN.</pre>
+<p> Net View / ALL allows you to enumerate all the shares on a remote computer, similar to the <span class="code">ShareUI.dll</span> utility that was available for  Windows NT/XP.</p>
+<p><b>Examples</b></p>
+<p>Display a list of computers in the current domain:<br>
+<span class="code">NET VIEW</span><br>
+<br>
+List the File/Printer shares on a remote computer:<br>
+<span class="code">NET VIEW \\<i>ComputerName</i></span></p>
+<p>List the shares on a remote computer including hidden shares:<br>
+<span class="code">NET VIEW \\<i>ComputerName</i> /All</span><br>
+<br>
+List all the shares in the domain:<br>
+<span class="code">NET VIEW /DOMAIN</span><br>
+<br>
+To see a list of shares on a different domain:<br>
+<span class="code">NET VIEW /DOMAIN:<i>domainname</i></span><br>
+<br>
+List the shares on a remote Netware computer:<br>
+<span class="code">NET VIEW /NETWORK:NW [\\<i>ComputerName</i>]</span></p>
+<p>Display a list of  local shares, the Share Name, full path to the resource being shared and any comment/remark:<br>
+<span class="code"><a href="net-share.html">NET SHARE</a> <i>sharename</i></span><br>
+</p>
+<p>Some NET commands will require <a href="syntax-elevate.html">elevation</a>.</p>
+<p><span class="quote"><i>&ldquo;The belief that one's own view of reality is the only reality is the most dangerous of all delusions&rdquo; ~ Paul Watzlawick</i></span><i><br>
+</i><br>
+<b>Related:<br>
+</b><br>
+<a href="net.html">NET</a> - Manage network resources<br>
+<a href="net-use.html">NET USE</a> - connect to a file share (Drive MAP)<br>
+ <a href="openfiles.html">OPENFILES</a> - List or disconnect open files, local or remote (requires elevation)<br>
+<a href="psfile.html">PsFile</a> - Show files opened remotely<br>
+<a href="psloggedon.html">PsLoggedOn</a> - Who's logged on <br>
+ Equivalent bash command (Linux): <a href="../bash/users.html">users</a> - Users currently
+logged in, <a href="../bash/who.html">who</a> currently logged in</p><!-- #BeginLibraryItem "/Library/foot_nt.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- windows300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="7649547908"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="net-view.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

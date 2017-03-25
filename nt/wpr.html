@@ -1,0 +1,101 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>WPR Windows Performance Recorder | Windows CMD | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_nt.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../nt.1.html">CMD</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/nt/"></form></div></li>
+</ul></div><!-- #EndLibraryItem -->
+<h1>WPR.exe</h1> 
+<p>Windows Performance Recorder<br>
+<br>   
+Record system events for analysis with <a href="https://msdn.microsoft.com/en-us/library/windows/hardware/hh448170.aspx">Windows Performance Analyzer</a> (WPA)<br>
+WPR is part of the Windows Assessment and Deployment Kit (Windows ADK) available for <a href="https://technet.microsoft.com/en-GB/library/hh825494.aspx">W7/2012</a> and <a href="https://developer.microsoft.com/en-us/windows/hardware/windows-assessment-deployment-kit">W10</a></p>
+<pre>Syntax
+      WPR <i>options...
+</i>
+Key
+   -help          - Provide command line help information.
+   -profiles      - Enumerate the profile names and descriptions from a profile file.
+   -purgecache    - Purges the dynamic symbols cache.
+
+   -marker <i>scenario_name</i>     - Fire an event marker.
+   -markerflush <i>scenario_name</i>  - Fire an event marker and flush the working set.
+   -status        - Display status on active recording (if any).
+
+   -profiledetails <i>profile1+profile2..</i>+<i>profilen</i> [-filemode] -onoffscenario <i>OnOff Transition Type</i>
+                    Display the detailed information about a set of profiles.
+                    The naming convention of the profiles is exactly the same as used
+                    in wpr -start, a profile is specified as  <i>profile_name</i>[.{light|verbose}].
+
+   -providers     - Display detailed information about providers.
+   -cancel        - Cancel recording initiated via WPR (if any).
+   -start <i><a href="wpr.html#start">options</a></i> - Start one or more profiles.
+   -stop [<i>recording_filename</i>] [<i>problem_description</i>]
+                  - Stop recording initiated via WPR (if any) and save.
+   -log {enabled|disabled|remove} - Configure debug logging to the event log.
+   -disablepagingexecutive {on|off} - Change the Disable Paging Executive settings.
+   -heaptracingconfig <i>process_name</i> [<i>Package_full_name</i> <i>Package_relative_app_ID</i>] [{enable|disable}]
+                  - Change heap tracing settings for a process.
+                    If the {enable|disable} parameter is omitted the current heap tracing
+                    configuration for the process or app will be displayed.
+
+   -capturestateondemand   - Capture states for the configured providers in the current recording.
+   -pmcsources    - Query the list of hardware counters available on the system.
+   -setprofint    - Set the sampled profile interval to <i>n</i>  [1221...10000000].
+                    [Default: <i>n</i> = 10000 (1msec)]
+
+   -profint       - Query the current profile interval.
+   -resetprofint  - Restore the default profile interval values.
+
+<b><a id="start"></a> start options:</b>
+   -start [<i>filename.wprp</i>!] <i>profile</i> [-start <i>profile</i>...]
+      [-filemode] [-recordtempto <i>temp_folder_path</i>] [-onoffscenario <i>OnOff_Transition_Type</i>]
+         [-onoffresultspath  <i>path_to_which_the_trace_files_are_saved</i>]
+            [-onoffproblemdescription <i>description_of_the_scenario</i>]
+               [-onoffpretracecommand <i>command_to_run_synchronously_each_iteration_before_tracing_starts</i>]
+                  [-onoffposttracecommand <i>command_to_run_asynchronously_after_all_the_iterations_complete_or_fail</i>]
+                     [-numiterations <i>number_of_iterations_for_OnOff_tracing</i>]
+
+      -start [<i>filename.wprp</i>!] <i>profile</i> is either a built-in profile (if no filename is specified) or a path to
+                      (and name of) a user-defined custom profile.
+                       The user can specify up to 64 profiles on the command line.  Each profile is specified as:
+           <i>profile</i> := [<i>filename.wprp</i>!]<i>profile_name</i>[.{light|verbose}]
+                       Each profile can define both light and verbose variants or just one of the two.
+                       If neither option is specified, the verbose variant is used unless the profile has only a light variant.
+
+      -filemode        Specifies that recording is done in file mode, the default is memory mode.
+      -onoffscenario   Specifies one of the on/off transition types: Boot, FastStartup, Shutdown, RebootCycle, Standby, or Hibernate.
+      -numiterations   Set the number of iterations for OnOff recording.
+
+      By default the settings from the built-in or custom profile file are used.</pre>
+<p>WPR must be run <a href="syntax-elevate.html">elevated.</a></p>
+<p><b>Examples</b></p>
+<p>List the available/built in profiles:</p>
+<p><span class="code">C:\&gt; wpr -profiles</span></p>
+<p>Record some registry events to <span class="code">c:\wpr\registry</span></p>
+<p><span class="code">C:\&gt; md wpr &amp; cd wpr<br>
+C:\wpr\&gt; wpr -start registry<br>
+C:\wpr\&gt; wpr -stop registry <br>
+</span></p>
+<p class="quote"><i>&ldquo;The essential matter of history is not what happened but what people thought or said about it&rdquo; ~ Frederic William Maitland</i></p><p><b>Related:</b><br>
+<br>
+<a href="https://support.microsoft.com/en-us/help/22878/windows-10-record-steps">PSR</a> - Windows Problem Steps Recorder</p><!-- #BeginLibraryItem "/Library/foot_nt.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- windows300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="7649547908"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="wpr.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

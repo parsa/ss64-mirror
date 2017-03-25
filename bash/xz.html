@@ -1,0 +1,210 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>xz Man Page | Bash | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_bash.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../bash.1.html">Bash</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/bash/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>xz</h1> 
+<p>xz, unxz, xzcat, lzma, unlzma, lzcat - Compress or decompress .xz and .lzma files </p>
+<pre>Syntax
+      xz [<i>option</i>]... [<i>file</i>]...
+
+      unxz   is equivalent to xz --decompress.
+      xzcat  is equivalent to xz --decompress --stdout.
+      lzma   is equivalent to xz --format=lzma.
+      unlzma is equivalent to xz --format=lzma --decompress.
+      lzcat  is equivalent to xz --format=lzma --decompress --stdout.
+
+Key
+
+Operation mode:
+
+       -z, --compress
+              Force compression
+
+       -d, --decompress
+              Force decompression
+
+       -t, --test
+              Test compressed file integrity
+
+       -l, --list
+              List information about files
+
+Operation modifiers:
+
+       -k, --keep
+              Keep (don’t delete) input files
+
+       -f, --force
+              Force overwrite of output file and (de)compress links
+
+       -c, --stdout
+              Write to standard output and don’t delete input files
+
+       -S, --suffix=.SUF
+              Use the suffix ‘.SUF’ on compressed files
+
+       --files=[<i>FILE</i>]
+              Read  filenames  to  process  from  FILE;  if  FILE  is omitted,
+              filenames are read from the standard input;  filenames  must  be
+              terminated with the newline character
+
+       --files0=[<i>FILE</i>] like --files but use the null character as terminator
+
+              Basic file format and compression options:
+
+       -F, --format=<i>FMT</i>
+              File  format  to  encode  or  decode; possible values are ‘auto’
+              (default), ‘xz’, ‘lzma’, and ‘raw’
+
+       -C, --check=<i>CHECK</i>
+              integrity check type: ‘crc32’, ‘crc64’ (default), or ‘sha256’
+
+       -0 .. -9
+              Compression preset; 0-2 fast compression, 3-5 good  compression,
+              6-9 excellent compression; default is 6
+
+       -e, --extreme
+              Use  more  CPU  time when encoding to increase compression ratio
+              without increasing memory usage of the decoder
+
+       -M, --memory=<i>NUM</i>
+              Use roughly <i>NUM</i> bytes of memory  at  maximum;  0  indicates  the
+              default  setting,  which  depends  on the operation mode and the
+              amount of physical memory (RAM)
+
+              Custom filter  chain  for  compression  (alternative  for  using
+              presets):
+
+       --lzma1=[<i>OPTS</i>]
+
+       --lzma2=[<i>OPTS</i>]
+
+              LZMA1 or LZMA2; <i>OPTS</i> is a comma-separated list of zero or
+              more   of   the   following  options  (valid  values;  default):
+              preset=NUM reset options to preset  number  NUM  (1-9)  dict=NUM
+              dictionary  size  (4KiB  -  1536MiB;  8MiB) lc=NUM     number of
+              literal context bits  (0-4;  3)  lp=NUM      number  of  literal
+              position  bits (0-4; 0) pb=NUM     number of position bits (0-4;
+              2) mode=MODE  compression mode (fast, normal;  normal)  nice=NUM
+              nice length of a match (2-273; 64) mf=NAME    match finder (hc3,
+              hc4, bt2,  bt3,  bt4;  bt4)  depth=NUM   maximum  search  depth;
+              0=automatic (default)
+
+       --x86  x86 filter (sometimes called BCJ filter)
+
+       --powerpc
+              PowerPC (big endian) filter
+
+       --ia64 IA64 (Itanium) filter
+
+       --arm  ARM filter
+
+       --armthumb
+              ARM-Thumb filter
+
+       --sparc
+              SPARC filter
+
+       --delta=[OPTS]
+              Delta  filter;  valid  OPTS  (valid  values;  default): dist=NUM
+              distance between bytes being subtracted
+
+              from each other (1-256; 1)
+
+Other options:
+
+       -q, --quiet
+              suppress warnings; specify twice to suppress errors too
+
+       -v, --verbose
+              be verbose; specify twice for even more verbose
+
+       -h, --help
+              display the short help (lists only the basic options)
+
+       -H, --long-help
+              display this long help
+
+       -V, --version
+              display the version number
+
+       With no FILE, or when FILE is -, reads standard input.
+
+Exit Status
+
+    1 - All is good.
+    2 - An error occurred.
+    3 - Something worth a warning occurred, but no actual errors occurred.
+
+   Notices (not warnings or errors) printed on standard error don't affect the exit status. </pre>
+<h2>Description </h2>
+<blockquote>
+<p>xz is a general-purpose data compression tool with command line syntax similar to <a href="gzip.html">gzip</a> and <a href="bzip2.html">bzip2</a>. The native file format is the .xz format, but also the legacy .lzma format and raw compressed streams with no container format headers are supported.</p>
+<p>Compared with <a href="gzip.html">gzip</a> or <a href="bzip2.html">bzip2</a>, xz will create smaller archives but has a <a href="http://catchchallenger.first-world.info//wiki/Quick_Benchmark:_Gzip_vs_Bzip2_vs_LZMA_vs_XZ_vs_LZ4_vs_LZO">slower</a> decompression time and higher memory use. Also xz is less widely available. With typical files, XZ Utils create 30 % smaller output than gzip and 15 % smaller output than bzip2.</p>
+<p>xz compresses or decompresses each file according to the selected operation mode. If no files are given or file is -, xz reads from standard input and writes the processed data to standard output. xz will refuse (display an error and skip the file) to write compressed data to standard output if it is a terminal. Similarly, xz will refuse to read compressed data from standard input if it is a terminal. </p>
+<p>Unless --stdout is specified, files other than - are written to a new file whose name is derived from the source file name:     </p>
+<ul>
+<li>When compressing, the suffix of the target file format (.xz or .lzma) is appended to the source filename to get the target filename.     </li>
+<li>When decompressing, the .xz or .lzma suffix is removed from the filename to get the target filename. xz also recognizes the suffixes .txz and .tlz, and replaces them with the .tar suffix.</li>
+</ul>
+<p> If the target file already exists, an error is displayed and the file is skipped. </p>
+<p>Unless writing to standard output, xz will display a warning and skip the file if any of the following applies:     </p>
+<ul>
+<li>File is not a regular file. Symbolic links are not followed, thus they are never considered to be regular files.     </li>
+<li>File has more than one hardlink. </li>
+<li>File has setuid, setgid, or sticky bit set.     </li>
+<li>The operation mode is set to compress, and the file already has a suffix of the target file format (.xz or .txz when compressing to the .xz format, and .lzma or .tlz when compressing to the .lzma format). </li>
+<li>The operation mode is set to decompress, and the file doesn't have a suffix of any of the supported file formats (.xz, .txz, .lzma, or .tlz). </li>
+</ul>
+<p>After successfully compressing or decompressing the file, xz copies the owner, group, permissions, access time, and modification time from the source file to the target file. If copying the group fails, the permissions are modified so that the target file doesn't become accessible to users who didn't have permission to access the source file. xz doesn't support copying other metadata like access control lists or extended attributes yet. </p>
+<p>Once the target file has been successfully closed, the source file is removed unless --keep was specified. The source file is never removed if the output is written to standard output. </p>
+<p>Sending SIGINFO or SIGUSR1 to the xz process makes it print progress information to standard error. This has only limited use since when standard error is a terminal, using --verbose will display an automatically updating progress indicator. </p>
+</blockquote>
+<h2>Memory usage </h2>
+<blockquote>
+<p>The memory usage of xz varies from a few hundred kilobytes to several gigabytes depending on the compression settings. The settings used when compressing a file affect also the memory usage of the decompressor. Typically the decompressor needs only 5 % to 20 % of the amount of RAM that the compressor needed when creating the file. Still, the worst-case memory usage of the decompressor is several gigabytes. </p>
+<p>To prevent uncomfortable surprises caused by huge memory usage, xz has a built-in memory usage limiter. The default limit is 40 % of total physical RAM. While operating systems provide ways to limit the memory usage of processes, relying on it wasn't deemed to be flexible enough. </p>
+<p>When compressing, if the selected compression settings exceed the memory usage limit, the settings are automatically adjusted downwards and a notice about this is displayed. As an exception, if the memory usage limit is exceeded when compressing with --format=raw, an error is displayed and xz will exit with exit status 1. </p>
+<p>If source file cannot be decompressed without exceeding the memory usage limit, an error message is displayed and the file is skipped. Note that compressed files may contain many blocks, which may have been compressed with different settings. Typically all blocks will have roughly the same memory requirements, but it is possible that a block later in the file will exceed the memory usage limit, and an error about too low memory usage limit gets displayed after some data has already been decompressed.</p>
+<p> The absolute value of the active memory usage limit can be seen near the bottom of the output of <span class="code">--long-help</span>. The default limit can be overriden with <span class="code">--memory=limit</span>. </p>
+</blockquote>
+<p>xz is currently single threaded. Multithreaded compression and decompression are planned for a future release.</p>
+<p><b>Examples</b></p>
+<p>Compress file.txt and remove the original uncompressed file, creating <span class="code">file.txt.xz</span> in its place:</p>
+<p class="code">$ xz file.txt</p>
+<p>Compress file.txt and keep the original uncompressed file:</p>
+<p class="code">$ xz -k file.txt</p>
+<p>Decompress an xz compressed file and remove the compressed file, creating <span class="code">file.txt</span> in its place:</p>
+<p class="code">$ xz -d file.txt.xz</p>
+<p>Decompress an xz compressed file and keep the original compressed file:</p>
+<p class="code">$ xz -d  -k file.txt.xz</p>
+<p>To compress an entire directory, use <a href="tar.html">tar</a> with the <span class="code">-J</span> flag, this will automatically compress using xz.</p>
+<p class="quote"><i>“I do not want to live in a world where everything I do and say is recorded.<br>
+That is not something I am willing to support or live under” ~ Edward Snowden</i></p><p><b>Related:</b></p>
+<p><a href="http://tukaani.org/xz/">XZ Utils homepage</a><br>
+<a href="bzip2.html">bzip2</a> - Compress or decompress named file(s)<br>
+<a href="gzip.html">gzip</a> - Compress or decompress named file(s)<br>
+<a href="tar.html">tar</a> - Store, list or extract files in an archive<br>
+<a href="unrar.html">unrar</a> - Extract files from rar archives.<br>
+</p><!-- #BeginLibraryItem "/Library/foot_bash.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- bash300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4615356305"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="xz.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

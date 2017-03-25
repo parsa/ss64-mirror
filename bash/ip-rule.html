@@ -1,0 +1,99 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>ip rule Man Page | Bash | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_bash.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../bash.1.html">Bash</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/bash/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1><a href="ip.html">ip rule</a></h1>
+<p>Routing policy database management.<br>
+<span class="code">rule</span> can be abbreviated to <span class="code">ru</span></p>
+<p> <span class="code">ip rule add</span> - insert a new rule<br>
+<span class="code">ip rule delete</span> - delete a rule <br>
+<span class="code">ip rule flush</span> - also dumps all the deleted rules. This command has no arguments.<br>
+<span class="code">ip rule show</span> - list rules</p>
+<pre>Syntax
+      <b>ip rule</b> [ list | add | del | flush ] <i>SELECTOR</i> <i>ACTION</i>
+
+         SELECTOR := [ from <i>PREFIX</i> ] [ to <i>PREFIX</i> ] [ tos <i>TOS</i> ] [ fwmark <i>FWMARK</i>[/<i>MASK</i>] ] [ dev <i>STRING</i> ] [ pref <i>NUMBER</i> ]
+
+         ACTION := [ table <i>TABLE_ID</i> ] [ nat <i>ADDRESS</i> ] [ prohibit | reject | unreachable ] [ realms [<i>SRCREALM</i>/]<i>DSTREALM</i> ]
+
+         TABLE_ID := [ local | main | default | <i>NUMBER</i> ]
+
+Key
+   type <i>TYPE</i> (default)
+      the type of this rule. The list of valid types was given in the previous subsection. 
+   from <i>PREFIX</i>
+      select the source prefix to match. 
+   to <i>PREFIX</i>
+      select the destination prefix to match. 
+   iif <i>NAME</i>
+      select the incoming device to match. If the interface is loopback, the rule only matches
+      packets originating from this host. This means that you may create separate routing tables
+      for forwarded and local packets and, hence, completely segregate them. 
+   tos <i>TOS</i>
+   dsfield <i>TOS</i>
+      select the <i>TOS</i> value to match. 
+   fwmark <i>MARK</i>
+      select the fwmark value to match. 
+   priority <i>PREFERENCE</i>
+      the priority of this rule. Each rule should have an explicitly set unique priority value.
+      The options preference and order are synonyms with priority. 
+   table <i>TABLEID</i>
+      the routing table identifier to lookup if the rule selector matches.
+      It is also possible to use lookup instead of table. 
+   realms <i>FROM/TO</i>
+      Realms to select if the rule matched and the routing table lookup succeeded.
+      Realm TO is only used if the route did not select any realm. 
+   nat <i>ADDRESS</i>
+      The base of the IP address block to translate (for source addresses).
+      The <i>ADDRESS</i> may be either the start of the block of NAT addresses (selected by NAT routes)
+      or a local host address (or even zero). In the last case the router does not translate
+      the packets, but masquerades them to this address. Using map-to instead of nat means the same thing.
+
+Warning: Changes to the RPDB made with these commands do not become active immediately.
+It is assumed that after a script finishes a batch of updates, it flushes the routing cache with ip route flush cache. </pre>
+<p>Rules in the routing policy database control the route selection algorithm. </p>
+<p>Classic routing algorithms used in the Internet make routing decisions based only on the destination address of packets (and in theory, but not in practice, on the TOS field).</p>
+<p> In some circumstances we want to route packets differently depending not only on destination addresses, but also on other packet fields: source address, IP protocol, transport protocol ports or even packet payload. This task is called 'policy routing'. </p>
+<p>To solve this task, the conventional destination based routing table, ordered according to the longest match rule, is replaced with a 'routing policy database' (or RPDB), which selects routes by executing some set of rules. </p>
+<p>Each policy routing rule consists of a selector and an action predicate. The RPDB is scanned in the order of increasing priority. The selector of each rule is applied to {source address, destination address, incoming interface, tos, fwmark} and, if the selector matches the packet, the action is performed. The action predicate may return with success. In this case, it will either give a route or failure indication and the RPDB lookup is terminated. Otherwise, the RPDB program continues on the next rule. </p>
+<p>Semantically, natural action is to select the nexthop and the output device. </p>
+<p>At startup time the kernel configures the default RPDB consisting of three rules: </p>
+<blockquote>
+<p>1. Priority: 0, Selector: match anything, Action: lookup routing table local (ID 255). The local table is a special routing table containing high priority control routes for local and broadcast addresses. Rule 0 is special. It cannot be deleted or overridden. </p>
+<p>2. Priority: 32766, Selector: match anything, Action: lookup routing table main (ID 254). The main table is the normal routing table containing all non-policy routes. This rule may be deleted and/or overridden with other ones by the administrator. </p>
+<p>3. Priority: 32767, Selector: match anything, Action: lookup routing table default (ID 253). The default table is empty. It is reserved for some post-processing if no previous default rules selected the packet. This rule may also be deleted. </p>
+</blockquote>
+<p>Each RPDB entry has additional attributes. For example each rule has a pointer to some routing table. NAT and masquerading rules have an attribute to select new IP address to translate/masquerade. Besides that, rules have some optional attributes, which routes have, namely realms. These values do not override those contained in the routing tables. They are only used if the route did not select any attributes. </p>
+<p>The RPDB may contain rules of the following types: </p>
+<blockquote>
+<p> unicast - the rule prescribes to return the route found in the routing table referenced by the rule.     </p>
+<p>blackhole - the rule prescribes to silently drop the packet.     </p>
+<p>unreachable - the rule prescribes to generate a 'Network is unreachable' error.     </p>
+<p>prohibit - the rule prescribes to generate 'Communication is administratively prohibited' error.     </p>
+<p>nat - the rule prescribes to translate the source address of the IP packet into some other value. <br>
+</p>
+</blockquote>
+<p class="quote">“Our ambition should be to rule ourselves, the true kingdom for each one of us; and true progress is to know more, and be more, and to do more” ~ Oscar Wilde</p><p><b>Related:</b></p>
+<p><a href="ip.html">ip</a> - Routing, devices and tunnels<br>
+Equivalent Windows  command: <a href="../nt/route.html">ROUTE</a> - Manipulate network routing tables</p><!-- #BeginLibraryItem "/Library/foot_bash.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- bash300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4615356305"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="ip-rule.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

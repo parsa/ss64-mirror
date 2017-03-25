@@ -1,0 +1,274 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Exception | Oracle PL/SQL | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_orapl.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../oraplsql.1.html">PL/SQL</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>The BEGIN section </h1> 
+<p>Can contain variable assignments, Embedded SQL and calls to other functions and procedures.<br> 
+<br> 
+A BEGIN-END block can contain nested DECLARE-BEGIN-END sub blocks.<br> 
+The use of nested sub-blocks allows the use of local variables with limited scope.<br> 
+<br> 
+Each plsql block should be terminated with / on a line by itself.</p>
+<pre>BEGIN
+<i>   code block</i>
+   /
+EXCEPTION
+   <i>code block</i>
+   /
+END;</pre>
+<h1>Exceptions </h1>
+<p>Oracle includes about 20 predefined exceptions (errors) - we can 
+  allow Oracle to raise these implicitly.<br>
+  <br>
+  For errors that don't fall into the predefined categories - declare in advance 
+  and allow oracle to raise an exception.<br>
+  <br>
+  For problems that are not recognised as an error by Oracle - but still cause 
+  some difficulty within your application - declare a User Defined Error and raise 
+  it explicitly<br>
+  i.e <span class="code">IF x >20 then RAISE ...</span><br>
+  <br>
+  Syntax:</p>
+<pre>EXCEPTION
+   WHEN exception1 [OR exception2...]] THEN
+   ...
+   [WHEN exception3 [OR exception4...] THEN
+   ...]
+   [WHEN OTHERS THEN
+   ...]</pre>
+<p>Where exception is the exception_name e.g.
+WHEN NO_DATA_FOUND...
+Only one handler is processed before leaving the block.<br>
+<br>
+Trap non-predefined errors by declaring them
+You can also associate the error no. with a name so that you
+can write a specific handler. <br>
+This is done with the PRAGMA EXCEPION_INIT pragma.<br>
+<br>
+PRAGMA (pseudoinstructions) indicates that an item is 
+a 'compiler directive' Running this has no immediate effect
+but causes all subsequent references to the exception name 
+to be interpreted as the associated Oracle Error.</p>
+<pre>
+-
+
+Trapping a non-predefined Oracle server exception
+
+DECLARE
+   -- name for exception
+   e_emps_remaining EXCEPTION
+   PRAGMA_EXCEPTION_INIT (
+      e_emps_remaining, -2292);
+   v_deptno dept.deptno%TYPE :=&p_deptno;
+
+BEGIN
+   DELETE FROM dept
+   WHERE deptno = v_deptno
+   COMMIT;
+EXCEPTION
+   WHEN e_emps_remaining THEN
+   DBMS_OUTPUT.PUT_LINE ('Cannot remove dept '||
+   TO_CHAR(v_deptno) || '. Employees exist. ');
+END;
+</pre>
+<p>
+When an exception occurs you can identify the 
+associated error code/message with two supplied 
+functions SQLCODE and SQLERRM</p>
+<pre>
+SQLCODE - Number
+SQLERRM - message
+
+An example of using these:
+DECLARE
+   v_error_code NUMBER;
+   v_error_message VARCHAR2(255);
+
+BEGIN
+
+   ...
+
+EXCEPTION
+   WHEN OTHERS THEN
+   ROLLBACK;
+   v_error_code := SQLCODE
+   v_error_message := SQLERRM
+   INSERT INTO t_errors
+   VALUES ( v_error_code, v_error_message);
+END;</pre>
+<p>Trapping user-defined exceptions</p>
+<pre>
+DECLARE the exception
+RAISE the exception
+Handle the raised exception
+
+e.g.
+DECLARE
+  e_invalid_product EXCEPTION
+BEGIN
+   update PRODUCT
+   SET descrip = '&prod_descr'
+   WHERE prodid = &prodnoumber';
+   IF SQL%NOTFOUND THEN
+     RAISE e_invalid_product;
+   END IF;
+   COMMIT;
+EXCEPTION
+   WHEN e_invalid_product THEN
+   DBMS_OUTPUT.PUT_LINE ('INVALID PROD NO');
+END;
+</pre>
+<p>
+Propagation of Exception handling in sub blocks<br>
+<br>
+If a sub block does not have a handler for a 
+particular error it will propagate to the 
+enclosing block - where it can be caught by 
+more general exception handlers.</p>
+<pre>RAISE_APPLICATION_ERROR (error_no, message[,{TRUE|FALSE}]);
+
+This procedure  allows user defined error 
+messages from stored sub programs - call only from stored sub prog.
+error_no = a user defined no (between -20000 and -20999)
+
+TRUE = stack errors
+FALSE = keep just last
+
+This can either be used in the executable section of code or 
+the exception section
+
+e.g.
+EXCEPTION
+   WHEN NO_DATA_FOUND THEN
+   RAISE_APPLICATION_ERROR (-2021,
+        'manager not a valid employee');
+END;</pre>
+<p>Standard Exceptions, from the the STANDARD package</p>
+
+          <table border="1" cellpadding="3" cellspacing="0">
+            <tbody><tr>
+              <th>Oracle Exception Name</th>
+              <th>Oracle Error</th>
+              <th>Explanation</th>
+            </tr>
+
+            <tr>
+              <td>DUP_VAL_ON_INDEX</td>
+              <td>ORA-00001</td>
+              <td>You attempted to create a duplicate value in a field restricted by a unique index.</td>
+            </tr>
+            <tr>
+              <td>TIMEOUT_ON_RESOURCE</td>
+
+              <td>ORA-00051</td>
+              <td>A resource timed out, took too long.</td>
+            </tr>
+            <tr>
+              <td>TRANSACTION_BACKED_OUT</td>
+              <td>ORA-00061</td>
+              <td>The remote portion of a transaction has rolled back.</td>
+
+            </tr>
+            <tr>
+              <td>INVALID_CURSOR</td>
+              <td>ORA-01001</td>
+              <td>The cursor does not yet exist. The cursor must be OPENed before any FETCH cursor or CLOSE cursor operation.</td>
+            </tr>
+            <tr>
+
+              <td>NOT_LOGGED_ON</td>
+              <td>ORA-01012</td>
+              <td>You are not logged on.</td>
+            </tr>
+            <tr>
+              <td>LOGIN_DENIED</td>
+              <td>ORA-01017</td>
+
+              <td>Invalid username/password.</td>
+            </tr>
+            <tr>
+              <td>NO_DATA_FOUND</td>
+              <td>ORA-01403</td>
+              <td>No data was returned </td>
+            </tr>
+            <tr>
+              <td>TOO_MANY_ROWS</td>
+              <td>ORA-01422</td>
+
+              <td>You tried to execute a SELECT INTO statement and more than one row was returned.</td>
+            </tr>
+            <tr>
+              <td>ZERO_DIVIDE</td>
+              <td>ORA-01476</td>
+              <td>Divide by zero error.</td>
+            </tr>
+
+            <tr>
+              <td>INVALID_NUMBER</td>
+              <td>ORA-01722</td>
+              <td>Converting a string to a number was unsuccessful.</td>
+            </tr>
+            <tr>
+              <td>STORAGE_ERROR</td>
+
+              <td>ORA-06500</td>
+              <td>Out of memory.</td>
+            </tr>
+            <tr>
+              <td>PROGRAM_ERROR</td>
+              <td>ORA-06501</td>
+              <td><p>Generic "Contact Oracle support" message.<br>
+</p>
+</td>
+
+            </tr>
+
+<tr>
+  <td>VALUE_ERROR</td>
+  <td>ORA-06502</td>
+  <td>You tried to perform an operation and there was a error on a conversion, truncation, or invalid constraining of numeric or character data.</td>
+            </tr>
+            <tr>
+<td>ROWTYPE_MISMATCH</td>
+<td>ORA-06504</td>
+<td>&nbsp;</td>
+</tr>
+            <tr>
+
+              <td>CURSOR_ALREADY_OPEN</td>
+              <td>ORA-06511</td>
+              <td>The cursor is already open.</td>
+            </tr>
+<tr>
+<td>ACCESS_INTO_NULL</td>
+<td>ORA-06530</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>COLLECTION_IS_NULL</td>
+<td>ORA-06531</td>
+<td>&nbsp;</td>
+</tr>
+          </tbody></table>
+
+<p><b> </b></p><!-- #BeginLibraryItem "/Library/foot_ora.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- oracle-footer -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4275490898"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="exception.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

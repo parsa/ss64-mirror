@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+<title>SS64 RSS Feed</title>
+<link>http://ss64.com</link>
+<description>Command Line Reference</description>
+<language>en-gb</language>
+<pubDate>Fri, 08 Aug 2008 17:00:00 GMT</pubDate>
+<lastBuildDate>Wed, 6 Mar 2013 22:30:30 GMT</lastBuildDate>
+
+<atom:link href="https://ss64.com/rss.xml" rel="self"></atom:link>
+<docs>http://ss64.com/rssinfo.html</docs>
+	<item>
+	<title>Access commands</title> 
+	<link>https://ss64.com/access/</link>
+	<description>Microsoft Access command reference</description> 
+	<pubDate>Wed, 23 May 2012 00:00:01 GMT</pubDate>
+	<guid>https://ss64.com/access/</guid>
+	</item>
+	
+	<item>
+	<title>Oracle commands</title> 
+	<link>https://ss64.com/ora/</link>
+	<description>Including PL/SQL and Data dictionary views</description> 
+	<pubDate>Fri, 13 Jan 2006 00:00:01 GMT</pubDate> 
+  <guid>https://ss64.com/ora/</guid>
+	</item>
+	<item>
+	<title>SQL Server commands</title> 
+	<link>https://ss64.com/sql/</link>
+	<description>SQL Server command reference</description> 
+	<pubDate>Sun, 16 Jul 2006 00:00:01 GMT</pubDate>
+	<guid>https://ss64.com/sql/</guid>
+	</item>
+	<item>
+	<title>Windows CMD commands</title> 
+	<link>https://ss64.com/nt/</link>
+	<description>Including utilities and resource kits</description> 
+	<pubDate>Sun, 09 Jun 2013 00:00:01 GMT</pubDate> 
+  <guid>https://ss64.com/nt/</guid>
+	</item>
+	<item>
+	<title>PowerShell commands</title> 
+	<link>https://ss64.com/ps/</link>
+	<description>Including functions and sample scripts</description> 
+	<pubDate>Fri, 08 Aug 2008 17:00:00 GMT</pubDate>
+	<guid>https://ss64.com/ps/</guid>
+	</item>
+	<item>
+	<title>Linux BASH commands</title> 
+	<link>https://ss64.com/bash/</link>
+	<description>Built-in and Shell tools</description> 
+	<pubDate>Thu, 12 Jan 2006 00:00:52 GMT</pubDate>
+  <guid>https://ss64.com/bash/</guid>
+	</item>
+	<item>
+	<title>Apple OS X commands</title> 
+	<link>https://ss64.com/osx/</link>
+	<description>Built-in and Shell tools</description> 
+	<pubDate>Fri, 12 Jun 2009 14:27:34 GMT</pubDate>
+	<guid>https://ss64.com/osx/</guid>
+	</item>
+	<item>
+	<title>CSS Properties</title> 
+	<link>https://ss64.com/css/</link>
+	<description>An A-Z Index of CSS properties.</description> 
+	<pubDate>Wed, 6 Mar 2013 22:30:30 GMT</pubDate>
+	<guid>https://ss64.com/css/</guid>
+	</item>
+	
+	</channel>
+	</rss>

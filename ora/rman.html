@@ -1,0 +1,92 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>RMAN Recovery Manager | Oracle | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_ora.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../ora.1.html">Oracle</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>RMAN</h1> 
+<p>Recovery Manager commands.</p>
+<pre>  <a href="rman_backup.html">BACKUP</a>     Back up database files, archive logs, backups, or copies.
+  <a href="rman_catalog.html">CATALOG</a>    Add information about files to the repository. (10g+)
+  <a href="rman_change.html">CHANGE</a>     Update the status of a backup in the RMAN repository.
+  <a href="rman_configure.html">CONFIGURE</a>  Persistent RMAN settings.
+  <a href="connect.html">CONNECT</a>    Connect to a recovery catalog or auxiliary database
+  <a href="rman_crosscheck.html">CROSSCHECK</a> Check whether backup items still exist.
+  <a href="rman_delete.html">DELETE</a>     Delete backups from disk or tape
+  EXIT       Exit the RMAN console
+  <a href="rman_list.html">LIST</a>       List backups and copies
+  <a href="rman_recover.html">RECOVER</a>    Apply redo logs or incremental backups to a restored backup set
+              (or copy) in order to update it to a specified time. 
+  <a href="rman_report.html">REPORT</a>     Report backup status: database, files, backups
+  <a href="rman_restore.html">RESTORE</a>    Restore files from an RMAN backup (or copy)
+  <a href="rman_run.html">RUN</a>        Some RMAN commands are only valid inside a RUN block.
+  <a href="rman_set.html">SET</a>        Settings for the current RMAN session.
+  <a href="rman_show.html">SHOW</a>       Display the current configuration
+  <a href="shutdown.html">SHUTDOWN</a>   Shutdown the database
+  SQL        Execute a PL/SQL procedure or SQL statement(not SELECT)
+  <a href="startup.html">STARTUP</a>    Startup the database
+
+  <a href="rman_advise.html">ADVISE FAILURE</a>  Display repair options (11g Data Recovery Advisor)
+  <a href="rman_repair.html">REPAIR FAILURE</a>  Repair database failures (11g Data Recovery Advisor)
+
+Examples: <a href="rman_restore_example.html">Full DR recovery</a>, <a href="rman_pitr_example.html">Point in time recovery</a> (assumes archive log mode)
+</pre>
+<p>Syntax:</p>
+<p>Start RMAN without connecting to a database</p>
+<pre> $ rman</pre>
+<p>Start RMAN and run a command file:</p>
+<pre> $ rman @/scripts/rman_commands.txt  
+</pre>
+<p>Connect to a target database and a recovery catalog:</p>
+<pre> $ rman TARGET SYS/<i>pwd</i> CATALOG <i>cat_usr</i>/<i>pwd</i>@<i>cat_str</i></pre>
+<p>Connect to a target database without using a recovery catalog:</p>
+<pre> $ rman TARGET SYS/<i>pwd</i>@<i>sid</i> NOCATALOG</pre>
+<p>Connect to a target database and log a full debug trace file:</p>
+<pre> $ rman TARGET SYS/<i>pwd</i> NOCATALOG debug trace=rman.trc log=rman.log
+</pre>
+<p>Connect to a target database and log output messages to a file:</p>
+<pre> $ rman TARGET SYS/<i>pwd</i> log=rman.log APPEND
+</pre>
+<p>Run a command file from the RMAN prompt:</p>
+<pre>RMAN&gt; @/my_dir/my_command_file.txt</pre> 
+<p>In interactive mode, RMAN displays an <span class="code">"RMAN&gt;"></span> prompt
+<br>
+The commands above can be entered directly at the RMAN&gt; prompt or used within a command file. To quit, type <code>EXIT</code><br>
+RMAN records it's backup activity in the database control file.</p>
+<p class="VersionNumber"><b>Optional Components of RMAN:</b></p>
+<blockquote>
+<p>The <i>recovery catalog</i> database, a separate database used to record RMAN activity against one or more target databases. RMAN's <code><a href="rman_list.html">LIST</a></code>, <code><a href="rman_report.html">REPORT</a></code>, and <code><a href="rman_show.html">SHOW</a></code> commands display information from this repository. It is also possible for one database to store both the RMAN repository and other data. Typically this would be a Test or Train instance (with the repository data in a separate RMAN schema.)</p>
+<p>The <i>flash recovery </i>area, a disk location in which the database can store and manage files related to backup and recovery.</p>
+<p><i>Media management software</i>, for  interface with  tape drives/libraries.</p>
+</blockquote>
+<p> <b>Initialization Parameters</b></p>
+<p>Set the flash recovery area size and location, using <code>DB_RECOVERY_FILE_DEST</code> and <code>DB_RECOVERY_FILE_DEST_SIZE</code>. </p>
+<p><code>CONTROL_FILE_RECORD_KEEP_TIME</code>  controls how long backup records are kept in the control file before those records are
+re-used to hold information about more recent backups.</p>
+<p><b>Versions</b><br>
+For simplicity the syntax on this page does not cover <i>every</i> command available; it is based on commands that are common to both Oracle  9.2 and Oracle 10g (10.1) 
+10g has greatly improved RMAN data dictionary views for  reporting.<br>
+RMAN was first introduced in Oracle 8.0</p>
+<p><i>"We don't want to go back to tomorrow, we want to go.. forward" - Dan Quale</i></p>
+<p><b>Related Views:</b></p>
+<pre> &nbsp;RC_DATABASE               <a href="../orav/V$DATABASE.html">V$DATABASE</a>
+  RC_DATABASE_INCARNATION   V$DATABASE_INCARNATION</pre><!-- #BeginLibraryItem "/Library/foot_ora.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- oracle-footer -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4275490898"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="rman.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

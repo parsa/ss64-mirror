@@ -1,0 +1,67 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>cancel OSX Man Page | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_osx.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../osx.1.html">macOS</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/osx/"></form></div></li>
+</ul></div><!-- #EndLibraryItem -->
+<h1>cancel</h1> 
+<p>Cancel print jobs. </p>
+<pre>Syntax
+      cancel [ -E ] [ -U <i>username</i> ] [ -a ] [ -h <i>hostname</i>[:<i>port</i>] ] [ -u <i>username</i> ] [ -x ] [ id ]
+         [ <i>destination</i> ] [ <i>destination-id</i> ]
+
+Options
+   -a       Cancel all jobs on the named destination, or all jobs on all destinations if none
+            is provided.
+
+   -E       Force encryption when connecting to the server.
+
+   -h <i>hostname</i>[:<i>port</i>]
+            Specify an alternate server.
+
+   -U <i>username</i>
+            The username to use when connecting to the server.
+
+   -u <i>username</i>
+            Cancel jobs owned by <i>username</i>.
+
+   -x       Delete job data files in addition to canceling.</pre>
+<p>Unlike the System V printing system, CUPS allows printer names to contain any printable        character  except  SPACE, TAB, &quot;/&quot;, or &quot;#&quot;. Also, printer and class names are not case-        sensitive.</p>
+<p>Administrators wishing to prevent unauthorized cancellation of jobs via the  -u  option        should require authentication for Cancel-Jobs operations in cupsd.conf(5).</p>
+<p><b>Examples</b> </p>
+<p>Cancel the current print job: <br>
+<span class="code">cancel</span><br>
+<br>
+Cancel job &quot;myprinter-42&quot;:<br>
+<span class="code">cancel myprinter-42</span><br>
+<br>
+Cancel all jobs:<br>
+<span class="code">cancel -a</span></p>
+<p class="quote"><i>&ldquo;Effective management always means asking the right question&rdquo; ~ Robert Heller </i></p>
+<p><b>Related:</b></p>
+<p><a href="https://developer.apple.com/legacy/library/documentation/Darwin/Reference/ManPages/man1/cancel.1.html">cancel man page</a> - Apple.com<br>
+<a href="lp.html">lp</a> - Print <br>
+<a href="lpr.html">lpr</a> - Print files<br>
+<a href="lprm.html">lprm</a> - Remove jobs from the print queue<br>
+<a href="lpstat.html">lpstat</a> - Printer status information<br>
+</p><!-- #BeginLibraryItem "/Library/foot_osx.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- OSX300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="1823340303"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="cancel.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

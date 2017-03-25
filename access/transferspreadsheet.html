@@ -1,0 +1,77 @@
+<!DOCTYPE HTML><html lang="en">
+<head><meta charset="UTF-8">
+<meta name="Description" content="Import or export data to/from a spreadsheet file.">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>TransferSpreadsheet | Access | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_access.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../access.1.html">Access</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/access/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>DoCmd.TransferSpreadsheet</h1>
+<p> Import or export data to/from a spreadsheet file.</p>
+<pre>Syntax
+      DoCmd.TransferSpreadsheet(<i><a href="acdatatransfertype.html">TransferType</a>, <a href="acspreadsheettype.html">SpreadsheetType</a>,
+                     TableName, FileName, HasFieldNames, Range, UseOA</i>)
+
+Key
+   <i>TransferType</i>    The type of transfer to make. <a href="acdatatransfertype.html">AcDataTransferType</a> 
+                   default = acImport.
+
+   <i>SpreadsheetType</i> The type of spreadsheet to import from, export to, or link to.
+                   <a href="acspreadsheettype.html">AcSpreadSheetType</a>
+
+   <i>TableName</i>      The name of the Access table.
+                  For exporting, this can be the name of a <a href="select.html">SELECT</a> query object.
+
+   <i>FileName</i>       The file name and path of the spreadsheet.
+
+   <i>HasFieldNames</i>  Use True (–1) to use the first row of the
+                  spreadsheet as field names when importing or linking.
+                  default= False (0) treat the first row as normal data.
+
+                  When exporting, field names are always inserted into
+                  the first row of the spreadsheet.
+
+   <i>Range</i>          A valid range of cells or the name of a range
+                  in the spreadsheet. This argument is valid only for importing.
+                  default=entire spreadsheet.
+
+   UseOA          This argument is not supported..</pre>
+<p>With a linked Excel spreadsheet, you can view and edit the spreadsheet data with Access while still allowing access to the data from Excel.</p>
+<p>When Access data is exported to a spreadsheet, the field names are always inserted into the first row.</p>
+<p><b>Examples</b></p>
+<pre>In VBA:
+
+DoCmd.TransferSpreadsheet acExport, acSpreadsheetTypeExcel9, &quot;T_Employees&quot;, &quot;F:\Employees.xls&quot;, True
+DoCmd.TransferSpreadsheet acExport, acSpreadsheetTypeExcel12Xml, &quot;qryEmployees&quot;, &quot;F:\Employees.xlsx&quot;, True
+
+in PowerShell:
+
+$acExport = 1
+$acSpreadsheetTypeExcel9 = 8
+$db = New-Object -Comobject Access.Application
+$db.OpenCurrentDatabase(&quot;F:\Demo\Test.mdb&quot;)
+$db.DoCmd.TransferSpreadsheet($acExport, $acSpreadsheetTypeExcel9, &quot;T_Sales&quot;, &quot;C:\work\Sales.xls&quot;, $True)
+$db.Quit()</pre>
+<p class="quote"><i>&ldquo;Traditionally, most of Australia's imports come from overseas&rdquo; ~ Keppel Enderbery</i></p>
+<p><b>Related:</b><br>
+<br>
+<a href="http://www.accessmvp.com/KDSnell/EXCEL_Import.htm">Importing Excel workbooks</a> - MVPS Examples<br>
+<a href="transferdatabase.html">TransferDatabase</a> - Import or export data to/from another database.</p><!-- #BeginLibraryItem "/Library/foot_access.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- access -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4313908313"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="transferspreadsheet.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

@@ -1,0 +1,147 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Add-Computer | PowerShell | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_ps.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../ps.1.html">PowerShell</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/ps/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>Add-Computer</h1>
+<p>Add the local computer to a domain or workgroup. Move a computer account  from one domain to another. Add-Computer will create new domain computer accounts as required.</p>
+<pre>Syntax
+      Add-Computer [-DomainName] <i>string</i> [-ComputerName <i>String</i>[]]
+         [-Force] [-LocalCredential <i>PSCredential</i>] [-NewName <i>String</i>]
+            [-Options { AccountCreate | DeferSPNSet | InstallInvoke | JoinReadOnly
+                        | JoinWithNewName | PasswordPass | UnsecuredJoin | Win9XUpgrade} ]
+                 [-OUPath <i>String</i>] [-PassThru] [-Restart] [-Server <i>String</i>]
+                    [-UnjoinDomainCredential <i>PSCredential</i>] [-Unsecure]
+                       [-Credential <i>PSCredential</i>] 
+                          [-Confirm] [-WhatIf] [<i>CommonParameters</i>]
+    
+      Add-Computer [-WorkGroupName] <i>string</i> [-ComputerName <i>String</i>[]]
+         [-Credential <i>PSCredential</i>] [-Force] [-LocalCredential <i>PSCredential</i>]
+            [-NewName <i>String</i>] [-PassThru] [-Restart] [-Confirm] [-WhatIf] [<i>CommonParameters</i>]
+
+key
+   -DomainName <i>string</i>
+       A domain for the computer account. This parameter is required.
+
+   -ComputerName <i>String</i>[]
+       The computer(s) to add to a domain or workgroup. Default=the local computer.
+       A NetBIOS name, IP address, or a fully qualified domain name. (PowerShell 3.0+)
+
+   -Credential
+       A user account that has permission to <b>Add</b> computers.
+       A user name, such as &quot;User64&quot; or &quot;Domain64\User64&quot;, or a <a href="get-credential.html">PSCredential</a> object.
+       If you supply a user name, you will be prompted for a password.
+       The default is the current user.
+
+   -LocalCredential <i>PSCredential</i>
+       Specifies a user account that has permission to <b>connect</b> to the computers
+       specified by <i>ComputerName</i>.
+       A user name, such as &quot;User64&quot; or &quot;Domain64\User64&quot;, or a <a href="get-credential.html">PSCredential</a> object.
+       If you supply a user name, you will be prompted for a password.
+       Default=current user. (PowerShell 3.0+)
+
+    -UnjoinDomainCredential <i>PSCredential</i>
+       Specifies a user account that has permission to <b>remove</b> the computer(s) from
+       their current domains.
+       A user name, such as &quot;User64&quot; or &quot;Domain64\User64&quot;, or a <a href="get-credential.html">PSCredential</a> object. 
+       If you supply a user name, you will be prompted for a password.
+       Default=current user. (PowerShell 3.0+)
+
+   -Force
+       Don't confirm the addition of each computer. (PowerShell 3.0+)
+
+   -NewName <i>String</i>
+       Specifies a new name for the computer in the new domain. (PowerShell 3.0+)
+       This parameter is valid only when <b>one</b> computer is being added or moved.
+
+    -Options <i>JoinOptions</i>          (PowerShell 3.0+)
+       Enter one or more advanced options in a comma-separated string:
+
+        -- AccountCreate : Create a domain account. Add-Computer automatically creates
+           a domain account when it adds a computer to a domain. This option is included for completeness.
+
+        -- Win9XUpgrade : Indicates that the join operation is part of an OS upgrade.
+
+        -- UnsecuredJoin: Perform an unsecured join. Use the -Unsecure parameter or this option.
+
+        -- PasswordPass : Set the machine password to the value of the Credential (DomainCredential) parameter after
+          performing an unsecured join. This option also indicates that the value of the Credential (DomainCredential)
+          parameter is a machine password, not a user password. This option is valid only when the UnsecuredJoin option
+          is specified.
+
+        -- JoinWithNewName : Rename the computer name in the new domain to the name specified by the NewName
+          parameter. When you use the NewName parameter, this option is set automatically. This option is designed to be
+          used with the Rename-Computer cmdlet. If you use the Rename-Computer cmdlet to rename the computer, but do not
+          restart the computer to make the change effective, you can use this parameter to join the computer to a domain
+          with its new name.
+
+        -- JoinReadOnly : Use an existing machine account to join the computer to a read-only domain controller.
+          The machine account must be added to the allowed list for password replication policy and the account password
+          must be replicated to the read-only domain controller prior to the join operation.
+
+        -- InstallInvoke: Set the create (0x2) and delete (0x4) flags of the FJoinOptions parameter of the
+          <a href="https://msdn.microsoft.com/library/aa392154(VS.85).aspx">JoinDomainOrWorkgroup</a> method.
+
+   -OUPath <i>string</i>
+       An organizational unit (OU) distinguished name for the domain account.
+       Default value = the default OU for machine objects. 
+ 
+   -PassThru
+       Pass the object created by this cmdlet through the pipeline.
+
+   -Restart
+       Restart the computers that were added to the domain or workgroup.
+       A restart is often required to make the change effective. (PS 3.0+)
+
+   -Server <i>DomainName\ComputerName</i>
+       The domain controller that will add the computer to the domain.
+       By default, no domain controller is specified.
+
+   -Unsecure
+       Perform an unsecure join
+
+   -WorkGroupName <i>string</i>
+       The name of a work group for the computer. The default value is &quot;WORKGROUP&quot;
+       If you omit this parameter, the computer is joined to a domain.
+
+   -whatIf
+       Describe the command without actually executing it.
+
+   -confirm
+       Prompt for confirmation before executing the command.
+
+   <a href="common.html">CommonParameters</a>:
+       -Verbose, -Debug, -ErrorAction, -ErrorVariable, -WarningAction, -WarningVariable,
+       -OutBuffer -OutVariable.</pre>
+<p><b>Examples</b></p>
+<p>1) Add  the local computer to the SS64 domain using the credentials of the current user:</p>
+<p><span class="code">PS C:\> add-computer -domainname SS64Dom -restart</span></p>
+<p>2) Add  the local computer to the SS64 domain by using the SS64Dom\DC01 domain controller:</p>
+<p><span class="code">PS C:\> add-computer -DomainName SS64Dom -Server SS64Dom\DC01 -passthru -verbose</span></p>
+<p>3) Add  the local computer to the SS64 domain and place in a specific OU: </p>
+<p><span class="code">PS C:\> Add-Computer -domainname SS64Dom -OUPath OU=Sales,DC=SS64,DC=com -cred SS64Dom\Administrator -passthru</span></p>
+<p class="quote"><i>“Since time is the one immaterial object which we cannot influence--neither speed up nor slow down, add to nor diminish--it is an imponderably valuable gift” ~ Maya Angelou</i></p>
+<p><b>Related:</b><br>
+<br>
+<a href="checkpoint-computer.html">Checkpoint-Computer</a> - Create a system restore point on the local computer.<br>
+<a href="../nt/netdom-join.html">NETDOM JOIN</a> - Join a workstation or member server to the domain</p><!-- #BeginLibraryItem "/Library/foot_ps.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- PowerShell300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="6253539900"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="add-computer.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

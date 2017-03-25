@@ -1,0 +1,48 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>scselect System Configuration Select OSX Man Page | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_osx.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../osx.1.html">macOS</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/osx/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>scselect</h1> 
+<p>Switch between network &quot;locations&quot; created in the Network preference pane.</p>
+<pre>Syntax
+      scselect [-n] [<i>new-location-name</i>]
+         
+Key
+   -n  Delay changing the system's "location" until the next system boot (or
+       the next time that the system configuration preferences are changed).
+
+   <i>new-location-name</i>
+       If not specified, a list of the available "location" names and associated
+       identifiers will be reported on standard output.  If specified, this argument
+       is matched with the "location" names and identifiers and the matching set is activated.</pre>
+<p>scselect provides access to the system configuration sets, commonly referred to as &quot;locations&quot;.  When invoked with no arguments, scselect displays the names and associated identifiers for each defined &quot;location&quot; and indicates which is currently active.  </p>
+<p>scselect also allows the user to select or change the active &quot;location&quot; by specifying its name or identifier.  Changing the &quot;location&quot; causes an immediate system re-configuration, unless the -n option is supplied. </p>
+<p>At present, the majority of preferences associated with a &quot;location&quot; relate to the system's network configuration.</p>
+<p><i><br>
+<span class="quote">&ldquo;Everything you read in newspapers is absolutely true, except for that rare story of which you happen to have first-hand knowledge&rdquo; ~ Erwin Knoll </span></i></p>
+<p><b>Related:</b></p>
+<p><a href="ifconfig.html">ifconfig</a> - Configure network interface parameters.<br>
+netstat   - Show network status.<br>
+<a href="ping.html">ping</a> - Test a network connection.</p>
+<!-- #BeginLibraryItem "/Library/foot_osx.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- OSX300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="1823340303"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="scselect.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

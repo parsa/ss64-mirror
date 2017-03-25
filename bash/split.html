@@ -1,0 +1,83 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>split Man Page | Bash | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_bash.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../bash.1.html">Bash</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/bash/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>split</h1> 
+<p>Split a file into fixed-size pieces, creates output files containing 
+consecutive sections of <i>INPUT</i> (standard input if none is given or INPUT is `-')</p>
+<pre>Syntax
+      split [<i>options</i>] [<i>INPUT</i> [<i>PREFIX</i>]]
+
+Options
+
+ -<i>LINES</i>
+ -l <i>LINES</i>
+ --lines=<i>LINES</i>
+     Put <i>LINES</i> lines of <i>INPUT</i> into each output file.
+
+ -b <i>BYTES</i>
+ --bytes=<i>BYTES</i>
+     Put the first <i>BYTES</i> bytes of <i>INPUT</i> into each output file.
+     Appending `b' multiplies <i>BYTES</i> by 512, `k' by 1024, and `m' by
+     1048576.
+
+ -C <i>BYTES</i>
+ --line-bytes=<i>BYTES</i>
+     Put into each output file as many complete lines of INPUT as
+     possible without exceeding BYTES bytes.  For lines longer than
+     BYTES bytes, put BYTES bytes into each output file until less than
+     BYTES bytes of the line are left, then continue normally.  BYTES
+     has the same format as for the `--bytes' option.
+
+ --verbose
+     Write a diagnostic to standard error just before each output file
+     is opened.</pre>
+<p> By default, `split' puts 1000 lines of <i>INPUT</i> (or whatever is 
+  left over for the last section), into each output file. <br>
+  <br>
+  The output files' names consist of <i>PREFIX</i> (`x' by default) followed by a group 
+  of letters `aa', `ab', and so on, such that concatenating the output files in 
+  sorted order by file name produces the original input file. <br>
+  <br>
+If more than 676 output files are required, `split' uses `zaa', `zab', etc.</p>
+<p><b>Examples</b></p>
+<p>Split up the file demo.zip into multiple 100 MB files:</p>
+<p class="code">$ split -b 100m demo.zip</p>
+<p>The output files will be named with 3 letters starting  <span class="code">xaa</span>,<span class="code"> xab</span>, … to reassemble them, cat the files in alphabetical order:</p>
+<p><span class="code">$ cat `ls x*` &gt; demo2.zip</span><br>
+  <br>
+  <i class="quote">&quot;The man who is tired of London is tired of looking for a parking space&quot; 
+  ~ Paul 
+Theroux </i> </p>
+<p><b>Related:</b><br>
+<br>
+<a href="csplit.html">csplit</a> - Split a file into context-determined pieces<br>
+<a href="cut.html">cut</a> - Divide a file into several parts<br>
+<a href="fmt.html">fmt</a> - Reformat paragraph text <br>
+<a href="fold.html">fold</a> - Wrap input lines to fit in specified width<br>
+<a href="head.html">head</a> - Output the first part of file(s) <br>
+<a href="join.html">join</a> - Join lines on a common field<br>
+  <a href="paste.html">paste</a> - Merge lines of files <br>
+Equivalent Windows commands: 
+<a href="../nt/fc.html">FC</a> /lb - Compare two files</p><!-- #BeginLibraryItem "/Library/foot_bash.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- bash300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4615356305"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="split.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

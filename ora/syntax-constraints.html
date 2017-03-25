@@ -1,0 +1,138 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Constraints and Triggers | Oracle | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_orasyntax.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../ora.1.html">Oracle</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>Data Integrity - Constraints and Triggers</h1>
+<p>All data stored in a database must adhere to certain business rules. <br>
+  For example, a  business rule specifying a minimum hourly wage for any employee or another rule stating that the discount for sale items cannot
+  be more than 100%. <br>
+  In either case  if an INSERT or UPDATE statement attempts to violate the integrity rule, Oracle must roll back the statement and return an error.</p>
+<h2>Integrity Constraints</h2>
+<blockquote>
+<p>  An integrity constraint defines a business rule for a table column. When enabled, the rule will be enforced by oracle (and so
+    will always be true.)
+  To create an integrity constraint all existing table data must satisfy the constraint. </p>
+<p>Default values are also subject to integrity constraint  checking (defaults are included as part
+    of an INSERT statement before the statement is parsed.)<br>
+  If the results of an INSERT or UPDATE statement violate an integrity constraint, the statement will be rolled back.</p>
+<p> Integrity constraints are stored as part of the table definition, (in the data dictionary.)<br>
+  If multiple applications access the same table  they will all adhere to the same rule. </p>
+<p>The following integrity constraints are supported by Oracle:</p>
+<blockquote>
+<p>  <span class="code">NOT NULL <br>
+  UNIQUE<br>
+  CHECK</span> constraints for complex integrity rules<br>
+  <span class="code">PRIMARY KEY<br>
+  FOREIGN KEY</span> integrity constraints -
+  referential integrity actions: &#8211; On Update &#8211;  On Delete 
+  &#8211; Delete
+CASCADE &#8211; Delete SET NULL</p>
+</blockquote>
+</blockquote>
+<h2><a id="validate"></a>Constraint States</h2>
+<blockquote>
+<p>  The current status of an integrity constraint can be changed to any of the
+following 4 options using the <a href="table_c.html">CREATE TABLE</a> or <a href="table_a.html">ALTER
+TABLE</a> statement.</p>
+<blockquote>
+<p><span class="code">ENABLE</span> - Ensure that all incoming data conforms to the constraint<br>
+   <span class="code">DISABLE</span> - Allow incoming data, regardless of whether it conforms to the constraint<br>
+   <span class="code">VALIDATE</span> - Ensure that existing data conforms to the constraint<br>
+<span class="code">NOVALIDATE</span> - Allow existing data to not conform to the constraint </p>
+</blockquote>
+<p>These can be used in combination</p>
+<blockquote>
+<p class="code">ENABLE { <u>VALIDATE</u> | NOVALIDATE }<br>
+  <br>
+DISABLE { VALIDATE | <u>NOVALIDATE</u> }</p>
+</blockquote>
+<p>ENABLE VALIDATE is the same as ENABLE. <br><br>
+ENABLE NOVALIDATE means that the constraint is checked, but it does not have to be true for all rows. This will resume constraint checking for Inserts and Updates but will not validate any data that already exists  in the table.<br>
+<br>
+DISABLE NOVALIDATE is the same as DISABLE. <br>
+<br>
+DISABLE VALIDATE disables the constraint, drops the index on the constraint, and disallows any modification of the constrained columns.<br>
+For a UNIQUE constraint, this enables you to load data from a nonpartitioned table into a partitioned table using the ALTER TABLE.. EXCHANGE PARTITION clause.</p>
+<p>Indexes to support Unique Constraints:<br>
+  When a unique or primary key is Enabled, if there is no existing index, a unique index is automatically created. <br>
+When a unique or primary key is Disabled, the unique index is dropped.<br>
+<br>
+When converting a NOVALIDATE constraint to VALIDATE, all data must be checked, this can take a long time depending on the amount of data to be validated.<br><br>
+ENABLE VALIDATE does not block reads, writes, or other DDL statements. It can be done in parallel.</p>
+<h2>Effect of constraint failure</h2>
+<p>Any SQL INSERT, UPDATE or DELETE command applied to a table with constraints enabled has the possibility of failing.</p>
+<p>For example updates applied to a Parent Table will fail if the statement leaves orphaned rows in a child table, INSERTs against a Child Table will fail if a matching foreign key value does not exist in the parent table.</p>
+<p>Constraint failures will result in the statement being rolled back - coding  an application front end to deal with such errors is generally easier than handling all the business rules in code. You can design  applications to use constraint data dictionary information to provide  user feedback about integrity constraint violations.</p>
+</blockquote>
+<h2><a id="deferrable"></a>Deferring a constraint</h2>
+<blockquote>
+<p>You can defer checking constraints for validity until the end of the transaction, so the constraint rules don't have to be met until the whole transaction is committed.</p>
+<p>This can be defined for each <i>constraint</i> with keywords in the CONSTRAINT clause: <br>
+<span class="code">DEFERRABLE</span> or <span class="code">NOT DEFERRABLE</span><br>
+<span class="code">INITIALLY DEFERRED</span> or <span class="code">INITIALLY IMMEDIATE</span></p>
+<p>This can be defined for each <i>transaction</i> with the SET CONSTRAINTS statement:<br>
+<span class="code">ALTER SESSION SET CONSTRAINTS DEFERRED<br>
+ALTER SESSION SET CONSTRAINTS IMMEDIATE</span></p>
+<p>Type SET CONSTRAINTS  for a list of constraint names or for ALL constraints.</p>
+<p>The <a href="session_a.html">ALTER SESSION</a> statement also has clauses to SET CONSTRAINTS IMMEDIATE or DEFERRED. These ALTER SESSION SET CONSTRAINTS… statements will not work for any constraints that are created as NOT DEFERRABLE (the default).</p>
+<p>The SET CONSTRAINTS statement is disallowed inside of triggers.</p>
+</blockquote>
+<h2>Pros and Cons</h2>
+<blockquote>
+<p>Constraints are preferable to application code, database triggers or stored procedures. Because a constraint is defined once for each  table (in the data dictionary) changes to business rules can be applied in one place.</p>
+<p>The Oracle query optimizer can utilise integrity constraint declarations.</p>
+<p> Constraints do cause a small loss in performance. The cost of an integrity constraint is, at most, the same as executing an equivalent SQL statement.</p>
+<p>A UNIQUE key constraint will not prevent the input of multiple nulls, because a null is not considered equal to anything. (NULL &lt;&gt; NULL)<br>You can prevent NULLs being added to a column by adding a NOT NULL constraint. <br>
+Columns with both UNIQUE keys and NOT NULL integrity constraints are common.</p>
+</blockquote>
+<h2>Database Triggers</h2>
+<blockquote>
+<p>  A database trigger is a procedure written in PL/SQL, Java, or C that will run implicitly when data is modified or when some user or system actions occur. </p>
+<p>Triggers can be used in  many  ways e.g. to  enforce complex integrity constraints or to audit data modifications. Triggers should not be used to enforce business rules or referential integrity rules that could be implemented with simple constraints.</p>
+<p>  Triggers are implicitly fired by Oracle when a triggering event occurs,  no matter which user is connected or which application is being used.</p>
+<p>A row trigger is fired once for each row affected by an UPDATE statement.</p>
+<p>A statement trigger is fired once, regardless of the number of rows in the table.</p>
+<p>BEFORE triggers execute the trigger action before the triggering statement is executed. This type of trigger is commonly used if the trigger will derive
+  specific column values or if the trigger action will determine whether the triggering statement should be allowed to complete.<br>
+  Appropriate use of a BEFORE trigger can eliminate unnecessary processing of the triggering statement.</p>
+<p>AFTER triggers execute the trigger action after the triggering statement is executed.</p>
+<p>For any given table you can have multiple triggers of the same type for the same statement. <br>
+  E.g. multiple AFTER UPDATE triggers on the same table</p>
+<p>{BEFORE|AFTER} {row| statement} Trigger</p>
+<p>Some Views cannot be directly modified through DML statements (INSERT, UPDATE,DELETE). INSTEAD OF triggers allow you to work around this limitation by firing the
+  trigger instead of executing the DML statement.</p>
+<p>Triggers on system events can be defined at the database level or schema level.<br>
+  <span class="code">STARTUP, SHUTDOWN, SERVERERROR</span>, User <span class="code">LOGON</span> and <span class="code">LOGOFF</span>, <br>
+  Modifications to schema objects: {BEFORE | AFTER} {CREATE|ALTER|DROP}</p>
+</blockquote>
+<h2>Data Integrity</h2>
+<blockquote>
+<p>A database  trigger is not the same as an integrity constraint. A database trigger defined to enforce an integrity rule does not check data already loaded into a table. Therefore, it is  recommended that you use a trigger only when the integrity rule cannot be enforced by an integrity constraint.</p>
+<p>ORA-00001 - Unique constraint violated. (Invalid data has been rejected)</p>
+</blockquote>
+<p><i class="quote">&ldquo;Love withers under constraint; its very essence is liberty; it is compatible neither with obedience, jealousy, nor fear: it is there most pure, perfect and unlimited, where its votaries live in confidence, equality and reserve&rdquo; ~ Shelley</i><br>
+<br>
+<b>Related</b></p>
+<p><a href="../orap.1.html">Oracle Supplied Packages</a><br>
+<a href="../oraplsql.1.html">PL/SQL commands</a></p><!-- #BeginLibraryItem "/Library/foot_ora.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- oracle-footer -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4275490898"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="syntax-constraints.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

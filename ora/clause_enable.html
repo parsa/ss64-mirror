@@ -1,0 +1,66 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Enable Constraint clause| Oracle | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_ora.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../ora.1.html">Oracle</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>ENABLE Clause</h1> 
+<p>Enable constraints (or triggers)<br>
+  <br>
+  Syntax:</p>
+<pre>   ENABLE [[NO]<a href="syntax-constraints.html#validate">VALIDATE</a>] [UNIQUE] (column [,…] ) <i>options</i> [CASCADE] [{DROP|KEEP} INDEX]
+   ENABLE [[NO]<a href="syntax-constraints.html#validate">VALIDATE</a>] PRIMARY KEY <i>options </i>[CASCADE]  [{DROP|KEEP} INDEX]
+   ENABLE [[NO]<a href="syntax-constraints.html#validate">VALIDATE</a>] CONSTRAINT constraint_name <i>options </i>[CASCADE]  [{DROP|KEEP} INDEX]
+   ENABLE ALL TRIGGERS
+
+Options:
+
+    USING INDEX <i>storage_options</i>
+    USING INDEX (<a href="index_c.html">create_index_statement</a>)
+    SORT | NOSORT
+    LOCAL | GLOBAL PARTITION BY RANGE (<i>column_list</i>)
+               (PARTITION <i>partition</i>
+                   VALUES LESS THAN (<i>value</i> [,<i>value</i>…]) <i>storage_options</i>
+    EXCEPTIONS INTO [<i>schema</i>.]<i>table</i>
+
+<i>storage_options</i>:
+       PCTFREE <i>int</i>
+       PCTUSED <i>int</i>
+       INITTRANS <i>int</i>
+       MAXTRANS <i>int</i>
+       STORAGE <a href="clause_storage.html">storage_clause</a>
+       TABLESPACE <i>tablespace</i>
+       LOGGING|NOLOGGING</pre>
+<p>notes:<br>
+  If more than one option is specified - you only need the first &quot;USING INDEX&quot; 
+  <br>
+  <br>
+  If EXCEPTIONS INTO is specified it should be the last option listed.<br>
+  <b><br>
+  </b><b> Related Commands:</b></p>
+<p><a href="clause_constraint.html">constraint</a> - clause<a href="clause_disable.html"><br>
+  disable</a> - Disable a constraint <br>
+  <a href="clause_drop.html">drop</a> - clause <br>
+<a href="table_a.html">ALTER TABLE</a></p>
+<p><b>Related Views:</b></p>
+<p class="code"> <a href="../orad/DBA_CONSTRAINTS.html">DBA_CONSTRAINTS</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="../orad/ALL_CONSTRAINTS.html">ALL_CONSTRAINTS</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="../orad/USER_CONSTRAINTS.html">USER_CONSTRAINTS</a> <br> 
+<a href="../orad/DBA_CONS_COLUMNS.html">DBA_CONS_COLUMNS</a>&nbsp;&nbsp;&nbsp;<a href="../orad/ALL_CONS_COLUMNS.html">ALL_CONS_COLUMNS</a>&nbsp;&nbsp;&nbsp;<a href="../orad/USER_CONS_COLUMNS.html">USER_CONS_COLUMNS</a> </p><!-- #BeginLibraryItem "/Library/foot_ora.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- oracle-footer -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4275490898"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="clause_enable.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

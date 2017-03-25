@@ -1,0 +1,225 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Remove SQL login sp_RemoveLogin | SQL Server | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_sql.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../sql.1.html">SQL</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/sql/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>spRemoveLogin</h1>
+<p>A stored procedure written by <i>Clinton Herring</i> that can be used to remove SQL logins from multiple databases. </p>
+<p> Removing login from a SQL server can be a tedious, manual
+ process, checking for database access in each database, object
+ ownership in each database, granted permissions (the login is
+the grantor), jobs & packages owned by the login. </p>
+<p>This procedure  automates the process as much as possible. The following rules are applied when issues are encountered: </p>
+<p> 1) If the login owns databases (as will occur when a restore  is done manually) the ownership is changed to sa.<br>
+2) If the login is a user in a particlar db and owns objects,  then the proc attempts to reassign ownership to dbo. <br>
+If an  object by the same name is already owned by dbo a message is  displayed and manual intervention is required. <br>
+3) If this login as a user in a db has granted permissions then  those permissions are removed. <br> 
+4) Once object ownership is taken care and grants are dropped  then the user can be removed from the db. <br> 
+5) If the user is aliased it is dropped. <br> 
+6) This process continues for each db. <br>
+Once all databases are  processed if there were any objects that could not be handled  without manual intervention a message is displayed to that effect. <br>
+7) If the login owns jobs or packages in msdb those are changed to sa.<br> 
+8) Any open connections the login has are killed and finally the  login is removed from the SQL Server. <br>
+9) If a session could not be killed a message is displayed to that effect.</p>
+<pre>Use master
+if exists (<i>select</i> *
+   from dbo.sysobjects
+   where id = object_id(N'[dbo].[spRemoveLogin]')
+   and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [dbo].[spRemoveLogin]
+Go
+
+Create procedure spRemoveLogin
+@name sysname = null
+As
+
+/***5***10***15***20***25***30***35***40***45***50***55***60***65***70***75**/
+--Name : spRemoveLogin for SQL 7.0 &amp; 2K
+--
+--Description : Attempts to remove a login from a SQL Server whether STD or NT.
+--
+--Parameters : @name - the login to be removed, i.e, <i>login</i> or <i>domain</i>\<i>login</i>
+--
+--Date : 07/02/2001
+--Author : Clinton Herring
+--
+--History : 07/10/2002 Added code to change the db owner to sa if the
+-- login owns databases.
+--
+/***5***10***15***20***25***30***35***40***45***50***55***60***65***70***75**/
+
+-- Create a temp holding table
+If (Select object_id('tempdb.dbo.#Parm')) > 0
+   Exec ('Drop table #Parm')
+Create table #Parm(value int null)
+
+-- Declare variables
+Declare @sid varbinary(85),
+        @dbname sysname,
+        @cmd varchar(4096),
+        @spid int
+
+-- Check for master db
+If db_name() <> 'master'
+   Begin
+      Print 'This stored procedure must be run from the master database.'
+      Return
+   End
+
+-- Check for a null parameter
+IF @name is null
+   Begin
+      Print 'This stored procedure requires a valid login as a parameter.'
+      Return
+   End
+
+-- Check for logins not allowed to be dropped using this procedure
+IF @name in ('BUILTIN\Administrators', 'distributor_admin', 'sa', 'repl_publisher', 'repl_subscriber')
+   Begin
+      Print 'You may not drop the following logins using this stored procedure:'
+      Print ' BUILTIN\Administrators, distributor_admin, sa, repl_publisher, repl_subscriber'
+      Return
+   End
+
+-- Check to see if the login exists.
+If exists (select * from master.dbo.syslogins where loginname = @name)
+   Begin
+
+      -- Display a message
+      Print 'Attempting to find and drop ''' + @name + ''' from each database...'
+      
+      -- retrieve the sid of the login
+      Set @sid = suser_sid(@name)
+      
+      -- Check for database ownership
+      -- Here dynamic sql is required to use the 'Use command'.
+If exists(select * from sysdatabases where sid = @sid)
+Begin
+   Select @dbname = min(name) from master.dbo.sysdatabases where name <> 'master' and sid = @sid
+   While @dbname is not null and exists(select * from sysdatabases where sid = @sid)
+      Begin
+         Select @cmd = 'use ' + @dbname + ' exec sp_changedbowner ''sa'''
+         Exec (@cmd)
+         Select @dbname = min(name) from master.dbo.sysdatabases where name <> 'master' and sid = @sid
+      End
+   End
+
+   -- If the login exists begin checking each database for this login as a user in
+   -- that database.
+   Select @dbname = min(name) from master.dbo.sysdatabases
+
+   -- Loop through each database.
+   While @dbname is not null
+   Begin
+      -- Here dynamic sql is required to use the 'Use command'.
+      -- This loop checks for db and msdb ownership issues &amp; granted permissions.
+      -- Build a command.
+      Select @cmd = 'use ' + @dbname + ' declare @uid int, @cmd varchar(512), @name sysname ' +
+         'If exists (select * from sysusers where sid = suser_sid(''' + @name + ''') and isaliased = 0) ' +
+         'Begin Print '' Processing db ' + @dbname + '...'' Select @uid = uid, @name = name from ' +
+         'sysusers where sid = suser_sid(''' + @name + ''') If exists (select * from sysobjects ' +
+         'where uid = 1 and name in (select name from sysobjects where uid = @uid)) ' +
+         'Begin Print '' The following objects are owned by the user in database ' + @dbname + '.'' ' +
+         'Print '' Objects with the same name owned by dbo already exist. Please decide '' ' +
+         'Print '' what to do with these objects before attempting to drop this user.'' Print '''' ' +
+         'Select convert(varchar(50), name) ''name'', type from sysobjects where uid = @uid ' +
+         'Insert into #parm values(1) End ' +
+         'Else Begin Exec sp_configure ''allow updates'', 1 Reconfigure with override ' +
+         'waitfor delay ''00:00:01'' select @cmd = ''update sysobjects set uid = 1 where uid = '' ' +
+         '+ convert(varchar(5),@uid) + ' +
+         ''' Delete from syspermissions where grantor = '' + convert(varchar(5),@uid) ' +
+         'Print '' Fixing object ownership issues in '' + db_name() + ''...'' Exec (@cmd) ' +
+         'Exec sp_configure ''allow updates'', 0 Reconfigure with override ' +
+         'Exec sp_revokedbaccess @name End Print '''' End ' +
+         'If exists(select * from sysusers where sid = suser_sid(''' + @name + ''') and isaliased = 1) ' +
+         'Begin Exec sp_dropalias ''' + @name + ''' Print '''' End'
+      -- Execute the command
+      Exec (@cmd)
+   
+      -- If the database is msdb then fix any job or package onwership issues.
+      If @dbname = 'msdb' and
+      (exists(select * from msdb.dbo.sysjobs where owner_sid = @sid) or
+      exists(select * from msdb.dbo.sysdtspackages where owner_sid = @sid))
+      Begin
+         Select @cmd = 'use msdb declare @cmd varchar(512) ' +
+         'Exec sp_configure ''allow updates'', 1 Reconfigure with override ' +
+         'waitfor delay ''00:00:01'' select @cmd = ' +
+         '''update sysdtspackages set owner = ''''sa'''', owner_sid = ' +
+         '0x01 where owner_sid = suser_sid(''''' + @name + ''''') ' +
+         'update sysjobs set owner_sid = 0x01 where owner_sid = suser_sid(''''' + @name+ ''''')'' ' +
+         'Print '' Fixing job &amp;/or package ownership issues in msdb.'' ' +
+         'Exec (@cmd) Exec sp_configure ''allow updates'', 0 Reconfigure with override '
+         Exec (@cmd)
+      End
+
+   Select @dbname = min(name) from master.dbo.sysdatabases where name > @dbname
+End
+
+-- Did we have any issues that could not be resolved?
+If exists(select * from #parm where value = 1)
+   Print 'Cannot drop the login at this time.'
+Else
+   Begin
+      Truncate table #parm
+
+-- Check for any connection by this login and attempt to kill them.
+If exists (Select * from master.dbo.sysprocesses where loginame = @name and sid <> 0x01 and sid is not null)
+   Begin
+      Insert into #parm Select spid from master.dbo.sysprocesses where loginame = @name and sid <> 0x01 and sid is not null
+      Select @spid = min(value) from #parm
+      While @spid is not null
+         Begin
+            Select @cmd = 'Kill ' + convert(varchar(5),@spid)
+            Exec (@cmd)
+            Select @spid = min(value) from #parm where value > @spid
+         End
+   End
+
+-- Not all kill commands succeed; check again
+If exists (Select * from master.dbo.sysprocesses where loginame = @name and sid <> 0x01 and sid is not null)
+         Begin
+            Print 'Could not kill all active sessions for this login.'
+            Print 'Cannot drop the login at this time.'
+         End
+      Else
+         Begin
+            If charindex('\', @name) > 0
+               Exec sp_revokelogin @name
+            Else
+               Exec sp_droplogin @name
+         End
+      End
+
+End
+Else
+   Begin
+      Print 'The login ''' + @name + ''' does not exist on SQL Server ''' + @@servername + '''.'
+   End
+
+go
+</pre>
+<p><b>Example</b></p>
+<pre>spRemovelogin &quot;JaneDoe&quot;</pre>
+<p class="quote"><i>“When you have eliminated the impossible, that which remains, however improbable, must be the truth” - Arthur Conan Doyle, Sr</i></p>
+<p><b>Related commands:</b></p>
+<p><a href="user_d.html">DROP USER</a></p><!-- #BeginLibraryItem "/Library/foot_sql.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ss64-sql -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="6953563613"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="spremovelogin.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

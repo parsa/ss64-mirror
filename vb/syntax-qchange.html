@@ -1,0 +1,197 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Connect to a different Printer Queue | VBScript | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_vbsyntax.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../vb.1.html">VBScript</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/vb/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>QChange - Connect to a different Printer Queue</h1> 
+<p>This page contains a VBScript that can be used to update a user's printer connections (Print Mappings) </p>
+<p> In addition to switching to a different Print Queue (or Print Server ) the script will also also preserve the user's current <b>default </b>printer. i.e if their default printer is renamed then the new name will be set as their default. </p>
+<p>Multiple queues can be moved at once. The changes required are listed in a simple text file, the script will ignore any other print connections not explicitly listed.</p>
+<p>Execute the script like this: </p>
+<p class="code">cscript qchange.vbs changes.txt //NoLogo</p>
+<p> [changes.txt]</p>
+<pre>\\Server\Printer1;\\NewServer\NewPrinter1
+\\Server\Printer2;\\NewServer\NewPrinter2
+\\Server\Printer3;\\NewServer\NewPrinter2
+</pre>
+<p>[end]</p>
+<p>[Qchange.vbs]</p>
+<pre>
+On Error Resume Next
+Const VERBOSE = "N"   'Display progress (Y or N)
+Const Title = "Print Connection Migrator"
+Const ForReading = 1
+
+Dim strDefaultPrinter 
+Dim InstalledPrinters 'Array of printer names
+Dim Textfile          'File with print Q names
+Dim OldPrintQueues()  'Dynamic array to store old print queue names, from the text file
+Dim NewPrintQueues()  'Dynamic array to store new print queue names, from the text file
+Dim fso         'File System Object
+Dim objTextFile 'Text file object
+Dim strNextLine 'Line of the text file
+Dim i
+Dim WshNetwork
+
+Set WshNetwork = CreateObject("WScript.Network")
+
+' 1. - Get the command line args        ###
+SET Parameters = Wscript.arguments
+
+'If no command line arguments provided, quit
+If Parameters.Count = 0 Then
+    WScript.Quit(1)
+Else
+    Textfile = Parameters.item(0)
+End If
+
+If Textfile = "" or Not Right(TextFile,4) = ".txt" or Not FileExist(Textfile) Then
+    Error=MsgBox("No valid input file provided. Stopping the script now.",vbokonly, Title)
+    WScript.Quit(1)
+End If
+
+If VERBOSE = "Y" Then Wscript.Echo "Reading input file"
+' 2. Read the text file and import it in a Array    ###
+Set objFSO = CreateObject("Scripting.FileSystemObject")
+Set objTextFile = objFSO.OpenTextFile (TextFile, ForReading)
+i=-1
+
+While not objTextFile.AtEndOfStream
+    i = i+1
+    Redim Preserve OldPrintQueues(i)
+    ReDim Preserve NewPrintQueues(i)
+    strLine = objTextFile.Readline
+    'Do not import the comment lines
+    If Left(strLine,2) = "\\" Then
+        OldPrintQueues(i) = Left(strLine,InStr(strline,";")-1)
+        If VERBOSE = "Y" Then Wscript.Echo " old Q is: " & OldPrintQueues(i)
+        NewPrintQueues(i) = Mid(strline,InStr(strline,";")+1,Len(strline))
+        If VERBOSE = "Y" Then Wscript.Echo " new Q is: " & NewPrintQueues(i)
+    End If
+Wend
+
+objTextFile.Close
+
+' 3. Store the name of the default Printer        ###
+
+strDefaultPrinter = DefaultPrinter
+If VERBOSE = "Y" Then Wscript.Echo " Default is: " & strDefaultPrinter
+
+' 4. WMI query for current printer connections    ###
+
+strComputer = "."
+Set objWMIService = GetObject("winmgmts:" _
+& "{impersonationLevel=impersonate}!\\" & strComputer & "\root\cimv2")
+Set colInstalledPrinters = objWMIService.ExecQuery _
+("Select * from Win32_Printer")
+
+' 5. Main Loop through printer collection         ###
+
+For Each objPrinter in colInstalledPrinters
+    If VERBOSE = "Y" Then Wscript.Echo " Current connection: " & objPrinter.Name
+    If Left(objPrinter.Name, 2) = "\\" Then 'Work only On network printers
+        'Search the corresponding printer and create it
+        i = 0 'set the indice at the beginning of the array (prepare to loop)
+        Do Until i > UBound(OldPrintQueues)
+            If UCase(objPrinter.Name) = UCase(OldPrintQueues(i)) Then
+                'Create the connection to the new printer
+                If VERBOSE = "Y" Then Wscript.Echo " New connection: " & NewPrintQueues(i)
+                WshNetwork.AddWindowsPrinterConnection NewPrintQueues(i)
+                If UCase(strDefaultPrinter) = UCase(objPrinter.Name) Then 'This is the default printer
+                    'Set the default Printer
+                    WshNetwork.SetDefaultPrinter NewPrintQueues(i)
+                End If
+                'Delete the printer connection
+                WshNetwork.RemovePrinterConnection objPrinter.Name
+                If VERBOSE = "Y" Then Wscript.Echo " Removing : " & objPrinter.Name           
+            End If
+            i = i + 1
+        Loop
+    End If 'End of check for network printers
+Next 'End of the loop through the printers of this user
+
+Set WshNetwork = Nothing
+
+
+'-----------------
+' Functions
+'-----------------
+
+'Return the default printer
+Function DefaultPrinter
+    Dim strComputer
+    Dim Result
+    
+    strComputer = "."
+    Result = ""
+    
+    Set objWMIService = GetObject("winmgmts:" _
+& "{impersonationLevel=impersonate}!\\" & strComputer & "\root\cimv2")
+    Set colInstalledPrinters = objWMIService.ExecQuery _
+     ("Select * from Win32_Printer")
+    For Each objPrinter in colInstalledPrinters
+        If objPrinter.Default = True Then
+         Result = objPrinter.Name
+        End If
+    Next
+    DefaultPrinter = Result
+End Function
+
+'-----------------
+
+'Does File Exist (Boolean)
+Function FileExist (FileFullPath)
+    Dim Fso
+    Set Fso = CreateObject("Scripting.FileSystemObject")
+    If (Fso.FileExists(FileFullPath)) Then
+        FileExist = True
+    Else
+        FileExist = False
+    End If
+End Function
+
+
+' Based on a script by: Sebastien Pittet (pittet.org)
+' discussed at http://cwashington.netreach.net/
+
+' Creative Commons Attribution-ShareAlike 2.5
+' http://creativecommons.org/licenses/by-sa/2.5/
+
+' Simon Sheppard Sept 2005
+' http://ss64.com/vb/syntax-qchange.html</pre>
+<p>[end]</p>
+<p>List all the print queues available on a server with:</p>
+<p class="code">C:\&gt; net view \\MyServer</p>
+<p>If you generate the list of printers via code - check the line endings are &lt;CR&gt; &lt;LF&gt; </p>
+<p> <i class="quote">&ldquo;The large print giveth, the small print taketh away&rdquo; ~ Tom Waits</i><br>
+<br>
+<b>Related:</b></p>
+<p><a href="../nt/syntax-printing.html">Syntax - Printing</a> <br>
+<a href="syntax-printsave.html">PrintSave</a> - Save and Restore Windows Printer Connections<br>
+<a href="../nt/printbrm.html">PRINTBRM</a> - Print queue Backup/Recovery<br>
+<a href="../nt/prncnfg.html">PRNCNFG</a> - Configure or rename a printer.<br>
+<a href="../nt/prnmngr.html">PRNMNGR</a> - Add, delete, list printers and printer connections.<br>
+<a href="../nt/rundll32.html">RUNDLL32</a> - Add/remove print <i>connections</i><br>
+<a href="../nt/share.html">SHARE</a> - List or edit a file share or print share<br>
+<a href="../nt/wmic.html">WMIC PRINTER</a> - Set printing options through WMI. <br>
+</p><!-- #BeginLibraryItem "/Library/foot_vb.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- VB300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="1683739502"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="syntax-qchange.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

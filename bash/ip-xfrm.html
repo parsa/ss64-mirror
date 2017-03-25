@@ -1,0 +1,193 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>ip xfrm Man Page | Bash | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_bash.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../bash.1.html">Bash</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/bash/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1><a href="ip.html">ip xfrm</a></h1>
+<p>Setting xfrm. xfrm is an IP framework, which can transform format of the datagrams, i.e. encrypt the packets with some algorithm. xfrm policy and xfrm state are associated through templates TMPL_LIST. <br>
+This framework is used as a part of IPsec protocol. </p>
+<p><span class="code">ip xfrm state add</span> - add new state into xfrm<br>
+<span class="code">ip xfrm state update</span> - update existing xfrm state<br>
+<span class="code">ip xfrm state allocspi </span>- allocate SPI value <br>
+<span class="code">ip xfrm policy add</span> - add a new policy<br>
+<span class="code">ip xfrm policy update</span> - update an existing policy<br>
+<span class="code">ip xfrm policy delete</span> - delete existing policy<br>
+<span class="code">ip xfrm policy get</span> - get existing policy<br>
+<span class="code">ip xfrm policy deleteall</span> - delete all existing xfrm policy<br>
+<span class="code">ip xfrm policy list</span> - print out the list of xfrm policy<br>
+<span class="code">ip xfrm policy flush</span> - flush policies <br>
+<span class="code">ip xfrm monitor</span> -  list all objects or a defined group of them.</p>
+<pre>Syntax
+      <b>ip xfrm</b> <i>XFRM_OBJECT</i> { <i>COMMAND</i> }
+
+         XFRM_OBJECT := { state | policy | monitor }
+
+      <b>ip xfrm state</b> { add | update } ID [ <i>XFRM_OPT</i> ] [ mode <i>MODE</i> ] [ reqid <i>REQID </i>] [ seq <i>SEQ </i>] [ replay-window <i>SIZE</i> ]
+         [ flag <i>FLAG-LIST</i> ] [ encap <i>ENCAP</i> ] [ sel <i>SELECTOR</i> ] [ <i>LIMIT-LIST </i>]
+
+      <b>ip xfrm state allocspi</b> ID [ mode <i>MODE</i> ] [ reqid <i>REQID</i> ] [ seq <i>SEQ</i> ] [ min <i>SPI</i> max <i>SPI</i> ]
+
+      <b>ip xfrm state</b> { delete | get } <i>ID</i>
+
+      <b>ip xfrm state</b> { deleteall | list } [ <i>ID</i> ] [ mode <i>MODE</i> ] [ reqid <i>REQID </i>] [ flag <i>FLAG_LIST</i> ]
+
+      <b>ip xfrm state flush</b> [ proto <i>XFRM_PROTO</i> ]
+
+      <b>ip xfrm state count</b>
+
+         ID := [ src <i>ADDR</i> ] [ dst <i>ADDR</i> ] [ proto <i>XFRM_PROTO</i> ] [ spi SPI ]
+
+         XFRM_PROTO := [ esp | ah | comp | route2 | hao ]
+
+         MODE := [ transport | tunnel | ro | beet ] (default=transport)
+
+         FLAG-LIST := [ <i>FLAG-LIST</i> ] <i>FLAG</i>
+
+         FLAG := [ noecn | decap-dscp | wildrecv ]
+
+         ENCAP := <i>ENCAP-TYPE SPORT DPORT OADDR</i>
+
+         ENCAP-TYPE := espinudp | espinudp-nonike
+
+         ALGO-LIST := [ <i>ALGO-LIST</i> ] | [ <i>ALGO</i> ]
+
+         ALGO := <i>ALGO_TYPE ALGO_NAME ALGO_KEY</i>
+
+         ALGO_TYPE := [ enc | auth | comp ]
+
+         SELECTOR := src <i>ADDR</i>[/<i>PLEN</i>] dst <i>ADDR</i>[/<i>PLEN</i>] [ <i>UPSPEC</i> ] [ dev <i>DEV</i> ]
+
+         UPSPEC := proto <i>PROTO</i> [[ sport <i>PORT</i> ] [ dport <i>PORT</i> ] | [ type <i>NUMBER</i> ] [ code <i>NUMBER</i> ]]
+
+         LIMIT-LIST := [ <i>LIMIT-LIST</i> ] | [ limit <i>LIMIT</i> ]
+
+         LIMIT := [ [time-soft|time-hard|time-use-soft|time-use-hard] SECONDS ] |
+                     [ [byte-soft|byte-hard] <i>SIZE</i> ] | [ [packet-soft|packet-hard] <i>COUNT</i> ]
+
+      <b>ip xfrm policy</b> { add | update } dir <i>DIR SELECTOR</i> [ index <i>INDEX</i> ]
+                        [ ptype <i>PTYPE</i> ] [ action <i>ACTION</i> ] [ priority <i>PRIORITY</i> ]
+                           [ <i>LIMIT-LIST</i> ] [ <i>TMPL-LIST</i> ]
+
+      <b>ip xfrm policy</b> { delete | get } dir <i>DIR</i> [ <i>SELECTOR</i> | index <i>INDEX</i> ] [ ptype <i>PTYPE</i> ]
+
+      <b>ip xfrm policy</b> { deleteall | list } [ dir <i>DIR</i> ] [ <i>SELECTOR</i> ] [ index <i>INDEX </i>]
+                        [ action <i>ACTION </i>] [ priority <i>PRIORITY </i>]
+
+      <b>ip xfrm policy flush</b> [ ptype <i>PTYPE</i> ]
+
+      <b>ip xfrm count</b>
+
+         PTYPE := [ main | sub ] (default=main)
+
+         >DIR := [ in | out | fwd ]
+
+         SELECTOR := src <i>ADDR</i>[/<i>PLEN</i>] dst <i>ADDR</i>[/<i>PLEN</i>] [ <i>UPSPEC</i> ] [ dev <i>DEV</i> ]
+
+         UPSPEC := proto <i>PROTO</i> [ [ sport <i>PORT</i> ] [ dport <i>PORT</i> ] |
+                      [ type <i>NUMBER</i> ] [ code <i>NUMBER</i> ] ]
+
+         ACTION := [ allow | block ] (default=allow)
+
+         >LIMIT-LIST := [ <i>LIMIT-LIST</i> ] | [ limit <i>LIMIT</i> ]
+
+         LIMIT := [ [time-soft|time-hard|time-use-soft|time-use-hard] <i>SECONDS</i> ] |
+                     [ [byte-soft|byte-hard] <i>SIZE</i> ] | [packet-soft|packet-hard] <i>NUMBER</i> ]
+
+         TMPL-LIST := [ <i>TMPL-LIST</i> ] | [ tmpl <i>TMPL</i> ]
+
+         TMPL := ID [ mode <i>MODE</i> ] [ reqid <i>REQID</i> ] [ level <i>LEVEL</i> ]
+
+         ID := [ src <i>ADDR</i> ] [ dst <i>ADDR</i> ] [ proto <i>XFRM_PROTO</i> ] [ spi <i>SPI</i> ]
+
+         XFRM_PROTO := [ esp | ah | comp | route2 | hao ]
+
+         MODE := [ transport | tunnel | beet ] (default=transport)
+
+         LEVEL := [ required | use ] (default=required)
+
+      <b>ip xfrm monitor</b> [ all | LISTofOBJECTS ]
+
+Key</pre>
+<p> ip xfrm state add - add new state into xfrm<br>
+ip xfrm state update - update existing xfrm state<br>
+ip xfrm state allocspi - allocate SPI value<br>
+</p>
+<pre>
+   MODE
+      is set as default to transport, but it could be set to tunnel,ro or beet.
+   FLAG-LIST
+      contains one or more flags. 
+   FLAG
+      could be set to noecn, decap-dscp or wildrecv.
+   ENCAP
+      encapsulation is set to encapsulation type ENCAP-TYPE, source port SPORT, destination port DPORT and OADDR.
+   ENCAP-TYPE
+      could be set to espinudp or espinudp-nonike. 
+   ALGO-LIST
+      contains one or more algorithms ALGO which depend on the type of algorithm set by ALGO_TYPE. It can be used these algoritms enc, auth or comp. </pre>
+<p> ip xfrm policy add - add a new policy<br>
+ip xfrm policy update - update an existing policy
+<br>
+ip xfrm policy delete - delete existing policy
+<br>
+ip xfrm policy get - get existing policy
+<br>
+ip xfrm policy deleteall - delete all existing xfrm policy
+<br>
+ip xfrm policy list - print out the list of xfrm policy<br>
+ip xfrm policy flush - flush policies, 
+It can be flush all policies or only those specified with ptype.<br>
+</p>
+<pre>   dir <i>DIR</i>
+      directory could be one of these: inp, out or fwd. 
+   SELECTOR
+      selects for which addresses will be set up the policy. The selector is defined by source and destination address. 
+   UPSPEC
+      is defined by source port sport, destination port dport, type as number and code also number.
+   dev <i>DEV</i>
+      specify network device. 
+   index <i>INDEX</i>
+      the number of indexed policy. 
+   ptype <i>PTYPE</i>
+      type is set as default on main, could be switch on sub. 
+   action <i>ACTION</i>
+      is set as default on allow. It could be switch on block. 
+   priority <i>PRIORITY</i>
+      priority is a number. Default priority is set on zero. 
+   LIMIT-LIST
+      limits are set in seconds, bytes or numbers of packets. 
+   TMPL-LIST
+      template list is based on ID, mode, reqid and level. 
+   ID
+      is specified by source address, destination address, proto and value of spi.
+   XFRM_PROTO
+      values: esp, ah, comp, route2 or hao. 
+   MODE
+      is set as default on transport, but it could be set on tunnel or beet.
+   LEVEL
+      is set as default on required and the other choice is use.
+   UPSPEC
+      is specified by sport, dport, type and code (NUMBER). </pre>
+<p class="quote">“Some painters transform the sun into a yellow spot; others transform a yellow spot into the sun” ~ Pablo Picasso</p><p><b>Related:</b></p>
+<p><a href="ip.html">ip</a> - Routing, devices and tunnels<br>
+Equivalent Windows  command: <a href="../nt/route.html">ROUTE</a> - Manipulate network routing tables</p><!-- #BeginLibraryItem "/Library/foot_bash.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- bash300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4615356305"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="ip-xfrm.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

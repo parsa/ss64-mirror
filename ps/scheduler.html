@@ -1,0 +1,89 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Task Scheduler cmdlets | PowerShell | SS64.com</title>
+</head>
+<body><!-- #BeginLibraryItem "/Library/head_ps.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../ps.1.html">PowerShell</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/ps/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>PowerShell Scheduler cmdlets</h1>
+<p>A Scheduled Job is a   background <a href="start-job.html">job</a> that can be started automatically on a one-time or      recurring schedule. </p>
+<pre>  <a href="register-scheduledjob.html">Register-ScheduledJob</a>   Create a new scheduled job
+  <a href="unregister-scheduledjob.html">Unregister-ScheduledJob</a> Delete a scheduled job
+  <a href="enable-scheduledjob.html">Enable-ScheduledJob</a>     Enable a scheduled job
+  <a href="disable-scheduledjob.html">Disable-ScheduledJob</a>    Disable a scheduled job
+  <a href="get-scheduledjob.html">Get-ScheduledJob</a>        Get scheduled jobs on the local computer
+  <a href="set-scheduledjob.html">Set-ScheduledJob</a>        Change the properties of a scheduled job.
+
+  <a href="get-scheduledjoboption.html">Get-ScheduledJobOption</a>  Get the options of scheduled job
+  <a href="new-scheduledjoboption.html">New-ScheduledJobOption</a>  Create new options for a scheduled job
+  <a href="set-scheduledjoboption.html">Set-ScheduledJobOption</a>  Change the options of a scheduled job
+
+  <a href="add-jobtrigger.html">Add-JobTrigger</a>     Add  a job trigger to a scheduled job
+  <a href="get-jobtrigger.html">Get-JobTrigger</a>     Get the job triggers of scheduled jobs
+  <a href="new-jobtrigger.html">New-JobTrigger</a>     Create a new job trigger
+  <a href="set-jobtrigger.html">Set-JobTrigger</a>     Change the job trigger of a scheduled job
+</pre>
+<p>The cmdlets on this page are available in PowerShell 3.0 and greater.</p>
+<p>When scheduling a single job you may find it easier to just call the old school <a href="../nt/schtasks.html">SCHTASKS</a> command, for multiple jobs on multiple machines the PowerShell cmdlets will start to show their advantages. <br>
+Whichever method is used, the  same Scheduled Job will result.</p>
+<p>A Scheduled Job can be exported from one computer as an .XML file and imported to a different machine, this can be a good option if you  want consistent job settings on multiple machines without having to write any scripts.</p>
+<h2>Set the owner of a  Scheduled Job</h2>
+<p>There are two main ways to run a scheduled job:</p>
+<blockquote>
+<p>For a <b>group</b> - the scheduled job will run as the logged in user if they are a member of the named group.<br>
+Most often this is  the group BUILTIN/USERS, every domain user is a member of USERS, so the job will run for the currently logged in user. 
+The scheduled job will thus have access to the same resources as that User Account (file permissions, network access etc.) If no-one is logged in the job will not run.</p>
+<p>For a <b>named user</b>, either a local account or a Domain Account  - the scheduled job will have access to the same resources as that Account (file permissions, network access etc)</p>
+</blockquote>
+<p>If it is possible to run a job as the already logged-in user, or a local account this will avoid the network traffic of a domain login, which can be significant if hundreds or thousands of workstations all run a scheduled job at the same time.</p>
+<h2>Service Accounts</h2>
+<p>The <span class="code"><a href="https://msdn.microsoft.com/en-us/library/windows/desktop/ms684190%28v=vs.85%29.aspx">LocalSystem</a></span> account (NT AUTHORITY\SYSTEM +  BUILTIN\Administrators) is a highly privileged account with access to the network and Active Directory. 
+It does not have a user profile and does not allow interactive logins (interacting with the desktop.) 
+While the SYSTEM account was used to run System Services and Scheduled jobs in early versions of Windows NT, this is no longer recommended.</p>
+<p>The <span class="code"><a href="https://msdn.microsoft.com/en-us/library/windows/desktop/ms684188%28v=vs.85%29.aspx">LocalService</a></span> account (NT_AUTHORITY\LocalService), is a limited service account that is meant to run standard least-privileged services,  it has no ability to access the network as the machine.</p>
+<p>The <span class="code"><a href="https://msdn.microsoft.com/en-us/library/windows/desktop/ms684272%28v=vs.85%29.aspx">NetworkService</a></span> account (NT AUTHORITY\NetworkService) is meant to run standard least-privileged services.  but still has the right to access the network as the machine.</p>
+<p>Both <span class="code">LocalService</span> and  <span class="code">NetworkService</span> have minimal authority on the local computer, basically the same authority as an unprivileged user account plus the <a href="../nt/ntrights.html">Logon as a service</a> right, which any service account requires. Because these built-in accounts run multiple services, any additional rights granted to them would pass on to those processes too. <br>
+To avoid this,  use a dedicated user account (or <a href="new-adserviceaccount.html">Managed Service Account</a>) with the desired permissions.</p>
+<h2>Job Options: Run only when user is logged on</h2>
+<p>When this option is chosen the running job may be visible to the user, if the same job is set to <i>Run whether user is logged on or not</i>, it will be invisible to any user who happens to be logged on to the machine.</p>
+<h2>Job Options: Wake the computer to run this task</h2>
+<p>To wake up, Windows must talk to the BIOS to schedule a wake up.  For this to work, you must enable the&quot;Allow wake timers&quot; setting on the current power policy (  <span class="code">Control Panel | Power Options</span> ). Support for this is limited, for example a BIOS written to <a href="http://www.acpi.info/">ACPI</a> v4 will not <a href="https://support.microsoft.com/en-us/kb/2586195">accept</a> a wake schedule more than 30 days into the future.</p>
+<p> This property is essential if you need the task to run on a machine that has PowerSaving enabled.<br>
+See also <span class="code"><a href="../nt/powercfg.html">Powercfg.exe</a> -WakeTimers</span></p>
+<h2>Job Options: Run task as soon as possible after a scheduled start is missed</h2>
+<p>This option does not run a missed job immediately, which you might reasonably expect. There is a 10-minute delay. So if a job was missed because the PC was off, it will run exactly 10 minutes after  the computer is powered back on.<br>
+ If multiple jobs are missed, they will all start at the same time:
+exactly 10 minutes after  the computer is powered back on.<br>
+<br>
+This delayed start is not shown in under 'Next Run Time', but will appear under 'Last Run Time' once the job has run.<br>
+This option is ignored completely if the job has a &quot;ONE Time&quot; trigger.</p>
+<h2>Notes</h2>
+<p>When a scheduled job is running, the environment variable <a href="../nt/syntax-variables.html"><span class="code">%SESSIONNAME%</span></a> is not populated:<br>
+<span class="code">if ($env:SessionName -eq $null) {Echo 'This is a scheduled job'}</span></p>
+<p>If a Scheduled Job has multiple 'Actions' they will run in order, if one stalls, it will block later tasks from running. If you need tasks to run asynchronously, set them up as separate jobs.</p>
+<p>The options described on this page are for the <a href="https://en.wikipedia.org/wiki/Windows_Task_Scheduler#Task_Scheduler_2.0">Windows Scheduler <b>2.0</b></a> available in Windows Vista and greater.</p>
+<h2>Windows 8</h2>
+<p>The two actions: <span class="code">showMessage</span> and <span class="code">sendEmail</span> are deprecated (use <span class="code">IExecAction</span> with <a href="send-mailmessage.html">Send-MailMessage</a> as a workaround).</p>
+<p class="quote"><i>&ldquo;In order to plan your future wisely, it is necessary that you understand and appreciate your past&rdquo; ~  Jo Coudert</i></p><p><b>Related</b></p>
+<p><a href="scheduler-errors.html">Task Scheduler error codes</a><br>
+<a href="../nt/schtasks.html">SCHTASKS</a> - Create /Edit a Scheduled Job.<br>
+<a href="syntax-elevate.html">Run with elevated permissions</a></p><!-- #BeginLibraryItem "/Library/foot_ps.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- PowerShell300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="6253539900"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="scheduler.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

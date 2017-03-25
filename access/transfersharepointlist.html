@@ -1,0 +1,59 @@
+<!DOCTYPE HTML><html lang="en">
+<head><meta charset="UTF-8">
+<meta name="Description" content="Import or link data from a SharePoint Foundation site.">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>TransferSharePointList | Access | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_access.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../access.1.html">Access</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/access/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>DoCmd.TransferSharePointList</h1>
+<p> Import  or link data from a SharePoint Foundation site.</p>
+<pre>Syntax
+      DoCmd.TransferSharePointList(<i>TransferType, SiteAddress, ListID, ViewID, TableName, GetLookupDisplayValues</i>)
+
+Key
+   <i>TransferType</i>  The type of transfer to make. <a href="acsharepointlisttransfertype.html">AcSharePointListTransferType</a>
+
+   <i>SiteAddress</i>   The full path of the SharePoint site.
+
+   <i>ListID</i>        The name or GUID of the list to be transferred.
+
+   <i>ViewID</i>        The GUID of the view for the list you want to use.
+                 Leave this argument blank to transfer all rows and columns in the list.
+
+   <i>TableName</i>     The name you want displayed for the table or linked table in Access.
+
+   <i>GetLookupDisplayValues
+ </i>                Whether to transfer display values for Lookup fields instead of the ID used to perform the lookup. </pre>
+<p>A GUID is a unique hexadecimal identifier for a list or a view. A GUID must be entered in the following format, where each &quot;F&quot; is a hexadecimal number (0 through 9 or A through F).    <span class="code">{FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF}</span></p>
+<p>If you specify a nonexistent list or view, no error occurs, and no data is transferred. </p>
+<p>In SharePoint: View | 'Modify this View' will reveal the list and view GUIDs in the browser's address bar </p>
+<p>The HTML encoding must be reversed to use the GUID with TransferSharePointList</p>
+<blockquote>
+<p>{ (left brace) is represented by   %7B <br>
+- (hyphen) is represented by %2D <br>
+} (right brace)  is represented by %7D <br>
+</p>
+</blockquote>
+<p class="quote"><i>&ldquo;Traditionally, most of Australia's imports come from overseas&rdquo; ~ Keppel Enderbery</i></p>
+<p><b>Related:</b></p>
+<p><a href="transfersqldatabase.html">TransferSQLDatabase</a> - Copy an entire SQL Server database.<br>
+<a href="transferspreadsheet.html">TransferSpreadsheet</a> - Import or export data to/from a spreadsheet file.</p><!-- #BeginLibraryItem "/Library/foot_access.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- access -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4313908313"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="transfersharepointlist.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

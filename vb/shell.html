@@ -1,0 +1,75 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>wscript.Shell + Shell.Application | VBScript | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_vb.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../vb.1.html">VBScript</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/vb/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>The wscript.Shell + Shell.Application objects</h1> 
+<p>Provides access to OS Shell methods.</p>
+<pre>Syntax 
+      Set objShell = <a href="createobject.html">CreateObject</a>(&quot;Wscript.Shell&quot;) 
+
+Methods
+   <span class="code"><a href="appactivate.html">.AppActivate</a></span>      'Activate running command.
+   .<a href="run.html">Run</a>              'Run an application
+   .TileVertically   'Tile app windows
+   <a href="regread.html">.RegRead</a>          'Read from registry
+   <a href="regdel.html">.RegDelete</a>        'Delete from registry
+   <a href="regwrite.html">.RegWrite</a>         'Write to the registry
+
+
+Syntax 
+      Set objShell = <a href="createobject.html">CreateObject</a>(&quot;Shell.Application&quot;)
+
+Methods
+   .CanStartStopService(&quot;<i>ServiceName</i>&quot;)   'Can the current user start/stop the named service?
+   .CascadeWindows      'Arrange app windows
+   .EjectPC             'Eject PC from a docking station
+   .Explore(<i>FolderPath</i>) 'Open a folder
+   .FileRun             'Open the File-run dialogue
+   .GetSystemInformation(&quot;PhysicalMemoryInstalled&quot;)  'Physical memory installed, in bytes.
+   .IsServiceRunning(&quot;<i>ServiceName</i>&quot;)  'Check if a Windows service is running
+   .MinimizeAll         'Minimize everything
+   .NameSpace(&quot;C:\\&quot;)   'Create an object reference to a folder
+   .ServiceStart(&quot;<i>ServiceName</i>&quot;, true)  'Start a windows service
+   .ServiceStop(&quot;<i>ServiceName</i>&quot;, true)   'Stop a windows service
+   .SetTime             'Open the set time GUI
+   <a href="shellexecute.html">.ShellExecute</a>        'Run a script or application
+   .ShutdownWindows
+   .TileHorizontally   'Tile app windows
+   .TileVertically     'Tile app windows
+   .ToggleDesktop      'Show/Hide Desktop
+   .TrayProperties     'Display the Taskbar/Start Menu Properties
+   .UndoMinimizeAll    'Un-Minimize everything</pre>
+<p><b> Example<br>
+</b></p>
+<pre>
+Dim objShell
+Set objShell = WScript.CreateObject("WScript.Shell")
+objShell<b>.Run</b> &quot;C:\Demo&quot;
+Set objShell = Nothing</pre>
+<p class="quote"><i>&ldquo;It is possible to store the mind with a million facts and still be entirely uneducated&rdquo; ~ Alec Bourne</i></p>
+<p><b>Related:</b></p>
+<p><a href="appactivate.html">.AppActivate</a> - Activate running command.<br>
+<a href="application.html">.Application</a> BrowseForFolder/Open<br>
+<a href="run.html">.Run</a> a command.<br>
+</p><!-- #BeginLibraryItem "/Library/foot_vb.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- VB300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="1683739502"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="shell.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

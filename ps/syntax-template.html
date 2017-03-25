@@ -1,0 +1,120 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>PowerShell Script Template | PowerShell | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_pssyntax.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../ps.1.html">PowerShell</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/ps/"></form></div></li>
+</ul></div><!-- #EndLibraryItem -->
+<h1>PowerShell script template</h1>
+<p>The template below can be used as a starting point for new PowerShell scripts. The template starts with some standard comment-based Help tags that allow the Script to interact with Get-Help and then has sections for Declarations, Functions and the main body of the script.</p>
+<pre>
+<#
+.SYNOPSIS
+  Name: script.ps1
+  The purpose of this script is to blah blah... What?
+  
+.DESCRIPTION
+  A slightly longer description of example.ps1 Why and How?
+
+.PARAMETER InitialDirectory
+  The initial directory which this example script will use.
+  
+.PARAMETER Add
+  A switch parameter that will cause the example function to ADD content.
+
+Add or remove PARAMETERs as required.
+
+.NOTES
+    Updated: 2017-01-01        Change comment.
+    Release Date: 2017-01-01
+   
+  Author: YourName
+
+.EXAMPLE
+  Run the Get-Example script to create the c:\example folder:
+  Get-Example -Directory c:\example
+
+.EXAMPLE 
+  Run the Get-Example script to create the folder c:\example and
+  overwrite any existing folder in that location:
+  Get-Example -Directory c:\example -force
+
+See Help <a href="https://msdn.microsoft.com/en-us/powershell/reference/5.1/microsoft.powershell.core/about/about_comment_based_help">about_Comment_Based_Help</a> for more .Keywords
+
+# Comment-based Help tags were introduced in PS 2.0
+#requires -version 2
+#>
+
+[CmdletBinding()]
+
+PARAM ( 
+    [string]$InitialDirectory = $(throw "-InitialDirectory is required."),
+    [switch]$Add = $false
+)
+#----------------[ Declarations ]------------------------------------------------------
+
+# Set Error Action
+# $<a href="syntax-preference.html">ErrorActionPreference</a> = "Continue"
+
+# Dot Source any required Function Libraries
+# . "C:\Scripts\Functions.ps1"
+
+# Set any initial values
+# $Examplefile = "C:\scripts\example.txt"
+
+#----------------[ Functions ]---------------------------------------------------------
+Function MyExampleFunction<FunctionName>{
+  Param()
+  
+  Begin{
+    Write-Host "Start example function..."
+  }
+  
+  Process{
+    Try{
+      <span class="code">&quot;Do Something</span> here&quot;<code goes here>
+    }
+    
+    Catch{
+      <span class="code">&quot;Something went wrong.&quot;</span>
+      Break
+    }
+
+  }
+  
+  End{
+    If($?){ # only execute if the function was successful.
+      Write-Host "Completed example function."
+    }
+  }
+}
+
+#----------------[ Main Execution ]----------------------------------------------------
+
+# Script Execution goes here
+
+</pre>
+<p class="quote"><i>#Yeah,  I'm gonna run to you, cause when the feelin's right I'm gonna stay all night, I'm gonna run to you# ~ Bryan Adams</i></p>
+<p><b>Related:</b></p>
+<p><a href="syntax-run.html">Run a script</a> - How to run a PowerShell script.<br>
+<a href="syntax-functions.html">Functions</a> - Write a named block of code<br>
+</p><!-- #BeginLibraryItem "/Library/foot_ps.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- PowerShell300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="6253539900"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="syntax-template.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

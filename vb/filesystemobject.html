@@ -1,0 +1,102 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>FileSystemObject  | VBScript | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_vb.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../vb.1.html">VBScript</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/vb/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>FileSystemObject</h1> 
+<p>Work with Drives, Folders and Files.</p>
+<pre><i>Object heirarchy:
+</i>
+ FileSystemObject
+ FileSystemObject.Drives
+ FileSystemObject.Drives.item
+ FileSystemObject.GetFolder<br> FileSystemObject.GetFile
+</pre>
+<p>Once a File System Object has been opened you can use <i>Methods</i> and <i>Properties</i> to work with  folders and files:</p>
+<p><b>FileSystemObject </b>Methods<b>: </b></p>
+<pre>.BuildPath(<i>strPath</i>, <i>strFileName</i>)
+.CopyFile(<i>Source</i>, <i>Dest </i>[,<i>Overwrite</i> <span class="body">(True/False)</span>]
+.CopyFolder(<i>Source</i>, <i>Dest </i>[,<i>Overwrite</i> <span class="body">(True/False)</span>]
+.CreateFolder(<i>Path</i>)
+.CreateTextFile(FileName [,Overwrite <span class="body">(True/False)</span> [, Unicode <span class="body">(True/False)</span>]])
+.DeleteFile(<i>FileSpec</i>, <i>Force</i> <span class="body">(True/False)</span>)
+.DeleteFolder(<i>FileSpec</i>, <i>Force</i> <span class="body">(True/False)</span>)
+.DriveExists(<i>strDrive</i>) <span class="body">(True/False)</span>
+.FileExists(<i>strFile</i>) <span class="body">(True/False)</span>
+.FolderExists(strFolder) <span class="body">(True/False)</span>
+.GetAbsolutePathName(<i>strPath</i>)<span class="body"> - Returns a <i>string</i> with the full drive, path, and file names: Drive:\Path\To\File.Ext</span>
+.GetBaseName(<i>strPath</i>)<span class="body"> - Returns a <i>string</i> with the file name, without the extension: <i>File</i></span>
+.GetDrive(<i>strDrive</i>) <span class="body">- Returns an <i>object</i> referring to a drive</span>
+.GetDriveName(<i>strDrive</i>) <span class="body">- Returns a <i>string</i> referring to a drive. <i>Drive</i>:</span>
+.GetExtensionName(<i>strPath</i>)<span class="body"> - Returns a <i>string</i> referring to the extension of the file. <i>Ext</i></span>
+.GetFile(<i>strPath</i>) <span class="body">- Returns an <i>object</i> referring to a file.</span>
+.GetFileName(<i>strPath</i>) <span class="body">- Returns a <i>string</i> referring to a file. <i>File.Ext</i></span>
+.GetFolder(<i>strPath</i>) <span class="body">- Returns an <i>object</i> referring to the path.</span>
+.GetParentFolderName(<i>strPath</i>) <span class="body">- Returns a <i>string</i> referring to the path. \Path\To\</span>
+.GetSpecialFolderName(<i>FolderType</i>) <span class="body">FolderType=SystemFolder/TemporaryFolder/WindowsFolder</span>
+.GetStandardStream(Type [,Unicode <span class="body">(True/False)</span>])
+.GetTempName()
+.MoveFile(<i>Source</i>, <i>Dest</i>)
+.MoveFolder(<i>Source</i>, <i>Dest</i>)
+.OpenTextFile(<i>strFile</i> [,IOMode<span class="body"> (8=append, 1=<u>Read</u>, 2=Write)</span> [,Create <span class="body">(True/False)</span> [,Format <span class="body">(0=Ascii, -1=Unicode, -2=default)</span>]]])
+</pre>
+<p><b>Drive </b>Properties<b>: </b></p>
+<pre>AvailableSpace, DriveLetter, DriveType, FileSystem, FreeSpace,IsReady, 
+Path, RootFolder, SerialNumber, ShareName, TotalSize, VolumeName</pre>
+<p><b>DrivesCollection </b>properties<b>:</b> <span class="code">Count, Item</span></p>
+<p><b>File </b>Properties<b>:</b></p>
+<pre>Attributes, DateCreated, DateLastAccessed, DateLastModified,Drive,
+Name, ParentFolder, Path, ShortName, ShortPath, Size, Type
+<span class="body">File Methods:</span> .copy, .Delete, .Move, .OpenAsTextStream
+</pre>
+<p><b>Folder </b>Properties<b>:</b></p>
+<pre>Attributes, DateCreated, DateLastAccessed, DateLastModified,Drive,
+Files, IsRootFolder, Name, ParentFolder, Path,
+ShortName, ShortPath, Size, SubFolders, Type
+<span class="body">Folder Methods:</span> .copy, .CreateTextFile, .Delete, .Move
+</pre>
+<p><b>FoldersCollection </b>properties<b>:</b> <span class="code">Count, Item</span><br>
+<span class="body">FoldersCollection Methods: </span><span class="code">Add</span></p>
+<p><b>Examples</b></p>
+<p>Create a text file:</p>
+<p class="code">Dim objFS, objFile<br>Set objFS = CreateObject(&quot;Scripting.FileSystemObject&quot;)<br>
+Set objFile = objFS.CreateTextFile(&quot;C:\work\demo.txt&quot;)<br>
+objFile.WriteLine(&quot;some sample text&quot;)</p>
+<p>Open an existing file:</p>
+<pre>Dim objFS, objFile
+Set objFS = CreateObject("Scripting.FileSystemObject")
+Set objFile = objFS.GetFile(&quot;C:\Work\Sample.xls&quot;)
+WScript<a href="echo.html">.Echo</a> objFile.DateCreated &amp; objFile.Name
+</pre>
+<p> Check drive space:</p>
+<pre>Dim objFS, objDrive, objDriveCount
+Set objFS = CreateObject("Scripting.FileSystemObject")
+Set objDriveCount = objFS.Drives
+Set objDrive = objFS.Drives(&quot;C&quot;)
+WScript<a href="echo.html">.Echo</a> objDriveCount &amp; &quot; Free Space &quot; &amp; objDrive.AvailableSpace</pre>
+<p class="quote"><i>&ldquo;Is not the whole world a vast house of assignation of which the filing system has been lost?&rdquo; ~ Quentin Crisp</i></p>
+<p><b>Related:</b></p>
+<p><a href="stdoutread.html">.ReadLine</a> - Accept user text input<br>
+<a href="syntax-errors.html">Syntax - error codes</a><br>
+<a href="mapnetworkdrive.html">.MapNetworkDrive</a> - Drive Map<br>
+Equivalent PowerShell cmdlet: <a href="../ps/get-item.html">Get-Item</a> / <a href="../ps/get-childitem.html">Get-ChildItem</a></p><!-- #BeginLibraryItem "/Library/foot_vb.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- VB300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="1683739502"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="filesystemobject.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

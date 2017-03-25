@@ -1,0 +1,83 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Enable-PSSessionConfiguration Enable-PSRemoting | PowerShell | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_ps.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../ps.1.html">PowerShell</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/ps/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>Enable-PSSessionConfiguration</h1> 
+<p>Enable session configurations on the local computer.</p>
+<p>To allow all users of the computer to use remoting, use <span class="code"><a href="enable-psremoting.html">Enable-PSRemoting</a></span>. 
+This is an advanced cmdlet designed for use by system administrators to manage custom session configurations for their users.</p>
+<pre>Syntax
+      Enable-PSSessionConfiguration  [[-Name] <i>String</i>[]]
+        [-Force] [-SecurityDescriptorSddl <i>String</i>] [-SkipNetworkProfileCheck]
+           [-Confirm] [-WhatIf] [<i>CommonParameters</i>]
+
+Key
+   -Name
+       The names of session configurations to enable.
+       Enter one or more configuration names. Wildcards are permitted.
+       You can also pipe a string containing a configuration name or a session configuration object.
+
+   -force
+       Suppress all user prompts.
+       By default, you are prompted to confirm each operation.
+
+   -SecurityDescriptorSddl
+       Replace the security descriptor on the session configuration with the specified security
+       descriptor. If you omit this parameter, Enable-PSSessionConfiguration just deletes the
+       &quot;deny all&quot; item from the security descriptor.
+
+   -SkipNetworkProfileCheck
+       Enable the session configuration when the computer is on a public network.
+       Enables a firewall rule for public networks that allows remote access  only from computers in
+       the same local subnet. By default, Enable-PSSessionConfiguration fails on a public network.
+       This parameter is designed for client versions of Windows. (PowerShell 3.0+)
+
+   -confirm
+       Prompt for confirmation before executing the command.
+
+   -whatIf
+       Describe what would happen if you executed the command without actually
+       executing the command.
+
+   <a href="common.html">CommonParameters</a>:
+       -Verbose, -Debug, -ErrorAction, -ErrorVariable, -WarningAction, -WarningVariable,
+       -OutBuffer -OutVariable.</pre>
+<p> To run this cmdlet, requires starting PowerShell in elevated mode &quot;Run as administrator&quot;</p>
+<p><span class="code">Enable-PSSessionConfiguration</span> removes the &quot;Deny_All&quot; setting from the security descriptor of the affected session      configurations, turns on the listener that accepts requests on any IP address, and restarts the WinRM service.      </p>
+<p>Beginning in  PowerShell 3.0, <span class="code">Enable-PSSessionConfiguration</span> also sets the value of the Enabled property of      the session configuration (WSMan:\&lt;computer&gt;\PlugIn\&lt;SessionConfigurationName&gt;\Enabled) to &quot;True&quot;. However,       it does not remove or change the &quot;Network_Deny_All&quot; (AccessMode=Local) security      descriptor setting that allows only users of the local computer to use to the session configuration.</p>
+<p> <b>Examples</b></p>
+<p>Re-enable the default PowerShell  session configuration on the computer:<br>
+<span class="code">PS C:&gt; Enable-PSSessionConfiguration</span></p>
+<p>Re-enable the MaintenanceShell and AdminShell session configurations on the computer:<br>
+<span class="code">PS C:&gt; Enable-PSSessionConfiguration -name MaintenanceShell, AdminShell</span><br>
+<br>
+Re-enable all session configurations on the computer. <br>
+The two commands are equivalent, so you can use either one:<br>
+<span class="code">PS C:\&gt; Enable-PSSessionConfiguration -name *<br>
+PS C:\&gt; Get-PSSessionConfiguration | Enable-PSSessionConfiguration</span></p>
+<p class="quote"><i>“Absence diminishes mediocre passions and increases great ones, as the wind blows out candles and fans fires” ~ La Rochefoucauld</i></p>
+<p><b>Related:</b></p>
+<p>  <a href="disable-pssessionconfiguration.html">Disable-PSSessionConfiguration</a> - Deny access to PS session configuration<a href="get-pssessionconfiguration.html"><br>
+Get-PSSessionConfiguration</a> - Get the registered PS session configuration<br>
+<a href="enable-psremoting.html">Enable-PSRemoting</a> - Allow the computer to receive remote commands</p><!-- #BeginLibraryItem "/Library/foot_ps.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- PowerShell300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="6253539900"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="enable-pssessionconfiguration.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

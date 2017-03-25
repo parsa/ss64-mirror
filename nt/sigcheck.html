@@ -1,0 +1,84 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>SigCheck | Windows CMD | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_nt.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../nt.1.html">CMD</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/nt/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>SigCheck (<abbr title="Download from Microsoft.com"><a href="https://technet.microsoft.com/en-us/sysinternals/bb897441.aspx">SysInternals</a></abbr>)</h1>
+<p>Display file version number, <a href="https://www.virustotal.com/">VirusTotal</a> status, timestamp information, and digital signature details, including certificate chains.</p>
+<pre>Syntax
+      sigcheck [-a][-h][-i][-e][-l][-n][[-s]|[-c|-ct]|[-m]][-q][-r][-u][-vt]
+                  [-v[r][s]][-f <i>catalog_file</i>] <i>file_or_directory</i>
+
+      sigcheck -d [-c|-ct] <i>file_or_directory</i> 
+
+      sigcheck -o [-vt][-v[r]] <i>sigcheck_csv_file
+</i>
+      sigcheck -t[u][v] [-i] [-c|-ct] &lt;<i>certificate_store_name</i> | * &gt;
+
+Key:
+
+   -a   Show extended version information.
+        The entropy measure reported is the bits per byte of information of the file's contents.
+   -c   CSV output with comma delimiter
+   -ct  CSV output with tab delimiter
+   -d   Dump contents of a catalog file
+   -e   Scan executable images only (regardless of their extension)
+   -f   Look for signature in the specified catalog file
+   -h   Show file hashes
+   -i   Show catalog name and signing chain
+   -l   Traverse symbolic links and directory junctions
+   -m   Dump manifest
+   -n   Only show file version number
+   -o   Performs Virus Total lookups of hashes captured in a CSV file previously captured by
+        Sighcheck when using the -h option. This usage is intended for scans of offline systems.
+   -q   Quiet (no banner)
+   -r   Disable check for certificate revocation
+   -s   Recurse subdirectories
+   -t[u][v]  Dump contents of specified certificate store ('*' for all stores).
+             Specify -tu to query the user store (machine store is the default).
+             Append '-v' to have Sigcheck download the trusted Microsoft root certificate list and only output
+             valid certificates not rooted to a certificate on that list.
+             If the site is not accessible, authrootstl.cab or authroot.stl in the current directory are used
+             instead, if present.
+   -u   If VirusTotal check is enabled, show files that are unknown by VirusTotal or have non-zero detection,
+        otherwise show only unsigned files.
+   -v[rs]    Query <a href="https://www.virustotal.com/">VirusTotal</a> for malware based on file hash.
+             Add 'r' to open reports for files with non-zero detection.
+             Files reported as not previously scanned will be uploaded to VirusTotal if the 's' option is
+             specified. Note scan results may not be available for five or more minutes.
+   -vt   Accept the  <a href="https://www.virustotal.com/en/about/terms-of-service/">VirusTotal terms of service</a>.Before using VirusTotal features, you must accept at least once.
+         Without this option you may be interactively prompted if you haven't already accepted the terms.</pre>
+<p>  VirusTotal.com is a website that performs automated file scanning against over 40 antivirus engines, with an option to upload a file for scanning.<span class="code"></span> You should investigate the purpose of any files found that are not signed.</p>
+<p>If  scanning a large number of files <a href="syntax-redirection.html">redirect</a> the output of sigcheck to a text file.</p>
+<p><b>  Examples:</b><br>
+<br>
+Check for unknown/unsigned executable files in your C:\Windows\System32 directory:<br>
+<span class="code">sigcheck -u -e -vt c:\windows\system32</span></p>
+<p>Check for malware files in the C:\Windows\System32 directory (files will NOT be uploaded to VirusTotal):<br>
+<span class="code">sigcheck -vr -vt c:\windows\system32\</span></p>
+<p>Check for malware within executable files only, in  C:\Windows\System32 directory and upload any suspect file to VirusTotal:<br>
+<span class="code">sigcheck -vrs -e -vt c:\windows\system32</span></p>
+<p>Return the Windows major/minor version no. by testing a key Windows DLL, this will return the same information as  <a href="ver.html">VER</a> but potentially you could run this against a remote machine:<br>
+<span class="code">sigcheck -n C:\Windows\System32\ntoskrnl.exe -nobanner</span></p>
+<p class="quote"><i>&ldquo;The real test of friendship is: can you literally do nothing with the other person? Can you enjoy those moments of life that are utterly simple?&rdquo; ~ Eugene Kennedy</i></p><p><b>Related:</b></p>
+<p><a href="ver.html">VER</a> - Display version information</p><!-- #BeginLibraryItem "/Library/foot_nt.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- windows300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="7649547908"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="sigcheck.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

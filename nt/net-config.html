@@ -1,0 +1,76 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>net computer/ net config / net statistics | Windows CMD | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_nt.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../nt.1.html">CMD</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/nt/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>NET.exe CONFIG</h1> 
+<p>The <a href="net.html">NET Command</a> is used to manage network resources.
+<pre>Syntax
+    NET CONFIG SERVER [/AUTODISCONNECT:<i>time</i>] [SVRCOMMENT:&quot;<i>text</i>&quot;] [/HIDDEN {YES | NO}]
+
+    NET COMPUTER \\computername /ADD
+
+    NET COMPUTER \\computername /DEL</pre>
+<p><b>Examples<a id="network"></a></b><br>
+<br>To add a computer to the domain<br>
+<span class="code">NET COMPUTER \\<i>ComputerName</i> /ADD</span><br>
+This command is only available from the Server and is best run from the Primary Domain Controller (PDC)<br>
+<br>
+To remove a computer from the domain<br>
+<span class="code">NET COMPUTER \\<i>ComputerName</i> /DEL</span><br>
+This command is only available from the Server and is best run from the Primary Domain Controller (PDC)<br>
+<br>
+Change the idle session timeout (default = 15 minutes)<br>
+<span class="code">NET CONFIG SERVER /Autodisconnect:<i>mm</i></span><br>
+<br>
+To disable idle timeouts altogether<br>
+<span class="code">NET CONFIG SERVER /Autodisconnect:-1</span><br>
+Note this can reduce overall performance - see related KB articles below.<br>
+<br>
+To hide a machine from Network Neighbourhood, by not sending announcements to domain browsers you will  reduce NETBIOS network traffic, (if still enabled.)<br>
+<span class="code">NET CONFIG SERVER /hidden:yes</span><br>
+Before using the /hidden option see <a href="https://support.microsoft.com/kb/128167">Q128167</a> 
+<p>Change the comment displayed in My Computer (detail view)<br>
+<span class="code">NET CONFIG SERVER /Srvcomment:&quot;YourText&quot;</span><br>
+Before using the /<span class="code">Srvcomment</span> option see <a href="https://support.microsoft.com/kb/128167">Q128167</a><br>
+<br>
+Display or change the Workstation Service communication device settings<br>
+<span class="code">NET CONFIG WORKSTATION /?</span><br>
+<br>
+Display statistics, (these commands work on both servers and workstations)<br>
+<span class="code">NET STATISTICS WORKSTATION</span><br>
+This can be abbreviated to <span class="code">NET STATS WORK</span><br>
+<br>
+<span class="code">NET STATISTICS SERVER</span><br>
+This can be abbreviated to <span class="code">NET STATS SVR</span> and includes information on system uptime (statistics since..)<br>
+<br>
+<b>Related:</b><br>
+<br>
+<a href="mode.html">MODE</a> - Configure a system device<br>
+<a href="sc.html">SC</a> - Service Control<br>
+<a href="https://support.microsoft.com/kb/555737">Q555737</a> - How to find system uptime.<br>
+<a href="https://support.microsoft.com/kb/138365">Q138365</a> - Autodisconnect
+(Red cross)<br>
+<a href="https://support.microsoft.com/kb/305355">Q305355</a> - Drive disconnected,
+and a red &quot;X&quot; appears  <br>
+Equivalent bash command (Linux): <a href="../bash/uname.html">uname</a> - Print system information</p><!-- #BeginLibraryItem "/Library/foot_nt.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- windows300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="7649547908"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="net-config.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

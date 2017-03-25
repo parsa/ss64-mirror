@@ -1,0 +1,87 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>wecutil Windows Event Collector Utility | Windows CMD | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_nt.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../nt.1.html">CMD</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/nt/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>wecutil.exe</h1> 
+<p>Windows Event Collector Utility. <br>
+Create and manage subscriptions to events forwarded from remote event sources that support WS-Management protocol.</p>
+<pre>Syntax
+      wecutil <i>command</i> [<i>Argument</i> [<i>Argument</i>] ...] [/<i>Option</i>:<i>VALUE</i> [/<i>Option</i>:<i>VALUE</i>] ...]
+
+Key
+   List all existent remote event subscriptions:
+   <b>es</b> (enum-subscription)
+
+   Get subscription configuration:
+   <b>gs</b> (get-subscription) <i>SUBSCRIPTION_ID</i> [/<i>Option</i>:<i>VALUE</i> [/<i>Option</i>:<i>VALUE</i>] ...]
+       /f:<i>VALUE</i>
+       /format:<i>VALUE</i>
+        VALUE can be XML or Terse name-value pairs(default). 
+
+       /u:<i>VALUE</i>
+       /unicode:<i>VALUE</i>
+       Display output in unicode (UTF-16).
+      <i> VALUE</i> can be true or false. If <i>VALUE</i> is true then output is in Unicode.
+
+   Get subscription runtime status:
+   <b>gr</b> (get-subscriptionruntimestatus)  <i>SUBSCRIPTION_ID</i> [<i>EVENT_SOURCE</i> [<i>EVENT_SOURCE</i>] ...]
+       where EVENT_SOURCE identifies a machine serving as a source of events
+
+   Set subscription configuration: 
+   <b>ss</b> (set-subscription) <i>SUBSCRIPTION_ID</i> [/<i>Option</i>:<i>VALUE</i> [/<i>Option</i>:<i>VALUE</i>] ...]
+
+   <b>ss</b> (set-subscription) /c:<i>CONFIG_FILE</i> [/cus:<i>Username</i> [/cup:<i>Password</i>] ...]
+   
+   Create new subscription:
+   <b>cs</b> (create-subscription) <i>CONFIGURATION_FILE</i> [/<i>Option</i>:<i>VALUE</i> [/<i>Option</i>:<i>VALUE</i>] ...]
+
+   Delete subscription:
+   <b>ds</b> (delete-subscription) <i>SUBSCRIPTION_ID</i>
+   
+   Retry subscription:
+   <b>rs</b> (retry-subscription) SUBSCRIPTION_ID [EVENT_SOURCE [EVENT_SOURCE] ...]
+   
+   Configure Windows Event Collector service:
+   <b>qc</b> (quick-config)  /quiet:{true|false}                
+
+   /help | ?  Help for the wecutil program.
+
+For a full list of subscriptions/options for specific commands:
+   wecutil <i>COMMAND</i> -?
+</pre>
+<p>You can use either the short  or long (shown in parenthesis) version of each command name.</p>
+<p><b>Examples</b></p>
+<p>Display configuration information for a subscription named sub1:</p>
+<p><span class="code">C:\&gt; wecutil gs sub1</span></p>
+<p>Display the runtime status of a subscription named sub1:</p>
+<p><span class="code">C:\&gt; wecutil gr sub1</span></p>
+<p>Create a subscription to forward events using an XML  configuration file:</p>
+<p><span class="code">C:\&gt; wecutil cs subscription.xml</span></p>
+<p>Delete a subscription named sub1:</p>
+<p><span class="code">C:\&gt; wecutil ds sub1</span></p>
+<p class="quote"><i>&ldquo;The two offices of memory are collection and distribution&rdquo; ~ Samuel Johnson</i></p><p><b>Related:</b><br>
+<br>
+<a href="eventcreate.html">EVENTCREATE</a> - Add a message to the Windows event log<br>
+<a href="psloglist.html">PsLogList</a> - Event log records<br>
+</p><!-- #BeginLibraryItem "/Library/foot_nt.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- windows300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="7649547908"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="wecutil.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

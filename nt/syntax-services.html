@@ -1,0 +1,1269 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<link rel="STYLESHEET" href="../tables.css" type="text/css">
+<title>Windows 7 Services | Windows CMD | SS64.com</title>
+<META NAME="Description" CONTENT="A guide to Windows 7 Services with the default status (Running/Manual/Automatic) and a description of what each service does.">
+<META NAME="Keywords" CONTENT="Windows 7 services enable disable dll">
+<script src="../css/sorttable.js"></script>
+<style type="text/css">
+/* Sortable tables */
+table.sortable th {
+    cursor: default;
+    background-color: #B6C9E7;
+}
+table.sortable th:not(.sorttable_sorted):not(.sorttable_sorted_reverse):not(.sorttable_nosort):after { 
+    content: url("data:image/gif;base64,R0lGODlhFQAJAIABAAAAAAAAACH/C1hNUCBEYXRhWE1QPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS4wLWMwNjAgNjEuMTM0Nzc3LCAyMDEwLzAyLzEyLTE3OjMyOjAwICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyIgeG1wTU06T3JpZ2luYWxEb2N1bWVudElEPSJ4bXAuZGlkOjAxODAxMTc0MDcyMDY4MTE4OEM2REYyN0ExMDhBNDJFIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjdCNTAyODcwMEY4NjExRTBBMzkyQzAyM0E1RDk3RDc3IiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjdCNTAyODZGMEY4NjExRTBBMzkyQzAyM0E1RDk3RDc3IiB4bXA6Q3JlYXRvclRvb2w9IkFkb2JlIFBob3Rvc2hvcCBDUzUgTWFjaW50b3NoIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6MDE4MDExNzQwNzIwNjgxMTg4QzZERjI3QTEwOEE0MkUiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MDE4MDExNzQwNzIwNjgxMTg4QzZERjI3QTEwOEE0MkUiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz4B//79/Pv6+fj39vX08/Lx8O/u7ezr6uno5+bl5OPi4eDf3t3c29rZ2NfW1dTT0tHQz87NzMvKycjHxsXEw8LBwL++vby7urm4t7a1tLOysbCvrq2sq6qpqKempaSjoqGgn56dnJuamZiXlpWUk5KRkI+OjYyLiomIh4aFhIOCgYB/fn18e3p5eHd2dXRzcnFwb25tbGtqaWhnZmVkY2JhYF9eXVxbWllYV1ZVVFNSUVBPTk1MS0pJSEdGRURDQkFAPz49PDs6OTg3NjU0MzIxMC8uLSwrKikoJyYlJCMiISAfHh0cGxoZGBcWFRQTEhEQDw4NDAsKCQgHBgUEAwIBAAAh+QQBAAABACwAAAAAFQAJAAACF4yPgMsJ2mJ4VDKKrd4GVz5lYPeMiVUAADs=");
+/*" \25B4\25BE " */ 
+}
+#servicetbl tr:hover td {  background-color: #ddd;}
+</style>
+</head><body><!-- #BeginLibraryItem "/Library/head_ntsyntax.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../nt.1.html">CMD</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/nt/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1><img src="services.jpg" alt="Services" width="33" height="31"> Windows 7 Services</h1> 
+<p>A  list of  the default services in Windows 7.</p>
+<table id="servicetbl" class="sortable">
+
+<tr>
+<th>Service Display Name </th>
+<th>Service (Registry Key)</th>
+<th>Process</th>
+<th>Description</th>
+<th>Default Status &amp; notes</th>
+</tr>
+<tr>
+<td>ActiveX Installer (AxInstSV)</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=AxInstSV+service+site:microsoft.com">AxInstSV</a></td>
+<td>svchost.exe / audiosrv.dll</td>
+<td>Provides UACl validation for the installation of ActiveX controls from the Internet.</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>Adaptive Brightness</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=SensrSvc+service+site:microsoft.com">SensrSvc</a></td>
+<td>svchost.exe / sensrsvc.dll</td>
+<td>Monitors ambient light sensors to detect changes in ambient light and adjust the display brightness.</td>
+<td>Manual, can be disabled if no light sensors available)</td>
+</tr>
+<tr>
+<td>Application Experience</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=AeLookupSvc+service+site:microsoft.com">AeLookupSvc</a></td>
+<td>svchost.exe / aelupsvc.dll</td>
+<td>Processes application compatibility cache requests for applications as they are launched</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>Application Host Helper Service</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=AppHostSvc+service+site:microsoft.com">AppHostSvc</a></td>
+<td><br></td>
+<td><br></td>
+<td>Not Installed.<br>
+Optional feature (Control Panel add features)</td>
+</tr>
+<tr>
+<td>Application Identity</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=AppIDSvc+service+site:microsoft.com">AppIDSvc</a></td>
+<td>svchost.exe / appidsvc.dll</td>
+<td>Determines and verifies the identity of an application. </td>
+<td>Manual.<br>
+Disabling this service will prevent AppLocker from being enforced.</td>
+</tr>
+<tr>
+<td>Application Information</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=Appinfo+service+site:microsoft.com">Appinfo</a></td>
+<td>svchost.exe /appinfo.dll</td>
+<td>Facilitates the running of interactive applications with additional administrative privileges.</td>
+<td>Manual (Started)</td>
+</tr>
+<tr>
+<td>Application Layer Gateway Service</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=ALG+service+site:microsoft.com">ALG</a></td>
+<td>alg.exe</td>
+<td>Provides support for 3rd party protocol plug-ins for Internet Connection Sharing</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>Application Management</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=AppMgmt+service+site:microsoft.com">AppMgmt</a></td>
+<td>svchost.exe / appmgmts.dll</td>
+<td>Processes installation, removal, and enumeration requests for software deployed through Group Policy.</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>ASP.NET State Service</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=aspnet_state+service+site:microsoft.com">aspnet_state</a></td>
+<td>aspnet_state.exe</td>
+<td><br></td>
+<td>Optional feature (Control Panel add features)</td>
+</tr>
+<tr>
+<td>Background Intelligent Transfer Service</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=BITS+service+site:microsoft.com">BITS</a></td>
+<td>svchost.exe / qmgr.dll</td>
+<td>Transfer files using idle network bandwidth, maintain file transfers through network disconnections and computer restarts.</td>
+<td>Manual.<br>
+If disabled, then applications that depend on BITS, such as Windows Update, will be unable to automatically download files.</td>
+</tr>
+<tr>
+<td>Base Filtering Engine</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=BFE+service+site:microsoft.com">BFE</a></td>
+<td>svchost.exe / bfe.dll</td>
+<td>Manages firewall and IPsec  policies and user mode filtering.</td>
+<td>Automatic (Started)</td>
+</tr>
+<tr>
+<td>BitLocker Drive Encryption Service</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=BDESVC+service+site:microsoft.com">BDESVC</a></td>
+<td>svchost.exe / bdesvc.dll</td>
+<td>Provides secure startup for theOS, as well as full volume encryption.</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>Block Level Backup Engine Service</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=wbengine+service+site:microsoft.com">wbengine</a></td>
+<td>wbengine.exe</td>
+<td>The WBENGINE service is used by Windows Backup to perform backup and recovery operations.</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>Bluetooth Support Service</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=bthserv+service+site:microsoft.com">bthserv</a></td>
+<td>svchost.exe / bthserv.dll</td>
+<td>Discovery and association of remote Bluetooth devices.</td>
+<td>Manual.<br>
+If stopped Bluetooth devices will fail to operate properly.</td>
+</tr>
+<tr>
+<td>BranchCache</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=PeerDistSvc+service+site:microsoft.com">PeerDistSvc</a></td>
+<td>peerdistsvc.dll</td>
+<td>Caches network content from peers on the local subnet.</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>Certificate Propagation</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=CertPropSvc+service+site:microsoft.com">CertPropSvc</a></td>
+<td>svchost.exe / certprop.dll</td>
+<td>Copies user certificates and root certificates from smart cards into the current user's certificate store, detects when a smart card is inserted into a smart card reader, and, if needed, installs the smart card Plug and Play minidriver.</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>Client for NFS</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=NfsClnt+service+site:microsoft.com">NfsClnt</a></td>
+<td><br></td>
+<td><br></td>
+<td>Not Installed.<br>
+Optional feature in Ultimate/Enterprise edition (Control Panel add features)</td>
+</tr>
+<tr>
+<td>CNG Key Isolation</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=KeyIso+service+site:microsoft.com">KeyIso</a></td>
+<td>LSASS.exe (Local Security Authority Subsystem)<br>
+/ keyiso.dll</td>
+<td>Provides key process isolation to private keys and associated cryptographic operations as required by the Common Criteria.</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>COM+ Event System</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=EventSystem+service+site:microsoft.com">EventSystem</a></td>
+<td>svchost.exe / comres.dll</td>
+<td>Provides automatic distribution of events to subscribing COM components. </td>
+<td>Automatic (Started)</td>
+</tr>
+<tr>
+<td>COM+ System Application</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=COMSysApp+service+site:microsoft.com">COMSysApp</a></td>
+<td>dllhost.exe</td>
+<td><br></td>
+<td>Manual</td>
+</tr>
+<tr>
+<td height="114" align="left">Computer Browser</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=Browser+service+site:microsoft.com">Browser</a></td>
+<td>svchost.exe / browser.dll</td>
+<td>Collects the names of NetBIOS resources on the network, creating a list so that it can participate as a master browser or basic browser (one that takes part in browser elections). <br>
+<br>
+This maintained list of resources (computers) is displayed in Network Neighborhood.</td>
+<td>Manual.<br>
+If disabled you can still map drives, but can't browse the whole network.<br>
+<br>
+This has no effect on TCP/IP or  internet browsing</td>
+</tr>
+<tr>
+<td>Credential Manager</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=VaultSvc+service+site:microsoft.com">VaultSvc</a></td>
+<td>LSASS.exe (Local Security Authority Subsystem)<br>
+/ vaultsvc.dll</td>
+<td>Provides secure storage and retrieval of credentials to users, applications and security service packages.</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>Cryptographic Services</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=CryptSvc+service+site:microsoft.com">CryptSvc</a></td>
+<td>svchost.exe / cryptsvc.dll</td>
+<td>Confirm the signatures of Windows files, add and remove Trusted Root Certification Authority certificates, retrieve root certificates from Windows Update. </td>
+<td>Automatic (Started)</td>
+</tr>
+<tr>
+<td>DCOM Server Process Launcher</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=DcomLaunch+service+site:microsoft.com">DcomLaunch</a></td>
+<td>svchost.exe / oleres.dll</td>
+<td>Launches COM and DCOM servers in response to object activation requests.</td>
+<td>Automatic (Started)<br>
+If this service is stopped, programs using COM or DCOM will not function properly.</td>
+</tr>
+<tr>
+<td>Desktop Window Manager Session Manager</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=UxSms+service+site:microsoft.com">UxSms</a></td>
+<td>svchost.exe / dwm.exe</td>
+<td>Provides Desktop Window Manager startup and maintenance services</td>
+<td>Automatic (Started)</td>
+</tr>
+<tr>
+<td>DHCP Client</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=Dhcp+service+site:microsoft.com">Dhcp</a></td>
+<td>svchost.exe / dhcpcore.dll</td>
+<td>Registers and updates IP addresses and DNS records for this computer.</td>
+<td>Automatic (Started)<br>
+If this service is stopped, this computer will not receive dynamic IP addresses and DNS updates.</td>
+</tr>
+<tr>
+<td>Diagnostic Policy Service</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=DPS+service+site:microsoft.com">DPS</a></td>
+<td>svchost.exe / dps.dll</td>
+<td>Enables problem detection, troubleshooting and resolution for Windows components.</td>
+<td>Automatic (Started)</td>
+</tr>
+<tr>
+<td>Diagnostic Service Host</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=WdiServiceHost+service+site:microsoft.com">WdiServiceHost</a></td>
+<td>svchost.exe / wdi.dll</td>
+<td>Diagnostic Policy Service - diagnostics that need to run in a Local Service context.</td>
+<td>Manual (Started)</td>
+</tr>
+<tr>
+<td>Diagnostic System Host</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=WdiSystemHost+service+site:microsoft.com">WdiSystemHost</a></td>
+<td>svchost.exe / wdi.dll</td>
+<td>Diagnostic Policy Service - diagnostics that need to run in a Local System context.</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>Disk Defragmenter</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=defragsvc+service+site:microsoft.com">defragsvc</a></td>
+<td>svchost.exe / defragsvc.dll</td>
+<td>Provides Disk Defragmentation Capabilities.</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>Distributed Link Tracking Client</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=TrkWks+service+site:microsoft.com">TrkWks</a></td>
+<td>svchost.exe / trkwks.dll</td>
+<td>Maintains links between NTFS files within a computer or across computers in a network.</td>
+<td>Automatic (Started)</td>
+</tr>
+<tr>
+<td>Distributed Transaction Coordinator</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=MSDTC+service+site:microsoft.com">MSDTC</a></td>
+<td>MSDTC.exe</td>
+<td>Coordinates transactions that span multiple resource managers, such as databases, message queues, and file systems.</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>DNS Client</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=Dnscache+service+site:microsoft.com">Dnscache</a></td>
+<td>discache.sys / dnsapi.dll</td>
+<td><p>Resolves and caches Domain Name System (DNS) names, and registers the full computer name for this computer.</p></td>
+<td>Automatic (Started)</td>
+</tr>
+<tr>
+<td>Encrypting File System (EFS)</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=EFS+service+site:microsoft.com">EFS</a></td>
+<td><p>LSASS.exe (Local Security Authority Subsystem)<br>
+/ efssvc.dll</p></td>
+<td>The core file encryption technology used to store encrypted files on NTFS volumes.</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>Extensible Authentication Protocol</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=EapHost+service+site:microsoft.com">EapHost</a></td>
+<td>svchost.exe / eapsvc.dll</td>
+<td>Provides network authentication in such scenarios as 802.1x wired and wireless, VPN, and Network Access Protection (NAP).</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>Fax</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=Fax+service+site:microsoft.com">Fax</a></td>
+<td>fxssvc.exe</td>
+<td>Send or receive faxes, using a local or network fax machine/server.</td>
+<td>Manual<br>
+Optional feature (Control Panel add features)</td>
+</tr>
+<tr>
+<td>Function Discovery Provider Host</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=fdPHost+service+site:microsoft.com">fdPHost</a></td>
+<td>svchost.exe / fdPHost.dll</td>
+<td>Function Discovery (FD) network discovery providers.</td>
+<td>Manual (Started)</td>
+</tr>
+<tr>
+<td>Function Discovery Resource Publication</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=FDResPub+service+site:microsoft.com">FDResPub</a></td>
+<td>svchost.exe / fdrespub.dll</td>
+<td>Publish this computer and resources attached to this computer so they can be discovered over the network.</td>
+<td>Automatic (Started)</td>
+</tr>
+<tr>
+<td>Group Policy Client</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=gpsvc+service+site:microsoft.com">gpsvc</a></td>
+<td>svchost.exe / gpapi.dll</td>
+<td>Applies Group Policy settings.</td>
+<td>Automatic (Started)</td>
+</tr>
+<tr>
+<td>Health Key and Certificate Management</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=hkmsvc+service+site:microsoft.com">hkmsvc</a></td>
+<td>svchost.exe / kmsvc.dll</td>
+<td>Provides X.509 certificate and key management services for the Network Access Protection Agent (NAPAgent).</td>
+<td>Manual.<br>
+Enforcement technologies that use X.509 certificates will not function properly without this service</td>
+</tr>
+<tr>
+<td>HomeGroup Listener</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=HomeGroupListener+service+site:microsoft.com">HomeGroupListener</a></td>
+<td>svchost.exe / ListSvc.dll</td>
+<td>Makes local computer changes associated with configuration and maintenance of the homegroup-joined computer.</td>
+<td>Automatic (Started)</td>
+</tr>
+<tr>
+<td>HomeGroup Provider</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=HomeGroupProvider+service+site:microsoft.com">HomeGroupProvider</a></td>
+<td>svchost.exe / provsvc.dll</td>
+<td>Performs networking tasks associated with configuration and maintenance of homegroups.</td>
+<td>Manual (Started)</td>
+</tr>
+<tr>
+<td>Human Interface Device Access</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=hidserv+service+site:microsoft.com">hidserv</a></td>
+<td>svchost.exe / hidserv.dll</td>
+<td>Enables generic input access to Human Interface Devices (HID),  predefined hot buttons on keyboards, remote controls,etc.</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>IIS Admin Service</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=IISADMIN+service+site:microsoft.com">IISADMIN</a></td>
+<td><br></td>
+<td><br></td>
+<td>Optional feature (Control Panel add features)</td>
+</tr>
+<tr>
+<td>IKE and AuthIP IPsec Keying Modules</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=IKEEXT+service+site:microsoft.com">IKEEXT</a></td>
+<td>svchost.exe / ikeext.dll</td>
+<td>Hosts the Internet Key Exchange and Authenticated Internet Protocol (AuthIP) modules. These keying modules are used for authentication and key exchange in Internet Protocol security (IPsec).</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>Indexing Service</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=CISVC+service+site:microsoft.com">CISVC</a></td>
+<td>Cisvc.exe<br></td>
+<td>Index the contents and properties of files on local and remote computers. <br>
+This can become a resource hog if set to scan the entire volume or multiple volumes.<br></td>
+<td>Optional feature (Control Panel add features)</td>
+</tr>
+<tr>
+<td>Interactive Services Detection</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=UI0Detect+service+site:microsoft.com">UI0Detect</a></td>
+<td>UIODetect.exe</td>
+<td>Enables user notification of user input for interactive services, which enables access to dialogs created by interactive services when they appear.</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>Internet Connection Sharing (ICS)</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=SharedAccess+service+site:microsoft.com">SharedAccess</a></td>
+<td>svchost.exe / ipnathlp.dll</td>
+<td>Provides network address translation, addressing, name resolution and/or intrusion prevention services for a home or small office network.</td>
+<td>Disabled</td>
+</tr>
+<tr>
+<td>IP Helper</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=iphlpsvc+service+site:microsoft.com">iphlpsvc</a></td>
+<td>svchost.exe / iphlpsvc.dll</td>
+<td>Provides tunnel connectivity using IPv6 transition technologies (6to4, ISATAP, Port Proxy, and Teredo), and IP-HTTPS.</td>
+<td>Automatic (Started)</td>
+</tr>
+<tr>
+<td>IPsec Policy Agent</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=PolicyAgent+service+site:microsoft.com">PolicyAgent</a></td>
+<td>svchost.exe / polstore.dll</td>
+<td>IPsec supports network-level peer authentication, data origin authentication, data integrity, data confidentiality (encryption), and replay protection.</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>KtmRm for Distributed Transaction Coordinator</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=KtmRm+service+site:microsoft.com">KtmRm</a></td>
+<td>svchost.exe / comres.dll</td>
+<td>Coordinates transactions between the Distributed Transaction Coordinator (MSDTC) and the Kernel Transaction Manager (KTM).</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>Link-Layer Topology Discovery Mapper</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=lltdsvc+service+site:microsoft.com">lltdsvc</a></td>
+<td>svchost.exe / lltdres.dll</td>
+<td>Creates a Network Map, consisting of PC and device topology - connectivity and metadata.</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>LPD Service</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=LPDSVC+service+site:microsoft.com">LPDSVC</a></td>
+<td><br></td>
+<td><br></td>
+<td>Optional feature (Control Panel add features)</td>
+</tr>
+<tr>
+<td>Media Center Extender Service</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=Mcx2Svc+service+site:microsoft.com">Mcx2Svc</a></td>
+<td>svchost.exe / ehres.dll</td>
+<td>Allows Media Center Extenders to locate and connect to the computer.</td>
+<td>Disabled</td>
+</tr>
+<tr>
+<td>Message Queuing</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=MSMQ+service+site:microsoft.com">MSMQ</a></td>
+<td>mqsvc.exe <br></td>
+<td>Message Queuing <br>
+<a href="https://support.microsoft.com/en-us/kb/2566230">Q2566230</a><br></td>
+<td>Optional feature (Control Panel add features)</td>
+</tr>
+<tr>
+<td>Message Queuing Triggers</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=MSMQTriggers+service+site:microsoft.com">MSMQTriggers</a></td>
+<td>mqtgsvc.exe <br></td>
+<td>Message Queuing<br>
+<a href="https://support.microsoft.com/en-us/kb/2294419">Q2294419</a><br></td>
+<td>Optional feature (Control Panel add features)</td>
+</tr>
+<tr>
+<td>Microsoft .NET Framework NGEN v2.0.50727</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=clr_optimization_v2.0.50727+service+site:microsoft.com">clr_optimization_v2.0.50727</a></td>
+<td>mscorsvw.exe</td>
+<td>Microsoft .NET Framework NGEN<br></td>
+<td>Automatic (Delayed Start, Started</td>
+</tr>
+<tr>
+<td>Microsoft FTP Service</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=ftpsvc+service+site:microsoft.com">ftpsvc</a></td>
+<td><br></td>
+<td><br></td>
+<td>Optional feature (Control Panel add features)</td>
+</tr>
+<tr>
+<td>Microsoft iSCSI Initiator Service</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=MSiSCSI+service+site:microsoft.com">MSiSCSI</a></td>
+<td>svchost.exe / iscsidsc.dll</td>
+<td>Manages Internet SCSI (iSCSI) sessions from this computer to remote iSCSI target devices.</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>Microsoft Software Shadow Copy Provider</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=swprv+service+site:microsoft.com">swprv</a></td>
+<td>svchost.exe / swprv.dll</td>
+<td>Manages software-based volume shadow copies taken by the Volume Shadow Copy service.</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>Multimedia Class Scheduler</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=MMCSS+service+site:microsoft.com">MMCSS</a></td>
+<td>svchost.exe / mmcss.dll</td>
+<td>Enables relative prioritization of work based on system-wide task priorities. This is intended mainly for multimedia applications.</td>
+<td>Automatic (Started)</td>
+</tr>
+<tr>
+<td>Net.Msmq Listener Adapter</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=NetMsmqActivator+service+site:microsoft.com">NetMsmqActivator</a></td>
+<td>SMSSvcHost.exe</td>
+<td>Receives activation requests and passes them to the Windows Process Activation Service. net.msmq and msmq.formatname protocols</td>
+<td>Optional feature (Control Panel add features)</td>
+</tr>
+<tr>
+<td>Net.Pipe Listener Adapter</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=NetPipeActivator+service+site:microsoft.com">NetPipeActivator</a></td>
+<td>SMSSvcHost.exe</td>
+<td>Receives activation requests and passes them to the Windows Process Activation Service. net.pipe protocol</td>
+<td>Optional feature (Control Panel add features)</td>
+</tr>
+<tr>
+<td>Net.Tcp Listener Adapter</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=NetTcpActivator+service+site:microsoft.com">NetTcpActivator</a></td>
+<td>SMSSvcHost.exe</td>
+<td>Receives activation requests over the net.tcp protocol and passes them to the Windows Process Activation Service.</td>
+<td>Optional feature (Control Panel add features)</td>
+</tr>
+<tr>
+<td>Net.Tcp Port Sharing Service</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=NetTcpPortSharing+service+site:microsoft.com">NetTcpPortSharing</a></td>
+<td>SMSSvcHost.exe</td>
+<td>Provides ability to share TCP ports over the net.tcp protocol.</td>
+<td>Optional feature (Control Panel add features)</td>
+</tr>
+<tr>
+<td>Netlogon</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=Netlogon+service+site:microsoft.com">Netlogon</a></td>
+<td><p>LSASS.exe (Local Security Authority Subsystem)<br>
+/ netlogon.dll</p>
+<p>&nbsp;</p></td>
+<td>Network Authentication: Maintains a secure channel between this computer and the domain controller for authenticating users and services.</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>Network Access Protection Agent</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=napagent+service+site:microsoft.com">napagent</a></td>
+<td>svchost.exe / qagentrt.dll</td>
+<td>Collects and manages health information for client computers on a network. Health policy ensures that the client computer has the required software and settings.</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>Network Connections</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=Netman+service+site:microsoft.com">Netman</a></td>
+<td>svchost.exe / netman.dll</td>
+<td>Manages objects in the Network and Dial-Up Connections folder, in which you can view both local area network and remote connections.</td>
+<td>Manual (Started)</td>
+</tr>
+<tr>
+<td>Network List Service</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=netprofm+service+site:microsoft.com">netprofm</a></td>
+<td>svchost.exe / netprofm.dll</td>
+<td>Identifies the networks to which the computer has connected, collects and stores properties for these networks, and notifies applications when these properties change.</td>
+<td>Manual (Started)</td>
+</tr>
+<tr>
+<td>Network Location Awareness</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=NlaSvc+service+site:microsoft.com">NlaSvc</a></td>
+<td>svchost.exe / nlasvc.dll</td>
+<td>Collects and stores configuration information for the network and notifies programs when this information is modified.</td>
+<td>Automatic (Started)</td>
+</tr>
+<tr>
+<td>Network Store Interface Service</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=nsi+service+site:microsoft.com">nsi</a></td>
+<td>svchost.exe / nsisvc.dll</td>
+<td>delivers network notifications (e.g. interface addition/deleting etc) to user mode clients.</td>
+<td>Automatic (Started)</td>
+</tr>
+<tr>
+<td>Offline Files</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=CscService+service+site:microsoft.com">CscService</a></td>
+<td>svchost.exe / cscsvc.dll</td>
+<td>Maintains the Offline Files cache, responds to user logon/logoff events</td>
+<td>Automatic (Started)</td>
+</tr>
+<tr>
+<td>Parental Controls</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=WPCSvc+service+site:microsoft.com">WPCSvc</a></td>
+<td>svchost.exe</td>
+<td>For backward compatibility only.</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>Peer Name Resolution Protocol</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=PNRPsvc+service+site:microsoft.com">PNRPsvc</a></td>
+<td>svchost.exe / pnrpsvc.dll</td>
+<td>Enables serverless peer name resolution over the Internet using the Peer Name Resolution Protocol (PNRP).</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>Peer Networking Grouping</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=p2psvc+service+site:microsoft.com">p2psvc</a></td>
+<td>svchost.exe / p2psvc.dll</td>
+<td>Enables multi-party communication using Peer-to-Peer Grouping.</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>Peer Networking Identity Manager</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=p2pimsvc+service+site:microsoft.com">p2pimsvc</a></td>
+<td>svchost.exe / pnrpsvc.dll</td>
+<td>Provides identity services for the Peer Name Resolution Protocol (PNRP) and Peer-to-Peer Grouping services.</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>Performance Counter DLL Host</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=PerfHost+service+site:microsoft.com">PerfHost</a></td>
+<td>perfhost.exe</td>
+<td>Enables remote users and 64-bit processes to query performance counters provided by 32-bit DLLs.</td>
+<td><br></td>
+</tr>
+<tr>
+<td>Performance Logs &amp; Alerts</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=pla+service+site:microsoft.com">pla</a></td>
+<td>svchost.exe / pla.dll</td>
+<td>Collects performance data from local or remote computers based on preconfigured schedule parameters, then writes the data to a log or triggers an alert.</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>Plug and Play</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=PlugPlay+service+site:microsoft.com">PlugPlay</a></td>
+<td>svchost.exe / umpnpmgr.dll</td>
+<td>Enables a computer to recognize and adapt to hardware changes with little or no user input.</td>
+<td>Automatic (Started)</td>
+</tr>
+<tr>
+<td>PnP-X IP Bus Enumerator</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=IPBusEnum+service+site:microsoft.com">IPBusEnum</a></td>
+<td>svchost.exe / IPBusEnum.dll</td>
+<td>Manages the virtual network bus, discovers network connected devices and gives them presence in PnP.</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>PNRP Machine Name Publication Service</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=PNRPAutoReg+service+site:microsoft.com">PNRPAutoReg</a></td>
+<td>svchost.exe / pnrpauto.dll</td>
+<td>Publishes a machine name using the Peer Name Resolution Protocol.</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>Portable Device Enumerator Service</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=WPDBusEnum+service+site:microsoft.com">WPDBusEnum</a></td>
+<td>svchost.exe / wpdbusenum.dll</td>
+<td>Enforces group policy for removable mass-storage devices.</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>Power</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=Power+service+site:microsoft.com">Power</a></td>
+<td>svchost.exe / umpo.dll</td>
+<td>Manages power policy and power policy notification delivery.</td>
+<td>Automatic (Started)</td>
+</tr>
+<tr>
+<td>Print Spooler</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=Spooler+service+site:microsoft.com">Spooler</a></td>
+<td>SPOOLSVC.exe</td>
+<td>Loads files to memory for later printing</td>
+<td>Automatic (Started)</td>
+</tr>
+<tr>
+<td>Problem Reports and Solutions Control Panel Support</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=wercplsupport+service+site:microsoft.com">wercplsupport</a></td>
+<td>svchost.exe / wercplsupport.dll</td>
+<td>Provides support for viewing, sending and deletion of system-level problem reports for the Problem Reports and Solutions control panel.</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>Program Compatibility Assistant Service</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=PcaSvc+service+site:microsoft.com">PcaSvc</a></td>
+<td>svchost.exe / pcasvc.dll</td>
+<td>Provides support for the Program Compatibility Assistant (PCA).  PCA monitors programs installed and run by the user and detects known compatibility problems.</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>Protected Storage</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=ProtectedStorage+service+site:microsoft.com">ProtectedStorage</a></td>
+<td>LSASS.exe (Local Security Authority Subsystem)<br>
+/ psbase.dll</td>
+<td>Provides protected storage for sensitive data, such as passwords, to prevent access by unauthorized services, processes, or users.</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>Quality Windows Audio Video Experience</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=QWAVE+service+site:microsoft.com">QWAVE</a></td>
+<td>svchost.exe / qwave.dll</td>
+<td>Quality Windows Audio Video Experience (qWave) is a networking platform for Audio Video (AV) streaming applications on IP home networks.</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>Remote Access Auto Connection Manager</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=RasAuto+service+site:microsoft.com">RasAuto</a></td>
+<td>svchost.exe / rasauto.dll</td>
+<td>Creates a connection to a remote network whenever a program references a remote DNS or NetBIOS name or address.</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>Remote Access Connection Manager</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=RasMan+service+site:microsoft.com">RasMan</a></td>
+<td>svchost.exe / rasmans.dll</td>
+<td>Manages dial-up and virtual private network (VPN) connections from this computer to the Internet or other remote networks.</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>Remote Desktop Configuration</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=SessionEnv+service+site:microsoft.com">SessionEnv</a></td>
+<td>svchost.exe / SessEnv.dll</td>
+<td>Responsible for all Remote Desktop Services and Remote Desktop related configuration and session maintenance activities that require SYSTEM context.</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>Remote Desktop Services</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=TermService+service+site:microsoft.com">TermService</a></td>
+<td>svchost.exe / termsrv.dll</td>
+<td>Allows users to connect interactively to a remote computer.</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>Remote Desktop Services UserMode Port Redirector</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=UmRdpService+service+site:microsoft.com">UmRdpService</a></td>
+<td>svchost.exe/ /umrdp.dll</td>
+<td>Allows the redirection of Printers/Drives/Ports for RDP connections</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>Remote Procedure Call (RPC)</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=RpcSs+service+site:microsoft.com">RpcSs</a></td>
+<td>svchost.exe / oleres.dll</td>
+<td>The Service Control Manager for COM and DCOM servers. Aactivation requests, garbage collection.</td>
+<td>Automatic (Started)</td>
+</tr>
+<tr>
+<td height="98" align="left">Remote Procedure Call (RPC) Locator</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=RpcLocator+service+site:microsoft.com">RpcLocator</a></td>
+<td>Locator.exe</td>
+<td>In Windows 2003 and earlier versions of Windows, the Remote Procedure Call (RPC) Locator service manages the RPC name service database. In Windows Vista and later versions of Windows, this service does not provide any functionality and is present for application compatibility.</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>Remote Registry</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=RemoteRegistry+service+site:microsoft.com">RemoteRegistry</a></td>
+<td>svchost.exe / regsvc.dll</td>
+<td>Enables remote users to modify registry settings on this computer.</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>RIP Listener</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=iprip+service+site:microsoft.com">iprip</a></td>
+<td>isapnp.sys</td>
+<td><br></td>
+<td>Optional feature (Control Panel add features)</td>
+</tr>
+<tr>
+<td>Routing and Remote Access</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=RemoteAccess+service+site:microsoft.com">RemoteAccess</a></td>
+<td>svchost.exe / mprdim.dll</td>
+<td>Offers routing services to businesses in local area and wide area network environments.</td>
+<td>Disabled</td>
+</tr>
+<tr>
+<td>RPC Endpoint Mapper</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=RpcEptMapper+service+site:microsoft.com">RpcEptMapper</a></td>
+<td>svchost.exe / RpcEpMap.dll</td>
+<td>Resolves RPC interfaces identifiers to transport endpoints.</td>
+<td>Automatic (Started)</td>
+</tr>
+<tr>
+<td>Secondary Logon</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=seclogon+service+site:microsoft.com">seclogon</a></td>
+<td>svchost.exe / seclogon.dll</td>
+<td>Enables starting processes under alternate credentials.</td>
+<td>Manual<br>
+If this service is stopped, this type of logon access will be unavailable.</td>
+</tr>
+<tr>
+<td>Secure Socket Tunneling Protocol Service</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=SstpSvc+service+site:microsoft.com">SstpSvc</a></td>
+<td>svchost.exe / sstpsvc.dll</td>
+<td>Provides support for the Secure Socket Tunneling Protocol (SSTP) to connect to remote computers using VPN.</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>Security Accounts Manager</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=SamSs+service+site:microsoft.com">SamSs</a></td>
+<td>LSASS.exe (Local Security Authority Subsystem)<br>
+/ samsrv.dll</td>
+<td>The startup of this service signals other services that the Security Accounts Manager (SAM) is ready to accept requests.</td>
+<td>Automatic (Started)</td>
+</tr>
+<tr>
+<td>Security Center</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=wscsvc+service+site:microsoft.com">wscsvc</a></td>
+<td>svchost.exe / wscsvc.dll</td>
+<td>Monitors and reports security health settings:  Firewall, antivirus, antispyware, Windows Update, UAC, and Internet settings</td>
+<td>Automatic (Delayed Start, Started)</td>
+</tr>
+<tr>
+<td>Server</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=LanmanServer+service+site:microsoft.com">LanmanServer</a></td>
+<td>svchost.exe / srvsvc.dll</td>
+<td>Supports file, print, and named-pipe sharing over the network for this computer.</td>
+<td>Automatic (Started)</td>
+</tr>
+<tr>
+<td>Shell Hardware Detection</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=ShellHWDetection+service+site:microsoft.com">ShellHWDetection</a></td>
+<td>svchost.exe / shsvcs.dll</td>
+<td>Provides notifications for AutoPlay hardware events.</td>
+<td>Automatic (Started)</td>
+</tr>
+<tr>
+<td>Simple TCP/IP Services</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=simptcp+service+site:microsoft.com">simptcp</a></td>
+<td><br></td>
+<td><br></td>
+<td>Optional feature (Control Panel add features)</td>
+</tr>
+<tr>
+<td>Smart Card</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=SCardSvr+service+site:microsoft.com">SCardSvr</a></td>
+<td>svchost.exe / SCardSvr.dll</td>
+<td>Manages access to smart cards read by this computer.</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>Smart Card Removal Policy</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=SCPolicySvc+service+site:microsoft.com">SCPolicySvc</a></td>
+<td>svchost.exe / certprop.dll</td>
+<td>Allows the system to be configured to lock the user desktop upon smart card removal.</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>SNMP Service</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=SNMP+service+site:microsoft.com">SNMP</a></td>
+<td><br></td>
+<td><br></td>
+<td>Optional feature (Control Panel add features)</td>
+</tr>
+<tr>
+<td>SNMP Trap</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=SNMPTRAP+service+site:microsoft.com">SNMPTRAP</a></td>
+<td>SNMPTRAP.exe</td>
+<td>Receives trap messages generated by local or remote Simple Network Management Protocol (SNMP) agents and forwards the messages to SNMP management programs running on this computer.</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>Software Protection</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=sppsvc+service+site:microsoft.com">sppsvc</a></td>
+<td>SPPSVC.exe</td>
+<td>Enables the download, installation and enforcement of digital licenses for Windows and Windows applications.</td>
+<td>Automatic (Delayed Start, Started)</td>
+</tr>
+<tr>
+<td>SPP Notification Service</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=sppuinotify+service+site:microsoft.com">sppuinotify</a></td>
+<td>svchost.exe / sppuinotify.dll</td>
+<td>Provides Software Licensing activation and notification</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>SSDP Discovery</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=SSDPSRV+service+site:microsoft.com">SSDPSRV</a></td>
+<td>svchost.exe / ssdpsrv.dll</td>
+<td>Discovers networked devices and services that use the SSDP discovery protocol, such as UPnP devices.</td>
+<td>Manual (Started)</td>
+</tr>
+<tr>
+<td>Storage Service</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=StorSvc+service+site:microsoft.com">StorSvc</a></td>
+<td>svchost.exe / StorSvc.dll</td>
+<td>Enforces group policy for storage devices</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>Superfetch</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=SysMain+service+site:microsoft.com">SysMain</a></td>
+<td>svchost.exe / sysmain.dll</td>
+<td>Maintains and improves system performance over time.</td>
+<td>Automatic (Started)</td>
+</tr>
+<tr>
+<td>System Event Notification Service</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=SENS+service+site:microsoft.com">SENS</a></td>
+<td>svchost.exe / Sens.dll</td>
+<td>Monitors system events and notifies subscribers to COM+ Event System of these events.</td>
+<td>Automatic (Started)</td>
+</tr>
+<tr>
+<td>Tablet PC Input Service</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=TabletInputService+service+site:microsoft.com">TabletInputService</a></td>
+<td>svchost.exe / TabSvc.dll</td>
+<td>Enables Tablet PC pen and ink functionality</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>Task Scheduler</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=Schedule+service+site:microsoft.com">Schedule</a></td>
+<td>svchost.exe / schedsvc.dll</td>
+<td>Configure and schedule automated tasks.</td>
+<td>Automatic (Started)</td>
+</tr>
+<tr>
+<td>TCP/IP NetBIOS Helper</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=lmhosts+service+site:microsoft.com">lmhosts</a></td>
+<td>svchost.exe / lmhsvc.dll</td>
+<td>Provides support for  NetBIOS over TCP/IP (NetBT)  and NetBIOS name resolution for clients on the network.</td>
+<td>Automatic (Started)<br>
+If not required can be set to manual or disabled.</td>
+</tr>
+<tr>
+<td>Telephony</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=TapiSrv+service+site:microsoft.com">TapiSrv</a></td>
+<td>svchost.exe / tapisrv.dll</td>
+<td>Provides Telephony API (TAPI) support for programs that control telephony devices on the local computer and, through the LAN, on servers that are also running the service.</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>Telnet</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=TlntSvr+service+site:microsoft.com">TlntSvr</a></td>
+<td><br></td>
+<td><br></td>
+<td>Optional feature (Control Panel add features)</td>
+</tr>
+<tr>
+<td>Themes</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=Themes+service+site:microsoft.com">Themes</a></td>
+<td>svchost.exe / themeservice.dll</td>
+<td>Provides user experience theme management.</td>
+<td>Automatic (Started)</td>
+</tr>
+<tr>
+<td>Thread Ordering Server</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=THREADORDER+service+site:microsoft.com">THREADORDER</a></td>
+<td>svchost.exe / mmcss.dll</td>
+<td>Provides ordered execution for a group of threads within a specific period of time.</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>TPM Base Services</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=TBS+service+site:microsoft.com">TBS</a></td>
+<td>svchost.exe / tbssvc.dll</td>
+<td>Enables access to the Trusted Platform Module (TPM), which provides hardware-based cryptographic services to system components and applications.</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>UPnP Device Host</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=upnphost+service+site:microsoft.com">upnphost</a></td>
+<td>svchost.exe / upnphost.dll</td>
+<td>Allows UPnP devices to be hosted on this computer.</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>User Profile Service</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=ProfSvc+service+site:microsoft.com">ProfSvc</a></td>
+<td>svchost.exe / profsvc.dll</td>
+<td>Loading and unloading user profiles.</td>
+<td>Automatic (Started)</td>
+</tr>
+<tr>
+<td>Virtual Disk</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=vds+service+site:microsoft.com">vds</a></td>
+<td>VDS.exe</td>
+<td>Provides management services for disks, volumes, file systems, and storage arrays.</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>Volume Shadow Copy</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=VSS+service+site:microsoft.com">VSS</a></td>
+<td>VSSVC.exe</td>
+<td>Manages and implements Volume Shadow Copies used for backup and other purposes.</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>Web Management Service</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=WMSVC+service+site:microsoft.com">WMSVC</a></td>
+<td><br></td>
+<td><br></td>
+<td>Optional feature (Control Panel add features)</td>
+</tr>
+<tr>
+<td>WebClient</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=WebClient+service+site:microsoft.com">WebClient</a></td>
+<td>svchost.exe / webclnt.dll</td>
+<td>Enables Windows-based programs to create, access, and modify Internet-based files.</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>Windows Audio</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=AudioSrv+service+site:microsoft.com">AudioSrv</a></td>
+<td>svchost.exe / audiosrv.dll</td>
+<td>Manages audio for Windows-based programs.</td>
+<td>Automatic (Started)<br>
+If this service is stopped, audio devices and effects will not function properly.</td>
+</tr>
+<tr>
+<td>Windows Audio Endpoint Builder</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=AudioEndpointBuilder+service+site:microsoft.com">AudioEndpointBuilder</a></td>
+<td>svchost.exe</td>
+<td>Manages audio devices for the Windows Audio service.</td>
+<td>Automatic (Started)<br>
+If this service is stopped, audio devices and effects will not function properly.</td>
+</tr>
+<tr>
+<td>Windows Backup</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=SDRSVC+service+site:microsoft.com">SDRSVC</a></td>
+<td>svchost.exe / sdrsvc.dll</td>
+<td>Windows Backup and Restore capabilities.</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>Windows Biometric Service</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=WbioSrvc+service+site:microsoft.com">WbioSrvc</a></td>
+<td>svchost.exe / wbiosrvc.dll</td>
+<td>The Windows biometric service gives client applications the ability to capture, compare, manipulate, and store biometric data without gaining direct access to any biometric hardware or samples.</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>Windows CardSpace</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=idsvc+service+site:microsoft.com">idsvc</a></td>
+<td>infocard.exe</td>
+<td>Securely enables the creation, management, and disclosure of digital identities.</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>Windows Color System</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=WcsPlugInService+service+site:microsoft.com">WcsPlugInService</a></td>
+<td>svchost.exe / WcsPlugInService.dll</td>
+<td>Third-party Windows Color System color device model and gamut map model plug-in modules. These plug-in modules are vendor-specific extensions to the Windows Color System baseline.</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>Windows Connect Now – Config Registrar</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=wcncsvc+service+site:microsoft.com">wcncsvc</a></td>
+<td>svchost.exe / wcncsvc.dll</td>
+<td>Microsoft's Implementation of Wi-Fi Protected Setup (WPS) protocol. This is used to configure Wireless LAN settings for an Access Point (AP) or a Wi-Fi Device.</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>Windows Defender</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=WinDefend+service+site:microsoft.com">WinDefend</a></td>
+<td>svchost.exe / MsMpRes.dll</td>
+<td>Protection against spyware and potentially unwanted software.</td>
+<td>Automatic (Delayed Start, Started)</td>
+</tr>
+<tr>
+<td>Windows Driver Foundation – User-mode Driver Framework</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=wudfsvc+service+site:microsoft.com">wudfsvc</a></td>
+<td>svchost.exe / wudfsvc.dll</td>
+<td>Creates and manages user-mode driver processes. This service cannot be stopped.</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>Windows Error Reporting Service</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=WerSvc+service+site:microsoft.com">WerSvc</a></td>
+<td>svchost.exe / wersvc.dll</td>
+<td>Allows errors to be reported when programs stop working or responding and allows existing solutions to be delivered. Also allows logs to be generated for diagnostic and repair services. </td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>Windows Event Collector</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=Wecsvc+service+site:microsoft.com">Wecsvc</a></td>
+<td>svchost.exe / wecsvc.dll</td>
+<td>Manages persistent subscriptions to events from remote sources that support WS-Management protocol. This includes Windows Vista event logs, hardware and IPMI-enabled event sources.</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>Windows Event Log</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=EventLog+service+site:microsoft.com">EventLog</a></td>
+<td>svchost.exe / wevtsvc.dll</td>
+<td>Manages events and event logs.</td>
+<td>Automatic (Started)</td>
+</tr>
+<tr>
+<td>Windows Firewall</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=MpsSvc+service+site:microsoft.com">MpsSvc</a></td>
+<td>svchost.exe / FirewallAPI.dll</td>
+<td>Windows Firewall</td>
+<td>Automatic (Started)</td>
+</tr>
+<tr>
+<td>Windows Font Cache Service</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=FontCache+service+site:microsoft.com">FontCache</a></td>
+<td>svchost.exe / FntCache.dll</td>
+<td>Cache commonly used font data.</td>
+<td>Automatic (Delayed Start, Started)</td>
+</tr>
+<tr>
+<td>Windows Image Acquisition (WIA)</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=StiSvc+service+site:microsoft.com">StiSvc</a></td>
+<td>svchost.exe / wiaservc.dll</td>
+<td>Provides image acquisition services for scanners and cameras</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>Windows Installer</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=msiserver+service+site:microsoft.com">msiserver</a></td>
+<td>MSIEXEC.exe</td>
+<td>Adds, modifies, and removes applications provided as a Windows Installer (*.msi) package.</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>Windows Management Instrumentation</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=Winmgmt+service+site:microsoft.com">Winmgmt</a></td>
+<td>svchost.exe / wmisvc.dll</td>
+<td>Provides a common interface and object model to access management information about operating system, devices, applications and services.</td>
+<td>Automatic (Started)</td>
+</tr>
+<tr>
+<td>Windows Media Center Receiver Service</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=ehRecvr+service+site:microsoft.com">ehRecvr</a></td>
+<td>ehRecvr.exe</td>
+<td>Windows Media Center Service for TV and FM broadcast reception</td>
+<td>Optional feature (Control Panel add features)</td>
+</tr>
+<tr>
+<td>Windows Media Center Scheduler Service</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=ehSched+service+site:microsoft.com">ehSched</a></td>
+<td>ehSched.exe</td>
+<td>Starts and stops recording of TV programs within Windows Media Center</td>
+<td>Optional feature (Control Panel add features)</td>
+</tr>
+<tr>
+<td>Windows Media Player Network Sharing Service</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=WMPNetworkSvc+service+site:microsoft.com">WMPNetworkSvc</a></td>
+<td>wmpnetwk.exe</td>
+<td>Shares Windows Media Player libraries to other networked players and media devices using Universal Plug and Play - provided for backward compatibility only.</td>
+<td>Manual (Started)</td>
+</tr>
+<tr>
+<td>Windows Modules Installer</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=TrustedInstaller+service+site:microsoft.com">TrustedInstaller</a></td>
+<td>TrustedInstaller.exe</td>
+<td>Enables installation, modification, and removal of Windows updates and optional components.</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>Windows Presentation Foundation Font Cache 3.0.0.0</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=FontCache3.0.0.0+service+site:microsoft.com">FontCache3.0.0.0</a></td>
+<td>PresentationFontCache.exe</td>
+<td>Cache commonly used font data for Windows Presentation Foundation (WPF) applications.</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>Windows Process Activation Service</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=WAS+service+site:microsoft.com">WAS</a></td>
+<td>WatUX.exe</td>
+<td>Performs Windows 7 Validation.</td>
+<td>Optional feature (Control Panel add features)</td>
+</tr>
+<tr>
+<td>Windows Remote Management (WS-Management)</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=WinRM+service+site:microsoft.com">WinRM</a></td>
+<td>svchost.exe / wsmsvc.dll</td>
+<td>Implements the WS-Management protocol for remote management. WS-Management is a standard web services protocol used for remote software and hardware management.<br>
+The WinRM service reserves the /wsman URL prefix.</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>Windows Search</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=WSearch+service+site:microsoft.com">WSearch</a></td>
+<td>SearchIndexer.exe</td>
+<td>Provides content indexing, property caching, and search results for files, e-mail, and other content.</td>
+<td>Optional feature (Control Panel add features)</td>
+</tr>
+<tr>
+<td>Windows Time</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=W32Time+service+site:microsoft.com">W32Time</a></td>
+<td>svchost.exe / w32time.dll</td>
+<td>Maintains date and time synchronization on all clients and servers in the network.</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>Windows Update</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=wuauserv+service+site:microsoft.com">wuauserv</a></td>
+<td>svchost.exe / wuaueng.dll</td>
+<td>Enables the detection, download, and installation of updates for Windows and other programs.</td>
+<td>Automatic (Delayed Start, Started)</td>
+</tr>
+<tr>
+<td>WinHTTP Web Proxy Auto-Discovery Service</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=WinHttpAutoProxySvc+service+site:microsoft.com">WinHttpAutoProxySvc</a></td>
+<td>svchost.exe / winhttp.dll</td>
+<td>Implements the client HTTP stack and provides developers with a Win32 API and COM Automation component for sending HTTP requests and receiving responses.</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>Wired AutoConfig</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=dot3svc+service+site:microsoft.com">dot3svc</a></td>
+<td>svchost.exe / dot3svc.dll</td>
+<td>IEEE 802.1X authentication on Ethernet interfaces.</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>WLAN AutoConfig</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=Wlansvc+service+site:microsoft.com">Wlansvc</a></td>
+<td>svchost.exe / wlansvc.dll</td>
+<td>Provides the logic required to configure, discover, connect to, and disconnect from a wireless local area network (WLAN) as defined by IEEE 802.11 standards.</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>WMI Performance Adapter</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=wmiApSrv+service+site:microsoft.com">wmiApSrv</a></td>
+<td>WmiApSrv.exe / wmiapsrv.exe</td>
+<td>Provides performance library information from Windows Management Instrumentation (WMI) providers to clients on the network.</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>Workstation</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=LanmanWorkstation+service+site:microsoft.com">LanmanWorkstation</a></td>
+<td>svchost.exe / wkssvc.dll</td>
+<td>Creates and maintains client network connections to remote servers using the SMB protocol.</td>
+<td>Automatic (Started)</td>
+</tr>
+<tr>
+<td>World Wide Web Publishing Service</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=W3SVC+service+site:microsoft.com">W3SVC</a></td>
+<td><br></td>
+<td><br></td>
+<td>Optional feature (Control Panel add features)</td>
+</tr>
+<tr>
+<td>WWAN AutoConfig</td>
+<td><a href="http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=WwanSvc+service+site:microsoft.com">WwanSvc</a></td>
+<td>svchost.exe / wwansvc.dll</td>
+<td>Manages mobile broadband (GSM &amp; CDMA) data card/embedded module adapters and connections by auto-configuring the networks.</td>
+<td>Manual</td>
+</tr>
+</table>
+<p>The defaults above are based on Windows 7 <i>Professional SP1</i>, defaults for other versions, Home/Ultimate etc can be found over on the <a href="http://www.blackviper.com/service-configurations/">Black Viper Service Tweaking guide</a>.</p>
+<p>Before changing any of the defaults - use the links above to find what exactly the service does.</p>
+<p>It is inadvisable to <i>disable</i> a service without being aware of the consequences, always start by setting the service to <i>manual,</i> reboot and test for any problems.</p>
+<p>A service set to <i>manual</i> will be automatically restarted if another service is dependent on it.<br>
+A service set to <i>disabled</i> will not restart even if it's required to boot the machine!</p>
+<p>If a service crashes the machine at startup, you can  DISABLE it using the <a href="syntax-recovery.html">recovery console</a>.</p>
+<p>Stopping or disabling a service will generally save  a small amount of memory and will reduce the number of software interrupts (cpu message queue.) The main reason for tinkering with services is to harden the system against security vulnerabilities. Disable everything that you don&rsquo;t need or use - then any future problems with those services cannot affect the machine.</p>
+<p>The security group <span class="code">All Services</span> (NT SERVICES\ALL SERVICES)  includes all service processes that are configured on the system. Membership of this group is controlled by the OS.</p>
+<p>To document all the services currently installed:</p>
+<p class="code"> SC QUERY state= all |findstr "DISPLAY_NAME STATE" &gt;my_services.csv</p>
+<p>Some  services <a href="http://www.theregister.co.uk/2002/04/11/winxp_search_assistant_silently_downloads/">communicate</a> and <a href="http://www.theregister.co.uk/2003/02/28/windows_update_keeps_tabs/">send</a> data directly to Microsoft, this is not generally something to lose sleep over. Managing the running of these services might be a consideration  if confidentiality or anonymity is highly important to you.</p>
+<h2>Remove a service completely</h2>
+<blockquote>
+<p>To delete a service use the <a href="sc.html">SC</a> delete command:<br>
+<span class="code">SC delete <i>NameofServiceTodelete</i></span></p>
+</blockquote>
+<h2>Built-in Service Accounts</h2>
+<p>In addition to other <a href="syntax-security_groups.html">Default User &amp; Group accounts</a> there are 3 built-in accounts, designed for running background services. </p>
+<p><i>Local Service Account </i>(<span class="code">NT AUTHORITY\LOCAL SERVICE</span>) - has the same level of access to resources and objects as members of the Users group. This limited access helps safeguard the system if individual services or processes are compromised. Services that run as the Local Service account access network resources as a null session without credentials. (This account is not supported for running SQL Server services.) </p>
+<p><i>Network Service Account</i> (<span class="code">NT AUTHORITY\NETWORK SERVICE</span>) - has more access to resources and objects than members of the Users group. Services that run as the Network Service account access network resources by using the credentials of the computer account.</p>
+<p><i>Local System Account</i> (<span class="code">NT AUTHORITY\SYSTEM</span>) - a very high-privileged built-in account. It has extensive privileges on the local system and acts as the computer on the network.</p>
+<p>Windows 2008 introduced a new feature: <i>Managed Service Accounts </i>these provide automatic password management and simplified service principal name (SPN) management.  Service accounts are created in PowerShell with <a href="../ps/new-adserviceaccount.html">New-ADServiceAccount</a></p>
+<p class="quote"><i>&ldquo;The service we render to others is really the rent we pay for our room on this earth. It is obvious that man is himself a traveler; that the purpose of this world is not 'to have and to hold' but 'to give and serve.' There
+can be no other meaning&rdquo; - Sir Wilfred T. Grenfell</i></p>
+<p><b> Related:</b><br><br>
+<a href="sc.html">SC</a> - Service Control<br>
+<a href="tasklist.html">TASKLIST</a> - List running tasks and services<br>
+<a href="portqry.html">PORTQRY</a> - Enumerate SQL Server instances, Local  ports, local services and the DLL modules loaded.<br>
+<a href="winmsd.html">WinMSD</a> - List running services<br>
+<a href="../ps/syntax-servicestatus.html">ServiceStatus.ps1</a> - List all services (Powershell)<br>
+Safe Mode - Press <b>F8</b> during bootup to start with mimimal services running.<br>
+<a href="syntax-recovery.html">Recovery</a> - The Recovery Console <br>
+<a href="wmic.html">WMIC SERVICE</a> - WMI access to services<br>
+<a href="https://support.microsoft.com/kb/176799/EN-US/">DComCnfg</a> - Disable/configure Component Services<br>
+<span class="code">windows\system32\drivers\etc\services</span> - Ports and Services<br>
+<a href="http://www.theeldergeek.com/windows_7/s_win7.htm">The Elder Geek</a> - Services Guide<br>
+<a href="https://support.microsoft.com/kb/137890">Q137890</a> - SRVANY -  create a User-Defined Service<br>
+<a href="https://support.microsoft.com/kb/288129">Q288129</a> - Grant users the right to manage services (Windows 2000 KB but still works in Windows 7)<br>
+<!-- #BeginLibraryItem "/Library/foot_nt.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- windows300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="7649547908"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="syntax-services.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

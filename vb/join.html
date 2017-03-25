@@ -1,0 +1,46 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Join | VBScript | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_vb.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../vb.1.html">VBScript</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/vb/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>Join</h1> 
+<p> Combine a number of substrings contained in a list (array) into a single string value.</p>
+<pre>Syntax
+      Join(list[, <i>delimiter</i>])
+
+Key
+   list       A one-dimensional array containing substrings to be joined.
+
+   <i>delimiter</i>  A string character used to separate the substrings in the
+              returned string. If omitted, the space character (&quot; &quot;) is used.
+              If delimiter is a zero-length string, all items in the list are
+              concatenated with no delimiters.</pre>
+<p><b>Example</b></p>
+<p>join the substrings of MyArray:</p>
+<p class="code">Dim MyString<br>Dim MyArray(3)</p>
+<p class="code">MyArray(0) = &quot;Mr.&quot;<br>MyArray(1) = &quot;John &quot;<br>MyArray(2) = &quot;Doe &quot;<br>MyArray(3) = &quot;III&quot;</p>
+<p><span class="code">MyString = Join(MyArray)</span> ' MyString contains &quot;Mr. John Doe III&quot;.</p>
+<p class="quote"><i>&ldquo;There's zero correlation between being the best talker and having the best ideas&rdquo; ~ <a href="http://www.ted.com/talks/susan_cain_the_power_of_introverts.html">Susan Cain</a></i></p>
+<p><b>Related:</b></p>
+<p><a href="array.html">Array</a> - Add values to an Array variable<br>
+<a href="split.html">Split</a> - Parse a string of delimited values into an array</p><!-- #BeginLibraryItem "/Library/foot_vb.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- VB300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="1683739502"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="join.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

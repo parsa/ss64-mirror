@@ -1,0 +1,76 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>serverinfo OSX Man Page | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_osx.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../osx.1.html">macOS</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/osx/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>serverinfo</h1> 
+<p>Server information.</p>
+<pre>Syntax
+      serverinfo [<i>options</i>] <i>command</i>
+
+Options:
+    --quiet|-q
+        Prevent status messages from being printed to stdout
+
+Available commands (there must be exactly one):
+    --hardware
+        Returns status 0 if executed on server hardware
+    --software [<i>PATH</i>]
+        Returns status 0 if the root volume has a server OS installed
+        Use optional argument PATH to specify mountpoint of alternate volume
+    --configured [<i>PATH</i>]
+        Returns status 0 if the server is configured
+        Use optional argument PATH to specify mountpoint of alternate volume
+    --perfmode
+        Returns status 0 if the server performance mode is enabled
+    --setperfmode BOOL
+        Enables the server performance mode if BOOL is true
+        All other values will disable the server performance mode
+        Valid values of true (case-insensitive): TRUE, YES, enabled, on, 1
+        Returns status 0 if the mode is changed successfully
+    --prefix
+        Prints the server install path prefix
+    --productname
+        Prints the server product name
+    --shortversion
+        Prints the short version
+    --buildversion
+        Prints the build version
+    --minimumserverversion
+        Prints the minimum server version for this os
+    --plist
+        Prints a plist containing server information about the running system
+    --help|-h
+        Prints this usage message</pre>
+<p>The -q quiet mode is intended for use in shell script conditionals.</p>
+<p><b>Examples</b></p>
+<p> Is performance mode enabled?:<br>
+<span class="code">$ if serverinfo -q --perfmode; then echo Performance mode enabled; else echo disabled; fi</span></p>
+<p> Are we running on server hardware?:<br>
+<span class="code">$ serverinfo --hardware<br>
+$ 
+if serverinfo -q --hardware; then echo Running on server hardware; fi</span></p>
+<p class="quote"><i class="quote">&ldquo;The measure of your quality as a public person, as a citizen, is the gap between what you do and what you say&rdquo; ~   Ramsey Clark </i></p><p><b>Related:</b></p>
+<p><a href="system_profiler.html">system_profiler</a> - Report system configuration<br>
+<a href="uname.html">uname</a> - Print operating system name.<br>
+hostname -  Print or set system name.</p><!-- #BeginLibraryItem "/Library/foot_osx.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- OSX300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="1823340303"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="serverinfo.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

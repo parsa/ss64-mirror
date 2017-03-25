@@ -1,0 +1,52 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>rollback | Oracle | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_ora.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../ora.1.html">Oracle</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>ROLLBACK</h1> 
+<p>Undo work done (transactional).<br>
+  <br>
+  Syntax:</p>
+<pre>   ROLLBACK [WORK] [TO [SAVEPOINT]'<i>savepoint_text_identifier</i>'];
+
+   ROLLBACK [WORK] [FORCE '<i>force_text</i>'];</pre>
+<p>FORCE - will manually rollback an in-doubt <i>distributed</i> 
+  transaction<br>
+  <br>
+  <i class="quote">"One of the symptoms of an approaching nervous breakdown is the belief that 
+  one's work is terribly important" ~ Bertrand 
+  Russell </i><b><br>
+  <br>
+Related Commands:</b></p>
+<p><a href="commit.html">COMMIT</a> - Save Changes<br>
+<a href="lock.html">LOCK TABLE</a>
+<br>
+<a href="savepoint.html"> SAVEPOINT</a> - Save changes to a point<br>
+<a href="../orap/DBMS_FLASHBACK.html">DBMS_FLASHBACK</a> <br>
+Syntax - <a href="syntax-redo.html">Redo, Rollback and Undo</a><br>
+<br>
+<b>Related Views:</b></p>
+<pre> <a href="../orav/V$TRANSACTION.html">V$TRANSACTION</a>
+ <a href="../orav/V$TRANSACTION_ENQUEUE.html">V$TRANSACTION_ENQUEUE</a>
+ <a href="../orav/V$GLOBAL_TRANSACTION.html">V$GLOBAL_TRANSACTION</a>
+ <a href="../orav/V$ROLLSTAT.html">V$ROLLSTAT</a></pre><!-- #BeginLibraryItem "/Library/foot_ora.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- oracle-footer -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4275490898"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="rollback.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE HTML><html lang="en">
+<head><meta charset="UTF-8">
+<meta name="Description" content="Display a popup message.">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>MsgBox | Access | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_access.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../access.1.html">Access</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/access/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>MsgBox</h1>
+<p>  Display a popup message. </p>
+<pre>Syntax
+      MsgBox(<i>prompt</i> [, <i>buttons</i> ] [, <i>title</i> ]
+        [, <i>helpfile</i> ] [, <i>context</i> ] )
+
+Key
+   <i>prompt</i>  The message to display. up to ~1024 characters.
+           You can separate the lines using a carriage return character <a href="chr.html">Chr</a>(13),
+           a linefeed character <a href="chr.html">Chr</a>(10), or both (<a href="chr.html">Chr</a>(13) &amp; <a href="chr.html">Chr</a>(10)) between each line.
+
+   <i>buttons</i> The buttons and icons to display <a href="acmsgboxstyle.html">acMsgBoxStyle</a>.
+           If you omit <i>buttons</i>, the default is 0 (OK button).
+
+   <i>title</i>   String to display in the title bar.
+
+<i>   helpfile</i> Optional string expression that identifies the Help file.
+            If <i>helpfile</i> is provided, <i>context</i> must also be provided.
+
+   <i>context</i> Optional numeric expression that is the Help context number
+           assigned to the appropriate Help topic by the Help author.
+           If context is provided, <i>helpfile</i> must also be provided.</pre>
+<p>If you specify the <i>helpfile</i> and <i>context</i> arguments when you are using the MsgBox function, you must also include the vbMsgBoxHelpButton built-in constant in the buttons argument so that a Help button will be displayed. </p>
+<p>A system beep might also be produced, this is determined by the button style/icon (<a href="acmsgboxstyle.html">acMsgBoxStyle</a>) if no button icon is added then no system beep will be produced.</p>
+<p><b>Examples</b></p>
+<pre>MsgBox Prompt:=&quot;You must enter a valid date.&quot;, _<br>       Buttons:=vbMsgBoxHelpButton, _<br>       HelpFile:=strAppPath &amp; &quot;\sample.chm&quot;, _<br>       Context:=&quot;2002&quot;
+
+Msgbox &quot;You must enter a valid date.&quot;, vbOKCancel, &quot;SS64 Demo Msgbox&quot;</pre>
+<p class="quote"><i>&ldquo;People who know little are usually great talkers, while men who know much say little&rdquo; ~ Jean Jacques Rousseau</i></p>
+<p><b>Related:</b></p>
+<p><a href="inputbox.html">InputBox</a> - Prompt for user input.<br>
+<a href="http://support.microsoft.com/kb/242889">Q242889</a> - MsgBox Function Ignores At Sign (@) Formatting</p><!-- #BeginLibraryItem "/Library/foot_access.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- access -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4313908313"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="msgbox.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

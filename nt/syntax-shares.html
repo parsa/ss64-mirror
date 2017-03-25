@@ -1,0 +1,111 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Organising File Shares | Windows CMD | SS64.com</title>
+
+<style type="text/css">
+.style1 {font-weight: bold}
+</style></head>
+<body><!-- #BeginLibraryItem "/Library/head_ntsyntax.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../nt.1.html">CMD</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/nt/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>Organising File Shares</h1>
+<p>Some thoughts on how to arrange shared files. Here we discuss the <i>what</i> rather than the <i>how</i> - there is a <a href="syntax-groups.html">separate page</a> covering the technical aspects of folder sharing. </p>
+<h2>Awareness</h2>
+<blockquote>
+<p>A key consideration in organising shared files is making sure that all the people in a team are aware exactly which data of theirs is being shared with other teams. </p>
+<p>Particularly in larger teams, the people asking for data to be shared may not be aware that  the area includes sensitive data.</p>
+<p>Such problems can occur long after the sharing is initially setup, but it is not practical to do a review of access permissions every time a new data file is saved.</p>
+<p>Take an example of an HR Team and a Finance team, it might seem reasonable to share the HR folder with Finance staff so they can get figures on annual workforce costs, but if one of the many HR subfolders has information about redundancies that may eventually  affect the Finance team then they certainly don’t want that to be shared.</p>
+</blockquote>
+<h2>Listing what is available   </h2>
+<blockquote>
+<p>When a list of folders is shared, you have a choice of hiding all folders for which the user does not have permission. This was once a Novell Netware <a href="https://support.microsoft.com/en-gb/kb/303758">feature</a>, but all recent versions of Windows now have <a href="https://technet.microsoft.com/en-gb/library/dd772681(v=ws.10).aspx?f=255&MSPPError=-2147217396">Access-based Enumeration</a>  turned ON by default. This has the advantage of simplifying day-to-day working, but has the disadvantage that by hiding the folders of other teams, no one has any information on what might be available.</p>
+<p>This can cause some ridiculous situations - a new hire needs to collate information about <i>X,</i> a shared folder full of data about <i>X</i> already exists, but not knowing anything about that they  start generating all the same documents again from scratch. </p>
+<p>If the list of fileserver shares is hidden from Windows Explorer, then something equivalent should be made available elsewhere, perhaps on the company intranet. </p>
+</blockquote>
+<h2>Shared with everyone drives</h2>
+<blockquote>
+<p>One approach to sharing files is to have a file server area that is open and read/write to everyone. This is a common approach in small organisations with little need for security.</p>
+<p>With no clear ownership, file shares like this tend to become disorganised fairly quickly. Tidying this up typically involves some kind of  cleardown or reorg but  this is never a popular approach and is likely to result in data loss at some point.</p>
+</blockquote>
+<h2>Team only shares</h2>
+<blockquote>
+<p>This is very common in larger organisations, shared areas where the access is limited to only members of one team or another. This access control  means that when any need arises to share documents with people <i>not</i> in that team they have to use email or some other means of sharing.</p>
+</blockquote>
+<h2>Split Folder Sharing</h2>
+<blockquote>
+<p>One approach to address these issues is to setup TWO sets of shared folders, and corresponding mapped drives. For each Team there is one shared folder that’s only available within the team and a second that is shared with other teams.</p>
+<p><span class="code">S: Shared</span> – users will typically have access to multiple folders, here, including their own teams shared folder. <br>
+All folders are <b><a href="https://technet.microsoft.com/en-gb/library/dd772681(v=ws.10).aspx?f=255&MSPPError=-2147217396">visible</a></b>.</p>
+<p><span class="code">T: Team only</span> – each user will have access to one and only one folder in this share corresponding to their own Team. Other folders are <b>hidden</b> from view.</p>
+<p><img src="shared.png" width="186" height="235" alt="Shared S: and T: drives"></p>
+<p>With this arrangement, users can save the files they want to share with other teams into their shared folder.</p>
+<p>Because the Team Only and Shared areas are delivered to the end users via two separate drive mappings, any movement of files between them (whether Moved or Copied) will retain the desired permissions inherited from  the parent folder.</p>
+<p>You may be tempted to Map drive <span class="code">T:</span> directly to each users Team folder, allowing work to be saved in <span class="code">T:\file.doc</span> rather than <span class="code">T:\teamName\file.doc</span> but there are good reasons for keeping the name of the team folder visible:</p>
+<ul>
+<li> If they try to email a link to a <span class="code">T:</span> file or folder, to someone in a different team, they will quickly see that  the other team doesnt have access to that folder, so they will realise and use the <span class="code">S:</span> shared folder instead. <br>
+<br>
+In contrast,  they are quite likely to be completely baffled as to whya link to <span class="code">T:\file.doc</span>  doesn't appear for the other person, it's not intuitive.<br>
+<br>
+</li>
+<li> It acts as a reminder of their teams Folder Name.<br>
+<br>
+</li>
+<li>Login scripts are easy to setup, everyone gets exactly the same two drive mappings.<br>
+<br>
+</li>
+<li>In Windows explorer and many other places, they can switch between their Team and Shared folders, by just changing <span class="code">T:</span> to <span class="code">S:</span></li>
+</ul>
+<p>Some teams may store their work almost exclusively in the shared area, other teams may mostly work using their Team-only folder. It places   decisions about document sharing  with individual users and means that shared access is both visible and can be done on a per-file basis without having to involve the IT department at all.</p>
+<p>For ease of use, the team folder names should be kept short - think 16 characters or less, that leaves ~ 240 characters for all the filenames within the group folder.</p>
+</blockquote>
+<h2>Access Permissions on the shared folders</h2>
+<blockquote>
+<p>Granting <span class="code">read-only</span> access to <span class="code">everyone</span> across all shared folders makes it simple and clear that shared items are visible to everyone, but the ownership is still held by one team. </p>
+<p>Alternatively you may want to allow multiple teams to work collaboratively with <span class="code">read/write</span> access to the same shared folder. The same logic would apply - shared items are <span class="code">read/write</span> to <i>selected other teams</i>, but the ownership is still held by one team. </p>
+<p>It is likely to be worth setting up two <a href="syntax-groups.html">AD groups</a> for each team, one for the team members <span class="code">T:</span> drive and one that grants permissions to the <span class="code">S:</span> drive for other people/teams. That gives complete flexibility about who can access the Shared folder.</p>
+</blockquote>
+<h2>Large projects</h2>
+<blockquote>
+<p>One  flaw in this arrangement is that while it works well for people in two teams sharing data,  the structure may not work so well for large project folders shared by many teams or sharing between a mish mash of people dotted around the organisation. </p>
+<p>For those cases - create a  new  shared folder for the project, just like an actual team using the  <span class="code">T:</span> and <span class="code">S:</span> structure.</p>
+<p>If you setup every file share the same consistent way, it simplifies management,  some <span class="code">T:</span> drives might never be seen or used, but having them ensures you are covered for that case where a new hire is allocated to work on the mega project and nothing else.</p>
+</blockquote>
+<h2>Home Folders</h2>
+<blockquote>
+<p>In addition to the above, every user typically has a home folder.</p>
+<p>If a large proportion of users need to work with  files that are kept private, set the Home directory to <span class="code">H:</span> so it appears at the top of the list. Conversely, mapping the Home directory to <span class="code">U:</span> will put it at the bottom of the list.</p>
+<p>For software packages like Microsoft Office, consider where the default save folder should be set to. <br>
+In some organisations the home folder may get very little use and so not require a drive mapping at all.</p>
+</blockquote>
+<h2>Every organisation is different</h2>
+<blockquote>
+<p>The  arrangement described above may not work for every organisation, but hopefully it will give you ideas to improve and simplify the management of your shared files. It will not eliminate the need for custom share permissions but may help to reduce the number and complexity of changes that need to be managed.</p>
+<p> In secure environments there is a tendency to say – <i>&quot;we can’t  share document X with any other teams, therefore we can’t share any files</i>. The fallback option then becomes email, which is actually far more difficult to monitor and control.</p>
+<p>Even in the most complex environments, with many permissions to consider there is often an advantage to be found in providing a file storage area that everyone understands will never be accidentally shared with any other teams.</p>
+</blockquote>
+<p class="quote"><i>&ldquo;The sky is filled with stars, invisible by day&rdquo; ~ Henry Wadsworth Longfellow</i></p><p><b>See also</b></p>
+<p><a href="syntax-groups.html">Groups</a> - Full description of AD Local Domain groups, Global and Universal groups.<br>
+<a href="syntax-security_groups.html">Built-in Groups</a> - Built-In Users and Security Groups.<br>
+<a href="syntax-nodrives.html">NoDrives</a> - Hide mapped drives from Windows Explorer<br>
+<a href="../vb/syntax-mapdrive.html">MapDrive</a> - Map a Drive letter to a network file share, non-persistent (VBScript)<br>
+</p><!-- #BeginLibraryItem "/Library/foot_nt.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- windows300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="7649547908"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="syntax-shares.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

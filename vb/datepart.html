@@ -1,0 +1,81 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>DatePart  | VBScript | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_vb.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../vb.1.html">VBScript</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/vb/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>DatePart</h1> 
+<p>Return a  specified part of a given date.</p>
+<pre>Syntax 
+      DatePart (<i>interval</i>,<i>date </i>[<i>,</i> <i>FirstDayofWeek</i> [, <i>FirstWeekofYear</i>]])
+
+Key
+    <i>date</i>       The date to analyse
+
+<i>FirstDayofWeek</i> A constant defining the first day of the week:
+               vbUseSystem (0), vbSunday (1=default),vbMonday(2), 
+               vbTuesday(3), vbWednesday(4), vbThursday(5),
+               vbFriday(6), vbSaturday(7)
+
+<i>FirstWeekofYear</i> A constant defining the first week of the year:
+               vbUseSystem(0), vbFirstJan1(1),vbFirstFourDays(2),
+               vbFirstFullWeek(3) 
+
+<i>    interval</i>   The date/Time interval to express in the result:
+
+                 yyyy  Year
+                  q    Quarter
+                  m    Month
+                  y    Day of year
+                  d    Day
+                  w    Weekday
+                  h    Hour
+                  n    Mi<b>n</b>ute
+                  s    Second</pre>
+<p>Example</p>
+<pre>dtm1=&quot;18-Feb-10&quot;
+WScript<a href="echo.html">.Echo</a> dtm1
+intMonthsinDate=<b>DatePart</b>(&quot;m&quot;, dtm1)
+WScript<a href="echo.html">.Echo</a> intMonthsinDate</pre>
+<p>  To produce a correct ISO weeknumber requires a function:<br>
+</p>
+<p><span class="code">Function ISOWeekNum(dtmDate) <br>
+    ' Returns a WeekNumber from a date <br>
+    Dim NearThurs <br>
+    NearThurs = ((dtmDate+5) \ 7) * 7 - 2 <br>
+    ISOWeekNum = ((NearThurs - DateSerial(Year(NearThurs), 1, 1)) \ 7) + 1 <br>
+  End function<br>
+</span><br>
+  ' Example <br>
+  <span class="code">wscript.echo "ISOWeekNumber: " &amp; ISOWeekNum(cdate("2017-12-25")) </span></p>
+<p class="quote"><i>&ldquo;Christmas, children, is not a date. It is a state of mind&rdquo; ~ Mary Ellen Chase</i></p>
+<p><b>Related:</b></p>
+<p>  Date           - The current system date.<br>
+<a href="day.html">Day </a>-      Return the day component of a date.<br>
+<a href="dateadd.html">DateAdd</a> - Add a time interval to a Date.<br>
+<a href="datediff.html">DateDiff</a> - Return the time interval between two dates.<br>
+<a href="dateserial.html">DateSerial</a> - Return a Date from a numeric Year, Month and Day.<br>
+<a href="month.html">Month</a> -     Return the month component of a date.<br>
+<a href="year.html">Year</a> -      Return the year component of a date.<br>
+<a href="https://support.microsoft.com/kb/200299">Q200299</a> - BUG: Format or DatePart Functions return wrong Week number for last Monday in year.<br>
+<a href="../dates.html">Standard date and time notation</a> - YYYY-MM-DD<br>
+Equivalent  PowerShell cmdlet: <a href="../ps/get-date.html">Get-Date</a></p><!-- #BeginLibraryItem "/Library/foot_vb.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- VB300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="1683739502"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="datepart.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

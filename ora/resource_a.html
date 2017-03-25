@@ -1,0 +1,61 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Alter Resource Cost | Oracle | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_ora.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../ora.1.html">Oracle</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>ALTER RESOURCE COST</h1> 
+<p>Define the resource costs used by the CREATE PROFILE command<br>
+  <br>
+  Syntax:</p>
+<pre>   ALTER RESOURCE COST <i>option(s)</i>
+
+options are any combination of
+
+   CPU_PER_SESSION <i>int</i>
+   CONNECT_TIME <i>int</i>
+   LOGICAL_READS_PER_SESSION <i>int</i>
+   PRIVATE_SGA <i>int</i>
+</pre>
+<p><i>int</i> is the integer weight applied to each option<br>
+  <br>
+  The units being costed are <br>
+  CPU = 1/100 sec<br>
+  connect_time = 1/100 sec<br>
+SGA = bytes</p>
+<p>You must have the system privilege: ALTER RESOURCE COST <br>
+  <br>
+  <i> <span class="quote">&quot;There is no such thing as an ugly woman - there are only the ones 
+    who do not know how to make themselves attractive&quot; ~ Christian 
+    Dior</span><br>
+</i><br>
+  <b>Related Commands:<br>
+  <br>
+  </b>PROFILE - <a href="profile_c.html">CREATE PROFILE</a> <br>
+PROFILE - <a href="profile_a.html">ALTER PROFILE</a></p>
+<p><b>Related Views:</b></p>
+<p class="code">&nbsp;<a href="../orad/DBA_PROFILES.html">DBA_PROFILES</a><br> 
+&nbsp;<a href="../orad/DBA_SYS_PRIVS.html">DBA_SYS_PRIVS</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="../orad/USER_SYS_PRIVS.html">USER_SYS_PRIVS</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="../orad/ROLE_SYS_PRIVS.html">ROLE_SYS_PRIVS</a> <br>
+&nbsp;<a href="../orav/V$SESSION.html">V$SESSION</a><br> 
+&nbsp;<a href="../orav/V$SESSION_CONNECT_INFO.html">V$SESSION_CONNECT_INFO</a><br> 
+&nbsp;<a href="../orav/V$SESSTAT.html">V$SESSTAT</a><br> 
+&nbsp;<a href="../orav/V$SESS_IO.html">V$SESS_IO</a></p><!-- #BeginLibraryItem "/Library/foot_ora.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- oracle-footer -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4275490898"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="resource_a.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

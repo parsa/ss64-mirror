@@ -1,0 +1,72 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>srm OSX Man Page | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_osx.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../osx.1.html">macOS</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/osx/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>srm</h1> 
+<p>Securely remove files or directories.  srm  removes  each  specified file by overwriting, renaming, and truncating it before unlinking. This        prevents other people from undeleting or recovering any information about the file from  the  command        line.</p>
+<p>The srm command is not required with an SSD drive,  a standard erase makes it difficult to recover data from an SSD.</p>
+<pre>Syntax
+      srm [<i>OPTION</i>]... <i>FILE</i>...
+
+Options
+   -d, --directory
+              Ignored (for compatibility with rm(1))
+
+   -f, --force
+              Ignore nonexistent files, never prompt
+
+   -i, --interactive
+              Prompt before any removal
+
+   -r, -R, --recursive
+              Remove the contents of directories recursively
+
+   -s, --simple
+              Only overwrite with a single pass of random data
+
+   -m, --medium
+              Overwrite  the file with 7 US DoD compliant passes (0xF6, 0x00, 0xFF, random, 0x00, 0xFF, ran-dom) random)
+              dom)
+
+   -z, --zero
+              After overwriting, zero blocks used by file
+
+   -n, --nounlink
+              Overwrite file, but do not rename or unlink it
+
+   -v, --verbose
+              Explain what is being done
+
+   --help     Display this help and exit
+
+   --version
+              output version information and exit</pre>
+<p>srm,  like  every  program  that uses the getopt function to parse its arguments, lets you use the --option -option        option to indicate that all following arguments are non-options.  To remove a file called '-f' in the        current directory, you could type either &quot;srm -- -f&quot; or &quot;srm ./-f&quot;.</p>
+<p>srm can not remove write protected files owned by another user, regardless of the permissions on  the        directory containing the file.        The  -s  option  overrides  the -m option, if both are present.  If neither is specified, the 35-pass        Gutmann algorithm is used.</p>
+<p class="quote"><i>&ldquo;The psychic task which a person can and must set for himself is not to feel secure, but to be able to tolerate insecurity&rdquo; ~ Erich Fromm</i></p><p><b>Related:</b></p>
+<p><a href="https://developer.apple.com/legacy/library/documentation/Darwin/Reference/ManPages/man1/srm.1.html">srm man page</a> - Apple.com<br>
+<a href="https://support.apple.com/en-us/HT201949">HT201949</a> - About Disk Utility‘s erase free space feature<br>
+<a href="rm.html">rm</a> - Remove files<br>
+<a href="rmdir.html">rmdir</a> - Remove empty folder<br>
+</p><!-- #BeginLibraryItem "/Library/foot_osx.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- OSX300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="1823340303"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="srm.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

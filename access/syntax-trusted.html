@@ -1,0 +1,119 @@
+<!DOCTYPE HTML><html lang="en">
+<head><meta charset="UTF-8">
+<meta name="Description" content="Set a Trusted Location to store Microsoft Access databases.">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Microsoft Access - Trusted Locations | Access | SS64.com</title>
+<style>
+.bodytext
+{tab-stops:18.0pt;
+font-family:Helvetica,Arial;}
+.headline
+   {tab-stops:18.0pt;
+   font-size:24px;
+   font-family:Helvetica,Arial;
+   font-weight:bold;}
+.intro
+   {tab-stops:18px;
+
+   font-family:Helvetica,Arial;
+   font-weight:bold;}
+.byline
+   {tab-stops:18.0pt;
+   font-size:12px;
+   font-family:Helvetica,Arial;
+   font-style:italic;}
+.subhead1
+   {tab-stops:18px;
+   font-size:14.0pt;
+   font-family:Helvetica,Arial;
+   font-weight:bold;}
+.subhead2
+   {tab-stops:18px;
+   font-size:14px;
+   font-family:Helvetica,Arial;
+   font-weight:bold;
+   font-style:italic;}
+.tablecaption
+   {tab-stops:18.0pt;
+   font-family:Helvetica,Arial;
+   font-style:italic;}
+.code
+   {tab-stops:9.0pt;
+
+   font-family:"Courier New";
+   font-weight:normal;}
+.bio
+   {tab-stops:18.0pt;
+   font-size:9.0pt;
+   font-family:Georgia;
+   font-style:italic;}
+.tabletext
+   {tab-stops:18.0pt;
+
+   font-family:Helvetica,Arial;}
+.tablecolumnhead
+   {tab-stops:18.0pt;
+   font-family:Arial;
+   font-weight:bold;}
+.Section1
+   {page:Section1;}
+.intro1 {tab-stops:18px;
+
+   font-family:Helvetica,Arial;
+   font-weight:bold;}
+.intro2 {tab-stops:18px;
+
+   font-family:Helvetica,Arial;
+   font-weight:bold;}
+</style></head>
+<body><!-- #BeginLibraryItem "/Library/head_access_syntax.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../access.1.html">Access</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/access/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>Microsoft Access &ndash; Trusted Locations</h1>
+<p>Add folders to trusted locations from Office Button | Access Options | Trust Center | Trust Center Settings | Trusted Locations.</p>
+<p>The entries are stored in the registry under the following keys (where <i><b>N</b></i> is the number of the Trusted Location, starting from 0). </p>
+<p>The registry settings can be set on a per-user basis using Group Policy or a registry/reg batch file. You can also set registry keys using VBA within Access, but that will only work if the database is already in a trusted location.</p>
+<pre>Access 2007: 
+[HKEY_CURRENT_USER\Software\Microsoft\Office\12.0\Access\Security\Trusted Locations]
+[HKEY_CURRENT_USER\Software\Microsoft\Office\12.0\Access\Security\Trusted Locations\Location<i><b>N</b></i>] </pre>
+<pre>Access 2010: 
+[HKEY_CURRENT_USER\Software\Microsoft\Office\14.0\Access\Security\Trusted Locations]
+[HKEY_CURRENT_USER\Software\Microsoft\Office\14.0\Access\Security\Trusted Locations\Location<i><b>N</b></i>] </pre>
+<pre>Access 2013: 
+[HKEY_CURRENT_USER\Software\Microsoft\Office\15.0\Access\Security\Trusted Locations]
+[HKEY_CURRENT_USER\Software\Microsoft\Office\15.0\Access\Security\Trusted Locations\Location<i><b>N</b></i>] </pre>
+<p>For each trusted folder an entry with following registry keys can be populated:  <br>
+<span class="code">Path</span>: Path of trusted location, ending with \  (reg_sz)<br>
+<span class="code">AllowSubfolders</span>: Determines whether subfolders are trusted as well (0=No; 1=Yes) reg_dword. <br>
+<span class="code">Description</span>: Optional text description (reg_sz). <br>
+<span class="code">Date</span>: Date of last update.</p>
+<p>You should not designate a public folder on a network share as a trusted location, apply appropriate NTFS permissions.</p>
+<p>Example (2010)</p>
+<pre>Windows Registry Editor Version 5.00</pre>
+<pre>[HKEY_CURRENT_USER\Software\Microsoft\Office\14.0\Access\Security\Trusted Locations]
+&quot;AllowNetworkLocations&quot;=dword:00000001</pre>
+<pre>[HKEY_CURRENT_USER\Software\Microsoft\Office\14.0\Access\Security\Trusted Locations\Location0]
+&quot;Path&quot;=&quot;\\\\<i>server64</i>\\<i>foldershare</i>\\&quot; 
+&quot;AllowSubfolders&quot;=dword:00000001</pre>
+<p><b>Related:</b></p>
+<p><a href="../nt/reg.html">REG</a> - Add a registry key<br>
+<a href="../nt/regedit.html">REGEDIT</a> - Add a registry file<br>
+<a href="http://msdn.microsoft.com/en-us/library/ee691831%28office.14%29.aspx">Compatibility Between the 32-bit and 64-bit Versions of Office 2010</a> - MSDN</p><!-- #BeginLibraryItem "/Library/foot_access.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- access -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4313908313"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="syntax-trusted.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

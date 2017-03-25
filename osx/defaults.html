@@ -1,0 +1,194 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>defaults OSX Man Page | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_osx.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../osx.1.html">macOS</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/osx/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>defaults</h1> 
+<p>Set preferences, the OS X  user defaults system works with both the OS and with individual applications. </p>
+<pre>Syntax
+      defaults [<i>host</i>] <i>Actions Options</i>
+
+      defaults help
+
+Actions:
+   read [<i>domain</i> [<i>key</i>]]      Print defaults to standard output
+
+   read-type <i>domain key</i>     Print the plist type
+
+   write <i>domain</i> <i>key</i> '<i>value</i>' Save a default <i>value</i>
+
+   write <i>domain</i> 'plist'     Save <i>plist </i>(a property list) as a default:
+
+   rename <i>domain old_key new_key  </i>Rename a domain key.
+
+   delete [<i>domain</i> [<i>key</i>]]    Remove key.
+                            (for most applications this will return the behaviour
+                             to the original default values) 
+ 
+   domains                  Print all the domains in the user's defaults system.
+
+   defaults [<i>host</i>] find <i>word</i> 
+                            Search for <i>word</i> in the user's defaults, and
+                            print a list of matches.
+
+   <i>Host</i>  Optionally you can restrict changes to a specific host
+         by default changes will apply to any host.
+         [-host <i>hostname</i>]  Restrict to a remote machine.
+         [-currentHost]    Restrict to the host the user is currently logged into.
+
+Options: See below</pre>
+<p> If you change a default  that belongs to a running application, the application won't see the change and might even overwrite the default.</p>
+<p>In general you should close an application before changing its defaults, in the case of  Dock and Finder defaults - restart them after applying the default with the <span class="code">killall</span> command : <br>
+Restart the Dock: <span class="code">killall Dock</span> 
+<br>
+Restart the Finder: <span class="code">killall Finder</span></p>
+<p>Data Types</p>
+<blockquote>
+<p><span class="code">defaults write ... -bool true</span><br>
+is not the same as 
+<span class="code">defaults write ... true</span><br>
+The first will write a boolean value, while the second will write a string, <br>
+you can check the Data Type of an existing default with <span class="code">defaults read-type </span></p>
+</blockquote>
+<p>Preferences are stored in a set of files under<span class="code"> ~/Library/Preferences</span>, however using the <span class="code">defaults</span> command is much safer than manually editing a .plist file. Beginning in Mavericks, the <span class="code">cfprefsd</span> daemon  manages and caches updates to preference files. If you  modify the file directly, the changes will not  propagate through the cache managed by the daemon.</p>
+<p><b>Examples</b>:</p>
+<p><span class="body">Disable the OS X Crash reporter (quit dialog after an application crash)<br>
+$</span> <span class="code">defaults write com.apple.CrashReporter DialogType none</span></p>
+<p><span class="body"> To re-enable the crash reporter (default)</span><br>
+<span class="body">$</span> <span class="code">defaults write com.apple.CrashReporter DialogType prompt</span><br>
+</p>
+<p>A long list of <a href="syntax-defaults.html">preferences that can be set in OS X and OS X applications</a> can be found over in the syntax section.<br>
+</p>
+<pre>
+<b>Options:</b>
+     Specifying domains:
+
+     <i>domain</i>    A full domain name of the form com.companyname.appname. 
+
+                     defaults read com.apple.TextEdit
+
+     -app <i>application</i>
+               The name of an application:
+
+                     defaults read -app TextEdit
+
+     <i>filepath</i>  Domains can also be specified as a path to an arbitrary plist
+               file, omitting the '.plist' extension. For example:
+
+                     defaults read ~/Library/Preferences/com.apple.TextEdit
+
+               normally gives the same result as the two previous examples.
+
+               In the following example:
+
+                     defaults write ~/Desktop/TestFile foo bar
+
+               will write the key 'foo' with the value 'bar' into the plist
+               file 'TestFile.plist' that is on the user's desktop. If the
+               file does not exist, it will be created. If it does exist, the
+               key-value pair will be added, overwriting the value of 'foo' if
+               it already existed.
+
+               WARNING: The defaults command will be changed in an upcoming
+               major release to only operate on preferences domains. General
+               plist manipulation utilities will be folded into a different
+               command-line program.
+
+     -g | -globalDomain | NSGlobalDomain
+               Specify the global domain.
+               '-g' and '-globalDomain' can be used as synonyms for NSGlobalDomain.
+
+     Specifying value types for preference keys:
+
+                 If no type flag is provided, defaults will assume the value
+                 is a string. For best results, use one of the type flags,
+                 listed below.
+
+     -string     Allows the user to specify a string as the value for the
+                 given preference key.
+
+     -data       Allows the user to specify a bunch of raw data bytes as the
+                 value for the given preference key.  The data must be provided
+                 in hexadecimal.
+
+     -int[eger]  Allows the user to specify an integer as the value for the
+                 given preference key.
+
+     -float      Allows the user to specify a floating point number as the
+                 value for the given preference key.
+
+     -bool[ean]  Allows the user to specify a boolean as the value for the
+                 given preference key.  Value must be TRUE, FALSE, YES, or NO.
+
+     -date       Allows the user to specify a date as the value for the given
+                 preference key.
+
+     -array      Allows the user to specify an array as the value for the
+                 given preference key:
+
+                       defaults write somedomain preferenceKey -array element1 element2 element3
+
+                 The specified array overwrites the value of the key if the
+                 key was present at the time of the write. If the key was not
+                 present, it is created with the new value.
+
+     -array-add  Allows the user to add new elements to the end of an array
+                 for a key which has an array as its value. Usage is the same
+                 as -array above. If the key was not present, it is created
+                 with the specified array as its value.
+
+     -dict       Allows the user to add a dictionary to the defaults database
+                 for a domain.  Keys and values are specified in order:
+
+                       defaults write somedomain preferenceKey -dict key1 value1 key2 value2
+
+                 The specified dictionary overwrites the value of the key if
+                 the key was present at the time of the write. If the key was
+                 not present, it is created with the new value.
+
+     -dict-add   Allows the user to add new key/value pairs to a dictionary
+                 for a key which has a dictionary as its value. Usage is the
+                 same as -dict above. If the key was not present, it is cre-ated created
+                 ated with the specified dictionary as its value.</pre>
+<p>Defaults allows users to read, write, and delete Mac OS X user defaults from a command-line shell. Mac OS X applications and other programs use the defaults system to record user preferences and other information that
+must be maintained when the applications aren't running (such as default font for new documents, or the position of an Info panel). Many settings can be changed through an application&rsquo;s Preferences, but many settings are not shown in the GUI but can still bechanged using <span class="code">defaults</span>. </p>
+<p>In most cases the current value can be read with <span class="code">defaults read&hellip;</span> it is worth checking the current setting before writing a new default (with <span class="code">defaults write&hellip;</span>) just in case you want to revert to the old settings. If <span class="code">defaults read&hellip;</span> returns 'does not exist' that means there is no setting currently stored, you can remove a setting with <span class="code">defaults delete&hellip;</span></p>
+<p>User defaults belong to domains, which typically correspond to individual applications. Each domain has a dictionary of keys and values represent-ing representing
+ ing its defaults; for example, "Default Font" = "Helvetica". Keys are always strings, but values can be complex data structures comprising
+ arrays, dictionaries, strings, and binary data. These data structures are stored as XML Property Lists. </p>
+<p>Though all applications, system services, and other programs have their own domains, they also share a domain named NSGlobalDomain.  If a default
+ isn't specified in the application's domain, but is specified in NSGlobalDomain, then the application uses the value in that domain.</p>
+<pre>A property list (or plist) can contain multiple values                  
+
+e.g. to write a single value:
+  defaults write com.ss64.myapp "Default Color" '(255, 0, 0)'
+
+to write two values (plist)
+  defaults write com.ss64.myapp '{ "Default Color" = (255, 0, 0);
+                                   "Default Font" = Helvetica; }';</pre>
+<p> Defaults can be structured in very complex ways, making it difficult for the user to decipher or modify them.</p>
+<p class="quote"><i>&ldquo;I am a leader by default, only because nature does not allow a vacuum&rdquo; ~ Desmond Tutu</i></p>
+<p><b>Related:</b></p>
+<p><a href="https://developer.apple.com/legacy/library/documentation/Darwin/Reference/ManPages/man1/defaults.1.html">defaults man page</a> - Apple.com<br>
+<a href="https://github.com/herrbischoff/awesome-osx-command-line">Awesome OS X Command Line</a> - A large collection of OSX defaults.<br>  
+<a href="defaults-show-hidden_scpt.txt">Show hidden files.scpt</a> - Toggle the display of hidden files in Finder (will restart finder)</p><!-- #BeginLibraryItem "/Library/foot_osx.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- OSX300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="1823340303"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="defaults.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

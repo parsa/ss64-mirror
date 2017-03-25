@@ -1,0 +1,54 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>VMConnect | Windows CMD | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_nt.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../nt.1.html">CMD</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/nt/"></form></div></li>
+</ul></div><!-- #EndLibraryItem -->
+<h1>VMConnect.exe</h1> 
+<p>Connect to a Hyper-V Virtual Machine.</p>
+<pre>Syntax
+      vmconnect.exe <i>ServerName</i> <i>VMName</i> [-C <i>count</i>]
+
+      vmconnect.exe <i>ServerName</i> [<i>VMName</i>] -G <i>GUID</i> [-C <i>count</i>]
+Key
+   -C <i>count</i> 
+         Specify an connection iD VMConnect will then stack the VM console windows
+         with a small offset so that they are all visible.
+         Larger numbers will space the windows further apart.
+
+   -G    Connect using a GUID</pre>
+<p> A connection may be established both locally on the Hyper-V server or remotely over a network or the internet from a client on which the tool installed. Add Features &gt; Remote Administration Tools &gt; Role Administration Tools &gt; Hyper-V Tools. </p>
+<p><b>Examples</b></p>
+<p>Connect to the Virtual Machine '<span class="code">VM01</span>' on server64:</p>
+<p><span class="code">C:\&gt; VMConnect.exe Server64 VM01</span></p>
+<p>Open 3 VM consoles:</p>
+<p><span class="code">C:\&gt; VMConnect.exe Server64 VM01 -C 1 <br>
+C:\&gt; VMConnect.exe Server64 VM02 -C 2 <br>
+C:\&gt; VMConnect.exe localhost &quot;Test Virtual Machine&quot; -C 3</span></p>
+<p class="quote"><i>&ldquo;A hidden connection is stronger than an obvious one&rdquo; ~ Heraclitus of Ephesus  (Greek philosopher)</i></p>
+<p><b>Related:</b><br>
+<br>
+Hyper-V MMC snap-in (GUI)<br>
+<a href="mstsc.html">MSTSC</a> - Terminal Server Connection (Remote Desktop Protocol)<br>
+<a href="https://blogs.msdn.microsoft.com/virtual_pc_guy/2008/01/17/allowing-non-administrators-to-control-hyper-v/">Allowing non-Administrators</a> to control Hyper-V</p>
+<!-- #BeginLibraryItem "/Library/foot_nt.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- windows300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="7649547908"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="vmconnect.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

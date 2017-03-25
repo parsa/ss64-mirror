@@ -1,0 +1,99 @@
+# ss64.par - EXPORT parameter file -
+# EXPORT Tables and other Schema Objects
+
+# Execute this EXPORT file with the command:
+#
+#    EXP system/manager@Live parfile=E:\ss64.par
+
+# Type of export FULL or Partial?
+# Full export
+Full=Y
+
+  ## or Partial Export
+  Full=N
+  ## and specify one of...
+  # Owner=(scott,demo,my_schema)
+  # Tablespaces=(TS1,TS2,TS3)
+  Tables=(sales,orders)
+
+  ## For a partitioned table:
+  # Tables=(T1:P1,T1:P2)
+
+### What to include ###
+Rows=Y
+Grants=Y
+Indexes=Y
+Constraints=Y
+# Rows=N will still export table definitions
+# Indexes=N will NOT export index definitions
+# Default is Y for all
+
+### Performance options ###
+# The default (compress=Y)  is not file compression,
+# it reorganises each table into one (possibly very large) extent per table
+Compress=N
+
+# Direct Path is faster
+# When moving data between versions or platforms use the default 'N'
+Direct=Y
+
+# The default array fetch Buffer is 4096
+# Use a large buffer when exporting large RAW/BLOB columns
+Buffer=1500000
+
+# Analyze option: (estimate, compute, none)
+# The default is 'none'
+Statistics=NONE
+# To export existing stats use dbms_stats
+
+# The file to hold the export
+# check disk space on this drive!
+File=e:\expLive.dmp
+Log=e:\expLive.log
+
+##### Other Export Options (commented out) ################
+# CONSISTENT   Provide cross-table read-consistency for the entire export: default is N
+# FEEDBACK=x         Display progress every x rows (0)
+# FILESIZE           Maximum size of each dump file (2000M, 1G)
+# FILE_FORMAT        Format of export file names
+# FLASHBACK_time     Database time to be used for flashback export: no default
+# FLASHBACK_SCN      System change number (SCN) to be used for flashback export,
+#                    used to set session snapshot back to. No default 
+# FLASHBACK_TIME     Time used to get the SCN closest to the specified time
+# HELP               Display descriptions on export parameters, default is N
+# impparfile         File to create as paramfile for IMP for transportable 
+# INCTYPE=           Incremental export option: (incremental, cumulative or complete)
+#                    -- default is none
+# OBJECT_CONSISTENT    Provides consistency for registered objects during execution of procedural callback
+#                (transaction set to read only during object export ): default is N
+#
+# point_in_time_recover    Point-in-time recover option: default is N
+# QUERY                Select clause used to export a subset of a table
+# RECORD               Option to record incremental/cumulative export: default is Y
+# RECORDLENGTH         Record length of file: optional, default is system dependent
+# RESUMABLE            Suspend when a space related error is encountered(N)
+# enable resumable session : default is N
+# RESUMABLE_NAME       Resumable string: SQL statements to be resumable
+# RESUMABLE_TIMEOUT    Wait time for RESUMABLE 
+# SILENT               Display banner information, default is N
+# TTS_FULL_CHECK       Perform full or partial dependency check for TTS
+# TRANSPORT_TABLESPACE Export transportable tablespace metadata (N)
+# TEMPLATE             Template name which invokes iAS mode export
+# TRACE                 Enable sql_trace and timed_stat, default is N
+# TRIGGERS     export triggers (Y)
+# tts_full_check       TTS perform strict test for objects in recovery set: default is N
+# USERID               user/password to connect to oracle: no default
+
+
+# Note Generally you will run exports under SYSTEM or a specific DBA account.
+# To run an export as SYSDBA: 
+
+# Windows -
+#   exp 'sys/change_on_install@sid as sysdba' parfile=ss64.par
+
+# Unix - escape quote \'
+#   exp \'sys/change_on_install@sid as sysdba\' parfile=ss64.par
+
+# VMS - double_quote - single_quote
+#   exp "'sys/change_on_install@sid as sysdba'" parfile=ss64.par
+

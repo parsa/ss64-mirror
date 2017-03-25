@@ -1,0 +1,45 @@
+<!DOCTYPE HTML><html lang="en">
+<head><meta charset="UTF-8">
+<meta name="Description" content="The Access 2010 toolbar ribbon can be minimised or hidden completely using VBA. ">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Toolbar Ribbon | Access | SS64.com</title></head>
+<body><!-- #BeginLibraryItem "/Library/head_access_syntax.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../access.1.html">Access</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/access/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>Access Ribbon</h1>
+<p>The Access 2010 toolbar ribbon can be minimised or hidden completely using VBA. </p>
+<p>The height of the ribbon will vary according to the <a href="../nt/syntax-dpi.html">DPI</a> of the display, when minimised the ribbon height will be around 50 - 75, when maximised it will be around 150 - 200.</p>
+<p>The <span class="code">MinimizeRibbon</span> command will (despite the name) toggle the ribbon state, so if the ribbon is already minimised it will maximise it. To ensure it is always minimised, run the command only if the height is greater than 100 (Maximized)</p>
+<pre>If commandbars(&quot;ribbon&quot;).height &gt; 100 then
+   CommandBars.ExecuteMso &quot;MinimizeRibbon&quot;
+End if</pre>
+<p>Similarly to Maximize the ribbon:</p>
+<pre>If commandbars(&quot;ribbon&quot;).height &lt;= 100 then
+   CommandBars.ExecuteMso &quot;MinimizeRibbon&quot;
+End if</pre>
+<p>To completely hide the ribbon:<br>
+<span class="code">DoCmd.ShowToolbar &quot;Ribbon&quot;, acToolbarNo </span><br>
+</p>
+<p> To unhide the ribbon:<br>
+<span class="code">DoCmd.ShowToolbar &quot;Ribbon&quot;, acToolbarYes</span></p>
+<p>If you change the ribbon settings be aware this can affect other Microsoft Access databases.<br>
+If you  minimise the ribbon when a database is opened it is a good idea to restore the default (maximised ribbon) when the database is closed. It does not affect other Office applications, Word etc.</p>
+<p class="quote"><i>&quot;Round her neck she wears a yeller ribbon, She wears it in winter and the summer so they say, If you ask her &quot;Why the decoration?&quot; She'll say &quot;It's fur my lover who is fur, fur away ~ George A. Norton</i></p><!-- #BeginLibraryItem "/Library/foot_access.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- access -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4313908313"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="syntax-ribbon.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

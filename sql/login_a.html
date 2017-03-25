@@ -1,0 +1,80 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>ALTER LOGIN | SQL Server | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_sql.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../sql.1.html">SQL</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/sql/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>ALTER LOGIN </h1>
+<p>Change properties of a SQL Server login account.</p>
+<pre>Syntax
+      ALTER LOGIN <i>login</i> ENABLE
+
+      ALTER LOGIN <i>login</i> DISABLE
+
+      ALTER LOGIN <i>login</i> WITH <i>option</i> [ ,... ] 
+
+  options:            
+    PASSWORD = '<i>password</i>' 
+    [ 
+      OLD_PASSWORD = '<i>oldpassword</i>' 
+      | <i>password_option</i> [<i>password_option</i>] 
+    ]
+    DEFAULT_DATABASE = <i>database</i>
+    DEFAULT_LANGUAGE = <i>language</i>
+    NAME = <i>login</i>
+    CHECK_POLICY = {<u>ON</u> | OFF}
+    CHECK_EXPIRATION = {ON | <u>OFF</u>}
+    CREDENTIAL = <i>credential</i>
+    NO CREDENTIAL
+  
+  <i>password_option</i>:
+    MUST_CHANGE | UNLOCK
+
+Key:
+  login            SQL Server login.
+  password         A SQL Server login password for the login.
+  oldpassword      Current SQL Server login password for the login.
+  HASHED           The SQL Server login is already hashed. (so don't hash again)
+  credential       Credential to be mapped to the new SQL Server login.
+  NO CREDENTIAL    Removes an existing mapping of the login to a server credential.
+  DEFAULT_DATABASE The default database to be assigned to the login.(default = master)
+  DEFAULT_LANGUAGE The default language to be assigned to the login.
+  NAME=<i>login     </i>  Rename the login
+  CHECK_EXPIRATION Enforce password expiration policy
+  CHECK_POLICY     Enforce Windows password policy
+  MUST_CHANGE      Prompt the user for a new SQL Server password
+  UNLOCK           Unlock a SQL Server login that is locked out.</pre> 
+<p>Passwords are case-sensitive.</p>
+<p>Manually reset the bad password count by briefly setting CHECK_POLICY = OFF, followed by CHECK_POLICY = ON.</p>
+<p>Prehashing of passwords is supported only when you are creating SQL Server logins.</p>
+<p>If MUST_CHANGE is specified, CHECK_EXPIRATION and CHECK_POLICY must be set to ON.</p>
+<p>Example</p>
+<pre>ALTER LOGIN Simon64 ENABLE;
+
+ALTER LOGIN Simon64 WITH PASSWORD = '1stupidlylongpassword';</pre>
+<p class="quote"><i>&quot;I change myself, I change the world&quot; ~ Gloria Anzaldua</i></p>
+<p><b>Related:</b></p>
+<p>  <a href="login_c.html">CREATE LOGIN</a><a href="login_d.html"><br>DROP LOGIN</a><br>
+  <a href="credential_c.html">CREATE CREDENTIAL</a>  <br>
+EVENTDATA( )<br>
+  <a href="../passwords/index.html">Password generator </a><br>
+Equivalent Oracle command: <a href="../ora/user_a.html">ALTER USER</a></p><!-- #BeginLibraryItem "/Library/foot_sql.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ss64-sql -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="6953563613"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="login_a.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

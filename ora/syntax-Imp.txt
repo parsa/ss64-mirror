@@ -1,0 +1,41 @@
+# IMPsid.par - IMPORT parameter file -
+
+# Execute this par file with the command:
+
+# imp parfile=G:\sid\IMPsid.par
+
+
+##  Always Import data using the
+##  Import utility of the Target database. 
+
+
+# User account to run the import:
+USERID="sys/manager@mydatabase.ss64.com as sysdba"
+
+# The file to be imported
+file=G:\cfxB\cfxLive.dmp
+log=G:\cfxB\cfxLive.log
+
+# What to include
+ROWS=Y
+INDEXES=Y
+grants=N
+
+# ignore errors - if object already exists import the data anyway
+Ignore=Y
+
+# commit during import will avoid excessive rollback
+Commit=y
+
+# How the import will run:
+# Import must be either FULL import, TABLES import or
+# a USER/fromuser/touser import.
+FULL=y
+# TABLES=T_ACCOUNTS, T_ACCOUNT_BALANCES, 
+# USER=scott
+# FROMUSER=scott
+# TOUSER=ali
+
+
+# Max size of this import parameter file is 8192 bytes (Oracle 7.3.4 limit)
+

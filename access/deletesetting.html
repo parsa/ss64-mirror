@@ -1,0 +1,50 @@
+<!DOCTYPE HTML><html lang="en">
+<head><meta charset="UTF-8">
+<meta name="Description" content="Delete a value from the users registry (VBA).">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>DeleteSetting | Access | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_access.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../access.1.html">Access</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/access/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>DeleteSetting</h1>
+<p> Delete a value from the users registry (VBA).</p>
+<pre>Syntax
+     DeleteSetting appname:=&quot;<i>AppName</i>&quot;, Section:=&quot;<i>Section</i>&quot; [, Key:=&quot;<i>Key</i>&quot;]
+
+     DeleteSetting &quot;<i>AppName</i>&quot;, &quot;<i>Section</i>&quot; [, &quot;<i>Key</i>&quot;]
+      
+Key
+   AppName  The name of the application or project.
+<br>   Section  The name of the section in which the key is saved.
+<br>   Key      The name of the key setting to be deleted.<br></pre>
+<p>All the registry entries will appear under <span class="code">HKEY_CURRENT_USER\Software\VB and VBA Program Settings\</span></p>
+<p>If only <i>AppName</i> and <i>Section</i> are provided, then the entire section will be deleted (along with all its keys.) <br>
+If the registry key does not exist an error will be raised.
+</p>
+<p><b>Example</b></p>
+<p>Delete the registry key named &quot;LastOrderViewed&quot;:</p>
+<p class="code">On Error resume next<br>
+DeleteSetting &quot;SS64&quot;, &quot;DemoDB&quot;, &quot;LastOrderViewed&quot;</p>
+<p class="quote"><i>&ldquo;When making a fire people like to join you, when cleaning the ashes you are often alone&rdquo; ~ African Proverb</i></p>
+<p><b>Related:</b></p>
+<p><a href="getsetting.html">GetSetting</a> - Retrieve a value from the users registry<br>
+<a href="getallsettings.html">GetAllSettings</a> - List the keys and values saved in the registry<br>
+<a href="savesetting.html">SaveSetting</a> - Store a value in the users registry</p><!-- #BeginLibraryItem "/Library/foot_access.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- access -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4313908313"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="deletesetting.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

@@ -1,0 +1,139 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Alter Table Properties | Oracle | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_ora.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../ora.1.html">Oracle</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1><a href="table_a.html">ALTER TABLE</a> properties</h1>
+<p>Change  the name, physical and logical storage parameters of an existing table. Enable or disable Constraints, Triggers and Primary Keys. <br>
+  <br>
+Syntax:</p>
+<pre>   <b>ALTER</b> <b>TABLE</b> [<i>schema</i>.]<i>table</i>
+      RENAME TO <i>new_table_name</i>;
+
+   <b>ALTER</b> <b>TABLE</b> [<i>schema</i>.]<i>table</i>
+      <i>table_properties</i>,…
+         [a<i>lter_iot_clause</i>]
+            [PARALLEL <a href="clause_parallel.html">parallel_clause</a>]
+               [{ENABLE|DISABLE} ROW MOVEMENT]
+                  [ENABLE <a href="clause_enable.html">enable_clause</a> | DISABLE <a href="clause_disable.html">disable_clause</a>]
+                      [{ENABLE|DISABLE} TABLE LOCK]
+                         [{ENABLE|DISABLE} ALL TRIGGERS];
+
+<i>table_properties</i>:
+
+   [PCTFREE <i>int</i>][PCTUSED <i>int</i>][INITTRANS <i>int</i>]
+      [MAXTRANS int][STORAGE <a href="clause_storage.html">storage_clause</a>]
+
+   ALLOCATE EXTENT [( [size <i>int</i> K | M ]
+      [DATAFILE '<i>filename</i>' ]
+        [INSTANCE <i>int</i>] )]
+
+   CACHE | NOCACHE
+
+   COMPRESS | NOCOMPRESS
+
+   DEALLOCATE UNUSED [KEEP <i>int</i> K | M ]
+
+   MOVE [ONLINE] <i>storage_options</i> INDEX <i>index_organized_tbl_clause</i>
+      [<a href="clause_lob.html">LOB_storage_clause</a>][<a href="clause_varray.html">varray_clause</a>]
+
+   LOGGING|NOLOGGING
+
+   ADD SUPPLEMENTAL LOG GROUP <i>log_group</i> (<i>column</i> [,&#0133;]) [ALWAYS]
+
+   DROP SUPPLEMENTAL LOG GROUP <i>log_group</i>
+
+   MODIFY NESTED TABLE <i>collection_item</i> RETURN AS {LOCATOR|VALUE}
+
+   MODIFY LOB [<a href="clause_lob.html">LOB_storage_clause</a>]
+
+   MONITORING | NOMONITORING
+
+  {MINIMISE | NOMINIMISE} RECORDS PER BLOCK
+
+   UPGRADE [[NOT] INCLUDING DATA ] <i>column_properties</i>
+
+   MODIFY VARRAY [<a href="clause_varray.html">varray_clause</a>]
+
+<i>storage_options</i>:
+   PCTFREE <i>int</i>
+   PCTUSED <i>int</i>
+   INITTRANS <i>int</i>
+   MAXTRANS <i>int</i>
+   STORAGE <a href="clause_storage.html">storage_clause</a>
+   TABLESPACE <i>tablespace</i>
+   LOGGING|NOLOGGING
+<i>
+alter_iot_clause</i>:
+   PCTTHRESHOLD <i>int</i>           [ [INCLUDING <i>column_name</i>] OVERFLOW [<i>storage_options</i>] ]
+   COMPRESS <i>int</i> | NOCOMPRESS  [ [INCLUDING <i>column_name</i>] OVERFLOW [<i>storage_options</i>] ]
+   COALESCE                   [ [INCLUDING <i>column_name</i>] OVERFLOW [<i>storage_options</i>] ]
+   ADD OVERFLOW [<i>storage_options</i>]
+      [(PARTITION <i>storage_options</i> [,PARTITION <i>storage_options</i>…])]
+          [ [INCLUDING <i>column_name</i>] OVERFLOW [<i>storage_options</i>] ]
+   MAPPING TABLE  [ [INCLUDING <i>column_name</i>] OVERFLOW [<i>storage_options</i>] ]
+   NO MAPPING     [ [INCLUDING <i>column_name</i>] OVERFLOW [<i>storage_options</i>] ]
+   MAPPING TABLE UPDATE BLOCK REFERENCES  [ [INCLUDING <i>column_name</i>] OVERFLOW [<i>storage_options</i>] ]
+   MAPPING TABLE ALLOCATE EXTENT 
+    [( [size <i>int</i> K | M ]
+         [DATAFILE '<i>filename</i>' ]
+           [INSTANCE <i>int</i>] )]  [ [INCLUDING <i>column_name</i>] OVERFLOW [<i>storage_options</i>] ]
+   MAPPING TABLE <a href="clause_deallocate.html"><i>DEALLOCATE_extent_clause</i></a>  [ [INCLUDING <i>column_name</i>] OVERFLOW [<i>storage_options</i>] ]
+</pre>
+<p><b> Examples</b></p>
+<pre>Add a column to a table
+   ALTER TABLE STAFF_OPTIONS
+      ADD SO_INSURANCE_PROVIDER <i>Varchar2</i>(35);
+
+Add  a default value to a column
+   ALTER TABLE STAFF_OPTIONS
+      MODIFY SO_INSURANCE_PROVIDER Varchar2(35) DEFAULT 'ABC Ins';
+
+Add two columns to a table and remove a constraint
+   ALTER TABLE STAFF_OPTIONS
+      ADD (SO_STAFF_ID INT, SO_PENSION_ID INT)
+          STORAGE INITIAL 10 K
+          NEXT 10 K
+          MAXEXTENTS 121
+          PCTINCREASE 0
+          FREELISTS 2
+      DROP CONSTRAINT cons_SO;
+
+Move a table to a different tablespace: (will then need to rebuild any indexes)
+   ALTER TABLE STAFF_OPTIONS MOVE TABLESPACE PERSONNEL;</pre>
+<p><i>"Failure is Not an Option&quot; - Gene Kranz (during the Apollo 13 mission)</i><b><br>
+  <a href="analyze.html"><br>
+  </a></b><a href="analyze.html">ANALYZE</a> TABLE COMPUTE STATISTICS<br>
+  <a href="index_a.html">ALTER INDEX</a><br>
+  <a href="view_a.html">ALTER VIEW</a><br>
+  <a href="comment.html">COMMENT</a> - Add a comment to a table or a column. <br>
+  <a href="rename.html">RENAME</a> <br>
+  <a href="../orap/DBMS_REDEFINITION.html">DBMS_REDEFINITION</a> <br>
+  <b><br>
+</b><b>Related Views:</b></p>
+<pre>  <a href="../orad/DBA_ALL_TABLES.html">DBA_ALL_TABLES</a>       <a href="../orad/ALL_ALL_TABLES.html">ALL_ALL_TABLES</a>       <a href="../orad/USER_ALL_TABLES.html">USER_ALL_TABLES</a>
+  <a href="../orad/DBA_TABLES.html">DBA_TABLES</a>           <a href="../orad/ALL_TABLES.html">ALL_TABLES</a>           <a href="../orad/USER_TABLES.html">USER_TABLES</a>         <a href="../orad/TAB.html">TAB</a>
+  <a href="../orad/DBA_TAB_COLUMNS.html">DBA_TAB_COLUMNS</a>      <a href="../orad/ALL_TAB_COLUMNS.html">ALL_TAB_COLUMNS</a>      <a href="../orad/USER_TAB_COLUMNS.html">USER_TAB_COLUMNS</a> 
+  <a href="../orad/DBA_PART_TABLES.html">DBA_PART_TABLES</a>      <a href="../orad/ALL_PART_TABLES.html">ALL_PART_TABLES</a>      <a href="../orad/USER_PART_TABLES.html">USER_PART_TABLES</a>  
+                                                                <a href="../orad/DICTIONARY.html">DICTIONARY</a>
+                                                                <a href="../orad/DICT_COLUMNS.html">DICT_COLUMNS</a></pre><!-- #BeginLibraryItem "/Library/foot_ora.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- oracle-footer -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4275490898"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="table_a_prop.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

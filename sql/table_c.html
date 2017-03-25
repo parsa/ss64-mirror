@@ -1,0 +1,165 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>CREATE TABLE | SQL Server | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_sql.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../sql.1.html">SQL</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/sql/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>CREATE TABLE</h1>
+<p>Create a new  table.</p>
+<pre>Syntax
+      
+   CREATE TABLE <i>table</i>
+   ( { <i>column_definition</i> | <i>computed_column_definition</i>}  [<i>table_constraint</i>] [,...<i>n</i>] ) 
+      [ ON <i>storage_option</i>] 
+         [ {TEXTIMAGE_ON { <i>filegroup</i> | "default" } ]  [;]
+
+column_definition:
+   <i>column data_type</i>
+      [COLLATE <i>collation_name</i> ] 
+         [NULL | NOT NULL]
+            [CONSTRAINT <i>constraint</i>] DEFAULT <i>constant_expression</i> ] 
+            [IDENTITY [ ( <i>seed</i> ,<i>increment</i> ) ] [ NOT FOR REPLICATION ] 
+               [ROWGUIDCOL] [<i>column_constraint</i> [ ...n ] ] 
+    
+data type: 
+   [<i>type_schema</i>.] <i>type</i> 
+      [ ( <i>precision</i> [ , <i>scale</i> ] | max | 
+          [ { <u>CONTENT</u> | DOCUMENT } ] <i>xml_schema_collection</i> ) ] 
+
+Column_constraint: 
+   [CONSTRAINT <i>constraint</i> ]  {<b>PRIMARY KEY | UNIQUE</b> } 
+         [CLUSTERED | NONCLUSTERED ] 
+           [WITH FILLFACTOR = <i>fillfactor</i>  
+           [WITH ( <i>index_option</i> [ , ...n ] ) 
+              [ON <i>storage_option</i>]
+
+   [CONSTRAINT <i>constraint</i> ] 
+      [<b>FOREIGN KEY </b>] 
+        REFERENCES [<i>schema</i>. ] <i>referenced_table</i> [ ( <i>ref_column</i> ) ] 
+           [ON DELETE { <u>NO ACTION</u> | CASCADE | SET NULL | SET DEFAULT } ] 
+              [ON UPDATE { <u>NO ACTION</u> | CASCADE | SET NULL | SET DEFAULT } ] 
+                 [NOT FOR REPLICATION ] 
+
+   [CONSTRAINT <i>constraint</i> ] 
+      <b>CHECK</b> [ NOT FOR REPLICATION ] ( logical_expression ) 
+
+Computed_column_definition:
+   <i>column</i> AS <i>computed_column_expression</i>  [PERSISTED [ NOT NULL ] ]
+      [CONSTRAINT <i>constraint</i> { <b>PRIMARY KEY | UNIQUE</b> } ]
+         [CLUSTERED | NONCLUSTERED]
+            [WITH FILLFACTOR = <i>fillfactor</i> 
+               [WITH ( <i>index_option</i> [, ...<i>n</i>] ) ]
+
+   <i>column</i> AS <i>computed_column_expression</i>  [PERSISTED [ NOT NULL ] ]
+      [CONSTRAINT <i>constraint</i>]
+         [<b>FOREIGN KEY</b> ] 
+            [REFERENCES <i>referenced_table</i> [ ( <i>ref_column</i> ) ] ]
+               [ ON DELETE { <u>NO ACTION</u> | CASCADE } ] 
+                  [ ON UPDATE { <u>NO ACTION</u> } ] 
+                     [ NOT FOR REPLICATION ] 
+
+   <i>column</i> AS <i>computed_column_expression</i>  [PERSISTED [ NOT NULL ] ]
+      [CONSTRAINT <i>constraint</i> ]
+         [<b>CHECK</b> [ NOT FOR REPLICATION ] ( <i>logical_expression</i> ) ] 
+            [ ON <i>storage_option</i> ] 
+
+table_constraint:
+   [CONSTRAINT <i>constraint</i>] 
+      {<b>PRIMARY KEY | UNIQUE</b> } 
+         [CLUSTERED | NONCLUSTERED] 
+            (<i>column</i> [ <u>ASC</u> | DESC ] [,...<i>n</i>] ) 
+               [WITH FILLFACTOR = <i>fillfactor</i>   ]
+               [WITH ( <i>index_option</i> [, ...<i>n</i>] ) ]
+                  [ON <i>storage_option</i> ] 
+
+   [CONSTRAINT <i>constraint</i>] 
+      <b>FOREIGN KEY</b> 
+         ( <i>column</i> [,...<i>n</i>] ) 
+            REFERENCES <i>referenced_table</i> [ ( <i>ref_column</i> [ ,...<i>n</i> ] ) ] 
+               [ON DELETE { <u>NO ACTION</u> | CASCADE | SET NULL | SET DEFAULT } ] 
+                  [ON UPDATE { <u>NO ACTION</u> | CASCADE | SET NULL | SET DEFAULT } ] 
+                     [NOT FOR REPLICATION ] 
+
+   [ CONSTRAINT <i>constraint</i> ] 
+        <b>CHECK</b> [ NOT FOR REPLICATION ] ( <i>logical_expression</i> ) 
+
+table:
+<i>    database.schema.table
+    database..table
+    schema.table </i>
+
+storage_options:
+    <i>partition_scheme</i> ( <i>partition_column</i> ) 
+    <i>filegroup</i> 
+    "default" 
+
+index_options:
+   PAD_INDEX = {ON | <u>OFF</u>} 
+   FILLFACTOR = <i>fillfactor</i> 
+   IGNORE_DUP_KEY = {ON | <u>OFF</u>} 
+   STATISTICS_NORECOMPUTE = {ON | <u>OFF</u>} 
+   ALLOW_ROW_LOCKS = {<u>ON</u> | OFF} 
+   ALLOW_PAGE_LOCKS = {<u>ON</u> | OFF} </pre>
+<p>    Arguments:</p>
+<p>column - A maximum of 128 characters. The name 'timestamp' is used if no name is specified for a timestamp data type column.</p>
+<p>computed_column_expression - An expression that defines the value of a computed column. A computed column is not physically stored in the table, unless the column is marked PERSISTED. </p>
+<p>ON &lt;partition_scheme&gt; - Table with partitions  stored on  one or more filegroups.<br>
+  ON <i>filegroup</i> - Table
+is stored in the named filegroup. <br>
+ON &quot;default&quot; (or if ON is not specified at all) - The table is stored on the default filegroup.</p>
+<p>TEXTIMAGE_ON - Specifies an alternate storage <i>filegroup</i> for columns of type: text, ntext, image, xml, varchar(max), nvarchar(max), varbinary(max), and CLR user-defined type.</p>
+<p>CONTENT - Allow multiple top-level elements in each instance of the xml data type.<br>
+DOCUMENT - Allow only one top-level element in each instance of the xml data type.</p>
+<p>  DEFAULT - A value provided for the column when nothing is explicitly supplied during an insert.<br>
+  IDENTITY - An identity column, one per table: tinyint, smallint, int, bigint, decimal(p,0), or numeric(p,0)</p>
+<p>NULL / NOT NULL - Whether the column can accept null values.</p>
+<p>  NOT FOR REPLICATION - Do not enforce constraints for the replication agent (IDENTITY, FOREIGN KEY and CHECK constraints.) <br>
+  CONSTRAINT - Define a PRIMARY KEY, NOT NULL, UNIQUE, FOREIGN KEY, or CHECK constraint.</p>
+<p>CLUSTERED | NONCLUSTERED - The type of index is created for a PRIMARY KEY or UNIQUE constraint. PRIMARY KEY constraints default to CLUSTERED, and UNIQUE constraints default to NONCLUSTERED.</p>
+<p>FOREIGN KEY REFERENCES - A constraint to provide referential integrity for the data, requires a UNIQUE INDEX on the referenced table.</p>
+<p><b>Maximum row size</b></p>
+<p>The maximum number of bytes per row is generally 8,060 bytes. <br>
+  This restriction also applies to each column of type: varchar, nvarchar, varbinary, or sql_variant.<br>
+  However if multiple columns of those datatypes are added it is possible for the total  table width to exceed 8,060 bytes.<br>
+SQL Server 2005 can have up to  1,024 columns per table.</p>
+<p>Examples</p>
+<pre>-- Create table
+
+CREATE TABLE [dbo].[ss64Table]<br>(<br>    [ss_ID] [int] NOT NULL,<br>    [ss_Line] [smallint] NOT NULL,<br>    [ss_fkProductID] [int] NULL REFERENCES Stock.Product(ProductID),<br>    [ss_Price] [money] NULL,<br>    [ss_Date] [datetime] NULL,<br>    [ss_Modified] [datetime] NOT NULL <br>        CONSTRAINT [DF_ss64Table_ss_Modified] DEFAULT (getdate()),<br>CONSTRAINT [PK_ss64Table]<br>    PRIMARY KEY ([ss_ID])<br>) <br>ON [PRIMARY]
+
+-- Create Partitioned Table
+
+CREATE PARTITION FUNCTION myRangePtnFunction (int)<br>AS RANGE LEFT FOR VALUES (1, 100, 1000) ;<br>GO<br>CREATE PARTITION SCHEME myRangePS1<br>AS PARTITION myRangePtnFunction<br>TO (Myfg1, Myfg2, Myfg3, Myfg4) ;<br>GO<br>CREATE TABLE ss64Table2 (col1 int, col2 char(10))<br>ON myRangePS1 (col1) ;<br>GO
+
+-- Create Temporary Table 
+CREATE TABLE #people 
+( 
+    id INT, 
+    name VARCHAR(32) 
+)</pre>
+<p class="quote"><i>&quot;At a good table we may go to school&quot; - Thomas Fuller</i></p>
+<p><b>Related commands:</b></p>
+<p><a href="table_a.html">ALTER TABLE</a><br>
+<a href="table_d.html">DROP TABLE</a><br>
+<a href="http://databases.aspfaq.com/database/should-i-use-a-temp-table-or-a-table-variable.html">Should I use a #temp table or a @table variable?</a><br>
+
+Equivalent Oracle command: <a href="../ora/table_c.html">CREATE TABLE</a></p><!-- #BeginLibraryItem "/Library/foot_sql.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ss64-sql -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="6953563613"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="table_c.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

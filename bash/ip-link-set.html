@@ -1,0 +1,115 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>ip link set Man Page | Bash | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_bash.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../bash.1.html">Bash</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/bash/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1><a href="ip.html">ip link set</a></h1> 
+<p>Change device attributes. Link is a network device and the corresponding commands display and change the state of devices. <span class="code">link</span> can be abbreviated to <span class="code">l</span></p>
+<pre>Syntax
+      <b><a href="ip.html">ip</a> link set</b> <i>DEVICE</i> { up | down | arp { on | off } |
+         promisc { on | off } | allmulticast { on | off } |
+            dynamic { on | off } | multicast { on | off } |
+               txqueuelen <i>PACKETS</i> | name <i>NEWNAME</i> |
+                  address <i>LLADDR</i> | broadcast <i>LLADDR</i> | mtu <i>MTU</i> | netns <i>PID</i> | 
+                     alias <i>NAME </i>| vf <i>NUM </i>[ mac <i>LLADDR</i> ] [ vlan <i>VLANID</i> [ qos <i>VLAN-QOS</i> ] ] [ rate <i>TXRATE</i> ] }
+
+Key
+   dev <i>NAME</i> (default)
+         <i>NAME</i> specifies network device to operate on. When configuring SR-IOV Virtual
+         Fuction (VF) devices, this keyword should specify the associated Physical Function (PF) device.
+
+   up and down
+         Change the state of the device to UP or DOWN. 
+   arp on or arp off
+         Change the NOARP flag on the device. 
+   multicast on or multicast off
+         Change the MULTICAST flag on the device. 
+   dynamic on or dynamic off
+         Change the DYNAMIC flag on the device. 
+   name <i>NAME
+</i>         Change the name of the device. This operation is not recommended if the device
+         is running or has some addresses already configured. 
+   txqueuelen <i>NUMBER</i>
+   txqlen <i>NUMBER</i>
+         Change the transmit queue length of the device. 
+   mtu <i>NUMBER</i>
+         change the MTU of the device. 
+   address <i>LLADDRESS
+</i>         Change the station address of the interface. 
+   broadcast <i>LLADDRESS
+</i>   brd <i>LLADDRESS
+</i>   peer <i>LLADDRESS</i>
+         change the link layer broadcast address or the peer address when the interface is POINTOPOINT. 
+   netns <i>PID</i>
+         move the device to the network namespace associated with the process PID. 
+   alias <i>NAME</i>
+         give the device a symbolic name for easy reference. 
+   vf <i>NUM</i>
+         specify a Virtual Function device to be configured. The associated PF device must be specified using the dev parameter.
+
+   mac <i>LLADDRESS</i> - change the station address for the specified VF. The vf parameter must be specified.
+
+   vlan <i>VLANID
+        </i> change the assigned VLAN for the specified VF.
+         When specified, all traffic sent from the VF will be tagged with the specified VLAN ID.
+         Incoming traffic will be filtered for the specified VLAN ID, and will have all VLAN tags
+         stripped before being passed to the VF. Setting this parameter to 0 disables VLAN tagging
+         and filtering. The vf parameter must be specified.
+
+   qos <i>VLAN-QOS</i>
+         assign VLAN QOS (priority) bits for the VLAN tag.
+         When specified, all VLAN tags transmitted by the VF will include the specified priority
+         bits in the VLAN tag. If not specified, the value is assumed to be 0.
+         Both the vf and vlan parameters must be specified. Setting both vlan and qos as 0 disables
+         VLAN tagging and filtering for the VF.
+
+   rate <i>TXRATE</i>
+         change the allowed transmit bandwidth, in Mbps, for the specified VF.
+         Setting this parameter to 0 disables rate limiting. The vf parameter must be specified.
+
+         Warning: If multiple parameter changes are requested, ip aborts immediately after any
+         of the changes have failed. This is the only case when ip can move the system to an
+         unpredictable state. The solution is to avoid changing several parameters with one ip link set call.
+
+   ip link show - display device attributes
+
+   dev <i>NAME</i> (default)
+         <i>NAME </i>specifies the network device to show.
+         If this argument is omitted all devices are listed.
+
+   up    only display running interfaces.
+</pre>
+<p><b>Examples</b>:</p>
+<p>Change the state of the network interface device(s) to UP:<br>
+<span class="code">$ 
+ip link set up</span></p>
+<p>Change the state of the network interface device(s) to DOWN:<br>
+<span class="code">$ 
+ip link set down</span></p>
+<p>Change the Maximum Transmission units (MTU) size for  better performance with  a Gigabit NIC/Switch:<br>
+<span class="code">$ ip link set mtu 9000 dev eth0<br>
+$ ip link set eth0 up</span></p>
+<p><i class="quote">“It is remarkable how easily and insensibly we fall into a particular route, and make a beaten track for ourselves” ~ Henry David Thoreau</i></p><p><b>Related:</b></p>
+<p>
+<a href="ip.html">ip</a> - Routing, devices and tunnels<br>
+Equivalent Windows  command: <a href="../nt/route.html">ROUTE</a> - Manipulate network routing tables</p><!-- #BeginLibraryItem "/Library/foot_bash.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- bash300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4615356305"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="ip-link-set.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

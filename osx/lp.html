@@ -1,0 +1,117 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>lp OSX Man Page | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_osx.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../osx.1.html">macOS</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/osx/"></form></div></li>
+</ul></div><!-- #EndLibraryItem -->
+<h1>lp</h1> 
+<p>Print files</p>
+<pre>Syntax
+      lp [  -E  ]  [ -U <i>username</i> ] [ -c ] [ -d <i>destination</i>[/<i>instance</i>] ] [ -h <i>hostname</i>[:<i>port</i>] ]
+         [ -m ] [ -n <i>num-copies</i> ] [ -o <i>option</i>[=<i>value</i>] ]  [ -q <i>priority</i>  ] [ -s ] [ -t <i>title</i> ]
+            [ -H <i>handling</i> ] [ -P <i>page-list</i> ] [ -- ]
+               [ <i>file(s)</i> ]
+
+      lp [ -E ] [ -U <i>username</i> ] [ -c ] [ -h <i>hostname</i>[:<i>port</i>] ] [ <b>-i <i>job-id</i></b> ]
+         [ -n <i>num-copies</i> ] [ -o <i>option</i>[=<i>value</i>] ] [ -q <i>priority</i> ] [ -t <i>title</i> ]
+            [ -H <i>handling </i>] [ -P <i>page-list</i> ]
+
+Options
+   --   Marks the end of options; use this to print a file whose name begins with a dash (-).
+
+   -E   Force encryption when connecting to the server.
+
+   -U <i>username</i>
+        Specifies the username to use when connecting to the server.
+
+   -c   This  option is provided for backwards-compatibility only. On systems that support it, this option forces
+        the print file to be copied to the spool directory before printing.  In CUPS, print files are always sent
+        to the scheduler via IPP which has the  same effect.
+
+   -d <i>destination</i>
+        Print files to the named printer.
+
+   -h <i>hostname</i>[:<i>port</i>]
+        Chooses an alternate server.
+
+   -i job-id             Specifies an existing job to modify.
+
+   -m   Sends an email when the job is completed.
+
+   -n <i>copies
+        </i>Sets the number of copies to print.
+
+   -o &quot;<i>name</i>=<i>value </i>[ ... <i>name</i>=<i>value </i>]&quot;
+        Sets one or more job options.
+
+   -q <i>priority</i>
+        Sets the job priority from 1 (lowest) to 100 (highest).  The default priority is 50.
+
+   -s   Do not report the resulting job IDs (silent mode.)
+
+   -t &quot;name&quot;
+        Sets the job name.
+
+   -H <i>hh</i>:<i>mm 
+</i>   -H hold
+   -H immediate
+   -H restart
+   -H resume
+        Specifies when the job should be printed.  A value of immediate will print the file immediately, a value
+        of hold will hold the job indefinitely, and a UTC time value (HH:MM) will hold the job until the specified
+        UTC (not local) time. Use a value of resume with the -i option to resume a held job.  Use a value of restart
+        with the -i option to restart a completed job.
+
+   -P <i>page-list
+</i>        Specifies which pages to print in the document. The list can contain a list of numbers and ranges (#-#)
+        separated by commas, e.g., &quot;1,3-5,16&quot;. The page numbers refer to the output pages and not the document's
+        original  pages - options like  &quot;number-up&quot; can affect the numbering of the pages.
+
+COMMON JOB OPTIONS
+   Aside from the printer-specific options reported by the lpoptions(1) command, the following generic options are
+   available:
+   -o media=<i>size</i>                 Sets the page size to size. Most printers support at least the size names &quot;a4&quot;, &quot;letter&quot;, and &quot;legal&quot;.
+   -o orientation-requested=4    Prints the job in landscape (rotated 90 degrees).
+   -o sides=<i>one-sided   </i>         Prints on one side of the paper.
+   -o sides=<i>two-sided-long-edge </i> Prints on both sides of the paper for portrait output.
+   -o sides=<i>two-sided-short-edge</i> Prints on both sides of the paper for landscape output.
+   -o <i>fit-to-page </i>               Scales the print file to fit on the page.
+   -o number-up={2|4|6|9|16}     Prints  2,  4,  6,  9, or 16 document (input) pages on each output             page.</pre>
+<p><b>Examples</b></p>
+<p> Print two copies of a document to the default printer:            <br>
+$ <span class="code"> lp -n 2 filename </span></p>
+<p>Print a double-sided legal document to a printer called &quot;foo&quot;:            <br>
+$ <span class="code"> lp -d foo -o media=legal -o sides=two-sided-long-edge filename </span></p>
+<p>Print a presentation document 2-up to a printer called &quot;foo&quot;:<br>
+$<span class="code"> lp -d foo -o number-up=2 filename</span></p>
+<p class="quote"><i>"Documentation is the castor oil of programming. Managers know it must be good because the   programmers hate it so much&quot; ~ Anon </i></p>
+<p><b>Related:</b></p>
+<p>
+<a href="https://developer.apple.com/legacy/library/documentation/Darwin/Reference/ManPages/man1/lp.1.html">lp man page</a> - Apple.com<br>
+<a href="enable.html">enable</a> - Stop or start printers and classes. <br>
+<a href="lprm.html">lprm</a> - Remove jobs from the print queue<br>
+<a href="lpstat.html">lpstat</a> - Printer status information <br>
+<a href="cancel.html">cancel</a> - Cancel print jobs<br>
+<a href="lpr.html">lpr</a> - print files<br>
+lpadmin - printer admin<br>
+<a href="lpc.html">lpc</a> - Line printer control program</p><!-- #BeginLibraryItem "/Library/foot_osx.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- OSX300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="1823340303"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="lp.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

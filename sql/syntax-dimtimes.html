@@ -1,0 +1,96 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>SQL Server Time Dimension | SQL Server | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_sql.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../sql.1.html">SQL</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/sql/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>Create Time Dimension</h1>
+<p>The procedure below creates and populates a time table containing records 
+at one minute intervals for a single day.
+The time range is 00:00:00 through 23:59:00. 
+
+The table returned  contains a single datetime column along with
+several other CHAR and INT columns containing  formatted attributes of each datetime. 
+This make it convenient to get various commonly 
+used time attributes from the data warehouse without having to program and test 
+the same logic in many reports/applications. </p>
+<p>First create an empty table (called dimTimes) with this <a href="dimtimes_create_table.txt">Create Table script</a></p>
+<pre>USE [SS64_DATA_WAREHOUSE]
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE Procedure [dbo].[userproc_GenerateDimTimes] AS 
+BEGIN 
+-- declare variables to hold the start and end date
+DECLARE @Startint INTEGER
+DECLARE @Endint INTEGER
+-- Assign values to the start and end numbers, there are 1440 seconds in a day
+SET @Startint = 0
+SET @Endint = 1439
+
+DECLARE @LoopNum integer
+SET @LoopNum = @Startint
+
+-- Loop once for each second in a day
+WHILE @LoopNum &lt;= @Endint
+BEGIN
+ -- add a record to the time dimension table
+INSERT INTO dimTimes (CLOCKTIME,HOUR24,MINUTE24,TIME24,MINUTE12,HOUR12,HOUR12_LONG,TIME12,TIME12_LONG,AMPM) VALUES (
+Cast(RIGHT('0' + Cast((Floor(@LoopNum/60)) AS VARCHAR(2)), 2) + ':' + RIGHT('0' + Cast(@LoopNum - (Floor(@LoopNum/60) * 60) AS VARCHAR(2)), 2) AS SMALLDATETIME), 
+Cast((Floor(@LoopNum/60)) as int)
+Cast(@LoopNum - (Floor(@LoopNum/60) * 60) as int),
+Cast(RIGHT('0' + Cast(Floor(@LoopNum/60) AS VARCHAR(2)), 2) + ':' + RIGHT('0' + Cast(@LoopNum - (Floor(@LoopNum/60) * 60) AS VARCHAR(2)), 2) + ':00' as char),
+Cast(@LoopNum - (Floor(@LoopNum/60) * 60) as int),
+Cast(CASE WHEN ((Floor(@LoopNum/60)) % 12) &lt;&gt; 0 THEN ((Floor(@LoopNum/60)) % 12) ELSE 12 END as int),
+Cast(cast(CASE WHEN ((Floor(@LoopNum/60)) % 12) &lt;&gt; 0 THEN ((Floor(@LoopNum/60)) % 12) ELSE 12 END as varchar) + ' ' + CASE WHEN (Floor(@LoopNum/60)) &lt; 12 THEN 'AM' ELSE 'PM' END AS VARCHAR(5))
+Cast(RIGHT('0' + Cast(CASE WHEN ((Floor(@LoopNum/60)) % 12) &lt;&gt; 0 THEN ((Floor(@LoopNum/60)) % 12) ELSE 12 END AS VARCHAR(2)), 2) + ':' + RIGHT('0' + Cast((@LoopNum - (Floor(@LoopNum/60) * 60)) AS VARCHAR(2)), 2) + ':00' as char),
+Cast(RIGHT('0' + Cast(CASE WHEN ((Floor(@LoopNum/60)) % 12) &lt;&gt; 0 THEN ((Floor(@LoopNum/60)) % 12) ELSE 12 END AS VARCHAR(2)), 2) + ':' + RIGHT('0' + Cast((@LoopNum - (Floor(@LoopNum/60) * 60)) AS VARCHAR(2)), 2) + ':00 ' + CASE WHEN (Floor(@LoopNum/60)) &lt; 12 THEN 'AM' ELSE 'PM' END as char),
+Cast(CASE WHEN (Floor(@LoopNum/60)) &lt; 12 THEN 'AM' ELSE 'PM' END as char
+Cast(CASE WHEN (@LoopNum) = 0 THEN 'Midnight' WHEN (@LoopNum) = 720 THEN 'Midday' WHEN (Floor(@LoopNum/60)) &lt; 12 THEN 'AM' ELSE 'PM' END as char)
+ )  
+ 
+ SET @LoopNum = @LoopNum + 1
+
+END
+-- Add values for Unknown
+SET IDENTITY_INSERT dimTimes ON
+INSERT INTO dimTimes (TIMESK,CLOCKTIME,HOUR24,MINUTE24,TIME24,MINUTE12,HOUR12,HOUR12_LONG,TIME12,TIME12_LONG,AMPM) VALUES (
+-1,'00:00:00',-1,-1,'Unknown',-1,-1,'Unk','Unknown','Unknown','Unknown')
+SET IDENTITY_INSERT dimTimes OFF
+
+Return
+END</pre>
+<p><b>Example</b></p>
+<p>-- Empty the table (in case previously populated) <br>
+DELETE FROM dbo.DimTimes<br>
+Go</p>
+<p>-- Reseed the identity column<br>
+DBCC CHECKIDENT('DimTimes', RESEED, 0)<br>
+Go</p>
+<p>-- Run the procedure<br>
+Exec userproc_GenerateDimTimes<br>
+Go</p>
+<p><b>Related</b></p>
+<p><a href="syntax-dimdates.html">Date Dimension </a></p>
+<p class="quote"><i>&ldquo;The real minimum wage is zero&rdquo; - Thomas Sowell</i></p><!-- #BeginLibraryItem "/Library/foot_sql.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ss64-sql -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="6953563613"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="syntax-dimtimes.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

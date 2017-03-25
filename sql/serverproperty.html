@@ -1,0 +1,64 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>SERVERPROPERTY | SQL Server | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_sql.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../sql.1.html">SQL</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/sql/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>SERVERPROPERTY</h1>
+<p>Display  information about the server instance.</p>
+<pre>Syntax:
+      SERVERPROPERTY ( <i>propertyname</i> )
+</pre>
+<p>    For boolean values ServerProperty will return 1 for True or 0 for false.</p>
+<p>Examples</p>
+<pre>SELECT CONVERT(char(20), SERVERPROPERTY('BuildClrVersion'));
+SELECT CONVERT(char(20), SERVERPROPERTY('Collation'));
+SELECT CONVERT(char(20), SERVERPROPERTY('CollationID'));
+SELECT CONVERT(char(20), SERVERPROPERTY('ComparisonStyle'));
+SELECT CONVERT(char(20), SERVERPROPERTY('ComputerNamePhysicalNetBIOS'));
+SELECT CONVERT(char(20), SERVERPROPERTY('Edition'));
+SELECT CONVERT(char(20), SERVERPROPERTY('EditionID'));
+SELECT CONVERT(char(20), SERVERPROPERTY('EngineEdition'));
+SELECT CONVERT(char(20), SERVERPROPERTY('InstanceName'));
+SELECT CONVERT(char(20), SERVERPROPERTY('IsClustered'));
+SELECT CONVERT(char(20), SERVERPROPERTY('IsFullTextInstalled'));
+SELECT CONVERT(char(20), SERVERPROPERTY('IsIntegratedSecurityOnly'));
+SELECT CONVERT(char(20), SERVERPROPERTY('IsSingleUser'));
+SELECT CONVERT(char(20), SERVERPROPERTY('LCID'));
+SELECT CONVERT(char(20), SERVERPROPERTY('LicenseType'));
+SELECT CONVERT(char(20), SERVERPROPERTY('MachineName'));
+SELECT CONVERT(char(20), SERVERPROPERTY('NumLicenses'));
+SELECT CONVERT(char(20), SERVERPROPERTY('ProcessID'));
+SELECT CONVERT(char(20), SERVERPROPERTY('ProductVersion'));
+SELECT CONVERT(char(20), SERVERPROPERTY('ProductLevel'));
+SELECT CONVERT(char(20), SERVERPROPERTY('ResourceLastUpdateDateTime'));
+SELECT CONVERT(char(20), SERVERPROPERTY('ResourceVersion'));
+SELECT CONVERT(char(20), SERVERPROPERTY('ServerName'));
+SELECT CONVERT(char(20), SERVERPROPERTY('SqlCharSet'));
+SELECT CONVERT(char(20), SERVERPROPERTY('SqlCharSetName'));
+SELECT CONVERT(char(20), SERVERPROPERTY('SqlSortOrder'));
+SELECT CONVERT(char(20), SERVERPROPERTY('SqlSortOrderName'));
+</pre>
+<p class="quote"><i>&quot;Riches do not consist in the possession of treasures, but in the use made
+of them&quot; ~ Napoleon Bonaparte</i></p>
+<p><b>Related commands:</b></p>
+<p>  @@SERVERNAME</p><!-- #BeginLibraryItem "/Library/foot_sql.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ss64-sql -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="6953563613"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="serverproperty.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

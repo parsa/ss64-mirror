@@ -1,0 +1,110 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Parallel Processing | Oracle | SS64.com</title>
+</head>
+
+<body><!-- #BeginLibraryItem "/Library/head_orasyntax.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../ora.1.html">Oracle</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>Parallel Processing </h1>
+<p>  Server processes handle each user process request.
+    Server processes communicate with the other Oracle <a href="syntax-instance.html">background
+    processes</a> to
+  read
+and write data.</p>
+<p>In a <i>dedicated server </i>configuration,
+    a server process handles requests for a  single user process. In a shared
+    server configuration a server process can handle requests from multiple user
+    processes, this often allows better  use of available system resources. </p>
+<p>Client/server systems separate the user and server processes and
+    execute them on different machines.</p>
+<p>  Oracle's shared server architecture increases the scalability of applications
+    and the number of clients simultaneously connected to the database.<br>
+  The number of
+  shared server processes that can be created ranges between the values of the
+initialization parameters SHARED_SERVERS and MAX_SHARED_SERVERS.</p>
+<p>  Certain administrative activities cannot be performed while connected to
+      a dispatcher process, including shutting down or starting an instance and
+      media
+    recovery. <br>
+  To connect with administrator privileges in a system configured
+    with shared servers, you must state in the connect string: SERVER=DEDICATED</p>
+<p><b>Parallel Processing</b><br>
+  
+  When Oracle executes SQL statements in parallel, multiple processes work together
+  simultaneously to execute a single SQL statement. By dividing the work  among
+    multiple processes, Oracle can execute the statement more quickly,  this
+    is called parallel execution or parallel processing.</p>
+<p>During business hours, most OLTP systems should probably not use parallel
+  execution. During off-hours, however, parallel execution can effectively process
+  high-volume batch operations. Complex queries,<br>
+  such as those involving joins or searches of very large tables, are often best
+  executed in parallel.</p>
+<p>You can use hints in a query to force the degree of parallelism (DOP) of each
+  table, though in
+general, you should let the query optimizer determine this. Each SQL statement
+undergoes  optimization when it is parsed. Therefore,
+the query optimizer will automatically adapt
+  to improve performance.</p>
+<p>In addition to queries, DDL and DML you can parallelize the use of SQL*Loader,
+  where large amounts of data are routinely encountered. To speed up your loads,
+  you can use a parallel direct-path load with the option: PARALLEL=TRUE</p>
+<p><b>Parallel Query</b><br>
+  To achieve parallelism for SQL query statements, one or more of the tables
+being scanned should have a <a href="table_c.html">parallel</a> attribute.</p>
+<p><b>Parallel DDL</b><br>
+  To achieve parallelism for SQL DDL statements, the <a href="table_c.html">parallel</a> clause should be
+specified.</p>
+<p>  <b>Parallel DML</b><br>
+  Due to the differences in locking between serial and parallel DML, you must
+    explicitly enable parallel DML before you can use it. <br>
+    To  enable parallel
+  DML in your session: <br>
+  <a href="session_a.html">ALTER SESSION</a> ENABLE PARALLEL DML;<br>
+  Then any DML issued against a table with a parallel attribute will occur in
+parallel,</p>
+<p><b>Database Resource Manager</b><br>
+  The Database Resource Manager controls the distribution of server resources
+    among sessions by controlling the execution schedule inside the database
+    (it does not enforce CPU allocation percentage limits as long as consumer
+groups are getting the resources they need.)</p>
+<p>To create a resource plan use the PL/SQL package <a href="../orap/DBMS_RESOURCE_MANAGER.html">DBMS_RESOURCE_MANAGER</a> <br>
+  (create,
+  update, and delete resource plans and resource consumer groups.)</p>
+<p>  Assign plans to a user with <a href="../orap/DBMS_RESOURCE_MANAGER_PRIVS.html">DBMS_RESOURCE_MANAGER_PRIVS</a><br>
+  Also see <a href="../orap/DBMS_SESSION.html">DBMS_SESSION</a>.SWITCH_CURRENT_CONSUMER_GROUP</p>
+<p>To activate a resource plan<br>
+  <a href="system_a.html">ALTER SYSTEM</a> SET RESOURCE_MANAGER_PLAN ='MYPLAN';<br>
+  Or modify INIT.ORA to include the following line:<br>
+  RESOURCE_MANAGER_PLAN=' MYPLAN'</p>
+<p>To disable<br>
+  <a href="system_a.html">ALTER SYSTEM</a> SET RESOURCE_MANAGER_PLAN='';</p>
+<p>On UNIX platforms, do not use the <a href="../bash/nice.html">nice</a> command
+  to alter the operating-system run priorities of processes. Use of this
+  command can lead to severe instability and unpredictable behavior of the
+Oracle Server. </p>
+<p>HP's Process Resource Manager (PRM) or Sun's Solaris Resource Manager (SRM)
+  are supported under specific conditions (listed in the Oracle documentation.)
+  If you use one of these OS resource controls, make sure you don't also enable
+  the Oracle Database Resource Manager.</p>
+<p class="quote"><i>&quot;Parallel lines never do cross over&quot; ~ Todd Rundgren
+</i></p><!-- #BeginLibraryItem "/Library/foot_ora.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- oracle-footer -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4275490898"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="syntax-parallel.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

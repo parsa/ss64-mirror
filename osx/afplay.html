@@ -1,0 +1,79 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>afplay OSX Man Page | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_osx.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../osx.1.html">macOS</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/osx/"></form></div></li>
+</ul></div><!-- #EndLibraryItem -->
+<h1>afplay</h1> 
+<p>Audio File Play. </p>
+<pre>Syntax
+      afplay [<i>option</i>...] <i>audio_file</i>
+
+Options: (may appear before or after arguments)
+   -v <i>VOLUME</i>
+   --volume <i>VOLUME</i>
+        Set the volume for playback of the file
+        Apple does not define a value range for this, but it appears to accept
+        0=silent, 1=normal (default) and then up to 255=Very loud.
+        The scale is logarithmic and in addition to (not a replacement for) other volume control(s).
+   -h
+   --help
+        Print help.
+
+   --leaks
+        Run leaks analysis.
+
+   -t <i>TIME</i>
+   --time <i>TIME</i>
+        Play for <i>TIME</i> seconds
+        &gt;0 and &lt; duration of <i>audio_file</i>.
+
+   -r <i>RATE</i>
+   --rate <i>RATE</i>
+        Play at playback <i>RATE</i>.
+        practical limits are about 0.4 (slower) to 3.0 (faster).
+
+   -q <i>QUALITY</i>
+   --rQuality <i>QUALITY</i>
+        Set the quality used for rate-scaled playback (default is 0 - low quality, 1 - high quality).
+
+   -d
+   --debug
+        Debug print output.</pre>
+<p>Play can be aborted with <span class="code">Ctrl-C</span></p>
+<p>  <b>Examples</b> </p>
+<p>Play music.wav for 5 seconds:<br>
+   
+<span class="code">$ afplay music.wav -t 5</span></p>
+<p>Play jolene.mp3:<br>
+<span class="code">$ </span><span class="code">afplay jolene.mp3</span></p>
+<p>Play jolene.mp3 at half speed:<span class="code"><br>
+$ afplay jolene.mp3 -r 0.5<br>
+</span>
+<br>
+<i class="quote">&ldquo;You've achieved success in your field when you don't know whether what you're doing is work or play” ~ Warren Beatty</i></p>
+<p><b>Related:</b></p>
+<p><a href="https://developer.apple.com/legacy/library/documentation/Darwin/Reference/ManPages/man1/afplay.1.html">afplay man page</a> - Apple.com<br>
+<a href="afconvert.html">afconvert</a> - Audio File Convert<br>
+<a href="afinfo.html">afinfo</a> - Audio File Info</p>
+<!-- #BeginLibraryItem "/Library/foot_osx.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- OSX300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="1823340303"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="afplay.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

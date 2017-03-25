@@ -1,0 +1,176 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Alter Session | Oracle | SS64.com</title>
+<style type="text/css">
+.style3 {
+  color: #006600;
+  font-weight: bold;
+}
+</style>
+</head><body><!-- #BeginLibraryItem "/Library/head_ora.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../ora.1.html">Oracle</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>ALTER SESSION</h1> 
+<p>Modify the current user session.<br>
+  <br>
+  Syntax:</p>
+<pre>   ALTER SESSION ADVISE {COMMIT | ROLLBACK | NOTHING}
+   ALTER SESSION CLOSE DATABASE LINK <i>link_name</i>
+   ALTER SESSION {ENABLE | DISABLE} COMMIT IN PROCEDURE
+   ALTER SESSION {ENABLE | DISABLE | FORCE} PARALLEL {DML|DDL|QUERY} [PARALLEL <i>int</i>]
+   ALTER SESSION ENABLE RESUMABLE {TIMEOUT <i>int</i>} {NAME<i> string</i>}
+   ALTER SESSION DISABLE RESUMABLE
+   ALTER SESSION SET <i>option(s)</i> [COMMENT='<i>text</i>']
+
+Options:
+   CONSTRAINT[S] {IMMEDIATE|DEFERRED|DEFAULT}
+   <span class="style3">CREATE_STORED_OUTLINES</span> = {TRUE | FALSE| <i>'category_name'</i> }
+   <span class="style3">CURRENT_SCHEMA</span> = <i>schema</i>
+   CURSOR_SHARING = {FORCE | EXACT}
+
+   DB_BLOCK_CHECKING = {TRUE | FALSE}
+   DB_CREATE_FILE_DEST = <i>directory</i>
+   DB_CREATE_ONLINE_LOG_DEST<i>_N</i> = <i>directory</i>
+   DB_FILE_MULTIBLOCK_READ_COUNT = <i>int</i>
+
+   <span class="style3">ERROR_ON_OVERLAP_TIME</span> = {TRUE | FALSE}
+
+   FILESYSTEMIO_OPTIONS = {none | setall | directIO | asynch}
+   <span class="style3">FLAGGER</span> = {ENTRY | INTERMEDIATE | FULL | <u>OFF</u>}
+
+   GLOBAL_NAMES = {TRUE | FALSE}
+
+   HASH_AREA_SIZE = <i>int</i>
+   HASH_JOIN_ENABLED = {TRUE | FALSE}
+
+   <span class="style3">INSTANCE</span> = <i>int</i>
+   <span class="style3">ISOLATION_LEVEL</span> = {SERIALIZABLE | READ_COMMITTED}
+
+   LOG_ARCHIVE_DEST_<i>n</i> (read the Oracle8i Reference for more on this)
+   LOG_ARCHIVE_DEST_STATE_<i>n</i> = {ENABLE | DEFER} 
+   LOG_ARCHIVE_MIN_SUCCEED_DEST = <i>int</i>
+
+   MAX_DUMP_FILE_SIZE = { <i>size</i> | UNLIMITED } 
+
+   NLS_CALENDAR = 'text'
+   NLS_COMP = 'text' 
+   NLS_CURRENCY = 'text'
+   NLS_DATE_FORMAT = '<a href="syntax-fmt.html">fmt</a>'
+   NLS_DATE_LANGUAGE = <a href="syntax-nls.html">language</a>
+   NLS_DUAL_CURRENCY = 'text'
+   NLS_ISO_CURRENCY = <a href="syntax-nls.html">territory</a>
+   NLS_LANGUAGE = <i>language</i>
+   NLS_LENGTH_SEMANTICS = {CHAR | <u>BYTE</u>}
+   NLS_NCHAR_CONV_EXCP = {TRUE | <u>FALSE</u>}
+   NLS_NUMERIC_CHARACTERS = 'text'
+   NLS_SORT = {sort | BINARY}
+   NLS_TERRITORY = <a href="syntax-nls.html">territory</a>
+   NLS_TIMESTAMP_FORMAT = &quot;<i>datetime_format</i>&quot;
+   NLS_TIMESTAMP_TZ_FORMAT = &quot;<i>datetime_format</i>&quot;
+
+   OBJECT_CACHE_MAX_SIZE_PERCENT = <i>int</i>
+   OBJECT_CACHE_OPTIMAL_SIZE = <i>int</i>
+   OLAP_PAGE_POOL_SIZE = <i>int</i>
+   OPTIMIZER_DYNAMIC_SAMPLING = <i>int</i>
+   OPTIMIZER_INDEX_CACHING = <i>int</i>
+   OPTIMIZER_INDEX_COST_ADJ = <i>int</i>
+   OPTIMIZER_MAX_PERMUTATIONS = <i>int</i>
+   OPTIMIZER_MODE = {ALL_ROWS | FIRST_ROWS | RULE | CHOOSE}
+   ORACLE_TRACE_ENABLE = {TRUE | <u>FALSE</u>}
+
+   PARALLEL_INSTANCE_GROUP = ' <i>text</i> '
+   PARALLEL_MIN_PERCENT = <i>int</i>
+   PARTITION_VIEW_ENABLED = {TRUE | FALSE}
+   PLSQL_COMPILER_FLAGS = {[DEBUG | <u>NON_DEBUG</u>], [<u>INTERPRETED</u> | NATIVE] } 
+   <span class="style3">PLSQL_DEBUG</span> = {TRUE | FALSE}
+
+   QUERY_REWRITE_ENABLED = {FORCE | TRUE | <u>FALSE</u>}
+   QUERY_REWRITE_INTEGRITY = {<u>enforced</u> | trusted | stale_tolerated}
+
+   REMOTE_DEPENDENCIES_MODE = {<u>TIMESTAMP</u> | SIGNATURE}
+
+   SESSION_CACHED_CURSORS = <i>int</i>
+   <span class="style3">SKIP_UNUSABLE_INDEXES</span> = {TRUE | FALSE}
+   SORT_AREA_RETAINED_SIZE = <i>int</i>
+   SORT_AREA_SIZE = <i>integer</i>
+   SORT_MULTIBLOCK_READ_COUNT = <i>int</i>
+   <span class="style3">SQL_TRACE</span> = {TRUE | <u>FALSE</u>}
+   STAR_TRANSFORMATION_ENABLED = {TRUE | <u>FALSE</u> | TEMP_DISABLE}
+   STATISTICS_LEVEL = {ALL | <u>TYPICAL</u> | BASIC}
+
+   TIMED_OS_STATISTICS = <i>int</i>
+   TIMED_STATISTICS = {TRUE | FALSE}
+   TRACE_ENABLED = {<u>TRUE</u> | FALSE}
+
+   UNDO_SUPRESS_ERRORS = {TRUE | <u>FALSE</u>}
+   <span class="style3">USE_PRIVATE_OUTLINES</span> = {TRUE | FALSE| <i>'category_name'</i> }
+   <span class="style3">USE_STORED_OUTLINES</span> = {TRUE | FALSE| <i>'category_name'</i> }
+
+   WORKSIZE_AREA_POLICY = {AUTO | MANUAL}
+
+Parameters shown in <span class="style3">Green&amp;Bold</span> are Session Parameters, 
+generally these are not reflected in <a href="../orav/V$PARAMETER.html">V$PARAMETER</a>
+(Some sessions paramaters are synonymous with parameter settings in init.ora)
+
+DEPRACATED OPTIONS…
+
+Version 8 Options - obsolete in v9
+   FAST_START_IO_TARGET = <i>int</i>
+   HASH_MULTIBLOCK_IO_COUNT = <i>int</i>
+   LABEL = {'text' | DBLOW | DBHIGH | OSLABEL}
+   OPTIMIZER_PERCENT_PARALLEL = <i>int</i>
+   PARALLEL_BROADCAST_ENABLED = {TRUE | FALSE}
+   PLSQL_V2_COMPATIBILITY = {TRUE | FALSE}
+
+Version 7 Options - obsolete in v8
+   CLOSE_CACHED_OPEN_CURSORS = {TRUE | FALSE}
+   NLS_ISO_CURRENCY = <a href="syntax-nls.html">territory</a>
+   MLS_LABEL_FORMAT = '<a href="syntax-fmt.html">fmt</a>'
+   OPTIMISER_GOAL - is now OPTIMISER_MODE
+   SCHEMA=schema_name</pre>
+<p><i><span class="quote"> "Knowledge speaks, but wisdom listens." - Jimi Hendrix </span></i><br>
+<br>
+<b>Related Commands:</b><br>
+<br>
+<a href="../orap/DBMS_SESSION.html"> </a> <a href="system_a.html">ALTER SYSTEM</a> 
+ENABLE RESTRICTED SESSION <br>
+<a href="system_a.html">ALTER SYSTEM</a> KILL SESSION <br>
+<a href="system_a.html">ALTER SYSTEM</a> SET LICENSE_MAX_SESSIONS<br>
+<a href="transaction_s.html">SET TRANSACTION</a> USE ROLLBACK SEGMENT<br>
+<a href="../orap/DBMS_SESSION.html">DBMS_SESSION<br>
+</a><a href="commit.html">COMMIT</a><br>
+<a href="link_d.html">DROP DATABASE LINK</a><br>
+<a href="rollback.html">ROLLBACK</a><br>
+<b><br>
+Related Views:</b></p>
+<pre> <a href="../orad/DBA_PENDING_TRANSACTIONS.html">DBA_PENDING_TRANSACTIONS</a>
+                                           <a href="../orad/USER_RESOURCE_LIMITS.html">USER_RESOURCE_LIMITS</a>
+ <a href="../orav/V$SESSION.html">V$SESSION</a>
+ <a href="../orav/V$SESSION_CONNECT_INFO.html">V$SESSION_CONNECT_INFO</a>
+ <a href="../orav/V$SESSION_CURSOR_CACHE.html">V$SESSION_CURSOR_CACHE</a>
+ <a href="../orav/V$SESSION_EVENT.html">V$SESSION_EVENT</a>
+ <a href="../orav/V$SESSION_LONGOPS.html">V$SESSION_LONGOPS</a>
+ <a href="../orav/V$SESSION_OBJECT_CACHE.html">V$SESSION_OBJECT_CACHE</a>
+ <a href="../orav/V$SESSION_WAIT.html">V$SESSION_WAIT</a>
+ <a href="../orav/V$SESSTAT.html">V$SESSTAT</a>
+ <a href="../orav/V$SESS_IO.html">V$SESS_IO</a>
+</pre><!-- #BeginLibraryItem "/Library/foot_ora.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- oracle-footer -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4275490898"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="session_a.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

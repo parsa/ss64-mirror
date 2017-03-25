@@ -1,0 +1,52 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>SPfile | Oracle | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_ora.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../ora.1.html">Oracle</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>CREATE SPFILE</h1> 
+<p>Export a text initialization parameter file (INIT.ORA) into a binary server parameter file.</p>
+<p>  Syntax:</p>
+<pre>   CREATE SPFILE [='<i>SPfile_name</i>'] FROM PFILE [='<i>pfile_name</i>'];</pre>
+<p>A text parameter file can be easily edited in a text editor.</p>
+<p>You can execute this statement either before or after instance startup. If you have already started the instance using <i>spfile_name</i>, you cannot specify the same <i>spfile_name </i>in this statement. </p>
+<p> Oracle will look for default files, but typically you will need to specify the full pathname.<br>
+  <span class="quote"><br>
+  <i> "There are 10 kinds of people in the world: <br>
+  those who
+understand binary, and those who don't&quot;</i></span></p>
+<p><b>Related:</b></p>
+<p><a href="syntax-initora.html">Server Parameters for Oracle</a>
+<br>
+<a href="pfile.html">CREATE PFILE</a><a href="user_c.html"><br>
+</a>
+<a href="startup.html">STARTUP</a> pfile=&quot;… &quot;<br>
+  <br>
+  <b>Related Views:</b>
+<pre>                                           <a href="../orad/USER_PASSWORD_LIMITS.html">USER_PASSWORD_LIMITS</a>  
+                                                                <a href="../orad/SESSION_ROLES.html">SESSION_ROLES</a>
+                                                                <a href="../orad/SESSION_PRIVS.html">SESSION_PRIVS</a>
+                                                                <a href="../orad/SESSION_CONTEXT.html">SESSION_CONTEXT</a>
+ <a href="../orad/DBA_TS_QUOTAS.html">DBA_TS_QUOTAS</a>                             <a href="../orad/USER_TS_QUOTAS.html">USER_TS_QUOTAS</a>
+ <a href="../orad/DBA_USERS.html">DBA_USERS</a>            <a href="../orad/ALL_USERS.html">ALL_USERS</a>            <a href="../orad/USER_USERS.html">USER_USERS</a>
+ <a href="../orav/V$SESSION.html">V$SESSION</a>
+ <a href="../orav/V$SESSION_CONNECT_INFO.html">V$SESSION_CONNECT_INFO</a></pre><!-- #BeginLibraryItem "/Library/foot_ora.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- oracle-footer -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4275490898"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="spfile.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

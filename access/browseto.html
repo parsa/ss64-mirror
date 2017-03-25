@@ -1,0 +1,67 @@
+<!DOCTYPE HTML><html lang="en">
+<head><meta charset="UTF-8">
+<meta name="Description" content="Navigate between Access objects with BrowseTo (Access 2010 or greater)">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>BrowseTo | Access | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_access.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../access.1.html">Access</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/access/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>DoCmd.BrowseTo</h1>
+<p> Navigate between objects. (Access 2010) </p>
+<pre>Syntax
+      DoCmd.BrowseTo(<i>ObjectType</i>, <i>ObjectName</i>, <i>PathtoSubformControl</i>,
+                           <i>WhereCondition, Page, DataMode</i>)
+
+Key
+   <i>ObjectType</i>   The object type to browse:
+                acBrowseToForm (2) or acBrowseToReport (3)
+
+<i>   ObjectName</i>   The object that loads inside the subform control referenced
+                by the <i>PathtoSubformControl</i> argument.
+
+   <i>PathtoSubformControl</i>
+                If specified, the path from the main form of the
+                application to the target subform control that loads the
+                object specified by <i>ObjectName</i>.
+
+   <i>WhereCondition</i>
+                If specified, replaces the Where condition of the
+                object record source.
+
+   <i>Page</i>         If specified, sets the page of the continuous form that will be made the current page. This argument is Web only.
+
+   <i>DataMode</i>     If specified, the data entry mode of the form <a href="acformopendatamode.html">AcFormOpenDataMode</a>.</pre>
+<p>BrowseTo can be used to  navigate between objects in place e.g. navigate from form1 to form2 without opening  a new window. You can also change the source object of a subform control by specifying <span class="code"><i>PathToSubFormControl</i></span>. </p>
+<p>The <span class="code"><i>PathToSubFormControl</i></span> argument must include the parent form/control names as in the following example:</p>
+<p class="code">frmMainForm.SubFormCtrl1&gt;Form2.SubFormCtrl2&gt;Form3.SubFormCtrl3</p>
+<p><b>Example</b></p>
+<p>Opens frmSales in Add-Data mode in the &quot;sfrNavigation&quot; subform control on the form &quot;frmMain&quot;.</p>
+<p class="code">DoCmd.BrowseTo ObjectType:=acBrowseToForm, _ <br>
+ObjectName:=&quot;frmSales&quot;, _ <br>
+PathToSubformControl:=&quot;frmMain.sfrNavigation&quot;, _ <br>
+WhereCondition:=&quot;&quot;, _ <br>
+Page:=&quot;&quot;, _ <br>
+DataMode:=acFormAdd</p>
+<p class="quote"><i>&ldquo;A careful driver is one who honks his horn when he goes through a red light&rdquo; ~ Henry Morgan</i></p>
+<p><b>Related:</b></p>
+<p><a href="setparameter.html">SetParameter</a> - Set a parameter before opening a Form or Report.<br>
+<a href="syntax-references.html">Syntax - Form references </a><br>
+.NavigateTo - Display a database object in the Navigation Pane.</p><!-- #BeginLibraryItem "/Library/foot_access.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- access -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4313908313"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="browseto.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

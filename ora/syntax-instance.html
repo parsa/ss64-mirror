@@ -1,0 +1,80 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Instance | Oracle | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_orasyntax.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../ora.1.html">Oracle</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>Instance Background Processes</h1>
+<p>The background processes in an Oracle instance can include the following:</p>
+<p>Archiver (ARCn)<br>
+Checkpoint (CKPT)<br>
+Database Writer (DBW0 or DBWn)<br>
+Dispatcher (Dnnn)<br>
+Lock Manager Server (LMS) - Real Application Clusters only<br>
+Log Writer (LGWR)<br>
+Process Monitor (PMON)<br>
+Queue Monitor (QMNn)<br>
+Recoverer (RECO)<br>
+System Monitor (SMON)<br>
+Server (Snnn)</p>
+<p>These are created automatically when an instance is started, not all are present on every operating system.<br>
+Each server and background process can write to an associated trace file.</p>
+<p><b>DBWR</b><br>
+Although one database writer process (DBW0) is adequate for most systems, you can configure additional processes (DBW1 through DBW9) to improve write performance
+if your system modifies data heavily. <br>
+On a server with just one processor - multiple DBWR processes will not improve performance (will probably make things worse). Initialization parameter = DB_WRITER_PROCESSES</p>
+<p><b>LGWR</b><br>
+The log writer process (LGWR) writes the <a href="syntax-redo.html">redo log buffer</a> to a redo log file
+on disk. If all the log files in a group are damaged, or the group is unavailable because it has not been archived, LGWR cannot continue to function.</p>
+<p>When a user issues a COMMIT statement, LGWR puts a commit record in the redo log buffer and writes it to disk immediately, along with the transaction's
+redo entries. The corresponding changes to data blocks are deferred until it is more efficient to write them. This is called a fast commit mechanism.</p>
+<p>A transaction has not been successfully committed until it's redo entry has been written to disk.</p>
+<p><b>CKPT</b><br>
+When a checkpoint occurs the CKPT process must update the headers of all datafiles to record the details.</p>
+<p><b>SMON</b><br>
+The system monitor process (SMON) is responsible for <br>
+Crash recovery, if necessary, at instance startup. <br>
+Cleaning up temporary segments that are no longer in use.<br>
+Coalescing contiguous free extents within dictionary-managed tablespaces.</p>
+<p><b>PMON</b><br>
+The process monitor (PMON) performs process recovery.<br>
+When a user process fails PMON will:<br>
+- Clean up the database buffer cache <br>
+- Free resources
+that the user's process was using.<br>
+- Register information about the instance and dispatcher processes with the network listener.</p>
+<p><b>RECO</b><br>
+The recoverer process (RECO) is a background process used with the distributed database configuration, it automatically resolves failures involving distributed transactions.</p>
+<p><b>Job queue </b><br>
+This provides a mechanism to execute user jobs. It can be viewed as a scheduler service used to schedule jobs as PLSQL statements or procedures on an Oracle instance.</p>
+<p><b>ARCn</b><br>
+The archiver process (ARCn) copies online <a href="syntax-redo.html">redo</a> log files to disk/tape after each log switch. <br>
+ARCn processes are present only when the database is in <a href="clause_archive.html">ARCHIVELOG</a> mode.<br>
+You can specify multiple archiver processes with the initialization parameter <br>
+LOG_ARCHIVE_MAX_PROCESSES.</p>
+<p><b>Alert log. </b><br>
+The ALERT Log of a database is a chronological log of messages and errors.<br>
+Many  administrative operations will leave a completion message in the ALERT file  along with a time stamp.</p>
+<p>This log is a very useful troubleshooting tool and should be monitored regularly.</p>
+<p class="quote"><i>&quot;One of the standard things said about gender  difference is that men are more interested in outcomes, and women are more interested in process&quot; ~ Hugh MacKay (social researcher)</i></span></p>
+<p>Related</p>
+<p><a href="syntax-architecture.html">Oracle 11g Architecture</a> diagram</p><!-- #BeginLibraryItem "/Library/foot_ora.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- oracle-footer -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4275490898"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="syntax-instance.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

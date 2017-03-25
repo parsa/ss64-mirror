@@ -1,0 +1,164 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>htop Man Page | Bash | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_bash.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../bash.1.html">Bash</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/bash/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>htop</h1> 
+<p>Interactive Process viewer, find the CPU-intensive programs currently running.</p>
+<pre>Syntax
+      htop <i>options</i>
+
+Options
+       -d --delay=<i>DELAY</i>          Delay between updates, in tenths of seconds 
+       -C --no-color --no-colour  Start htop in monochrome mode 
+       -h --help                 Display a help message and exit 
+       -u --user=<i>USERNAME</i>        Show only the processes of a given user 
+       -p                        Start working thread for pagemap memory stats
+       -s --sort-key <i>COLUMN</i>      Sort by this column (use --sort-key help for a column list) 
+       -v --version              Output version information and exit 
+
+Interactive commands:
+
+   Arrows, PgUP, PgDn, Home, End
+               Scroll the process list. 
+   Space       Tag or untag a process. Commands that can operate on multiple processes,
+               like "kill", will then apply over the list of tagged processes, instead of
+               the currently highlighted one. 
+   U           Untag all processes (remove all tags added with the Space key).
+   s           Trace process system calls: if strace(1) is installed, pressing this key will
+               attach it to the currently selected process, presenting a live update of system
+               calls issued by the process.
+   l           Display open files for a process: if lsof(1) is installed, pressing this key
+               will display the list of file descriptors opened by the process.
+   F1, h, ?    Go to the help screen 
+   F2, S       Go to the setup screen, where you can configure the meters displayed at the top of the screen,
+               set various display options, choose among color schemes, and select
+               which columns are displayed, in which order. 
+   F3, /       Incrementally search the command lines of all the displayed processes.
+               The currently selected (highlighted) command will update as you type.
+               While in search mode, pressing F3 will cycle through matching occurrences. 
+   F4, \       Incremental process filtering: type in part of a process command line and only
+               processes whose names match will be shown. To cancel filtering, enter the
+               Filter option again and press Esc. 
+   F5, t       Tree view: organize processes by parenthood, and layout the relations between them as a tree.
+               Toggling the key will switch between tree and your previously selected sort view.
+               Selecting a sort view will exit tree view. 
+   F6, <, >    Select a field for sorting. The current sort field is indicated by a highlight in the header. 
+   F7, ]       Increase the selected process's priority (subtract from 'nice' value).
+               This can only be done by the superuser. 
+   F8, [       Decrease the selected process's priority (add to 'nice' value) 
+   F9, k       "Kill" process: sends a signal which is selected in a menu, to one or a group of processes.
+               If processes were tagged, sends the signal to all tagged processes.
+               If none is tagged, sends to the currently selected process. 
+   F10, q      Quit 
+   I           Invert the sort order: if sort order is increasing, switch to decreasing, and vice-versa.
+   +, -        When in tree view mode, expand or collapse subtree.
+               When a subtree is collapsed a "+" sign shows to the left of the process name.
+   a (on multiprocessor machines)
+               Set CPU affinity: mark which CPUs a process is allowed to use. 
+   u           Show only processes owned by a specified user.
+   M           Sort by memory usage (top compatibility key).
+   P           Sort by processor usage (top compatibility key).
+   T           Sort by time (top compatibility key).
+   F           "Follow" process: if the sort order causes the currently selected process to
+               move in the list, make the selection bar follow it. This is useful for monitoring
+               a process: this way, you can keep a process always visible on screen.
+               When a movement key is used, "follow" loses effect.
+   K           Hide kernel threads: prevent the threads belonging the kernel to be displayed
+               in the process list. (This is a toggle key.)
+   H           Hide user threads: on systems that represent them differently than ordinary
+               processes (such as recent NPTL-based systems), this can hide threads from userspace
+               processes in the process list. (This is a toggle key.)
+   Ctrl-L      Refresh: redraw screen and recalculate values. 
+   Numbers     PID search: type in process ID and the selection highlight will be moved to it. </pre>
+<h2>Columns</h2>
+<p>The following columns can display data about each process. A value of '-' in all the rows indicates that a column is unsupported on your system, or currently unimplemented in htop. The names below are the ones used in the &quot;Available Columns&quot; section of the setup screen. If a different name is shown in htop's main screen, it is shown below in parenthesis.</p>
+<pre>
+Command    The full command line of the process (i.e program name and arguments). 
+PID        The process ID.
+PPID       The parent process ID.
+PGRP       The process's group ID.
+SESSION (SESN)    The process's session ID. 
+TTY_NR (TTY)      The controlling terminal of the process. 
+TPGID             The process ID of the foreground process group of the controlling terminal. 
+STATE (S)         The state of the process: S for sleeping (idle) R for running D for disk sleep
+                  (uninterruptible) Z for zombie (waiting for parent to read it's exit status)
+                  T for traced or suspended (e.g by SIGTSTP) W for paging 
+PROCESSOR (CPU)   The ID of the CPU the process last executed on. 
+NLWP              The number of threads in the process.
+NICE (NI)         The nice value of a process, from 19 (low priority) to -20 (high priority).
+                  A high value means the process is being nice, letting others have a higher
+                  relative priority. Only root can lower the value. 
+PERCENT_CPU (CPU%) The percentage of the CPU time that the process is currently using. 
+UTIME (UTIME+)    The user CPU time, which is the amount of time the process has spent executing
+                  on the CPU in user mode (i.e everything but system calls), measured in clock ticks. 
+STIME (STIME+)    The system CPU time, which is the amount of time the kernel has spent executing
+                  system calls on behalf of the process, measured in clock ticks. 
+TIME (TIME+)      The time, measured in clock ticks that the process has spent in user and system
+                  time (see UTIME, STIME above). 
+CUTIME            The children's user CPU time, which is the amount of time the process's waited-for
+                  children have spent executing in user mode (see UTIME above). 
+CSTIME            The children's system CPU time, which is the amount of time the kernel has
+                  spent executing system calls on behalf of all the process's waited-for children
+                  (see STIME above). 
+PRIORITY (PRI)    The kernels internal priority for the process, usually just it's nice value plus
+                  twenty. Different for real-time processes. 
+PERCENT_MEM       The percentage of memory the process is currently using (based on the process's
+                  resident memory size, see M_RESIDENT below). 
+M_SIZE (VIRT)     Size in memory of the total program size. 
+M_RESIDENT (RES)  The resident set size, i.e the size of the text and data sections, plus stack usage. 
+M_SHARE (SHR)     The size of the process's shared pages 
+M_TRS (CODE)      The size of the text segment of the process (i.e the size of the processes
+                  executable instructions). 
+M_LRS (LIB)       The library size of the process. 
+M_DRS (DATA)      The size of the data segment plus stack usage of the process. 
+M_DT (DIRTY)      The size of the dirty pages of the process. 
+ST_UID (UID)      The user ID of the process owner. 
+USER              The username of the process owner, or the user ID if the name can't be determined.
+STARTTIME         The time the process was started. 
+RCHAR (RD_CHAR)   The number of bytes the process has read. 
+WCHAR (WR_CHAR)   The number of bytes the process has written. 
+SYSCR (RD_SYSC)   The number of read(2) syscalls for the process. 
+SYSCW (WR_SYSC)   The number of write(2) syscalls for the process. 
+RBYTES (IO_RBYTES)  Bytes of read(2) I/O for the process. 
+WBYTES (IO_WBYTES)  Bytes of write(2) I/O for the process. 
+IO_READ_RATE (IORR) The I/O rate of read(2) in bytes per second, for the process. 
+IO_WRITE_RATE (IOWR) The I/O rate of write(2) in bytes per second, for the process. 
+IO_RATE (IO)      The I/O rate, IO_READ_RATE + IO_WRITE_RATE (see above). 
+CNCLWB (IO_CANCEL) Bytes of cancelled write(2) I/O. 
+CGROUP            Which cgroup the process is in. 
+CTID              OpenVZ container ID, a.k.a virtual environment ID.
+VPID              OpenVZ process ID.
+VXID              VServer process ID.
+All other flags   Currently unsupported (always displays '-'). </pre>
+<p>htop displays per-process CPU usage (not  total server load)  it is  useful for seeing how much work the machine is doing now compared to some point in the past.</p>
+<p><b>Example <br></b><br>
+To display processes sorted by USER, updating every 5 seconds:<br>
+<span class="code">$ htop -s USER --delay=50</span></p>
+<p class="quote"><i>&quot;Venice is like eating an entire box of chocolate liqueurs at one go&quot; ~ Truman Capote </i></p>
+<p><b>Related:</b></p>
+<p><a href="http://hisham.hm/htop/">htop</a> - htop home page<br>
+<a href="https://peteris.rocks/blog/htop/">Explanation of everything you can see in htop/top</a> on Linux - Pēteris Ņikiforovs<br>
+<a href="kill.html">kill</a> - Stop a process from running<br>
+<a href="top.html">top</a> - List processes running on the system<br>
+Equivalent Windows command:  <a href="../nt/tasklist.html">TaskList</a> - Display all running applications and services</p><!-- #BeginLibraryItem "/Library/foot_bash.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- bash300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4615356305"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="htop.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

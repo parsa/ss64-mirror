@@ -1,0 +1,247 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<link rel="STYLESHEET" href="../tables.css" type="text/css">
+<title>Scheduler error codes | PowerShell | SS64.com</title>
+
+
+</head>
+<body><!-- #BeginLibraryItem "/Library/head_ps.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../ps.1.html">PowerShell</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/ps/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1><a href="scheduler.html">Task Scheduler</a> error codes</h1>
+
+<table cellspacing="0" border="0">
+<colgroup width="97">
+</colgroup>
+<colgroup width="361">
+</colgroup>
+<colgroup width="719">
+</colgroup>
+<tr>
+<td height="19" align="left">0x00041300</td>
+<td align="left">SCHED_S_TASK_READY</td>
+<td align="left">The task is ready to run at its next scheduled time.</td>
+</tr>
+<tr>
+<td height="19" align="left">0x00041301</td>
+<td align="left">SCHED_S_TASK_RUNNING</td>
+<td align="left">The task is currently running.</td>
+</tr>
+<tr>
+<td height="19" align="left">0x00041302</td>
+<td align="left">SCHED_S_TASK_DISABLED</td>
+<td align="left">The task will not run at the scheduled times because it has been disabled.</td>
+</tr>
+<tr>
+<td height="19" align="left">0x00041303</td>
+<td align="left">SCHED_S_TASK_HAS_NOT_RUN</td>
+<td align="left">The task has not yet run.</td>
+</tr>
+<tr>
+<td height="19" align="left">0x00041304</td>
+<td align="left">SCHED_S_TASK_NO_MORE_RUNS</td>
+<td align="left">There are no more runs scheduled for this task.</td>
+</tr>
+<tr>
+<td height="19" align="left">0x00041305</td>
+<td align="left">SCHED_S_TASK_NOT_SCHEDULED</td>
+<td align="left">One or more of the properties that are needed to run this task on a schedule have not been set.</td>
+</tr>
+<tr>
+<td height="19" align="left">0x00041306</td>
+<td align="left">SCHED_S_TASK_TERMINATED</td>
+<td align="left">The last run of the task was terminated by the user.</td>
+</tr>
+<tr>
+<td height="19" align="left">0x00041307</td>
+<td align="left">SCHED_S_TASK_NO_VALID_TRIGGERS</td>
+<td align="left">Either the task has no triggers or the existing triggers are disabled or not set.</td>
+</tr>
+<tr>
+<td height="19" align="left">0x00041308</td>
+<td align="left">SCHED_S_EVENT_TRIGGER</td>
+<td align="left">Event triggers do not have set run times.</td>
+</tr>
+<tr>
+<td height="19" align="left">0x80041309</td>
+<td align="left">SCHED_E_TRIGGER_NOT_FOUND</td>
+<td align="left">A task's trigger is not found.</td>
+</tr>
+<tr>
+<td height="19" align="left">0x8004130A</td>
+<td align="left">SCHED_E_TASK_NOT_READY</td>
+<td align="left">One or more of the properties required to run this task have not been set.</td>
+</tr>
+<tr>
+<td height="19" align="left">0x8004130B</td>
+<td align="left">SCHED_E_TASK_NOT_RUNNING</td>
+<td align="left">There is no running instance of the task.</td>
+</tr>
+<tr>
+<td height="19" align="left">0x8004130C</td>
+<td align="left">SCHED_E_SERVICE_NOT_INSTALLED</td>
+<td align="left">The Task Scheduler service is not installed on this computer.</td>
+</tr>
+<tr>
+<td height="19" align="left">0x8004130D</td>
+<td align="left">SCHED_E_CANNOT_OPEN_TASK</td>
+<td align="left">The task object could not be opened.</td>
+</tr>
+<tr>
+<td height="19" align="left">0x8004130E</td>
+<td align="left">SCHED_E_INVALID_TASK</td>
+<td align="left">The object is either an invalid task object or is not a task object.</td>
+</tr>
+<tr>
+<td height="19" align="left">0x8004130F</td>
+<td align="left">SCHED_E_ACCOUNT_INFORMATION_NOT_SET</td>
+<td align="left">No account information could be found in the Task Scheduler security database for the task indicated.</td>
+</tr>
+<tr>
+<td height="19" align="left">0x80041310</td>
+<td align="left">SCHED_E_ACCOUNT_NAME_NOT_FOUND</td>
+<td align="left">Unable to establish existence of the account specified.</td>
+</tr>
+<tr>
+<td height="19" align="left">0x80041311</td>
+<td align="left">SCHED_E_ACCOUNT_DBASE_CORRUPT</td>
+<td align="left">Corruption was detected in the Task Scheduler security database; the database has been reset.</td>
+</tr>
+<tr>
+<td height="19" align="left">0x80041312</td>
+<td align="left">SCHED_E_NO_SECURITY_SERVICES</td>
+<td align="left">Task Scheduler security services are available only on Windows&nbsp;NT.</td>
+</tr>
+<tr>
+<td height="19" align="left">0x80041313</td>
+<td align="left">SCHED_E_UNKNOWN_OBJECT_VERSION</td>
+<td align="left">The task object version is either unsupported or invalid.</td>
+</tr>
+<tr>
+<td height="19" align="left">0x80041314</td>
+<td align="left">SCHED_E_UNSUPPORTED_ACCOUNT_OPTION</td>
+<td align="left">The task has been configured with an unsupported combination of account settings and run time options.</td>
+</tr>
+<tr>
+<td height="19" align="left">0x80041315</td>
+<td align="left">SCHED_E_SERVICE_NOT_RUNNING</td>
+<td align="left">The Task Scheduler Service is not running.</td>
+</tr>
+<tr>
+<td height="19" align="left">0x80041316</td>
+<td align="left">SCHED_E_UNEXPECTEDNODE</td>
+<td align="left">The task XML contains an unexpected node.</td>
+</tr>
+<tr>
+<td height="19" align="left">0x80041317</td>
+<td align="left">SCHED_E_NAMESPACE</td>
+<td align="left">The task XML contains an element or attribute from an unexpected namespace.</td>
+</tr>
+<tr>
+<td height="19" align="left">0x80041318</td>
+<td align="left">SCHED_E_INVALIDVALUE</td>
+<td align="left">The task XML contains a value which is incorrectly formatted or out of range.</td>
+</tr>
+<tr>
+<td height="19" align="left">0x80041319</td>
+<td align="left">SCHED_E_MISSINGNODE</td>
+<td align="left">The task XML is missing a required element or attribute.</td>
+</tr>
+<tr>
+<td height="19" align="left">0x8004131A</td>
+<td align="left">SCHED_E_MALFORMEDXML</td>
+<td align="left">The task XML is malformed.</td>
+</tr>
+<tr>
+<td height="19" align="left">0x0004131B</td>
+<td align="left">SCHED_S_SOME_TRIGGERS_FAILED</td>
+<td align="left">The task is registered, but not all specified triggers will start the task.</td>
+</tr>
+<tr>
+<td height="19" align="left">0x0004131C</td>
+<td align="left">SCHED_S_BATCH_LOGON_PROBLEM</td>
+<td align="left">The task is registered, but may fail to start. Batch logon privilege needs to be enabled for the task principal.</td>
+</tr>
+<tr>
+<td height="19" align="left">0x8004131D</td>
+<td align="left">SCHED_E_TOO_MANY_NODES</td>
+<td align="left">The task XML contains too many nodes of the same type.</td>
+</tr>
+<tr>
+<td height="19" align="left">0x8004131E</td>
+<td align="left">SCHED_E_PAST_END_BOUNDARY</td>
+<td align="left">The task cannot be started after the trigger end boundary.</td>
+</tr>
+<tr>
+<td height="19" align="left">0x8004131F</td>
+<td align="left">SCHED_E_ALREADY_RUNNING</td>
+<td align="left">An instance of this task is already running.</td>
+</tr>
+<tr>
+<td height="19" align="left">0x80041320</td>
+<td align="left">SCHED_E_USER_NOT_LOGGED_ON</td>
+<td align="left">The task will not run because the user is not logged on.</td>
+</tr>
+<tr>
+<td height="19" align="left">0x80041321</td>
+<td align="left">SCHED_E_INVALID_TASK_HASH</td>
+<td align="left">The task image is corrupt or has been tampered with.</td>
+</tr>
+<tr>
+<td height="19" align="left">0x80041322</td>
+<td align="left">SCHED_E_SERVICE_NOT_AVAILABLE</td>
+<td align="left">The Task Scheduler service is not available.</td>
+</tr>
+<tr>
+<td height="19" align="left">0x80041323</td>
+<td align="left">SCHED_E_SERVICE_TOO_BUSY</td>
+<td align="left">The Task Scheduler service is too busy to handle your request. Please try again later.</td>
+</tr>
+<tr>
+<td height="19" align="left">0x80041324</td>
+<td align="left">SCHED_E_TASK_ATTEMPTED</td>
+<td align="left">The Task Scheduler service attempted to run the task, but the task did not run due to one of the constraints in the task definition.</td>
+</tr>
+<tr>
+<td height="19" align="left">0x00041325</td>
+<td align="left">SCHED_S_TASK_QUEUED</td>
+<td align="left">The Task Scheduler service has asked the task to run.</td>
+</tr>
+<tr>
+<td height="19" align="left">0x80041326</td>
+<td align="left">SCHED_E_TASK_DISABLED</td>
+<td align="left">The task is disabled.</td>
+</tr>
+<tr>
+<td height="19" align="left">0x80041327</td>
+<td align="left">SCHED_E_TASK_NOT_V1_COMPAT</td>
+<td align="left">The task has properties that are not compatible with earlier versions of Windows.</td>
+</tr>
+<tr>
+<td height="19" align="left">0x80041328</td>
+<td align="left">SCHED_E_START_ON_DEMAND</td>
+<td align="left">The task settings do not allow the task to start on demand.</td>
+</tr>
+</table>
+<p><b>Related</b></p>
+<p><a href="scheduler.html">Task Scheduler cmdlets</a><br>
+<a href="../nt/schtasks.html">SCHTASKS</a> - Create /Edit a Scheduled Job.</p><!-- #BeginLibraryItem "/Library/foot_ps.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- PowerShell300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="6253539900"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="scheduler-errors.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

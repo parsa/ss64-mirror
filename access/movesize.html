@@ -1,0 +1,54 @@
+<!DOCTYPE HTML><html lang="en">
+<head><meta charset="UTF-8">
+<meta name="Description" content="Move or Resize a Window.">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>MoveSize | Access | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_access.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../access.1.html">Access</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/access/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>DoCmd.MoveSize</h1>
+<p> Move or Resize a Window.</p>
+<pre>Syntax
+      DoCmd.MoveSize(<i>Right, Down, Width, Height</i>)
+
+Key
+<i>   Right</i>  The new horizontal position of the window&rsquo;s upper-left corner,
+          measured from the left edge of its containing window.<i>
+
+   Down</i>   The new vertical position of the window&rsquo;s upper-left corner,
+          measured from the top edge of its containing window.<i>
+
+   Width</i>  The window&rsquo;s new width.<i>
+
+   Height</i> The window&rsquo;s new height.</pre>
+<p>The units for the arguments are <a href="http://en.wikipedia.org/wiki/Twip">twips</a> (twentieth of a point).</p>
+<p>You must include at least one argument for the MoveSize method. If you leave an argument blank, the current setting for the window is used.</p>
+<p><b>Examples</b></p>
+<p>'Change the height of the current form to approximately 2 cm<br>
+<span class="code">DoCmd.MoveSize , , , 2500<br>
+<br>
+</span>'Change the width of the current form to approximately 16 cm<span class="code"><br>
+DoCmd.MoveSize , , 10000</span></p>
+<p class="quote">&ldquo;I have little interest in streamlining government or in making it more efficient, for I mean to reduce its size&rdquo; ~&nbsp;Barry Goldwater</p>
+<p><b>Related:</b></p>
+<p><a href="minimise.html">Minimize</a> - Minimise a window<br>
+<a href="restore.html">Restore</a> - Restore a maximized or minimized window.<br>
+<span class="code">Me.Detail.Height = 2500</span> - Change the height of a forms detail section </p><!-- #BeginLibraryItem "/Library/foot_access.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- access -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4313908313"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="movesize.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

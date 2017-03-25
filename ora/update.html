@@ -1,0 +1,113 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Update | Oracle | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_ora.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../ora.1.html">Oracle</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>UPDATE Statement</h1> 
+<p>Modify the values stored in a table.<br>
+  <br>
+  Syntax:</p>
+<pre>   UPDATE [<i>hint</i>] [<i>schema</i>.]<b>table</b> [@<i>dblink</i>] [<i>alias</i>]
+      SET <i>col_expr(s)</i>
+        [WHERE <i>condition</i>]
+           [ RETURNING (expr,…) INTO (<i>data_item</i>,…) ]
+
+   UPDATE [<i>hint</i>] [<i>schema</i>.]<b>table</b> [[SUB]<b>PARTITION</b> (<i>partition</i>)] [<i>alias</i>]
+      SET <i>col_expr(s)</i>
+        [WHERE <i>condition</i>]
+           [ RETURNING (expr,…) INTO (<i>data_item</i>,…) ]
+
+   UPDATE [<i>hint</i>] [<i>schema</i>.]<b>view</b> [@<i>dblink</i>] [<i>alias</i>]
+      SET <i>col_expr(s)</i>
+        [WHERE <i>condition</i>]
+           [ RETURNING (expr,…) INTO (<i>data_item</i>,…) ]
+
+   UPDATE [<i>hint</i>] [<i>schema</i>.]<b>materialized_view</b> [@<i>dblink</i>] [<i>alias</i>]
+      SET <i>col_expr(s)</i>
+        [WHERE <i>condition</i>]
+           [ RETURNING (expr,…) INTO (<i>data_item</i>,…) ]
+
+   UPDATE [<i>hint</i>] (<i>subquery</i>)
+     WITH {READ ONLY | CHECK OPTION [CONSTRAINT <i>constraint</i>]} 
+      SET <i>col_expr(s)</i>
+        [WHERE <i>condition</i>]
+           [ RETURNING (expr,…) INTO (<i>data_item</i>,…) ]
+
+   UPDATE [<i>hint</i>] TABLE (<i>table_collection_expression</i>) [(+)] 
+      SET <i>col_expr(s)</i>
+        [WHERE <i>condition</i>]
+           [ RETURNING (expr,…) INTO (<i>data_item</i>,…) ]
+
+<i>col_expr</i>:
+   <i>column</i> = <i>expression</i>
+   <i>column</i> = (<i>subquery</i>)
+   <i>column</i> = DEFAULT
+   (<i>column</i>, <i>column</i>,…) = (<i>subquery</i>)
+   VALUE (<i>table_alias</i>) = <i>expression</i>
+   VALUE (<i>table_alias</i>) = (<i>subquery</i>)
+
+  To update multiple columns, separate <i>col_expr</i> with commas.</pre>
+<p>The terms "snapshot" and "materialized view" are synonymous.</p>
+<p><i>table_collection_expression </i>can be a subquery, a column, a function, or a collection constructor, it must return a collection value (that is, a value whose type is nested table or varray). This allows you to update rows in one table based on rows from another table.</p>
+<p>The syntax above can also be modified to <span class="code">UPDATE [hint] <b>ONLY</b> (<i>expression</i>)</span><br>
+Use this  syntax if the view in the update clause belongs to a hierarchy and you do not want to update rows from any of its subviews.</p>
+<p><b>Examples</b></p>
+<p>Update every row in the table SALES: </p>
+<p class="code">UPDATE Sales SET Supplier_ID=123;</p>
+<p>Update multiple rows in the table SALES: </p>
+<p class="code">UPDATE Sales <br>
+SET Supplier_ID=123<br>
+WHERE 
+Supplier_ID=25;</p>
+<p>Update two columns in the table JOURNALS, use <span class="code">SELECT… FROM DUAL</span> to present the two numbers that will be inserted as a subquery, note that two sides of the SET statement must have the same number of columns: </p>
+<p class="code">UPDATE journals <br>
+SET (jo_money,jo_account_ref) = (select 64.5, 1467 from dual) <br>
+WHERE jo_journal_pk ='RS512';</p>
+<p>Update two columns in the table JOURNALS, insert a numeric and a date value: </p>
+<p class="code">UPDATE journals <br>
+SET (jo_money,jo_date) = <b>(</b>select 64.5, <a href="syntax-to_date.html">to_date</a>('2011-Dec-30', 'YYYY'-Mon-DD) from dual<b>)</b> <br>
+WHERE jo_journal_pk ='RS512';</p>
+<p>Update multiple rows in a subquery (joining two tables): </p>
+<p><span class="code">UPDATE ( Select prize <br>
+&nbsp;&nbsp;&nbsp;from Competitions c<br>
+&nbsp;&nbsp;&nbsp;inner join Gamblers g on c.comp_id = g.comp_id<br>
+&nbsp;&nbsp;&nbsp;where g.gambler_id = 456 ) p <br>
+SET p.prize = 10000<br>
+  <br>
+  </span><i class="quote">&ldquo;Even God cannot change the past&rdquo; ~ Agathon</i><b><br>
+    <br>
+Related Commands:</b></p>
+<p><a href="delete.html">DELETE</a> - Delete rows<br>
+<a href="explain.html">EXPLAIN PLAN</a> <br>
+<a href="insert.html">INSERT</a> - Insert rows<br>
+<a href="merge.html">MERGE</a> - Select rows for update or insert into a table.<br>
+<a href="select.html">SELECT</a><br>
+<a href="truncate.html">TRUNCATE</a> - Empty table<br> 
+<a href="trigger_a.html">ALTER TRIGGER</a> - Disable a trigger to perform  bulk updates without the trigger firing.</p>
+<p><b>Related Views:</b></p>
+<pre>  <a href="../orad/DBA_SNAPSHOTS.html">DBA_SNAPSHOTS</a>        <a href="../orad/ALL_SNAPSHOTS.html">ALL_SNAPSHOTS</a>        <a href="../orad/USER_SNAPSHOTS.html">USER_SNAPSHOTS</a> 
+  <a href="../orad/DBA_ALL_TABLES.html">DBA_ALL_TABLES</a>       <a href="../orad/ALL_ALL_TABLES.html">ALL_ALL_TABLES</a>       <a href="../orad/USER_ALL_TABLES.html">USER_ALL_TABLES</a>
+  <a href="../orad/DBA_TABLES.html">DBA_TABLES</a>           <a href="../orad/ALL_TABLES.html">ALL_TABLES</a>           <a href="../orad/USER_TABLES.html">USER_TABLES</a>         <a href="../orad/TAB.html">TAB</a>
+  <a href="../orad/DBA_VIEWS.html">DBA_VIEWS</a>            <a href="../orad/ALL_VIEWS.html">ALL_VIEWS</a>            <a href="../orad/USER_VIEWS.html">USER_VIEWS</a>
+                                                                <a href="../orad/DICTIONARY.html">DICTIONARY</a>
+                                                                <a href="../orad/DICT_COLUMNS.html">DICT_COLUMNS</a></pre><!-- #BeginLibraryItem "/Library/foot_ora.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- oracle-footer -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4275490898"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="update.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

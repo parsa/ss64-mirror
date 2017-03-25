@@ -1,0 +1,138 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>DBMS_STATS | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_orapack.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../ora.1.html">Oracle</a></li>
+<li class="tbtn"><a href="../orap.1.html">Packages</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>PL/SQL Packages DBMS_STATS</h1> 
+<p>Gather, View, Modify or Delete optimizer statistics for database 
+  objects.</p>
+<pre>Subprocedures:
+GATHER_DATABASE_STATS
+    (estimate_percent,block_sample,method_opt,degree, granularity,cascade,stattab, <br>     statid, options,statown,gather_sys,no_invalidate,gather_temp,gather_fixed,stattype);
+GATHER_INDEX_STATS 
+    (ownname,indname,partname,estimate_percent,stattab,statid                  <br>     statown,degree,granularity,no_invalidate,stattype);
+GATHER_SCHEMA_STATS
+    (ownname,estimate_percent,block_sample,method_opt,degree,granularity,cascade,<br>     stattab,statid,options,statown,no_invalidate,gather_temp,gather_fixed);
+GENERATE_STATS
+    (ownname,objname,organized);
+GATHER_SYSTEM_STATS 
+    (gathering_mode,interval,stattab,statid,statown);
+GATHER_TABLE_STATS
+    (ownname,tabname,partname,estimate_percent,block_sample,method_opt,<br>     degree,granularity,cascade,stattab,statid,statown,no_invalidate,stattype);
+PREPARE_COLUMN_VALUES
+    (srec,values);
+SET_COLUMN_STATS 
+SET_INDEX_STATS 
+SET_SYSTEM_STATS 
+SET_TABLE_STATS 
+CONVERT_RAW_VALUE 
+GET_COLUMN_STATS 
+GET_INDEX_STATS 
+GET_SYSTEM_STATS 
+GET_TABLE_STATS 
+DELETE_COLUMN_STATS
+    (ownname,tabname,colname,partname,stattab,statid,<br>     cascade_parts,statown,no_invalidate,force);
+DELETE_DATABASE_STATS
+    (stattab,statid,statown,no_invalidate,stattype,force);
+DELETE_INDEX_STATS
+    (ownname,indname,partname,stattab,statid,cascade_parts,statown            <br>     no_invalidate,stattype,force);
+DELETE_SCHEMA_STATS
+    (ownname,stattab,statid,statown,no_invalidate<br>     stattype,force);
+DELETE_SYSTEM_STATS
+    (stattab,statid,statown); 
+DELETE_TABLE_STATS 
+    (ownname,tabname,partname,stattab,statid,cascade_parts,cascade_columns,    <br>     cascade_indexes,statown,no_invalidate,stattype,force);
+CREATE_STAT_TABLE 
+DROP_STAT_TABLE 
+EXPORT_COLUMN_STATS 
+EXPORT_INDEX_STATS 
+EXPORT_SYSTEM_STATS 
+EXPORT_TABLE_STATS 
+EXPORT_SCHEMA_STATS 
+EXPORT_DATABASE_STATS 
+IMPORT_COLUMN_STATS 
+IMPORT_INDEX_STATS 
+IMPORT_SYSTEM_STATS 
+IMPORT_TABLE_STATS 
+IMPORT_SCHEMA_STATS 
+IMPORT_DATABASE_STATS 
+FLUSH_SCHEMA_MONITORING_INFO 
+FLUSH_DATABASE_MONITORING_INFO 
+ALTER_SCHEMA_TABLE_MONITORING 
+ALTER_DATABASE_TABLE_MONITORING   </pre>
+<p>Oracle Corporation recommend setting the ESTIMATE_PERCENT parameter of the gathering procedures to DBMS_STATS.AUTO_SAMPLE_SIZE. This will maximize performance gains while achieving good statistical accuracy.</p>
+<p><span class="body"><b>Examples:</b><br>
+  <br>
+
+  To collect stats for the schema SCOTT:</span></p>
+<p><span class="code">EXEC DBMS_STATS.gather_schema_stats('SCOTT',DBMS_STATS.AUTO_SAMPLE_SIZE);</span></p>
+<p>Alternatively specify the parameters explicitly, cascade will include indexes: </p>
+<pre>
+EXEC DBMS_STATS.gather_schema_stats (ownname =&gt; 'SCOTT', cascade =&gt;true,estimate_percent =&gt; dbms_stats.auto_sample_size);
+</pre>
+<p><span class="body">To schedule this command to run regularly see the <a href="DBMS_JOB.html">DBMS_JOB</a> package </span></p>
+<p><span class="body"><br>
+SYS/SYSTEM schema:<br>
+In version 9i and greater gathering statistics for SYS/SYSTEM  is supported, in previous versions it</span> is not recommended and not supported. Although you are now free to analyse the system schema I havent seen any great performance benefits (or penalties) from doing so.</p>
+<p><span class="body">  <b>Delete Statistics:</b></span></p>
+<p><span class="body">    </span><span class="code">EXEC DBMS_STATS.delete_schema_stats('SCOTT');</span><span class="body"><br>
+  <br>
+  To check if statistics have been deleted from a schema:<br>
+  <br>
+  SELECT count(*) from user_histograms;<br>
+or
+<br>
+SELECT * from <a href="../orad/USER_TABLES.html">user_tables</a> WHERE avg_space 
+                    is not null; <br>
+  This will return 'no rows selected' when no stats are present.</span></p>
+<p>In a small test environment the ability to modify the statistics allows you to simulate running a large production database.</p>
+<p><span class="body">The DBMS_STATS package is  available for Oracle 8i and above, for Oracle 7 use <a href="DBMS_UTILITY.html">DBMS_UTILITY</a><b><br>
+  </b><i><br>
+</i></span><span class="quote"><i>&quot;The only people for me are the mad ones, the ones who are mad to live, 
+                  mad to talk, mad to be saved; the ones who never yawn or say a commonplace thing, 
+                  but burn, burn, burn, like fabulous yellow roman candles exploding like spiders 
+                  across the stars.&quot; - Jack 
+                  Kerouac </i></span></p>
+<span class="body"><b>Related Commands:</b></span><br>
+<p> <a href="DBMS_UTILITY.html">DBMS_UTILITY.ANALYZE_SCHEMA</a><br>
+  <a href="DBMS_DDL.html">DBMS_DDL</a> - compile/analyze objects <br>
+<a href="DBMS_JOB.html">DBMS_JOB</a> - Schedule PL/SQL procedures<br>
+  <a href="DBMS_IOT.html">DBMS_IOT</a>.BUILD_CHAIN_ROWS_TABLE <br>
+  <span class="body"><a href="../ora/analyze.html">ANALYZE</a> - Analyse Table and/or Index</span> 
+  <br>
+  <a href="../ora/explain.html">EXPLAIN PLAN</a><br>
+  STATISTICS - <a href="../ora/stats_assoc.html">ASSOCIATE STATISTICS</a> <br>
+  STATISTICS - <a href="../ora/stats_dis.html">DISASSOCIATE STATISTICS</a> <br>
+  <i>Oracle9i Database Performance Tuning Guide and Reference</i> - how to use DBMS_STATS<br>
+  <i>Oracle9i Supplied PL/SQL Packages and Types Reference</i> - full description of the DBMS_STATS package<br>
+<a href="../links/orasqllinks.html"><i>Oracle Built in Packages</i></a> by Steven Feuerstein et al</p>
+<p><b>Related Views:</b></p>
+<pre>                                                               <a href="../orad/INDEX_STATS.html">INDEX_STATS</a>
+ <a href="../orad/DBA_PART_COL_STATISTICS.html">DBA_PART_COL_STATISTICS</a>  <a href="../orad/ALL_PART_COL_STATISTICS.html">ALL_PART_COL_STATISTICS</a> <a href="../orad/USER_PART_COL_STATISTICS.html">USER_PART_COL_STATISTICS</a> 
+ <a href="../orad/DBA_SUBPART_COL_STATISTICS.html">DBA_SUBPART_COL_STATISTICS</a>  <a href="../orad/ALL_SUBPART_COL_STATISTICS.html">ALL_SUBPART_COL_STATISTICS</a>  <a href="../orad/USER_SUBPART_COL_STATISTICS.html">USER_SUBPART_COL_STATISTICS</a> 
+ <a href="../orad/DBA_TAB_COL_STATISTICS.html">DBA_TAB_COL_STATISTICS</a>   <a href="../orad/ALL_TAB_COL_STATISTICS.html">ALL_TAB_COL_STATISTICS</a>  <a href="../orad/USER_TAB_COL_STATISTICS.html">USER_TAB_COL_STATISTICS</a> 
+ <a href="../orad/DBA_USTATS.html">DBA_USTATS</a>               <a href="../orad/ALL_USTATS.html">ALL_USTATS</a>              <a href="../orad/USER_USTATS.html">USER_USTATS</a>
+</pre>
+<p><b>Equivalent SQL Server command:</b>
+<p><a href="../sql/stats_c.html">CREATE STATISTICS </a>
+<!-- #BeginLibraryItem "/Library/foot_ora.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- oracle-footer -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4275490898"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="DBMS_STATS.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

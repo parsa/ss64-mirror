@@ -1,0 +1,60 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>SQL Server List instances | SQL Server | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_sql.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../sql.1.html">SQL</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/sql/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>Instances</h1>
+<p>A PowerShell script to enumerate the SQL instances across multiple servers. </p>
+<pre>##
+# Read in a list of Server Names from a file. 
+# For each server, query the services to find the SQL server instance names.
+# List all the SQL instances found to a log file.
+
+##
+
+$servers = get-content "C:\batch\servers.txt"
+$logfile = "C:\batch\sql-instances.txt"
+$logerrs = "C:\batch\sql-failures.txt"
+
+Echo "Server, Instance" &gt;&gt; $logfile
+
+ForEach ($server in $servers) { 
+   $instances = Get-WmiObject -ComputerName $server win32_service | where {$_.name -like "MSSQL*"}
+
+   if (!$?) {
+      Echo "$server - No SQL instance found" &gt;&gt; $logerrs
+      Echo "$server - No SQL instance found"
+   }
+   Else {
+      ForEach ($instance in $instances) {
+         if (($instance.name -eq "MSSQLSERVER") -or ($instance.name -like "MSSQL$*")) {
+            Echo "$server, $($instance.name)" &gt;&gt; $logfile
+            Echo "$server, $($instance.name)"
+         }
+      }  
+   }
+}
+# SS64.com/sql/syntax-instances.html</pre>
+<p class="quote"><i>&ldquo;The majority is never right. Never, I tell you! That’s one of these lies in society that no free and intelligent man can help rebelling against. Who are the people that make up the biggest proportion of the population—the intelligent ones or the fools? I think we can agree it’s the fools, no matter where you go in this world, it’s the fools that form the overwhelming majority&rdquo; ~ Henrik Ibsen, Dr. Stockmann, in An Enemy of the People, act 4 (1882)</i></p>
+<p><b>Related:</b></p>
+<p><span class="code">SQLCMD -L </span>~ List all SQL instances </p><!-- #BeginLibraryItem "/Library/foot_sql.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ss64-sql -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="6953563613"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="syntax-instances.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

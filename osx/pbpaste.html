@@ -1,0 +1,61 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>pbpaste OSX Man Page | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_osx.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../osx.1.html">macOS</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/osx/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>pbpaste</h1> 
+<p>Paste data from the clipboard to STDOUT.</p>
+<pre>Syntax
+      pbpaste [-pboard {general | ruler  |  find  |  font}]
+                 [-Prefer  {ascii | rtf | ps}]
+
+Key
+   -pboard  Specify a pasteboard to copy to.
+            By default the general pasteboard.
+
+   -Prefer  Specify the type of data to look for in the pasteboard.
+            (pbpaste normally looks first for  ASCII data)
+            In any case, pbpaste looks for the other formats if the preferred one is not found.</pre>
+<p>pbpaste will remove data from the clipboard/pasteboard and write it to the standard output. <br>
+It normally looks first for ASCII data in the clipboard and writes that to the standard output; if no ASCII data is in the pasteboard it looks for Encapsulated PostScript; if no EPS if present
+it looks for Rich Text.<br>
+If none of those types is present in the pasteboard, pbpaste produces no output.</p>
+<p><b>Examples</b></p>
+<p>Save the clipboard to a file in the users home folder:</p>
+<p class="code">$ pbpaste &gt; ~/ss64.txt</p>
+<p>Save the clipboard to the END a file in the users home folder:</p>
+<p class="code">$ pbpaste &gt;&gt; ~/ss64.txt</p>
+<p>Replace spaces in the clipboard text with <span class="code">%20 </span></p>
+<p class="code">$ pbpaste | <a href="sed.html">sed</a> 's/ /%20/g' | pbcopy</p>
+<p>Replace commas (from CSV data) in the clipboard text with tabs (as recognised by Apple Numbers). To type this command in macOS you will need to replace the<span class="code"> \t</span> with a literal tab character: type <span class="code">Ctrl+V</span> and then hit <span class="code">Tab</span>.</p>
+<p class="code">$ pbpaste | sed &quot;s/,/<b>\t</b>/g&quot; | pbcopy</p>
+<p>Look first for RTF:<br>
+<span class="code">$ pbpaste -Prefer RTF</span></p>
+<p>Replace the current contents of the clipboard with a base64 encoded version:</p>
+<p class="code">$ pbpaste | base64 | pbcopy</p>
+<p class="quote"><i>&ldquo;Failure is not fatal, but failure to change might be&rdquo; ~ John Wooden</i></p>
+<p><b>Related:</b></p>
+<p>
+<a href="https://developer.apple.com/legacy/library/documentation/Darwin/Reference/ManPages/man1/pbpaste.1.html">pbpaste man page</a> - Apple.com<br>
+<a href="pbcopy.html">pbcopy</a> - Copy data to the clipboard<br>
+<a href="printenv.html">printenv</a> - Print environment variables</p><!-- #BeginLibraryItem "/Library/foot_osx.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- OSX300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="1823340303"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="pbpaste.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

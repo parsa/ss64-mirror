@@ -1,0 +1,45 @@
+
+USE [SS64_DATA_WAREHOUSE]
+GO
+
+IF OBJECT_ID('DimTimes') IS NOT NULL
+	DROP TABLE DimTimes
+GO
+
+
+/**** Create the [DimTimes] table  ****/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[DimTimes](
+	[TIMESK] [int] IDENTITY(1,1) NOT NULL,
+	[CLOCKTIME] [smalldatetime] NOT NULL,
+	[HOUR24] [int] NOT NULL,
+	[MINUTE24] [int] NOT NULL,
+	[TIME24] [char](8) NOT NULL,
+	[HOUR12] [int] NOT NULL,
+	[HOUR12_LONG] [varchar](5) NULL,
+	[MINUTE12] [int] NOT NULL,
+	[TIME12] [char](8) NOT NULL,
+	[TIME12_LONG] [char](11) NOT NULL,
+	[AMPM] [char](8) NOT NULL,
+	[LastModified] [datetime] NOT NULL,
+ CONSTRAINT [PK_DimTimes] PRIMARY KEY CLUSTERED 
+( [TIMESK] ASC
+) WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON,
+        ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+ALTER TABLE [dbo].[DimTimes] ADD  CONSTRAINT [DF_mtblDimTimes_LastModified]  DEFAULT (getdate()) FOR [LastModified]
+GO

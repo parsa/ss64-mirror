@@ -1,0 +1,180 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Security, Roles and Privileges | Oracle | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_orasyntax.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../ora.1.html">Oracle</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>Security, Roles and Privileges</h1>
+<h2> Overview</h2>
+<p>  A schema is a set of objects owned by a user, A user automatically has all
+    object privileges for schema objects contained in his or her schema. A user
+    can grant any object privilege on any schema object
+he or she owns to any other user or role.</p>
+<p>  A privilege can be granted  explicitly. For example, the privilege
+    to insert records into the EMP table can be explicitly granted to the user
+    SCOTT.<br>
+  Alternatively a privilege can be granted to a role (a named group of privileges),
+  and then the role can be granted to one or more users. <br>
+  For example, the privilege
+    to insert records into the EMP table can be granted to the role named CLERK,
+    which
+  in turn can be granted to the users SCOTT and BRIAN.</p>
+<p>The SQL statements <a href="grant.html">GRANT</a> and <a href="revoke.html">REVOKE</a>, respectively allow /disallow access.</p>
+<h2>Three Schema Security Model</h2>
+<p>  Typically all database tables
+      are stored in a single schema - security options are then set to grant
+other schemas/users access to the data.</p>
+<p>The 'Three Schema Security Model' for database security:</p>
+<p>Level 1 Schema - Owns all application data tables. e.g. APP_DATA<br>
+  Level 2 Schema - Owns Views and Packages needed to access the application data
+    e.g. APP_CODE<br>
+  Level 3 Schema - Used for application users to connect to the database. e.g.
+  APP_USER</p>
+<p>This arrangement makes it easy to do imports and exports<br>
+  e.g. <br>
+  A USER level EXPORT of APP_DATA will export all the data but not Views, Packages
+  or Procedures.<br>
+  A USER level IMPORT of APP_CODE will update the application code without affecting
+  any data.</p>
+<p>To make this work will require some permissions to be set:</p>
+<p>Level 1 Schema - Grant the required SELECT, UPDATE, DELETE privileges to the
+  Level 2 Schema.</p>
+<p>Level 2 Schema - Objects in this schema use privileges granted by the first
+  schema to access the data.</p>
+<p>Level 3 Schema - Uses privileges granted and objects created by the second
+  schema to access the data.</p>
+<p>None of the 3 schemas should be given full DBA permissions.<br>
+  Application users should never be allowed to connect to the database via a
+    'single' schema that owns all data and objects.</p>
+<p>Rather than the 'level 3 schema' being a single schema/logon/password, you
+  can choose to implement multiple schemas, one for each user - in this case
+  privileges
+  should be granted to each level 3 schema using a ROLE.</p>
+<h2>ROLES</h2>
+<p>  Any role can be granted to any database user.</p>
+<p><a href="grant.html">GRANT</a> role TO [user,] [role,]</p>
+<p>Each role granted to a user is, at a given time, either enabled or disabled.
+  This can be used to provide selective availability of privileges.</p>
+<p>A role can be granted to other roles (an indirect grant.)<br>
+  However, a role cannot be granted
+  to itself and cannot be granted circularly. For example, role A cannot be granted
+  to role B if role B has previously been granted to role A.<br>
+  <br>
+  An indirectly granted role can be explicitly
+    enabled or disabled for a user. However, by enabling a role that contains
+      other roles, you implicitly enable all indirectly granted roles of the
+      directly granted
+    role.<br>
+  <br>
+  The following default roles are provided only for backward compatibility with
+  earlier versions of Oracle:<br>
+  CONNECT, RESOURCE, DBA, EXP_FULL_DATABASE, IMP_FULL_DATABASE<br>
+  It is recommended
+  that you create new roles to suit the specific needs of your application.</p>
+<p>  A role can be granted <i>system </i>or <i>schema object </i>privileges.</p>
+<p>A <i>schema object </i>privilege is a privilege or right to perform a particular
+  action on a specific schema object, different object privileges are available
+  for different
+types of schema objects. </p>
+<p>A <i>system</i> privilege is the right to perform a particular action, or to perform
+  an action on any schema objects of a particular type. There are over 60 distinct
+  system privileges.</p>
+<p>Selective privileges are used to restrict a user's INSERT and UPDATE privileges
+  to sensitive data.<br>
+  With selective UPDATE, a user can update only specific columns of a row. <br>
+  With
+  selective INSERT, a user can insert a row with values for the selected
+  columns. All other columns receive NULL or the
+  column's
+  default value.<br>
+  <br>
+  To use a view, you require appropriate privileges only for the view itself.
+You do not require privileges on base objects underlying the view.</p>
+<p>Views add two more levels of security for tables, column-level security and
+  value-based security:<br>
+  A view can provide access to selected columns of base tables and also displays
+  only selected rows (if a WHERE clause is used in the definition of the view)</p>
+<h2>Privileges to run code</h2>
+<p><b>Invoker Rights</b> - An invoker-rights procedure executes with
+  all of the invoker's roles and privileges. This is also the default for anonymous
+  PL/SQL
+  blocks.</p>
+<p>When using Invoker Rights the invoker needs privileges at runtime to
+    access program references
+  embedded in 
+  DML statements or dynamic SQL statements.</p>
+<p><b>Definer Rights</b> - A user of a definer-rights procedure requires
+    only the privilege to execute the procedure; not on the underlying objects
+    that
+      the procedure accesses, because a definer-rights procedure operates under
+      the security domain of the user who owns the procedure, regardless of who
+  is executing it. </p>
+<p>When using Definer Rights it's essential that the procedure's owner has all
+  the necessary object privileges for all referenced objects. </p>
+<p>Fewer privileges have to be granted to users of a definer-rights procedure,
+resulting in tighter control of database access. See the <i>PL/SQL
+User's Guide and Reference</i> for more.</p>
+<h2>  Secure Application Roles</h2>
+<p>  Secure application roles can only be enabled by authorized PL/SQL packages.
+    This mechanism restricts the enabling of roles to the invoking application.
+    Application developers no longer need
+  to secure a role by embedding passwords inside applications. Instead, they
+  create a secure application role and<br>
+specify which PL/SQL package is authorized to enable the role.</p>
+<p><a href="role_c.html">CREATE ROLE</a> admin_role IDENTIFIED USING hr.admin;</p>
+<p>Because of the restriction that users can not change security domain inside
+  Definer's Right procedures, secure application roles can only be enabled inside
+  Invoker's Right procedures.</p>
+<h2>  User Settings and Quotas</h2>
+<p>  Oracle provides a way to direct and limit the use of disk space allocated to the database for each user, including default and temporary tablespace and
+tablespace quota.<br>
+Each user is assigned a <b>profile</b> that can limit the system resources available to the user.<br>
+e.g. 
+Number of concurrent sessions,
+CPU processing
+time, amount of logical I/O.</p>
+<p>Oracle can lock a user's account if a specified number of password attempts fail. Depending on how the account is configured, it can be unlocked automatically
+after a
+specified time interval.<br>
+Password lifetime and expiration, password history/complexity are also controlled via the <a href="profile_c.html">CREATE PROFILE</a> statement</p>
+<p>The database uses password files to keep track of database usernames who have been granted the SYSDBA and SYSOPER privileges. These privileges allow DBAdmin
+and DBOperator rights.</p>
+<h2>The User Group PUBLIC</h2>
+<p>  Each database contains a user group called PUBLIC. The PUBLIC user group provides public access to specific schema objects, such as tables and views, and provides
+all users with specific system privileges. Every user automatically belongs to the PUBLIC user group.<br>
+As members of PUBLIC, users can see (select from) all data dictionary tables prefixed with USER and ALL. Additionally, a user can grant a privilege or a
+role to PUBLIC. All users can use the privileges granted to PUBLIC.<br>
+<br>
+You can grant or revoke any system privilege, object privilege, or role to PUBLIC.<br>
+However, to maintain tight security over access rights, grant only privileges and roles that are of interest to all users to PUBLIC.<br>
+<br>
+Granting and revoking some system and object privileges to and from PUBLIC can cause every view, procedure, function, package, and trigger in the database
+to be recompiled.<br>
+<br>
+PUBLIC has the following restrictions:<br>
+You cannot assign tablespace quotas to PUBLIC, although you can assign the UNLIMITED TABLESPACE system privilege to PUBLIC.<br>
+You can create database links and synonyms as PUBLIC (using CREATE PUBLIC DATABASE LINK/SYNONYM), but no other schema object can be owned by PUBLIC.<br>
+<br>
+<i class="quote">"They that can give up essential liberty to obtain a little temporary safety deserve neither liberty nor safety&quot; ~ Benjamin Franklin.</i></span><br>
+<br>
+<b>Related</b></p>
+<p><a href="role_c.html">CREATE ROLE</a></p><!-- #BeginLibraryItem "/Library/foot_ora.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- oracle-footer -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4275490898"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="syntax-secure.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

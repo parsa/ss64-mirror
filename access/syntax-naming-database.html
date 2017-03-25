@@ -1,0 +1,243 @@
+<!DOCTYPE HTML><html lang="en">
+<head><meta charset="UTF-8">
+<meta name="Description" content="Tags used to identify types of objects in a Microsoft Access database.">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<link rel="STYLESHEET" href="../tables.css" type="text/css">
+<title>VBA Naming Convention - Database | Access | SS64.com</title></head>
+<body><!-- #BeginLibraryItem "/Library/head_access_syntax.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../access.1.html">Access</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/access/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>The Reddick <a href="syntax-naming.html">VBA Naming Conventions</a> - Database Explorer objects</h1>
+<p><b>Table 7</b> lists the tags used to identify types of objects in a database.</p>
+<p><b>Table 7.</b> Access Database Explorer object tags.</p>
+<table border=1 cellspacing=0 cellpadding=0>
+<tr>
+<th><p>Tag</p></th>
+<th><p>Object Type</p></th>
+</tr>
+<tr>
+<td><p>tbl</p></td>
+<td><p>Table</p></td>
+</tr>
+<tr>
+<td><p>qry</p></td>
+<td><p>Query</p></td>
+</tr>
+<tr>
+<td><p>frm</p></td>
+<td><p>Form</p></td>
+</tr>
+<tr>
+<td><p>rpt</p></td>
+<td><p>Report</p></td>
+</tr>
+<tr>
+<td><p>mcr</p></td>
+<td><p>Macro</p></td>
+</tr>
+<tr>
+<td><p>bas</p></td>
+<td><p>Module</p></td>
+</tr>
+</table>
+<p>If you wish, you can use more exact tags or suffixes to identify the purpose and type of a database object. If you use the suffix, use the tag given from <b>Table 7</b> to indicate the type. Use either the tag or the suffix found along with the more general tag, but not both. The tags and suffixes are shown in <b>Table 8</b>.</p>
+<p><b>Table 8.</b> Specific object tags and suffixes for Access Database Explorer objects.</p>
+<table border=1 cellspacing=0 cellpadding=0>
+<tr>
+<th><p>Tag</p></th>
+<th><p>Suffix</p></th>
+<th><p>Object Type</p></th>
+</tr>
+<tr>
+<td><p>tlkp</p></td>
+<td><p>Lookup</p></td>
+<td><p>Table (lookup)</p></td>
+</tr>
+<tr>
+<td><p>qsel</p></td>
+<td><p>(none)</p></td>
+<td><p>Query (select)</p></td>
+</tr>
+<tr>
+<td><p>qapp</p></td>
+<td><p>Append</p></td>
+<td><p>Query (append)</p></td>
+</tr>
+<tr>
+<td><p>qxtb</p></td>
+<td><p>XTab</p></td>
+<td><p>Query (crosstab)</p></td>
+</tr>
+<tr>
+<td><p>qddl</p></td>
+<td><p>DDL</p></td>
+<td><p>Query (DDL)</p></td>
+</tr>
+<tr>
+<td><p>qdel</p></td>
+<td><p>Delete</p></td>
+<td><p>Query (delete)</p></td>
+</tr>
+<tr>
+<td><p>qflt</p></td>
+<td><p>Filter</p></td>
+<td><p>Query (filter)</p></td>
+</tr>
+<tr>
+<td><p>qlkp</p></td>
+<td><p>Lookup</p></td>
+<td><p>Query (lookup)</p></td>
+</tr>
+<tr>
+<td><p>qmak</p></td>
+<td><p>MakeTable</p></td>
+<td><p>Query (make table)</p></td>
+</tr>
+<tr>
+<td><p>qspt</p></td>
+<td><p>PassThru</p></td>
+<td><p>Query (SQL pass-through)</p></td>
+</tr>
+<tr>
+<td><p>qtot</p></td>
+<td><p>Totals</p></td>
+<td><p>Query (totals)</p></td>
+</tr>
+<tr>
+<td><p>quni</p></td>
+<td><p>Union</p></td>
+<td><p>Query (union)</p></td>
+</tr>
+<tr>
+<td><p>qupd</p></td>
+<td><p>Update</p></td>
+<td><p>Query (update)</p></td>
+</tr>
+<tr>
+<td><p>fdlg</p></td>
+<td><p>Dlg</p></td>
+<td><p>Form (dialog)</p></td>
+</tr>
+<tr>
+<td><p>fmnu</p></td>
+<td><p>Mnu</p></td>
+<td><p>Form (menu)</p></td>
+</tr>
+<tr>
+<td><p>fmsg</p></td>
+<td><p>Msg</p></td>
+<td><p>Form (message)</p></td>
+</tr>
+<tr>
+<td><p>fsfr</p></td>
+<td><p>SubForm</p></td>
+<td><p>Form (subform)</p></td>
+</tr>
+<tr>
+<td><p>rsrp</p></td>
+<td><p>SubReport</p></td>
+<td><p>Form (subreport)</p></td>
+</tr>
+<tr>
+<td><p>mmnu</p></td>
+<td><p>Mnu</p></td>
+<td><p>Macro (menu)</p></td>
+</tr>
+</table>
+<p>Here are some examples:</p>
+<p class=code>tblValidNamesLookup</p>
+<p class=code>tlkpValidNames</p>
+<p class=code>fmsgError</p>
+<p class=code>mmnuFileMnu</p>
+<p>When naming objects in a database, don’t use spaces. Instead, capitalize the first letter of each word. For example, instead of Quarterly Sales Values Table, use tblQuarterlySalesValues.</p>
+<p>  There is strong debate over whether fields in a table should have tags. Whether you use them is up to you. However, if you do use them, use the tags from <b>Table 9</b>.</p>
+<p><b>Table 9.</b> Field tags (if you decide to use them).</p>
+<table border=1 cellspacing=0 cellpadding=0>
+<tr>
+<th><p>Tag</p></th>
+<th><p>Object Type</p></th>
+</tr>
+<tr>
+<td><p>bin</p></td>
+<td><p>Binary</p></td>
+</tr>
+<tr>
+<td><p>byt</p></td>
+<td><p>Byte</p></td>
+</tr>
+<tr>
+<td><p>guid</p></td>
+<td><p>Globally unique identified (GUID) used for replication AutoIncrement fields</p></td>
+</tr>
+<tr>
+<td><p>lng</p></td>
+<td><p>Autoincrementing (either sequential or random) Long (used with the suffix Cnt)</p></td>
+</tr>
+<tr>
+<td><p>cur</p></td>
+<td><p>Currency</p></td>
+</tr>
+<tr>
+<td><p>dat</p></td>
+<td><p>Date/time</p></td>
+</tr>
+<tr>
+<td><p>dbl</p></td>
+<td><p>Double</p></td>
+</tr>
+<tr>
+<td><p>int</p></td>
+<td><p>Integer</p></td>
+</tr>
+<tr>
+<td><p>lng</p></td>
+<td><p>Long</p></td>
+</tr>
+<tr>
+<td><p>mem</p></td>
+<td><p>Memo</p></td>
+</tr>
+<tr>
+<td><p>ole</p></td>
+<td><p>OLE</p></td>
+</tr>
+<tr>
+<td><p>sng</p></td>
+<td><p>Single</p></td>
+</tr>
+<tr>
+<td><p>str</p></td>
+<td><p>Text</p></td>
+</tr>
+<tr>
+<td><p>f</p></td>
+<td><p>Yes/No</p></td>
+</tr>
+</table>
+<p>Copyright © 1995 Greg Reddick. You can freely distribute this document.</p>
+<p><b>Related:</b></p>
+<ol>
+<li><a href="syntax-naming-variables.html">Introduction - Variable and Procedure names</a></li>
+<li><a href="syntax-naming-prefix.html">Prefixes</a></li>
+<li><a href="syntax-naming-suffix.html">Suffixes</a></li>
+<li><a href="syntax-naming-object-vars.html">Object variables and DAO</a> - variables</li>
+<li>Database Explorer objects - Table, Query, Form etc </li>
+<li><a href="syntax-naming-objects.html">Object Names</a></li></ol><!-- #BeginLibraryItem "/Library/foot_access.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- access -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4313908313"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="syntax-naming-database.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

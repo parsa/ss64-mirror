@@ -1,0 +1,70 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Where - locate files | Windows CMD | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_nt.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../nt.1.html">CMD</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/nt/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>WHERE (Windows 2003 + )</h1> 
+<p> Locate and display files in a directory tree. <br>
+  <br>
+  The WHERE command is roughly equivalent to the UNIX 'which' command. By default, the search is done in the <a href="cd.html">current directory</a> 
+and in the <a href="path.html">PATH</a>.
+<pre>Syntax
+      WHERE [/r <i>Dir</i>] [/q] [/f] [/t] <i>Pattern</i> ...
+
+      WHERE [/q] [/f] [/t] [$<i>ENV</i>:<i>Pattern</i>
+
+key
+   /r      A recursive search, starting with the specified <i>Dir</i> directory.
+
+   /q      Don&rsquo;t display the files but return either an exit code of 0 for success
+           or 1 for failure.
+
+   /f      Display the output file name in quotation marks.
+
+   /t      Display the size, time stamp, and date stamp of the file.
+
+  <i>pattern</i>  The Drive\Directory\file, or set of files to be found.
+           you can use wildcard characters ( ? * ) and UNC paths.
+
+   <i>ENV</i>     Path to search where <i>ENV</i> is an existing environment variable containing one or more paths.</pre>
+<p>By default, WHERE searches the current directory and the paths specified in the PATH environment variable. Optional search paths (in <i>pattern</i>) should not be used in conjunction with <span class="code">/r Dir</span>.</p>
+<p><b>Examples</b></p>
+<p>Find all files named 'Zappa' in the current system path</p>
+<p><span class="code">WHERE  Zappa</span><br>
+<br>
+Find all files named 'Zappa' on the remote computer 'Server64' searching 
+its subdirectories:<br>
+<br>
+<span class="code">WHERE /r \\Server64\Share1 Zappa.* </span></p>
+<p><i class="quote">&ldquo;Who never walks, save where he sees men's tracks, makes no discoveries&rdquo; ~ Josiah Gilbert Holland </i><br>
+<br>
+<b>Related:</b></p>
+<p><a href="syntax-which.html">Which.cmd</a> - Show full path to executable.<br>
+<a href="http://www.flounder.com/whereis.htm">whereis utility</a> - Flounder.com<br>
+<a href="http://www.robvanderwoude.com/unixports.php#WHICH">Which </a>  - Rob Vanderwoude (Batch/Perl/VBScript) <br>
+<a href="https://blogs.msdn.com/oldnewthing/archive/2005/01/20/357225.aspx">OldNewthing</a> - which batch file + discussion <br>
+<a href="cd.html">CD</a> - Change Directory<br>
+<a href="type.html">TYPE</a> - Display the contents of a text file <br>
+Equivalent bash command (Linux): <a href="../bash/which.html">which</a> - Show full path of commands<br>
+Equivalent PowerShell cmdlet: <span class="code">(<a href="../ps/get-command.html">get-command</a> $file).Definition</span><br>
+</p><!-- #BeginLibraryItem "/Library/foot_nt.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- windows300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="7649547908"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="where.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

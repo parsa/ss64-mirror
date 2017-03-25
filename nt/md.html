@@ -1,0 +1,95 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Md - Make directory | Windows CMD | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_nt.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../nt.1.html">CMD</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/nt/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>MD</h1> 
+<p>Make Directory - Creates a new folder. </p>
+<pre>Syntax
+      MD [<i>drive</i>:]<i>path</i>
+
+Key
+   The path can consist of any valid characters up to the maximum path length available</pre>
+<p> Command extensions, which are enabled by default, allow  a single MD command to create all the intermediate directories in a specified path. </p>
+<p>Avoid using the following characters in folder names 
+  - they are  known to cause problems:<br>
+  <br>
+  © ® &quot; - &amp; ' ^ ( ) and @<br>
+  <br>
+  Many extended characters will not be recognised by older 16 bit windows 
+  applications.<br>
+  <br>
+  The maximum length of a full pathname (folders and filename) under NTFS or FAT 
+  is 260 characters. <br>
+  <br>
+  Folder names are not case sensitive, but only folder names longer than 8 characters 
+will always retain their case, as typed.</p>
+<h2>Errorlevels</h2>
+<blockquote>
+<p>If the Directory was   successfully created <a href="errorlevel.html">%ERRORLEVEL%</a> = 0<br>
+Directory could not be created = 1</p>
+</blockquote>
+<p><b>Examples<br>
+</b></p>
+<pre>C:\temp&gt; MD MyFolder</pre>
+<p> Make several folders with one command<b><br>
+  </b></p>
+<pre>C:\temp&gt; MD Alpha Beta Gamma</pre>
+<p> will create<br>
+  <br>
+  C:\temp\Alpha\<br>
+  C:\temp\Beta\<br>
+  C:\temp\Gamma\ <b><br>
+  <br>
+  </b>Make an entire path <br>
+  MD creates any intermediate directories in the path, if needed. <br>
+For example, assuming \utils does not exist then: </p>
+<pre> MD \utils\downloads\Editor 
+   
+   is the same as: 
+   
+   MD \utils 
+   cd \utils 
+   MD downloads 
+   cd downloads
+   MD Editor</pre>
+<p>for filenames with spaces or punctuation characters, include quotes:<br><br>
+<span class="code">&nbsp;MD &quot;\utils\downloads\Super New Editor&quot; </span></p>
+<p> You cannot create a folder with the same name as any of the following 
+devices:<br>
+CON, PRN, LPT1, LPT2 ..LPT9, COM1, COM2 ..COM9<br>
+This limitation ensures that <a href="syntax-redirection.html">redirection</a> to these devices will always work.<br>
+<br>
+If you plan to copy data onto CDROM avoid folder trees more than 8 folders deep.<br>
+<br>
+MKDIR is a synonym for MD <br>
+<br>
+<i class="quote">&quot;We are American at puberty. We die French&quot; - Evelyn Waugh </i> <br>
+<br>
+<b> Related:</b><br>
+<br>
+<a href="del.html">RD</a> - Delete folders or entire folder trees<br>
+<a href="mklink.html">MKLINK</a> / Linkd - Link an NTFS directory to a target object.<br>
+powershell: 
+<a href="../ps/new-item.html">New-Item</a> -path c:\ -name &quot;Demo Folder&quot; -type directory<br>
+Equivalent bash command (Linux): <a href="../bash/mkdir.html"> mkdir</a> - Create new folder(s)</p><!-- #BeginLibraryItem "/Library/foot_nt.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- windows300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="7649547908"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="md.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

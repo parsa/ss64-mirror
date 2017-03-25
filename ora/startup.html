@@ -1,0 +1,117 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Startup | Oracle | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_ora.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../ora.1.html">Oracle</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>STARTUP</h1> 
+<p>Startup a database instance.<br>
+  This is a SQL*Plus command (not part of standard SQL)<br>
+  <br>
+  Syntax:</p>
+<pre>   STARTUP [FORCE] [RESTRICT] [PFILE=<i>filename</i>] NOMOUNT 
+
+   STARTUP [FORCE] [RESTRICT] [PFILE=<i>filename</i>] MOUNT [<i>dbname</i>]
+
+   STARTUP [FORCE] [RESTRICT] [PFILE=<i>filename</i>] OPEN [<i>Open_options</i>] [<i>dbname</i>] 
+
+<i>Open_options:</i>
+         READ {ONLY | WRITE [RECOVER]} | RECOVER
+
+Key:
+   FORCE
+                 Shut down the current Oracle instance (if it is running) with
+                 SHUTDOWN mode ABORT, before restarting it. 
+                 If the current instance is running and FORCE is not specified,
+                 an error results. FORCE is useful while debugging and under abnormal
+                 circumstances. It should not normally be used.
+
+   RESTRICT
+                 Only allow Oracle users with the RESTRICTED SESSION system privilege
+                 to connect to the database. Later, you can use the ALTER SYSTEM command
+                 to disable the restricted session feature.
+
+   PFILE=<i>filename</i>
+                 The init.ora parameter file to be used while starting up the instance.
+                 If PFILE is not specified, then the default STARTUP parameter file is used.
+                 The default file used is platform specific.
+                 For example, the default file is $ORACLE_HOME/dbs/init$ORACLE_SID.ora on UNIX,
+                 and %ORACLE_HOME%\database\initORCL.ora on Windows.
+
+   MOUNT <i>dbname</i>
+                 Mount a database but do not open it.
+                 dbname is the name of the database to mount or open.
+                 If no database name is specified, the database name is taken from the
+                 initialization parameter DB_NAME.
+
+   OPEN
+                 Mount and open the specified database.
+
+   NOMOUNT
+                 Don't mount the database upon instance startup.
+                 Cannot be used with MOUNT, or OPEN.
+
+   RECOVER
+                 Specifies that media recovery should be performed, if necessary,
+                 before starting the instance.
+                 STARTUP RECOVER has the same effect as issuing the RECOVER DATABASE command
+                 and starting an instance.
+                 Only 'complete recovery' is possible with the RECOVER option.
+
+                 Recovery proceeds, if necessary, as if AUTORECOVERY is set to ON,
+                 regardless of whether or not AUTORECOVERY is enabled.
+
+                 If a redo log file is not found in the expected location,
+                 recovery will continue by prompting you with the suggested location  
+                 and name of the subsequent log files that need to be applied.
+</pre>
+<p>Startup NOMOUNT will run the background processes for the instance.<br>
+Startup MOUNT will open the Control Files.<br>
+Startup OPEN will open the Data Files.</p>
+<p>On Windows, starting the Oracle services will also startup the instance. </p>
+<p><b>Examples</b><br>
+Startup with a pfile or  SPfile</p>
+<p>When starting an Oracle instance with the simple command <span class="code">'startup'</span>, Oracle will first look 
+for a binary <b>SPfile</b> in the default location; if it can't find one, it will look for a <b>pfile</b> (init.ora) in the default location.</p>
+<p>If you start the oracle instance and specify <span class="code">pfile=xxx</span> then Oracle will use the 'old-fashioned' pfile as you requested.</p>
+<p class="code">Startup  pfile=&quot;C:\oracle\admin\live\pfile\init.ora&quot;</p>
+<p>Strangely there is no option that will start an oracle instance with a binary spfile residing in a non-default location.<br>
+As a workaround for this, create a traditional init.ora containing  one line:<br>
+<span class="code">SPfile=E:\pathtoyourSPfile\SPfileLive.ora</span><br> 
+Then startup the instance calling the pfile which in turn will reference the SPfile that you want.<br>
+For this to work - make sure you don't also have an SPfile in the default location.</p>
+<p><i class="quote">"Be nice to people on the way up, because you'll meet 
+  them on your way down" - Wilson 
+  Mizner</i><b><br>
+  <br>
+  Related Commands:<br>
+  </b> <a href="database_a.html"><br>
+  ALTER DATABASE</a> Open / Mount <br>
+  <a href="session_a.html"> ALTER SESSION</a><br>
+  <a href="system_a.html">ALTER SYSTEM</a> enable restricted session <br>
+  <a href="shutdown.html">SHUTDOWN</a> <br>
+  ORA-01034 - Oracle not available (the database is down) <br>
+  <b><br>
+</b><b>Related Views:</b></p>
+<pre>   <a href="../orad/DBA_PENDING_TRANSACTIONS.html">DBA_PENDING_TRANSACTIONS</a> 
+   <a href="../orad/DBA_JOBS_RUNNING.html">DBA_JOBS_RUNNING</a>  
+   <a href="../orav/V$SESSION.html">V$SESSION</a></pre><!-- #BeginLibraryItem "/Library/foot_ora.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- oracle-footer -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4275490898"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="startup.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

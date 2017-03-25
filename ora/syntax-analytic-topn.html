@@ -1,0 +1,152 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Analytic functions TopN | Oracle | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_orasyntax.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../ora.1.html">Oracle</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>Analytic Functions - Top n Ranking Functions </h1> 
+<p> RANK and DENSE_RANK - Calculate the rank of a value in a group, e.g. Pete is the 14th best performing salesman in the Northern region.<br>
+<br>
+The difference between RANK() and DENSE_RANK() is that RANK() will leave a gap in the ranking sequence when there are ties. e.g. rather than listing places 
+ 1,2,2,3 you would get 1,2,2,4<br>
+<br>
+The largest rank value produced by DENSE_RANK equals the number of distinct values in the dataset.<br>
+<br>
+The ordering sequence will affect the result: <br>
+DESC = Top <i>n</i> <br>
+ASC = Bottom <i>n</i>.<br>
+<br>
+<b>RANK as an analytic function</b><br>
+The function will compute the rank of <b>each row </b>returned from a query with respect to the other rows returned by the query, as defined by the order_by_clause. 
+It is possible to have several RANK () OVER functions in a single SQL statement.<br>
+</p>
+<p>Syntax (analytic function)</p>
+<pre>   RANK () OVER
+      ([PARTITION BY <i>query_partition_clause</i>] ORDER BY <i>order_by_clause</i>);
+
+Example:
+   SELECT department_id, last_name, salary,
+   RANK() OVER (PARTITION BY department_id
+                ORDER BY salary DESC) "Rank"
+   FROM employees;</pre>
+<p> <b>RANK as an aggregate function</b><br>When used in this way RANK will compute the rank of <b>one row </b>returned from a query with respect to the other rows returned by the query, as defined by the order_by_clause. <br>
+<br>
+Syntax (aggregate function):</p>
+<pre>   RANK (<i>expression</i>) WITHIN GROUP
+      (ORDER BY <i>order_by_clause</i> [ASC|DESC] [NULLS FIRST|LAST] );
+
+Example:
+   SELECT RANK(25000) WITHIN GROUP 
+   (ORDER BY salary DESC) "Rank of 25000" 
+   FROM employees;
+   </pre>
+<p> <b>CUME_DIST analytic function</b><br>
+This function computes the relative (fractional) position of one value among a group of rows.<br>
+It returns a decimal value between 0 and 1 </p>
+<p>Syntax (analytic function)</p>
+<pre>   CUME_DIST () OVER
+      ([PARTITION BY <i>query_partition_clause</i>] ORDER BY <i>order_by_clause</i>);
+
+Example:
+   SELECT department_id, last_name, salary,
+   CUME_DIST() OVER (PARTITION BY department_id
+                ORDER BY salary DESC) "Cumulative Distribution "
+   FROM employees;</pre>
+<p> <b>CUME_DIST as an aggregate function</b><br><br>
+When used in this way CUME_DIST will compute the (fractional) position of <b>one row </b>returned from a query with respect to the other rows 
+returned by the query, as defined by the order_by_clause. <br>
+<br>
+Syntax (aggregate function):</p>
+<pre>   CUME_DIST (<i>expression</i>) WITHIN GROUP
+      (ORDER BY <i>order_by_clause</i> [ASC|DESC] [NULLS FIRST|LAST] );
+
+Example:
+   SELECT CUME_DIST(25000) WITHIN GROUP 
+   (ORDER BY salary DESC) "Cumulative Distribution of 25000" 
+   FROM employees;
+   </pre>
+<p><b>PERCENT_RANK function</b><br>
+This is identical to the CUME_DIST function above, but is calculated as a percentage rather than a fractional amount - It returns a decimal value 
+ between 0 and 1<br>
+The first row in an ASCending set will have a Percent_Rank of 0, this works in the same way as the Excel function of the same name.<br>
+<br>
+<b>NTILE function</b><br>
+Summary statistics - <i>evenly </i>divide a data set into thirds, fourths or any other grouping, so for example you could divide sales data into four groups 
+and then analyse rank within the top group. This works just like football leagues - top of the second division league, third place in the first division league 
+etc.<br>
+(For other ways of grouping data see also <a href="syntax-analytic-case.html">WIDTH_BUCKET</a> and the <a href="syntax-analytic-case.html">CASE</a> function)</p>
+<p>Syntax (analytic function)</p>
+<pre>   NTILE ([expr]) OVER
+      ([PARTITION BY <i>query_partition_clause</i>] ORDER BY <i>order_by_clause</i>);
+
+Example:
+   SELECT department_id, last_name, salary,
+   NTILE() OVER (PARTITION BY department_id
+                ORDER BY salary DESC) "Percentile Distribution "
+   FROM employees;</pre>
+<p><b>ROW_NUMBER function</b><br>
+Not to be confused with the ROWNUM pseudocolumn, this function assigns a unique number to each row: determined by the ORDER BY clause<br><br>
+Syntax (analytic function)</p>
+<pre>   ROW_NUMBER () OVER
+      ([PARTITION BY <i>query_partition_clause</i>] ORDER BY <i>order_by_clause</i>);
+
+<b class="body">Examples:</b><br>
+   SELECT employee_name, salary,
+     ROW_NUMBER() OVER (ORDER BY salary DESC NULLS LAST) As "MyNum"
+   FROM employees;
+
+<span class="body">From 9i upwards this also works in PL/SQL:</span>
+
+  declare
+  cursor csr is select ename,deptno,
+  rank() over (partition by deptno order by sal)
+  as sal_seq
+  from emp
+  order by deptno;
+  begin
+  for c in csr
+  loop
+  dbms_output.put_line(c.ename||' '||c.deptno||'  '||c.sal_seq);
+  end loop;
+  end;
+SQL> /
+MILLER 10  1
+CLARK 10  2
+KING 10  3
+SMITH 20  1
+ADAMS 20  2
+JONES 20  3
+SCOTT 20  4
+FORD 20  4
+JAMES 30  1
+MARTIN 30  2
+WARD 30  2
+TURNER 30  4
+ALLEN 30  5
+BLAKE 30  6</pre>
+<p>If the PARTITION BY clause is missing, the function will operate over the entire dataset.<br>
+<i><br>
+<span class="quote">&ldquo;OS/2 will dominate the desktop within five years&rdquo; ~ Gartner Group (1988)</span></i></p>
+<p><b>Related</b><br>
+<br>
+<a href="syntax-analytic.html">Analytic features</a><br>
+<a href="syntax-functions.html">Oracle SQL Functions</a></p><!-- #BeginLibraryItem "/Library/foot_ora.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- oracle-footer -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4275490898"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="syntax-analytic-topn.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

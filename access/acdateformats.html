@@ -1,0 +1,101 @@
+<!DOCTYPE HTML><html lang="en">
+<head><meta charset="UTF-8">
+<meta name="Description" content="A list of the Date Formats available when using the MS Access VBA format() function">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<link rel="STYLESHEET" href="../tables.css" type="text/css">
+<title>Date Formats | Access | SS64.com</title>
+<style type="text/css">
+.code {text-align: center;}
+</style>
+</head><body><!-- #BeginLibraryItem "/Library/head_access.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../access.1.html">Access</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/access/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>Date Formats used by the <a href="format.html">format()</a> function</h1>
+<table>
+<tr><td><p class="code"><i><strong>Character</strong></i></p></td><td><p><i><strong>Description</strong></i></p></td>
+</tr>
+<tr><td><p class="code"><strong> :</strong></p></td><td><p>Time separator. Separates hours, minutes, and seconds when time values are formatted. <br>
+The actual character used as the time separator in formatted output is determined by your system settings.</p></td></tr>
+<tr><td><p class="code"> <strong>/</strong></p></td><td><p>Date separator. Separates the day, month, and year when date values are formatted. <br>
+The actual character used as the date separator in formatted output is determined by your system settings.</p></td></tr>
+<tr><td><p class="code">c</p></td><td><p>Display the date as <span class="code">ddddd</span> and display the time as <span class="code">ttttt</span>, in that order. Display only date information if there is no fractional part to the date serial number; display only time information if there is no integer portion.</p></td></tr>
+<tr><td><p class="code">d</p></td><td><p>Display the day as a number without a leading zero (1 – 31).</p></td></tr>
+<tr><td><p class="code">dd</p></td><td><p>Display the day as a number with a leading zero (01 – 31).</p></td></tr>
+<tr><td><p class="code">ddd</p></td><td><p>Display the day as an abbreviation (Sun – Sat).</p></td></tr>
+<tr><td><p class="code">dddd</p></td><td><p>Display the day as a full name (Sunday – Saturday).</p></td></tr>
+<tr><td><p class="code">ddddd</p></td><td><p>Display the date as a complete date (including day, month, and year), formatted according to your system's short date format setting. <br>
+The default short date format is <span class="code">m/d/yy</span>.</p></td></tr>
+<tr><td><p class="code">dddddd</p></td><td><p>Display a date serial number as a complete date (including day, month, and year) formatted according to the long date setting recognized by your system. The default long date format is <span class="code">mmmm dd, yyyy</span>.</p></td></tr>
+<tr><td><p class="code">aaaa</p></td><td><p>The same as dddd, only it's the localized version of the string.</p></td></tr>
+<tr><td><p class="code">w</p></td><td><p>Display the day of the week as a number (1 for Sunday through 7 for Saturday).</p></td></tr>
+<tr><td><p class="code">ww</p></td><td><p>Display the week of the year as a number (1 – 54) This is <b>not</b> reliable, see notes below.</p></td></tr>
+<tr><td><p class="code">m</p></td><td><p>Display the month as a number without a leading zero (1 – 12). If <span class="code">m</span> immediately follows <span class="code">h</span> or <span class="code">hh</span>, the minute rather than the month is displayed.</p></td></tr>
+<tr><td><p class="code">mm</p></td><td><p>Display the month as a number with a leading zero (01 – 12). If <span class="code">m</span> immediately follows <span class="code">h</span> or <span class="code">hh</span>, the minute rather than the month is displayed. </p></td></tr>
+<tr><td><p class="code">mmm</p></td><td><p>Display the month as an abbreviation (Jan – Dec).</p></td></tr>
+<tr><td><p class="code">mmmm</p></td><td><p>Display the month as a full month name (January – December).</p></td></tr>
+<tr><td><p class="code">oooo</p></td><td><p>The same as mmmm, only it's the localized version of the string.</p></td></tr>
+<tr><td><p class="code">q</p></td><td><p>Display the quarter of the year as a number (1 – 4).</p></td></tr>
+<tr><td><p class="code">y</p></td><td><p>Display the day of the year as a number (1 – 366).</p></td></tr>
+<tr><td><p class="code">yy</p></td><td><p>Display the year as a 2-digit number (00 – 99).</p></td></tr>
+<tr><td><p class="code">yyyy</p></td><td><p>Display the year as a 4-digit number (100 – 9999).</p></td></tr>
+<tr><td><p class="code">h</p></td><td><p>Display the hour as a number without leading zeros (0 – 23).</p></td></tr>
+<tr><td><p class="code">Hh</p></td><td><p>Display the hour as a number with leading zeros (00 – 23).</p></td></tr>
+<tr><td><p class="code">N</p></td><td><p>Display the minute as a number without leading zeros (0 – 59).</p></td></tr>
+<tr><td><p class="code">Nn</p></td><td><p>Display the minute as a number with leading zeros (00 – 59).</p></td></tr>
+<tr><td><p class="code">S</p></td><td><p>Display the second as a number without leading zeros (0 – 59).</p></td></tr>
+<tr><td><p class="code">Ss</p></td><td><p>Display the second as a number with leading zeros (00 – 59).</p></td></tr>
+<tr><td><p class="code">t t t t t</p></td><td><p>Display a time as a complete time (including hour, minute, and second), formatted using the time separator defined by the time format recognized by your system. A leading zero is displayed if the leading zero option is selected and the time is before 10:00 A.M. or P.M. The default time format is <span class="code">h:mm:ss</span>.</p></td></tr>
+<tr><td><p class="code">AM/PM</p></td><td><p>Use the 12-hour clock and display an uppercase AM with any hour before noon; display an uppercase PM with any hour between noon and 11:59 P.M.</p></td></tr>
+<tr><td><p class="code">am/pm</p></td><td><p>Use the 12-hour clock and display a lowercase AM with any hour before noon; display a lowercase PM with any hour between noon and 11:59 P.M.</p></td></tr>
+<tr><td><p class="code">A/P</p></td><td><p>Use the 12-hour clock and display an uppercase A with any hour before noon; display an uppercase P with any hour between noon and 11:59 P.M.</p></td></tr>
+<tr><td><p class="code">a/p</p></td><td><p>Use the 12-hour clock and display a lowercase A with any hour before noon; display a lowercase P with any hour between noon and 11:59 P.M.</p></td></tr>
+<tr><td><p class="code">AMPM</p></td><td><p>Use the 12-hour clock and display the AM string literal as defined by your system with any hour before noon; display the PM string literal as defined by your system with any hour between noon and 11:59 P.M. AMPM can be either uppercase or lowercase, but the case of the string displayed matches the string as defined by your system settings. The default format is AM/PM.</p></td></tr></table>
+<h2><br>
+Predefined Date formats:</h2>
+<table>
+<tbody><tr><th><p class="code"><b><i>Format</i></b></p></th><th><p><i><b>Description</b></i></p></th>
+</tr>
+<tr><td><p class="code">General Date</p></td><td><p>Display a date and/or time. For real numbers, display a date and time, for example, 4/3/12 05:34 PM.If there is no fractional part, display only a date, for example, 4/3/12. If there is no integer part, display time only, for example, 05:34 PM. Date display is determined by your system settings.</p></td></tr>
+<tr><td><p class="code">Long Date</p></td><td><p>Display a date according to your system's long date format.</p></td></tr>
+<tr><td><p class="code">Medium Date</p></td><td><p>Display a date using the medium date format appropriate for the language version of the host application.</p></td></tr>
+<tr><td><p class="code">Short Date</p></td><td><p>Display a date using your system's short date format.</p></td></tr>
+<tr><td><p class="code">Long Time</p></td><td><p>Display a time using your system's long time format; includes hours, minutes, seconds.</p></td></tr><tr><td><p class="code">Medium Time</p></td><td><p>Display time in 12-hour format using hours and minutes and the AM/PM designator.</p></td></tr>
+<tr><td><p class="code">Short Time</p></td><td><p>Display a time using the 24-hour format, for example, 17:45.</p></td></tr></tbody></table>
+<p><br>
+When using Access to insert data into a SQL Server table, it is  recommended to use the <span class="code">YYYYMMDD hh:nn:ss</span> format, this minimises problems with international date/time formatting.</p>
+<h2>Week Numbers</h2>
+<p>The option for weeknumbers (<span class="code">ww</span>) is <a href="http://support.microsoft.com/kb/200299">buggy</a> for certain weeks/years. To produce a correct <a href="../dates.html">ISO 8601</a> weeknumber use a function, if this is saved in a module it can be used in VBA or in an <a href="syntax-functions.html">SQL query</a>:<br>
+</p>
+<pre>Function ISOWeekNum(dtmDate) 
+' Returns a WeekNumber from a date 
+   Dim NearThurs 
+   NearThurs = ((dtmDate+5) \ 7) * 7 - 2 
+   ISOWeekNum = ((NearThurs - DateSerial(Year(NearThurs), 1, 1)) \ 7) + 1 
+End function
+ 
+' Example 
+ wscript.echo "ISOWeekNumber: " &amp; ISOWeekNum(cdate("2017-12-25"))</pre>
+<p class="quote"><i>&ldquo;The aim of science is not to open the door to infinite wisdom but to set a limit to infinite error&rdquo; ~  Bertolt Brecht ‘Life of Galileo’</i></p>
+<p><b>Related:</b></p>
+<p><a href="acnumberformats.html">Number formats</a><br>
+<a href="format.html">Format function</a><br>
+<a href="../dates.html">Standard date and time notation</a> - YYYY-MM-DD<br>
+<a href="http://support.microsoft.com/kb/200299">Q200299</a> - BUG: Format or DatePart Functions return wrong Week number for last Monday in year.</p><!-- #BeginLibraryItem "/Library/foot_access.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- access -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4313908313"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="acdateformats.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

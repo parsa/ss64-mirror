@@ -1,0 +1,348 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Oracle Naming conventions | Oracle | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_orasyntax.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../ora.1.html">Oracle</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>Oracle Naming Conventions</h1>
+<p>When designing a database it's a good idea to follow some sort of naming convention. 
+  This will involve a little thought in the early design stages but will save 
+  significant time when maintaining the finished system.<br>
+  <br>
+  It's less important which exact conventions you choose to follow - but this 
+  page has a few suggestions.<br>
+  <br>
+  The benefits of using a naming convention are more to do with human factors 
+  than any system limitations - but this does not make them any less important.</p>
+<p><b>Table Names</b></p>
+<blockquote>
+  <blockquote> 
+    <p>Table names are <i>plural</i>, field name is <i>singular</i><br>
+      <br>
+      Table names should not contain spaces, words should be split_up_with_underscores.</p>
+<p>The table name is limited to 30 bytes which should equal a 30 character name (try a <span class="code">DESC ALL_TABLES</span> and note the size of the Table_Name column) <br>
+  <br>
+  If the table name contains serveral words, only the last one should be plural:<br>
+  <span class="code">APPLICATIONS <br>
+  APPLICATION_FUNCTIONS <br>
+  APPLICATION_FUNCTION_ROLES </span><br>
+  <br>
+  There are pros and cons to adding a prefix or suffix to identify tables-<br>
+<br>
+Pros: If most  access will be made via VIEWS then prefixing all the tables with <span class="code">T_</span> and all the views with <span class="code">V_</span> keeps things organised neatly,  you will never accidentally query the wrong one.<br>
+<br>
+Cons:
+Suppose, 
+  your naming convention is to have the '_TAB' suffix for all tables. According 
+  to that naming convention, the APPLICATIONS table would be called APPLICATIONS_TAB. 
+  If as time goes by, your application gets a second login, perhaps for auditing, 
+  or for security reasons. To avoid code changes, you will then have to create 
+  a View or Synonym that points at the original tables and is confusingly called APPLICATIONS_TAB. <br>
+<br>
+Of course if all your code is written against Views in the first place then you will skirt right around this issue.</p>
+</blockquote>
+  
+</blockquote>
+<p><b> Field Names</b></p>
+<blockquote> 
+  <blockquote> 
+    <p>Ideally each field name should be unique within the database schema. This makes it easy to search through a large set of code (or documentation) and find all occurences of the field name. <br>
+      <br>
+      The convention is to prefix the fieldname with a 2 or 3 character contraction 
+  of the table name e.g.</p>
+    <blockquote> 
+      <p><span class="code">PATIENT_OPTIONS</span> would have a field called <span class="code">po_patient_option</span></p>
+      <p><span class="code">PATIENT_RELATIVES</span> would have a field called <span class="code">pr_relative_name</span></p>
+      <p><span class="code">APPOINTMENTS</span> would have a field called <span class="code">ap_date</span></p>
+    </blockquote>
+    <p>In a large schema you will often find two tables having similar names which 
+      could result in the same prefix. You can avoid this by thinking carefully 
+      about the name you give each table - and documenting the prefixes to be 
+  used.</p>
+<p>One advantage of this prefix is that you are very unlikely to choose a <b>reserved</b> word by accident. <br>
+  <br>
+  For very complex systems (thousands of tables) consider alternatives e.g. 
+a prefix/suffix to identify the Application module. </p>
+<p>Keeping names short: Oracle places no limit on the number of columns in
+      a GROUP BY clause or
+      the number of sort specifications in an ORDER BY clause. However, the
+      sum of the sizes of all such expressions is limited to the size of an Oracle
+      data block (specified by the initialization parameter DB_BLOCK_SIZE) minus
+      some
+    overhead.</p>
+  </blockquote>
+  
+</blockquote>
+<p><b>Primary Key Fields </b>- indicate by appending <b>_pk</b></p>
+<blockquote> 
+  <blockquote> 
+    <p>e.g.</p>
+    <p><span class="code">PATIENTS</span> would have a primary key called <span class="code">pa_patient_id_pk</span><br>
+      <br>
+      <span class="code">REGIONS</span> would have a primary key called <span class="code">re_region_id_pk </span></p>
+    <p>And so on…the name of the primary key field being a singular version 
+      of the table name. Other tables containing this as a foreign key would omit 
+      the _PK<br>
+      <br>
+      so<br>
+      <span class="code">CLINIC_ATTENDANCE</span> might then have a foreign key called <span class="code">ca_patient_id</span><br>
+      or alternatively: <span class="code">ca_patient_id_fk</span><br>
+      <br>
+      Tables with Compound PK's, use <b>_ck</b> in place of _pk<br>
+      <br>
+      Notice that where several tables use the same PK as part of a compound foreign 
+    key then the only unique part of the FK fieldname will be the table prefix.</p>
+  </blockquote>
+</blockquote>
+<p><b>View Names</b></p>
+<blockquote>
+<blockquote>
+<p>View names are <i>plural</i>, field name is <i>singular</i><br>
+<br>
+View names should not contain spaces, words should be split_up_with_underscores.</p>
+<p> While it is  common to prefix (or suffix) all views with <span class="code">V_ </span>or  <span class="code">VW_</span>, a strong argument can be made  that neither are really needed. </p>
+<p>One of the easiest ways to boost the performance of an application is to provide, at an early stage in the design, a carefully tuned set of views, then write all the application code against those Views.<br>
+Giving your Views friendly easy names will promote their use by developers and end-users, this in turn will mean fewer badly written queries and more use of 'shared SQL' which will improve the cache hit ratio.</p>
+<p>For very large systems, it can make sense to prefix tables/views with the application module name, so a database holding data for both Widget Production and Human Resources data might prefix everything with either HR_ or WP_ </p>
+</blockquote>
+</blockquote>
+<p><b>Index names</b></p>
+<blockquote> 
+  <blockquote> 
+    <p>Name the Primary Key index as <b>idx_</b>&lt;TableName&gt;<b>_pk </b></p>
+    <blockquote> 
+      <p>e.g.<br>
+        <span class="code">PATIENTS</span> would have a primary key index called <span class="code">idx_patients_pk</span></p>
+    </blockquote>
+    <p>Name a Unique Index as <b>idx_</b>&lt;TableName&gt;<b>_uk </b></p>
+    <blockquote> 
+      <p>e.g.<br>
+        <span class="code">PATIENTS</span> would have a unique index called<span class="code"> idx_patients_uk</span></p>
+    </blockquote>
+    <p>Where more indexes are added to the same table, simply append a numeric:</p>
+    <blockquote> 
+      <blockquote>
+        <p><b>idx_</b>&lt;TableName&gt;<b>_## </b></p>
+        <p>Where ## is a simple number</p>
+      </blockquote>
+      <p>e.g.<br>
+        <span class="code">PATIENTS</span> would have additional indexes called<span class="code"> idx_patients_01, idx_patients_02</span>,…</p>
+    </blockquote>
+    <p><i>Note - Conventions that attempt to use the column name as part of the 
+      index name become unmanageable as soon as you have multiple columns appearing 
+      in multiple indexes.</i></p>
+  </blockquote>
+</blockquote>
+<p><b>Constraints </b></p>
+<blockquote> 
+  <blockquote> 
+    <p> Primary and Unique constraints will be explicitly named.<br>
+      <br>
+      Name the Primary Key Constraint as <b>pk_</b>&lt;TableName&gt;</p>
+    <blockquote><p> e.g.<br>
+        <span class="code">PATIENTS</span> would have a primary key index called <span class="code">pk_patients</span></blockquote>
+    <p>Name a Foreign Key Constraint as <b>fk_</b>&lt;TableName&gt;</p>
+    <blockquote> 
+      <p>e.g.<br>
+        <span class="code">PATIENTS</span> would have a Foreign Key constraint called <span class="code">fk_patients</span></p>
+    </blockquote>
+    <p><i>Note - in general each constraint should have a similar name to the index 
+      used to support the constraint.</i></p>
+  </blockquote>
+  
+</blockquote>
+<p><b>Other Fields</b></p>
+<blockquote> 
+  <blockquote> 
+    <p>Without getting carried away, you can also apply a suffix to non key fields 
+      where this is helpful in describing the type of data being stored.<br>
+      e.g.<br>
+      A  column used to store boolean (Yes/No) values can be given a _yn suffix: retired<b>_yn</b>, superuser <b>_yn</b>, driver<b>_yn</b><br>
+      <br>
+      In lookup tables an easy way to identify the main text field is to name 
+      it as a singular version of the tablename<br>
+      e.g.</p>
+    <pre>asset_types.at_asset_type_id_pk   (Primary Key)
+asset_types.at_asset_type         (Text field)
+asset_types.at_network_yn         (boolean) </pre>
+</blockquote>
+</blockquote>
+<p><b>SQL</b></p>
+<blockquote> 
+  <blockquote> 
+    <p>Type all SQL statements in lowercase, being consistent with capitalisation improves the caching of SQL statements. A common variant is to put only SQL keywords in capitals. </p>
+    <pre>SELECT
+   em_employee_id_pk,
+   em_employee,
+   ab_start_date
+FROM
+   employees em,
+   absences ab
+WHERE
+   absences.ab_employee_id=employees.em_employee_id_pk;</pre>
+    <p> You already have a unique prefix worked out for every table, so use the 
+      same thing when an ALIAS is required - this makes the SQL much easier to 
+      read.<br>
+      <br>
+      Always list tables in the FROM / WHERE clause in desired join order - even 
+      with CBO you are giving the Query Optimiser less work to do.</p>
+  </blockquote>
+</blockquote>
+<p><b>PL/SQL</b></p>
+<blockquote> 
+  <blockquote> 
+    <p>Prefix scalar variable names with <b>v_ </b><br>
+      Prefix global variables (including host or bind variables) with <b>g_ </b> 
+      <br>
+      Prefix constants with<b> c_</b> <br>
+      Prefix procedure or function call parameters (including sql*plus substitution 
+      parameters) with <b>p_</b> <br>
+      <br>
+      Prefix record collections with <b>r_</b> (alternatively suffix with <b>_record</b>)<br>
+      Prefix %rowtype% collections with <b>rt_</b> (alternatively suffix with 
+      <b>_record_type</b>)<br>
+      <br>
+      Prefix pl/sql tables with <b>t_ </b>(alternatively suffix with <b>_table</b>)<br>
+      Prefix table types with <b>tt_ </b>(alternatively suffix with <b>_table_type</b>)<br>
+      <br>
+      Suffix cursors with <b>_cursor</b><br>
+      Prefix exceptions with <b>e_</b><br>
+      <br>
+      If a pl/sql variable is identical to the name of a column in the table Oracle 
+      will interpret the name as a column name.<br>
+      <br>
+      <b>Packages</b><br>
+      Prefix package names with PKG_<br>
+      <br>
+      Write one package for each table - named PKG_TABLENAME, put all other code 
+      that logically belongs to the schema, but not to any particular table in 
+      a single Schema package PKG_SCHEMANAME.<br>
+      If, as is likely, more complex grants are required for different groups 
+      of users then create an additional package for each workgroup - these should 
+      contain no code just wrappers that call procedures/functions in the other 
+      packages.<br>
+      This gives a level of separation between the basic code and the user security/grants 
+      and makes it easier to change one without breaking the other.<br>
+      <br>
+      A pl/sql function name like PAYROLL.TAX_RATE the word PAYROLL could refer 
+      to either a schema or a package name. </p>
+  </blockquote>
+</blockquote>
+<p><b>Edit Replace</b></p>
+<blockquote> 
+  <blockquote> 
+    <p>If you apply a naming convention and then decide to rename something it 
+      is possible to use Edit-Replace to update the associated code. But consider 
+      these two fieldnames:</p>
+    <pre>area_codes.<b>ac_code</b> 
+region_area_codes.r<b>ac_code</b></pre>
+    <p>The columns are unique but one is a substring of the other!</p>
+  </blockquote>
+</blockquote>
+<p><b>Instance</b></p>
+<blockquote> 
+  <blockquote> 
+    <p>Oracle database instance names are limited to eight characters. The first 
+      two or three characters of the name should reflect the Application, with the remainder indicating the nature of the instance. <br>
+      e.g.</p>
+    <pre>Live instance   SSLive
+Test instance   SSTest
+Train instance  SSTrain
+Data Warehouse  SSdw
+Staging Area    SSsa</pre>
+  </blockquote>
+</blockquote>
+<p><b>Data Files</b></p>
+<blockquote>
+<blockquote> 
+    <p>Name Data files so that they identify the instance and the tablespace.<br>
+      <br>
+      Each filename should end with a two digit numeric value starting with 01, 
+      that is incremented by 1 for each new datafile added to the tablespace. 
+      <br>
+      Use the extension ".dbf"<br>
+      e.g.</p>
+  <pre>SSLive_temp01.dbf
+SSLive_rbs01.dbf
+SSLive_clinical01.dbf
+SSLive_clinical02.dbf</pre>
+</blockquote>
+</blockquote>
+<p><b>Tablespaces</b></p>
+<blockquote> 
+  <blockquote> 
+    <p>Avoid naming tablespaces according to time periods.<br>
+      (Oracle never forgets a tablespace and SMON will scan the list of tablespaces 
+      in TS$ every 5 minutes) For a partitioned datawarehouse, try to adopt a 
+      strategy of recycling the tablespace names.</p>
+  </blockquote>
+</blockquote>
+<p><b>Redo Logs</b></p>
+<blockquote>
+  <blockquote> 
+    <p> The redo log is a separate file (not in the tablespace)<br>
+      Name Redo Logs so that they identify the instance, group and member number 
+      of the log. Use the extension ".log" <br>
+      e.g. <br>
+      <span class="code">SSLive_redo_01.log</span><br>
+      <br>
+      For more detail on the physical placement of files see Oracle <a href="syntax-ofa.html">Optimal Flexible Architecture</a> (OFA) </p>
+</blockquote>
+</blockquote>
+<p><b>Documentation</b></p>
+<blockquote> 
+  <blockquote> 
+    <p>Lastly - write and maintain a data dictionary for all data elements - rather 
+      than just dumping the Oracle data dictionary into a text document 
+      or an <a href="https://en.wikipedia.org/wiki/Entity-relationship_model">Entity relationship diagram</a>  - you should also be defining the <i>business</i> meaning of each data item.</p>
+</blockquote>
+</blockquote>
+<p><b>Summary</b></p>
+<blockquote> 
+  <blockquote> 
+  <p>RDBMS naming conventions can become the subject of endless debate - here 
+      are a few last things to consider:<br>
+      <br>
+      Does your naming convention make names longer or shorter?<br>
+      <br>
+      <span class="code">PURCHASE_ORDER_DATE</span> versus <span class="code">PO_DATE</span><br>
+      <br>
+      Will you have novice users writing SQL against the database?<br>
+      If so will they understand the meaning of things like <span class="code">PO_DATE</span><br>
+      <br>
+  Is the naming convention documented somewhere that everyone can find? If you don&rsquo;t plan to change it very often, drop the text right into a table <span class="code">SELECT * from Naming_Conventions;</span></p>
+  </blockquote>
+</blockquote>
+<p class="quote"> <i>“Always end the name of your child with a vowel, so that when you yell the name will carry”  ~ Bill Cosby</i></p>
+<p><b>Related:</b></p>
+<p><a href="syntax-reserved.html">Reserved keywords</a><br>
+<a href="https://github.com/minimaxir/big-list-of-naughty-strings">Big list of Naughty Strings</a> - Strings which have a high probability of causing issues.<br>
+<a href="syntax-ofa.html">Optimal Flexible Architecture</a> (OFA)<br>
+<a href="http://asktom.oracle.com/pls/apex/f?p=100:11:0::::P11_QUESTION_ID:6729304326802">Ask Tom</a> - Argues against the column prefix<br>
+<a href="http://www.oracle-base.com/articles/misc/NamingConventions.php">Oracle-Base.com Naming conventions</a><br>
+<a href="http://philip.greenspun.com/sql/style.html">SQL formatting convention</a> - Philip Greenspun<br>
+<a href="../access/syntax-naming.html">Reddick Naming convention</a> (Access VBA) <br>
+<a href="http://www.dpriver.com/pp/sqlformat.htm">SQL formatter</a> - Online SQL beautifier <br>
+<a href="https://support.microsoft.com/?kbid=189220">Q189220</a> - Microsoft support for spaces in fieldnames<br>
+Standard ISO-11179 - Rules for defining data elements<br>
+<a href="../docs/documentation.html">IT System Documentation Levels</a><br>
+</p><!-- #BeginLibraryItem "/Library/foot_ora.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- oracle-footer -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4275490898"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="syntax-naming.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

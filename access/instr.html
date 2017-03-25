@@ -1,0 +1,62 @@
+<!DOCTYPE HTML><html lang="en">
+<head><meta charset="UTF-8">
+<meta name="Description" content="Return the position of one string within another, starting at the beginning of the string.">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Instr function | Access | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_access.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../access.1.html">Access</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/access/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>InStr</h1>
+<p> Return the position of one string within another, starting by default at the beginning of the string.</p>
+<pre>Syntax
+      Instr ( [<i>start</i>], <i>FullString</i>, <i>PartString</i>, [<i><a href="accompare.html">compare</a></i>] )
+
+Key
+   <i>Start</i>       Number (expression) that sets the start position for each search.
+               Default=1
+<i>
+   FullString</i>  The String (expression) to be searched.<i>
+
+   PartString</i>  The String (expression) being sought.
+
+   <i>compare</i>     The comparison mode (Binary/Text)
+</pre>
+<p>The InStr() function can be used in VBA or in an <a href="syntax-functions.html">SQL query</a>.</p>
+<p>Return values</p>
+<pre><b>If                          InStr() returns</b>
+String is found             Position at which match is found
+FullString is zero-length   0
+FullString is shorter than <i>start</i>  0
+FullString is Null          Null
+
+PartString is zero-length <i>  start</i>
+PartString is Null          Null
+PartString is not found     0</pre>
+<p><b>Example</b></p>
+<p class="code">Dim intDemo as Integer </p>
+<p class="code">intDemo = InStr(&quot;The Universe is everlasting &quot;, &quot;is&quot;)<br>
+MsgBox intDemo</p>
+<p class="code">intDemo = InStr(4, &quot;The Universe is everlasting&quot;, &quot;e&quot;)<br>
+MsgBox intDemo</p>
+<p class="quote"><i>&ldquo;Believe those who are seeking the truth; doubt those who find it&rdquo; ~ Andre Gide</i></p>
+<p><b>Related:</b></p>
+<p><a href="instrrev.html">InstrRev</a> - Return the position of one string within another<br>
+<a href="replace.html">Replace</a> - Replace a sequence of characters in a string.</p><!-- #BeginLibraryItem "/Library/foot_access.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- access -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4313908313"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="instr.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

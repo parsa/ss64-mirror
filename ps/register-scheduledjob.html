@@ -1,0 +1,189 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Register-ScheduledJob | PowerShell | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_ps.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../ps.1.html">PowerShell</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/ps/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>Register-ScheduledJob (PowerShell 3.0+)</h1> 
+<p>Create a new scheduled job.</p>
+<pre>Syntax
+      Register-ScheduledJob [-Name] <i>String</i> [-ScriptBlock] <i>ScriptBlock</i> [-ArgumentList <i>Object</i>[]]
+         [-Authentication <i>AuthenticationMechanism</i>] [-Credential <i>PSCredential</i>]
+            [-InitializationScript <i>ScriptBlock</i>] [-MaxResultCount <i>Int32</i>]
+               [-RunAs32] [-RunNow] [-ScheduledJobOption <i>ScheduledJobOptions</i>]
+                  [-Trigger <i>ScheduledJobTrigger</i>[]] [-Confirm] [-WhatIf] [<a href="common.html"><i>CommonParameters</i></a>]
+ 
+      Register-ScheduledJob [-Name] <i>String</i> [-FilePath] <i>String</i> [-ArgumentList <i>Object</i>[]]
+         [-Authentication <i>AuthenticationMechanism</i>] [-Credential <i>PSCredential</i>]
+            [-InitializationScript <i>ScriptBlock</i>] [-MaxResultCount <i>Int32</i>]
+               [-RunAs32] [-RunNow] [-ScheduledJobOption <i>ScheduledJobOptions</i>]
+                  [-Trigger<i>ScheduledJobTrigger</i>[]] [-Confirm] [-WhatIf] [<a href="common.html"><i>CommonParameters</i></a>]
+
+Key
+   -ArgumentList <i>Object</i>[]
+        Values for the parameters of the script that is specified by the -FilePath parameter or for the 
+        command that is specified by the -ScriptBlock parameter.
+
+    -Authentication <i>AuthenticationMechanism</i>
+        The mechanism that is used to authenticate the user's credentials.   
+        Valid values are <u>Default</u>, Basic, Credssp, Digest, Kerberos, Negotiate, and NegotiateWithImplicitCredential.
+        The default value is Default. For more see <a href="https://msdn.microsoft.com/en-us/library/system.management.automation.runspaces.authenticationmechanism%28v=vs.85%29.aspx">AuthenticationMechanism enumeration</a>.
+
+        CAUTION: Credential Security Service Provider (CredSSP) authentication, in which the user's credentials are 
+        passed to a remote computer to be authenticated, is designed for commands that require authentication on more 
+        than one resource, such as accessing a remote network share. This mechanism increases the security risk of the 
+        remote operation. If the remote computer is compromised, the credentials that are passed to it can be used to 
+        control the network session.
+
+    -Credential <i>PSCredential</i>
+        Specifies a user account that has permission to run the scheduled job. The default is the current user.
+
+        Type a user name, such as "User64" or "Domain64\User64", or enter a PSCredential object, such as one from 
+        <a href="get-credential.html">Get-Credential</a>. If you enter only a user name, you will be prompted for a password.
+
+    -FilePath <i>String</i>
+        A script that the scheduled job will run. Enter the path to a .ps1 file on the local computer. 
+        To specify default values for the script parameters, use the -ArgumentList parameter.
+        Every Register-ScheduledJob command must use either the -ScriptBlock or -FilePath parameters.
+
+    -InitializationScript <i>ScriptBlock</i>
+        The fully qualified path to a PowerShell script (.ps1). The initialization script runs in the session 
+        that is created for the background job before the commands that are specified by the -ScriptBlock 
+        parameter or the script that is specified by the -FilePath parameter . Use the initialization script to 
+        configure the session, such as adding files, functions, or aliases, creating directories, or checking for 
+        prerequisites.
+
+        To specify a script that runs the primary job commands, use the -FilePath parameter.
+
+        If the initialization script generates an error (even a non-terminating error), the current instance of the 
+        scheduled job does not run and its status is "Failed."
+
+    -MaxResultCount <i>Int32</i>
+        Specifies how many job result entries are maintained for the scheduled job. The default value is 32.
+
+        PowerShell saves the execution history and results of each triggered instance of the scheduled job on 
+        disk. The value of this parameter determines the number of job instance results that are saved for this 
+        scheduled job. When the number of job instance results exceeds this value, PowerShell deletes the 
+        results of the oldest job instance to make room for the results of the newest job instance.
+
+        The job execution history and job results are saved in the 
+        $home\AppData\Local\Microsoft\Windows\PowerShell\ScheduledJobs\<i>JobName</i>\Output\<i>Timestamp</i> directories on the 
+        computer on which the job is created.
+        To see the execution history, use <a href="get-job.html">Get-Job</a>. To get the job results, use <a href="receive-job.html">Receive-Job</a>.
+
+        The -MaxResultCount parameter sets the value of the ExecutionHistoryLength property of the scheduled job.
+
+        To delete the current execution history and job results, use the -ClearExecutionHistory parameter 
+        of <a href="set-scheduledjob.html">Set-ScheduledJob</a>.
+
+    -Name <i>String</i>
+        A name for the scheduled job.
+        The name is also used for all started instances of the scheduled job. 
+        The name must be unique on the computer. This parameter is mandatory.
+
+    -RunAs32
+        Run the scheduled job in a 32-bit process.
+
+    -ScheduledJobOption <i>ScheduledJobOptions</i>
+        Sets options for the scheduled job. Enter a ScheduledJobOptions object, such as one that you create   
+        using <a href="new-scheduledjoboption.html">New-ScheduledJobOption</a>, or a hash table value.
+
+        You can set options for a scheduled job when you register the schedule job or use <a href="set-scheduledjoboption.html">Set-ScheduledJobOption</a> 
+        or <a href="set-scheduledjob.html">Set-ScheduledJob</a> to change the options.
+
+        Many of the options and their default values determine whether and when a scheduled job runs. Be sure to 
+        review these options before scheduling a job. For a description of the scheduled job options, including the 
+        default values, see <a href="new-scheduledjoboption.html">New-ScheduledJobOption</a>.
+
+        To submit a hash table, use the following keys. In the following hash table, the keys are shown with their 
+        default values.
+
+        @{StartIfOnBattery=$False; StopIfGoingOnBattery=$True; WakeToRun=$False; StartIfNotIdle=$False; 
+        IdleDuration="00:10:00"; IdleTimeout="01:00:00"; StopIfGoingOffIdle=$True; RestartOnIdleResume=$False; 
+        ShowInTaskScheduler=$True; RunElevated=$False; RunWithoutNetwork=$False; DoNotAllowDemandStart=$False; 
+        MultipleInstancePolicy=IgnoreNew}
+
+    -ScriptBlock <i>ScriptBlock</i>
+        Specifies the commands that the scheduled job runs. Enclose the commands in braces ( { } ) to create a script 
+        block. To specify default values for command parameters, use the -ArgumentList parameter.
+
+        Every Register-ScheduledJob command must use either the ScriptBlock or FilePath parameters.
+
+    -Trigger <i>ScheduledJobTrigger</i>[]
+        Specifies the triggers for the scheduled job. Enter one or more ScheduledJobTrigger objects, such as the 
+        objects that <a href="new-jobtrigger.html">New-JobTrigger</a> returns, or a hash table of job trigger keys and values.
+
+        A "job trigger" starts the schedule job. The trigger can specify a one-time or recurring scheduled or an 
+        event, such as when a user logs on or Windows starts.
+
+        The Trigger parameter is optional. You can add a trigger when you create the scheduled job,  use 
+        <a href="add-jobtrigger.html">Add-JobTrigger</a>, <a href="set-jobtrigger.html">Set-JobTrigger</a>, or <a href="set-scheduledjob.html">Set-ScheduledJob</a> to add or change job triggers later, or use 
+        <a href="start-job.html">Start-Job</a> to start the scheduled job immediately. You can also create and maintain a scheduled job 
+        without a trigger that is used as a template.
+
+        To submit a hash table, use the following keys.
+
+        @{Frequency="Once" (or Daily, Weekly, AtStartup, AtLogon);At="3am" (or any valid time string);
+        DaysOfWeek="Monday", "Wednesday" (or any combination of day names);
+        Interval=2 (or any valid frequency interval);
+        RandomDelay="30minutes" (or any valid timespan string);
+        User="Domain1\User01 (or any valid user; used only with the AtLogon frequency value)
+        }
+
+    -RunNow
+        Start a job immediately, as soon as the Register-ScheduledJob cmdlet is run. This parameter eliminates the 
+        need to trigger Task Scheduler to run a PowerShell script immediately after registration, and does not 
+        require users to create a trigger that specifies a starting date and time.
+
+   -Confirm
+       Prompt for confirmation before running the cmdlet.
+
+   -WhatIf
+       Show what would happen if the cmdlet runs. The cmdlet is not run.
+
+   <a href="common.html">CommonParameters</a>:
+       -Verbose, -Debug, -ErrorAction, -ErrorVariable, -WarningAction, -WarningVariable,
+       -OutBuffer -PipelineVariable, -OutVariable.</pre>
+<p>A &quot;scheduled job&quot; is a  PowerShell background job that can be started automatically on a one-time or      recurring schedule. Scheduled jobs are stored on disk and registered in Task Scheduler, so they can be managed in      Task Scheduler or by using the <a href="scheduler.html">Scheduled Job cmdlets</a>. </p>
+<p>When a scheduled job starts, it creates an &quot;instance&quot; of the scheduled job. Scheduled job instances are identical      to  PowerShell background jobs, except that the results are saved on disk. Use the Job cmdlets, such as      <a href="start-job.html">Start-Job</a>, <a href="get-job.html">Get-Job</a>, and <a href="receive-job.html">Receive-Job</a> to start, view, and get the results of the job instances. </p>
+<p>Use Register-ScheduledJob to create a new scheduled job. To specify the commands that the scheduled job runs, use      the -ScriptBlock parameter; to specify a script that the job runs, use the -FilePath parameter.           </p>
+<p>PowerShell scheduled jobs use the same job triggers and job options that <a href="../nt/schtasks.html">Task Scheduler</a> uses for scheduled      tasks. </p>
+<p>The -Trigger parameter of Register-ScheduledJob adds one or more job triggers that start the job. The Trigger      parameter is optional, so you can add triggers when you create the scheduled job, add job triggers later, add the      RunNow parameter to start the job immediately, use the Start-Job cmdlet to start the job immediately at any time,      or save the untriggered scheduled job as a template for other jobs.          </p>
+<p>The -Options parameter lets you customize the options settings for the scheduled job. The -Options parameter is also      optional, so you can set job options when you create the scheduled job or change them at any time.<br>
+Many
+job      option settings have the capacity to prevent the scheduled job from running.</p>
+<p><b>Examples</b></p>
+<p>Create a scheduled job that      searches the $home directory for .ps1 files and copies them to a file share:</p>
+<p><span class="code">C:\PS> Register-ScheduledJob –Name Archive-Scripts -ScriptBlock { dir $home\*.ps1 -Recurse | Copy-Item      -Destination \\Server64\Share\Archive }</span></p>
+<p>Create a scheduled job with a trigger and custom options:</p>
+<p> <span class="code">C:\PS> <b>$opt</b> = New-ScheduledJobOption –WakeToRun –StartIfNotIdle –MultipleInstancesPolicy Queue<br>
+C:\PS> <b>$trig</b> = New-JobTrigger -Weekly -At &quot;23:00&quot; -DaysOfWeek Monday –WeeksInterval 2<br>
+C:\PS> Register-ScheduledJob –Name UpdateVersion –FilePath \\Server64\Scripts\UpdateVersion.ps1 –Trigger <b>$trig</b> –ScheduledJobOption <b>$opt</b></span><br>
+<br>
+Create scheduled jobs on the computers listed in <span class="code">Servers.txt</span> The command uses       Invoke-Command to run a Register-ScheduleJob command on each remote computer:</p>
+<p class="code">PS C:\&gt; <a href="invoke-command.html">Invoke-Command</a> -ComputerName (Get-Content Servers.txt) –ScriptBlock {Register-ScheduledJob -Name      SS64 -FilePath &quot;\\Server64\Scripts\SS64.ps1&quot; -ScheduledJobOption <b>$opt</b> –Trigger <b>$trig</b> } -Credential      $cred</p>
+<p class="quote"><i>&ldquo;New York is an exciting town where something is happening all the time, most unsolved&rdquo; ~  Johnny Carson</i></p><p><b>Related:</b><br>
+<br>
+<a href="scheduler.html">Scheduler cmdlets</a> - Get/Set scheduled jobs<br>
+<a href="disable-scheduledjob.html">Disable-ScheduledJob</a> - Disable a scheduled job <br>
+<a href="get-scheduledjob.html">Get-ScheduledJob</a> - Get scheduled jobs on the local computer<br>
+</p><!-- #BeginLibraryItem "/Library/foot_ps.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- PowerShell300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="6253539900"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="register-scheduledjob.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

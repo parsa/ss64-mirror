@@ -1,0 +1,131 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Desc - Describe an Oracle Table, View, Synonym, package or Function | Oracle | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_ora.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../ora.1.html">Oracle</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>DESC[RIBE] (SQL*Plus command)</h1> 
+<p>Describe an Oracle Table, View, Synonym, package or Function.<br>
+  <br>
+  Note that because this is a SQL*Plus command you don't need to terminate it 
+  with a semicolon.<br>
+  <br>
+  Syntax:</p>
+<pre>   DESC <i>table</i>
+
+   DESC <i>view</i>
+
+   DESC <i>synonym</i>
+
+   DESC <i>function</i>
+
+   DESC package
+</pre>
+<p> In Oracle 7 you could describe individual procedures 
+  e.g. desc DBMS_UTILITY.GET_PARAMETER_VALUE<br>
+  In Oracle 8/9/10 you can only describe
+  the whole package: desc DBMS_UTILITY</p>
+<p>It is also possible to describe objects
+    in another schema or via a database  link <br>
+  e.g. <br>
+  DESCRIBE user.table@db_link <br>
+  <br>
+  <b>Recursive</b><br>
+  <br>
+  The DESCRIBE command allows you to describe objects recursively to the depth
+     level set in the <a href="syntax-sqlplus-set.html">SET DESCRIBE</a> command. <br>
+  For example use the SET commands:<br>
+  SET LINESIZE 80<br>
+  SET DESCRIBE DEPTH 2<br>
+  SET DESCRIBE INDENT ON<br>
+  SET DESCRIBE LINE OFF<br>
+  To display these settings use:
+    SHOW DESCRIBE</p>
+<p><b>Data Types</b><br>
+  <br>
+  The description for functions and procedures contains the type of PL/SQL
+        object (function or procedure) the name of the function or procedure,
+    the type of value
+        returned (for functions) the argument names, types, whether input or
+    output, and default values, if any.<br>
+  <br>
+  DESC user.object_name will always identify a distinct database object
+        because a user's database objects must have unique names. e.g. you cannot
+        create
+        a FUNCTION
+       with the same name as a TABLE in the same schema.</p>
+<p><b>Data Dictionary</b></p>
+<p>An alternative to the DESC command is selecting directly from
+    the data dictionary - <br>
+    <br>
+  DESC MY_TABLE<br>
+  <br>
+  is equivalent to <br>
+  <br>
+SELECT <br>
+  column_name &quot;Name&quot;, <br>
+  nullable &quot;Null?&quot;,<br>
+  concat(concat(concat(data_type,'('),data_length),')') &quot;Type&quot;<br>
+  FROM <a href="../orad/USER_TAB_COLUMNS.html">user_tab_columns</a><br>
+WHERE table_name='TABLE_NAME_TO_DESCRIBE';</p>
+<p><b>Column Comments</b></p>
+<p>To view column comments:</p>
+<p>SELECT comments<br>
+  FROM user_col_comments <br>
+  WHERE table_name='MY_TABLE';</p>
+<p>SELECT 'comment on column '||table_name||'.'||column_name||' is '''||comments||''';' 
+  <br>
+  FROM user_col_comments<br>
+  WHERE comments is not null;</p>
+<p>Writing code and find yourself typing in a bunch of column 
+  names? Why bother when it's all available  in the  data dictionary.
+   The script below will help out:</p>
+<p>COL.SQL<br>
+  -- List all the columns of a table.</p>
+<pre>select chr(9)||lower(column_name)||',' 
+from USER_tab_columns 
+where table_Name = UPPER('&1') 
+/ </pre>
+<p> So now if you want a list of the columns in the EMP table simply type: <br>
+  @col emp <br>
+  This will produce a list of columns: </p>
+<blockquote>
+  <p>empno, <br>
+    ename, <br>
+    job, <br>
+    mgr, <br>
+    hiredate, <br>
+    sal, <br>
+    comm, <br>
+    deptno,</p>
+</blockquote>
+<p> <i class="quote">&quot;You know the great thing about TV? If something important happens anywhere at all in the world, no matter what time of the day or night, you can always change the channel&quot; ~ Jim Ignatowski</i><b><br>
+  <br>
+Related Views:</b></p>
+<p class="code"> <a href="../orad/DBA_COL_COMMENTS.html">DBA_COL_COMMENTS</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="../orad/ALL_COL_COMMENTS.html">ALL_COL_COMMENTS</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="../orad/USER_COL_COMMENTS.html">USER_COL_COMMENTS</a><br> 
+  <a href="../orad/DBA_TAB_COMMENTS.html">DBA_TAB_COMMENTS</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="../orad/ALL_TAB_COMMENTS.html">ALL_TAB_COMMENTS</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="../orad/USER_TAB_COMMENTS.html">USER_TAB_COMMENTS</a><br>                                                                
+  <a href="../orad/DICTIONARY.html">DICTIONARY</a><br>                                                                
+<a href="../orad/DICT_COLUMNS.html">DICT_COLUMNS</a></p>
+<p><b>Related Commands/Packages:<br>
+  </b><br>
+  <a href="comment.html">COMMENT</a> - Add a comment to a table or a column.<br>
+<a href="../orap/DBMS_DESCRIBE.html">DBMS_DESCRIBE</a></p><!-- #BeginLibraryItem "/Library/foot_ora.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- oracle-footer -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4275490898"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="desc.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE HTML><html lang="en">
+<head><meta charset="UTF-8">
+<meta name="Description" content="Events can be used to trigger a Macro or a block of VBA code. The most common event is OnClick but there are many other listed below for Forms and TextBoxes.">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>OnClick OnOpen OnCurrent Events | Access | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_access.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../access.1.html">Access</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/access/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>OnClick, OnOpen, OnCurrent... Events</h1>
+<p> Events can be used to trigger a Macro or a block of VBA code. The most common event is <span class="code">OnClick</span> but there are many other listed below  for Forms and TextBoxes:</p>
+<h2>Form Events:</h2>
+<blockquote>
+<p>.OnActivate - The form or report receives the focus and becomes the active window.<br>
+.OnApplyFilter - A filter is applied or removed.<br>
+.OnClick - A user presses and releases the left mouse button over an object.<br>
+.OnClose - A form or report is closed and removed from the screen.<br>
+.OnConnect - <br>
+.OnCurrent - Focus moves to a record, making it the current record, or when the form is refreshed or requeried.<br>
+.OnDblClick - A user presses and releases the left mouse button twice over an object<br>
+.OnDeactivate - The form or report loses the focus to different form or report (or any other database object).<br>
+.OnDelete - The user performs some action, such as pressing the DELETE key, but before the record is actually deleted.<br>
+.OnDirty - The contents of a form or the text portion of a combo box change. It also occurs when  moving between pages in a tab control.<br>
+.OnDisconnect - <br>
+.OnError - A run-time error is produced in  Access when the form has the focus. This includes Jet database engine errors, but not VBA run-time errors.<br>
+.OnFilter - A form is opened and its records are displayed.<br>
+.OnGotFocus - The object receives focus.<br>
+.OnInsert - The BeforeInsert event occurs when the user types the first character in a new record, but before the record is actually created.<br>
+.OnKeyDown - A user presses a key while a form or control has the focus.<br>
+.OnKeyPress - A user presses a key while a form or control has the focus.<br>
+.OnKeyUp - A user releases a key while a form or control has the focus.<br>
+.OnLoad - A form is opened and its records are displayed.<br>
+.OnLostFocus - The object loses the focus.<br>
+.OnMouseDown - The user clicks the mouse button while the mouse pointer rests over the object.<br>
+.OnMouseMove - The user moves the mouse over the object.<br>
+.OnMouseUp - The user releases a mouse button.<br>
+.OnOpen - A form/report is opened, but before the first record is displayed.<br>
+.OnResize - A form is opened and whenever the size of a form changes.<br>
+.OnTimer - Occurs for a form at regular intervals as specified by the TimerInterval property.<br>
+.OnUndo - The user undoes a change.<br>
+.OnUnload - A form is closed but before it's removed from the screen.</p>
+</blockquote>
+<h2>TextBox events </h2>
+<blockquote>
+<p>.AfterUpdate - After data is changed in a control or a record is updated.<br>
+.BeforeUpdate - Occurs before changed data in a control or record is updated.<br>
+.Change - Occurs when the contents of the specified control changes.<br>
+.Click - A user presses and releases the left mouse button over an object.<br>
+.DblClick - A user presses and releases the left mouse button twice over an object<br>
+.Dirty - The contents of the specified control changes. (programmatic changes don't trigger this event) <br>
+.Enter - Occurs before a control  receives the focus from a control on the same form/ report (.Enter happens before .GotFocus).<br>
+.Exit - Occurs before a control  loses the focus to a control on the same form/ report (.Exit happens before .LostFocus).<br>
+.GotFocus - The object receives focus.<br>
+.OnKeyDown - A user presses a key while a form or control has the focus.<br>
+.OnKeyPress - A user presses a key while a form or control has the focus.<br>
+.OnKeyUp - A user releases a key while a form or control has the focus.<br>
+.LostFocus - The object loses the focus.<br>
+.MouseDown - The user clicks the mouse button while the mouse pointer rests over the object.<br>
+.OnMouseMove - The user moves the mouse over the object.<br>
+.MouseMove - The user moves the mouse over the object.<br>
+.MouseUp - The user releases a mouse button.<br>
+.Undo - The user undoes a change.</p>
+</blockquote>
+<p>The value of these events can be read from VBA and (if set) will be &quot;[Event Procedure]&quot; or <i>MacroName</i> or &quot;=<i>expression</i>&quot;</p>
+<p>Similar events are triggered for most other form/report objects (comboboxes, tickboxes etc)</p>
+<pre>The order of events when opening and closing a form:
+ 
+   OnOpen > OnLoad > Activate > <b>OnCurrent</b> > DeActivate > OnUnLoad > OnClose
+
+ Load into Display   Has focus  Populate     Lost focus  Remove      Remove
+  memory   on screen           current record            from screen from memory</pre>
+<p> Now, because of this order of operations, you can <span class="code">cancel</span> an OnOpen event, but not an OnLoad (as it's already open), and similarly you can cancel an OnUnLoad  but not an OnClose.<br>
+</p>
+<p class="quote"><i>&ldquo;The hours of folly are measured by the clock, but of wisdom no clock can measure&rdquo; ~ William Blake</i></p>
+<p><b>Related:</b></p>
+<p><a href="cancelevent.html">.CancelEvent</a> - Cancel an event.<br>
+<a href="doevents.html">DoEvents</a> - Allow the operating system to process other events.</p><!-- #BeginLibraryItem "/Library/foot_access.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- access -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4313908313"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="onclick.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

@@ -1,0 +1,102 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>CREATE DATABASE | SQL Server | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_sql.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../sql.1.html">SQL</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/sql/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1> CREATE DATABASE </h1>
+<p>Create a new database, create database storage files, create snapshot, attach db to data files. </p>
+<pre>Syntax
+Create database
+      CREATE DATABASE <i>database</i> 
+         [ON [PRIMARY ]
+             [<i>
+               filespec</i> [,...<i>n</i> ] 
+               [, <i>filegroup</i> [,...<i>n</i>] ] 
+                  [LOG ON {<i>filespec</i> [,...<i>n</i>] } ] 
+             ] 
+            [COLLATE <i>collation</i> ]
+               [WITH <i>external_access_option</i> ]
+         ] [;]
+
+Attach a database
+      CREATE DATABASE <i>database</i> 
+         ON <i>filespec</i> [ ,...<i>n</i> ] 
+            FOR { ATTACH [ WITH <i>service_broker_option</i> ]
+                | ATTACH_REBUILD_LOG } [;]
+
+Create a database snapshot
+      CREATE DATABASE <i>snapshot</i> 
+          ON (
+              NAME = <i>logical_file_name</i>,
+              FILENAME = '<i>os_file_name</i>' 
+              ) [,...<i>n</i>] 
+          AS SNAPSHOT OF <i>source_database_name</i> [;]
+
+Key:
+   filespec: 
+      (
+          NAME = <i>logical_file_name</i> ,
+          FILENAME = '<i>os_file_name</i>' 
+              [ , SIZE = <i>size</i> [ KB | MB | GB | TB ] ] 
+              [ , MAXSIZE = { <i>max_size</i> [ KB | MB | GB | TB ] | UNLIMITED } ] 
+              [ , FILEGROWTH = <i>growth_increment</i> [ KB | MB | GB | TB | % ] ]
+      ) [ ,...<i>n</i> ]
+
+
+   filegroup: 
+      FILEGROUP <i>filegroup</i> [ DEFAULT ]
+         <i>filespec </i>[,...<i>n</i>]
+ 
+   external_access_option:
+      DB_CHAINING {ON | <u>OFF</u>}
+      TRUSTWORTHY {ON | <u>OFF</u>}
+
+   service_broker_option:
+      ENABLE_BROKER
+      NEW_BROKER
+      ERROR_BROKER_CONVERSATIONS
+</pre>
+<p>PRIMARY - Identifies the (at most one) &lt;filespec&gt; list which defines the primary file. </p>
+<p>LOG ON - The disk files used to store the database log</p>
+<p>FOR ATTACH - Create database by attaching an existing set of OS files.</p>
+<p>FOR ATTACH_REBUILD_LOG - Create database by attaching an existing set of OS files and Rebuild any missing transaction log files.</p>
+<p>DB_CHAINING - Allow cross-database ownership chaining.</p>
+<p>TRUSTWORTHY - Allow database modules to access resources outside the database while using  an impersonation context.</p>
+<p>ENABLE_BROKER - Enable the Service Broker for the database. </p>
+<p>NEW_BROKER - Create a new service_broker_guid, end all conversation endpoints with clean up.</p>
+<p>ERROR_BROKER_CONVERSATIONS - End all conversations, re-enable when operation is completed.</p>
+<p><b>Example</b></p>
+<pre>
+CREATE DATABASE SS64<br>ON <br>( NAME = SS64_dat,<br>    FILENAME = 'E:\DATA\ss64database\SS64_data.mdf',<br>    SIZE = 100MB,<br>    MAXSIZE = 150MB,<br>    FILEGROWTH = 25MB )<br>LOG ON<br>( NAME = SS64_log,<br>    FILENAME = 'E:\DATA\ss64database\SS64_log.ldf',<br>    SIZE = 50MB,<br>    MAXSIZE = 75MB,<br>    FILEGROWTH = 15MB )'<br>);<br>GO
+<br>-- Verify the database files<br>SELECT name, size, size*1.0/128 AS [Size in MBs] <br>FROM sys.master_files<br>WHERE name = N'SS64';<br>GO</pre>
+<p class="quote"><i>&quot;All things are created twice.  There's a mental or first creation, and a physical or second creation of all things. You have to make sure that the blueprint, the first creation, is really what you want, that you've thought everything through. Then you put it into bricks and mortar&quot; ~  Stephen Covey</i></p>
+<p><b>Related commands:</b><br>
+  <br>
+  <a href="database_a.html">ALTER DATABASE</a> <br>
+  <a href="database_d.html">DROP DATABASE</a> <br>
+  sys.databases  <br>
+  sys.master_files  <br>
+  <br>
+  <b>Equivalent Oracle command</b>:<a href="../bash/export.html"><br>
+  <br>
+  </a>None,  delete the datafiles and stop the background processes (OraTab/Services) </p><!-- #BeginLibraryItem "/Library/foot_sql.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ss64-sql -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="6953563613"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="database_c.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

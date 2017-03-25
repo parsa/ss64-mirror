@@ -1,0 +1,125 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Copy files | Windows CMD | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_nt.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../nt.1.html">CMD</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/nt/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>COPY </h1> 
+<p>Copy one or more files to another location.</p>
+<pre>Syntax<br>      COPY [<i>options</i>] [/A|/B] <i>source</i> [/A|/B] [+ <i>source2</i> [/A|/B]...] [<i>destination</i> [/A|/B]]
+
+      COPY <i>source1</i> + <i>source2</i>.. <i>destination</i> [<i>options</i>]
+
+Key
+     <i>source</i> :  Pathname for the file or files to be copied.
+
+        /A  :  ASCII text file (default)
+        /B  :  Binary file copy - will copy extended characters.
+        /D  :  Allow the destination file to be created decrypted.
+
+<i>destination</i> :  Pathname for the new file(s).
+
+        /V  :  <a href="verify.html">Verify</a> that the destination file, once written, can be read.
+               No comparison with the source files occurs. 
+
+        /N  :  If at all possible, create only short filenames (8.3) in the
+               destination. This option can help when copying between disks
+               that are formatted differently e.g NTFS and VFAT, or when archiving 
+               data to an ISO9660 CDROM.
+
+        /L  :  If <i>source</i> is a symbolic link copy the link to the target
+               instead of the actual file the source link points to.
+
+        /Y  :  Suppress confirmation prompt, when overwriting files.
+
+        /-Y :  Enable confirmation prompt, when overwriting files.
+
+        /Z  :  Copy files in restartable mode. If the copy is interrupted
+               part way through, it will restart if possible. (use on slow networks)</pre>
+<h2> Combining files</h2>
+<blockquote>
+<p>  To combine files, specify a single file for the destination, but multiple files 
+  as the source. To specify more than one file use wildcards or list the files 
+  with a + in between each (file1+file2+file3)<br>
+  When copying multiple files in this way the first file must exist or else the 
+copy will fail, a workaround for this is COPY null + file1 + file2 dest1</p>
+</blockquote>
+<h2>Binary copies</h2>
+<blockquote>
+<p>&quot;COPY /B ... &quot; will copy files in binary mode.</p>
+<p>The /A and /B options can appear in multiple locations, with different meanings depending on location.<br>
+Before any <i>source</i> - they will set the default mode for all <i>source</i> and <i>destination</i> files. <br>
+After a <i>source</i> - they will set the mode for that <i>source</i>.<br>
+After the <i>destination</i> - they will set the mode for the <i>destination</i>.</p>
+</blockquote>
+<h2>Copy from the console (accept user input) </h2>
+<blockquote>
+<p><span class="code">COPY CON filename.txt </span><br>
+Then type the input text followed by ^Z (Control key &amp; Z)</p>
+<p>To do this in Powershell use the following function: </p>
+<p class="code">function copycon {<br> [system.console]::in.readtoend()<br>
+}</p>
+</blockquote>
+<h2>Prompt to overwrite destination file</h2>
+<blockquote>
+<p>Under Windows 2000 and above, the default action is to prompt on overwrite unless the command is being executed from within a batch script. <br>
+To force the overwriting of destination files use the COPYCMD environment variable:<br>
+<span class="code">SET COPYCMD=/Y</span></p>
+</blockquote>
+<h2>Errorlevels</h2>
+<blockquote>
+<p>If the file(s) were successfully copied <a href="errorlevel.html">%ERRORLEVEL%</a> = 0<br>
+If the file was not found or bad parameters given = 1</p>
+</blockquote>
+<p>COPY will accept UNC pathnames</p>
+<p><b>Examples:</b><br>
+<br>
+Copy a file in the current folder<br>
+<span class="code">COPY source_file.doc newfile.doc</span><br>
+<br>
+Copy from a different folder/directory: <br>
+<span class="code">COPY &quot;C:\my work\some file.doc&quot; &quot;D:\New docs\newfile.doc&quot;</span><br>
+<br>
+Specify the source only, with a wildcard will copy all the files into the current directory:<br>
+<span class="code">COPY </span><span class="code">&quot;C:\my work\*.doc&quot;</span><br>
+<br>
+Specify the source  with a wildcard and the destination as a single file, this is generally only useful with plain text files. <br>
+<span class="code">COPY &quot;C:\my work\*.txt&quot; &quot;D:\New docs\combined.txt&quot; </span><br>
+<br>
+Quiet copy (no feedback on screen)<br>
+<span class="code">COPY source_file.doc newfile.doc &gt;nul</span></p>
+<p>Copy a file, but do not overwrite if the destination file already exists, this technique only works for a single file, no wildcards:</p>
+<p class="code">Echo n|COPY /-y c:\demo\source_file.txt c:\dir\dest.txt</p>
+<p>COPY is an <a href="syntax-internal.html">internal</a> command.<i><br>
+  <br>
+  <span class="quote">&ldquo;Success seems to be connected with action. Successful men keep moving. They make mistakes, but they don&rsquo;t quit&rdquo; ~ Conrad Hilton</span></i><br>
+  <br>
+  <b>Related:</b><br>
+  <br>
+  <a href="robocopy.html">ROBOCOPY</a> - Robust File and Folder Copy <br>
+  <a href="xcopy.html">XCOPY</a> - Copy files and folders <br>
+  <a href="move.html">MOVE</a> - Move a file from one folder to another <br>
+  Fcopy - File Copy for MMQ (copy changed files & compress. (<a href="../links/windows.html#kits">Win 2K ResKit</a>)<br>
+  Permcopy - Copy share & file ACLs from one share to another. (<a href="../links/windows.html#kits">Win 2K ResKit</a>)<br>
+<a href="https://support.microsoft.com/en-us/kb/126457">Q126457</a> - VERIFY ON, COPY /V, XCOPY /V commands do not compare data.<br>
+  PowerShell equivalent: <a href="../ps/copy-item.html">Copy-Item</a> - Copy an item from one location to another<br>
+  Equivalent bash command (Linux):<a href="../bash/cp.html"> cp</a> - Copy one or more files to another location.</p><!-- #BeginLibraryItem "/Library/foot_nt.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- windows300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="7649547908"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="copy.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

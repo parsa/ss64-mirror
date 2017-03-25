@@ -1,0 +1,221 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>nc NetCat Man Page | Bash | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_bash.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../bash.1.html">Bash</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/bash/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>nc / netcat</h1>
+<p>Read and write data across networks - arbitrary TCP and UDP connections and listens.</p>
+<pre>Syntax
+      nc [-46AcCdDhklnrStuUvz] [-b <i>boundif</i>] [-i <i>interval</i>] [-p <i>source_port</i>]
+            [-s <i>source_ip_address</i>] [-T ToS] [-w <i>timeout</i>] [-X <i>proxy_protocol</i>]
+               [-x <i>proxy_address</i>[:<i>port</i>]] [<i>hostname</i>] [<i>port</i>[s]]
+
+Options
+   -4      Use IPv4 addresses only.
+
+   -6      Use IPv6 addresses only.
+
+   -A      Set SO_RECV_ANYIF on socket. **
+
+   -b <i>boundif</i>
+           The interface to bind the socket to.
+
+   -c      Send CRLF as line-ending. **
+
+   -C      Force nc not to use cellular data context. **
+
+   -d      Do not attempt to read from stdin.
+           This will prevent any text being sent from a client to the server.
+
+   -D      Enable debugging on the socket.
+
+   -h      Print help.
+
+   -i <i>interval</i>
+           Specifies a delay time <i>interval</i> between lines of text sent and received.
+           Also causes a delay time between connections to multiple ports.
+
+   -G <i>conntimeout</i>
+           TCP connection timeout in seconds.
+
+   -H <i>keepidle</i>
+           Initial TCP keep alive timeout in seconds.
+
+   -I <i>keepintvl</i>
+           Interval for repeating TCP keep alive timeouts in seconds.
+
+   -J <i>keepcnt</i>
+           Number of times to repeat TCP keep alive packets.
+
+   -k      Force nc to stay listening for another connection after its current
+           connection is completed.  It is an error to use this option
+           without the -l option.
+
+   -l      Listen for an incoming connection rather than initiate a connection
+           to a remote host.  It is an error to use this option in conjunction 
+           with the -p, -s, or -z options.
+           Additionally, any timeouts specified with the -w option are ignored.
+
+   -L <i>num_probes</i>
+           Number of probes to send to the peer before declaring that the
+           peer is not reachable and generating an adpative timeout
+           read/write event.
+
+   -n      Skip all DNS or service lookups on addresses, hostnames or ports.
+
+   -p <i>source_port</i>
+           Specify the source port nc should use, subject to privilege
+           restrictions and availability.  It is an error to use this option
+           in conjunction with the -l option.
+
+   -r      Select the source and/or destination ports randomly instead of
+           sequentially within a range or in the order that the system assigns them.
+
+   -s <i>source_ip_address</i>
+           The IP of the interface which is used to send the packets.
+           It is an error to use this option in conjunction with the -l option.
+
+   -S      Enables the RFC 2385 TCP MD5 signature option. <b>**</b>
+
+   -t      Send RFC 854 DON'T and WON'T responses to RFC 854 DO and WILL requests.
+           This makes it possible to use nc to script telnet sessions.
+
+   -T <i>ToS</i>  Specifies IP Type of Service (ToS) for the connection.
+           Valid values are the tokens 'lowdelay', 'throughput', 'reliability', or
+           an 8-bit hexadecimal value preceded by '0x'. <b>**</b>
+
+   -U      Use Unix Domain Sockets.
+
+   -u      Use UDP instead of the default option of TCP.
+
+   -v      Give more verbose output.
+
+   -w <i>timeout</i>
+           If a connection and stdin are idle for more than timeout seconds,
+           then the connection is silently closed.  The -w flag has no
+           effect on the -l option, i.e. nc will listen forever for a con-
+           nection, with or without the -w flag.  The default is no timeout.
+
+   -X <i>proxy_version</i>
+           Requests that nc should use the specified protocol when talking
+           to the proxy server.  Supported protocols are '4' (SOCKS v.4),
+           '5' (SOCKS v.5) and 'connect' (HTTPS proxy).  If the protocol
+           is not specified, SOCKS version 5 is used.
+
+   -x <i>proxy_address</i>[:<i>port</i>]
+           Connect to hostname using a proxy at <i>proxy_address</i> and port.
+           If port is not specified, the well-known port for the proxy 
+           protocol is used (1080 for SOCKS, 3128 for HTTPS).
+
+   -z      Just scan for listening daemons, without sending any data to them.
+           It is an error to use this option in conjunction with the -l option.</pre>
+<p> <span class="code"><b>**</b></span> = These options are not available in all versions of Netcat, check your local man pages.</p>
+<p><span class="code">hostname</span> can be a numerical IP address or a symbolic hostname (unless the -n option is given). In general, a hostname must be specified, unless the -l option is given (in which case the local host is used). </p>
+<p><span class="code">port[s]</span> can be single integers or ranges. Ranges are in the form nn-mm. In general, a destination port must be specified, unless the -U option is given (in which case a socket must be specified).</p>
+<p>The nc (or netcat) utility is used for just about anything under the sun involving TCP or UDP. It can open TCP connections, send UDP packets, listen on arbitrary TCP and UDP ports, do port scanning, and deal with both IPv4 and IPv6.  Unlike telnet(1), nc scripts nicely, and separates error messages onto standard error instead of sending them to standard output, as telnet(1) does with some. </p>
+<p>Common uses include: </p>
+<ul>
+<ul>
+<li> Simple TCP proxies</li>
+<li>Shell-script based HTTP clients and servers</li>
+<li>Network daemon testing</li>
+<li>A SOCKS or HTTP ProxyCommand for ssh(1)</li>
+</ul>
+</ul>
+<h2>Client / Server Model</h2>
+<blockquote>
+<p>Netcat can perform  basic client/server functions that allow 'chat' between machines.<br>
+On one console, start nc listening on a specific port for a connection: <span class="code"><br>
+# On a computer A with IP 10.10.10.10 we listen on port 64<br>
+$ nc -l -p 64<br>
+</span></p>
+<p>nc is now listening on port 64 for a connection. On a second console (or a second machine), connect to the machine and port being listened on: <br>
+<span class="code">$ nc 127.0.0.1 64 </span></p>
+<p>There should now be a connection between the ports.  Anything typed at the second console will be concatenated to the first, and vice-versa. After the connection has been set up, nc does not really care which side is being used as a `server' and which side is being used as a `client'. The connection may be terminated using an EOF (^D).</p>
+</blockquote>
+<h2>Data Transfer </h2>
+<blockquote>
+<p>The example in the previous section can be expanded to build a basic data transfer model.  Any information input into one end of the connection will be output to the other end, and input and output can be easily captured in order to emulate file transfer.</p>
+<p>Start by using nc to listen on a specific port, with output captured into a file:<br>
+<span class="code">$ nc -l  64 &gt; filename.out</span></p>
+<p>Using a second machine, connect to the listening nc process, feeding it the file which is to be transferred:<br>
+<span class="code">$ nc host.example.com 64 &lt; filename.in</span><br>
+or<br>
+<span class="code">$ cat filename.in | 
+nc host.example.com -p 64</span></p>
+<p>After the file has been transferred, the connection will close automatically.</p>
+</blockquote>
+<h2>Talking to Servers</h2>
+<blockquote>
+<p> It is sometimes useful to talk to servers &quot;by hand'' rather than through      a user interface.  It can aid in troubleshooting, when it might be necessary to verify what data a server is sending in response to commands      issued by the client.  For example, to retrieve the home page of a web      site: <span class="code">$ echo -n &quot;GET / HTTP/1.0\r\n\r\n&quot; | nc host.example.com 80 </span></p>
+<p>Note that this also displays the headers sent by the web server.  They      can be filtered, using a tool such as <a href="sed.html">sed</a>, if necessary.      More complicated examples can be built up when the user knows the format      of requests required by the server.  As another example, an email may be      submitted to an SMTP server using:</p>
+<pre>  $ nc localhost 25 &lt;&lt; EOF
+  HELO host.example.com
+  MAIL FROM: &lt;user@host.example.com&gt;
+  RCPT TO: &lt;user2@host.example.com&gt;
+  DATA
+  Body of email.
+  .
+  QUIT
+  EOF</pre>
+</blockquote>
+<h2>Port Scanning</h2>
+<blockquote>
+<p>It may be useful to know which ports are open and running services on a target machine. The -z flag can be used to tell nc to report open ports, rather than initiate a connection.  For example: <br>
+<span class="code">$ nc -z host.example.com 20-30 </span></p>
+<p><span class="code">Connection to host.example.com 22 port [tcp/ssh] succeeded! <br>
+Connection to host.example.com 25 port [tcp/smtp] succeeded! <br>
+The port range was specified to limit the search to ports 20 - 30. </span><br>
+<br>
+Alternatively, it might be useful to know which server software is running, and which versions.  This information is often contained within the greeting banners.  In order to retrieve these, it is necessary to first make a connection, and then break the connection when the banner has been retrieved.  This can be accomplished by specifying a small timeout with the -w flag, or perhaps by issuing a &quot;QUIT&quot; command to the server:</p>
+<pre>$ echo "QUIT" | nc host.example.com 20-30
+SSH-1.99-OpenSSH_3.6.1p2
+Protocol mismatch.
+220 host.example.com IMS SMTP Receiver Version 0.84 Ready</pre>
+<p>UDP port scans will always succeed (i.e. report the port as open), rendering the <span class="code">-uz</span> combination of flags relatively useless.<br>
+For more advanced port scanning, use <a href="https://nmap.org/">nmap</a>. </p>
+</blockquote>
+<h2>Installing Netcat</h2>
+<blockquote>
+<p>If you need to, netcat can be installed using most package managers:</p>
+<p class="code">sudo <a href="aptitude.html">aptitude</a> install netcat<br>
+sudo yum install netcat<br>
+sudo <a href="apt-get.html">apt-get</a> install netcat</p>
+</blockquote>
+<p><b>Examples</b></p>
+Open a TCP connection to port 42 of host.example.com, using port 31337 as      the source port, with a timeout of 5 seconds:<br>
+<span class="code">$ nc -p 31337 -w 5 host.example.com 42</span>
+<p>Open a UDP connection to port 53 of host.example.com:<br>
+<span class="code">$ nc -u host.example.com 53 </span></p>
+<p>Open a TCP connection to port 42 of host.example.com using 10.1.2.3 as      the IP for the local end of the connection: <br>
+<span class="code">$ nc -s 10.1.2.3 host.example.com 42</span></p>
+<p> Create and listen on a Unix Domain Socket: <br>
+<span class="code">$ nc -lU /var/tmp/dsocket </span></p>
+<p>Connect to port 42 of host.example.com via an HTTP proxy at 10.2.3.4,      port 8080.  <br>
+This example could also be used by <a href="ssh.html">ssh</a>; see the      ProxyCommand directive in ssh_config(5) for more information. <br>
+<span class="code">$ nc -x10.2.3.4:8080 -Xconnect host.example.com 42</span></p>
+<p class="quote"><i>&ldquo;The more connections you and your lover make, not just between your bodies, but between your minds, your hearts, and your souls, the more you will strengthen the fabric of your relationship, and the more real moments you will experience together&rdquo; ~ Barbara De Angelis</i></p>
+<p><b>Related</b></p>
+<p> <a href="cat.html">cat</a> - Concatenate and print (display) the content of files<br>
+<a href="https://nmap.org/ncat/">ncat</a> - Read and write data across networks (a rewrite of netcat as part of the larger nmap toolset)<br>
+<a href="ssh.html">ssh</a> - OpenSSH SSH client (remote login program)</p><!-- #BeginLibraryItem "/Library/foot_bash.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- bash300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4615356305"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="nc.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

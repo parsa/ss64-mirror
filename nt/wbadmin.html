@@ -1,0 +1,191 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>wbadmin | Windows CMD | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_nt.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../nt.1.html">CMD</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/nt/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>wbadmin.exe</h1> 
+<p>Windows Backup Administration.<br>
+The syntax below is for Windows Server 2008 R2 or later, other than where stated. See <a href="https://technet.microsoft.com/en-us/library/cc754015.aspx">technet</a> for earlier versions.</p>
+<pre>Syntax
+           --Create and enable a daily backup schedule or modify an existing backup schedule:
+      WBADMIN <b>enable backup</b> [-addtarget:<i>BackupTarget</i>] [-removetarget: <i>BackupTarget</i>]
+         [-schedule:<i>TimeToRunBackup</i>] [-exclude:<i>ItemsToExclude</i>]
+            [-include:<i>VolumesToInclude</i>]
+               [-nonRecurseInclude:<i>ItemsToInclude</i>] [-nonRecurseExclude:<i>ItemsToExclude</i>]
+                  [-systemState] [-allCritical]
+                     [-hyperv:<i>HyperVComponentsToExclude</i>]     *Server 2012 or greater
+                        [-vssFull | -vssCopy]                *Server 2012 or greater
+                           [-user:<i>UserName</i>][-password:<i>Password</i>] [-quiet]
+                              [-allowDeleteOldBackups]       *Server 2012 or greater
+
+      WBADMIN <b>disable backup</b> [-quiet]    --Stop running the existing scheduled daily backups.
+
+      WBADMIN <b>start backup</b> [-backupTarget:{<i>BackupTargetLocation</i> | <i>TargetNetworkShare</i>}]
+         [-include:<i>ItemsToInclude</i>] [-exclude:<i>ItemsToExclude</i>]
+            [-nonRecurseInclude:<i>ItemsToInclude</i>] [-nonRecurseExclude:<i>ItemsToExclude</i>]
+               [-systemState] [-allCritical] [-noVerify]
+                  [-user:<i>UserName</i>] [-password:<i>Password</i>]
+                     [-noInheritAcl]
+                        [-vssFull | -vssCopy]      *Server 2012 or greater
+                           [-quiet]
+
+      WBADMIN <b>stop job</b> [-quiet]    --Cancel the backup or recovery operation that is currently running.
+
+      WBADMIN <b>get disks</b>            --List the internal and external disks that are currently online for the local computer.
+
+      WBADMIN <b>get items</b> -version:<i>VersionIdentifier</i> [-backupTarget:{<i>BackupDestinationVolume</i> | <i>NetworkSharePath</i>}]
+        [-machine:<i>BackupMachineName</i>]       --List the items included in a specific backup.
+
+      WBADMIN <b>get status</b>   --Report the status of the backup or recovery operation that is currently running.
+
+      WBADMIN <b>get versions</b> [-backupTarget:{<i>BackupTargetLocation</i> | <i>NetworkSharePath</i>}]
+        [-machine:<i>BackupMachineName</i>]       --List details about the available stored backups. 
+
+      WBADMIN <b>start recovery</b> -version:<i>VersionIdentifier</i> -items:{<i>VolumesToRecover</i> | <i>AppsToRecover</i> | <i>FilesOrFoldersToRecover</i>}
+         -itemtype:{Volume | App | File} [-backupTarget:{<i>VolumeHostingBackup</i> | <i>NetworkShareHostingBackup</i>}]
+            [-machine:<i>BackupMachineName</i>] [-recoveryTarget:{<i>TargetVolumeForRecovery</i> | <i>TargetPathForRecovery</i>}]
+               [-recursive] [-overwrite:{Overwrite | CreateCopy | Skip}]
+                  [-notRestoreAcl] [-skipBadClusterCheck] [-noRollForward] [-quiet]
+
+      WBADMIN <b>start systemstatebackup</b> -backupTarget:<i>VolumeName</i> [-quiet]
+
+      WBADMIN <b>start systemstaterecovery</b> -version:<i>VersionIdentifier</i> -showsummary
+        [-backupTarget:{<i>BackupDestinationVolume</i> | <i>NetworkSharePath</i>}]
+           [-machine:<i>BackupMachineName</i>] [-recoveryTarget:<i>TargetPathForRecovery</i>] [-authsysvol] [-autoReboot] [-quiet]
+
+      WBADMIN <b>delete systemstatebackup</b> {-keepVersions:<i>NumberofCopies</i> | -version:<i>VersionIdentifier</i> | -deleteOldest}
+        [-backupTarget:<i>VolumeName</i>] [-machine:<i>BackupMachineName</i>] [-quiet]
+
+      WBADMIN <b>start sysrecovery</b> -version:<i>VersionIdentifier</i> -backupTarget:{<i>BackupDestinationVolume</i> | <i>NetworkShareHostingBackup</i>}
+        [-machine:<i>BackupMachineName</i>] [-restoreAllVolumes] [-recreateDisks] [-excludeDisks] [-skipBadClusterCheck] [-quiet]
+
+      WBADMIN <b>delete catalog</b> [-quiet]    --Delete the backup catalog from the local computer.
+                                         --Use when the catalog is corrupt and cannot be restored with 'wbadmin restore catalog'.
+
+      WBADMIN <b>restore catalog</b> -backupTarget:{<i>BackupDestinationVolume</i> | <i>NetworkShareHostingBackup</i>}
+        [-machine:<i>BackupMachineName</i>] [-quiet]    --Recovers a backup catalog for the local computer from a storage location that you specify.
+
+Key
+  -addtarget     Storage location for backups. A disk, volume, or UNC path.
+  -allCritical   Include all critical volumes in the backups. Use only with -backupTarget. Can be used with -include.
+  -allowDeleteOldBackups  Overwrite any backups made before the computer was upgraded.
+  -authsysvol    If used, performs an authoritative restore of SYSVOL (the System Volume shared directory).
+  -autoReboot    Restart the system at the end of the system state recovery operation.
+                 This parameter is valid only for a recovery to the original location.
+                 We do not recommend you use this parameter if you need to perform steps after the recovery operation.
+
+  -backupTarget  The storage location for this backup. Requires an HD drive letter, a volume GUID-based path or UNC path.
+
+  -exclude       A comma-delimited list of items to exclude from the backup: files, folders, or volumes.
+  -include       A comma-delimited list of items to include in the backup: multiple files, folders, or volumes.
+
+  -excludeDisks  Valid only when specified with -recreateDisks and must be input as a comma-delimited list of disk identifiers
+                 (as listed in the output of wbadmin get disks). Excluded disks are not partitioned or formatted.
+                 This parameter helps preserve data on disks that you do not want modified during the recovery operation.
+
+  -hyperv        A comma-delimited list of components to be included in backup.
+                 The identifier could be a component name or component GUID (with or without braces).
+
+  -machine       The computer that you want backup details for. Use when backups of multiple computers are stored together.
+
+  -nonRecurseExclude   Non-recursive, comma-delimited list of items to exclude from the backup.
+  -nonRecurseInclude   Non-recursive, comma-delimited list of items to include in the backup. 
+                       Use only with the -backupTarget parameter.
+
+  -noRollForward Valid only when recovering applications. Allows for previous point-in-time recovery of an application
+                 if the latest version from the backups is selected.
+                 For other versions of the application that are not the latest, previous point-in-time recovery is done as the default.
+
+  -noVerify      Specifies that backups saved to removable media (such as a DVD) are not verified for errors.
+  -noInheritAcl  Apply the access control list (ACL) permissions that correspond to the credentials provided by the
+                  -user and -password parameters to the folder that contains the backup.
+
+  -overwrite     Valid only when recovering files. If a file being recovered already exists:
+                     Skip       - Skip the existing file and continue with recovery of the next file.
+                     CreateCopy - Create a copy of the existing file so that the existing file is not modified.
+                     Overwrite  - Overwrite the existing file with the file from the backup.
+
+  -recoveryTarget  The location to restore to. Use if this location is different than the location that was previously backed up.
+
+  -recreateDisks Recover a disk configuration to the state that existed when the backup was created.
+                 Warning: This parameter deletes all data on volumes that host operating system components.
+                 It might also delete data from data volumes.
+
+  -recursive     Valid only when recovering files. Recover the files in the folders and all sub-folders.
+                 By default, only files which reside directly in the specified folders are recovered.
+
+  -restoreAllVolumes  Recover all volumes from the selected backup. If this parameter is not specified, only critical volumes
+                 (volumes that contain the system state and operating system components) are recovered.
+                 This parameter is useful when you need to recover non-critical volumes during system recovery.
+
+  -schedule      Times of day to create a backup, formatted as HH:MM and comma delimited.
+  -showsummary   Report the summary of the last system state recovery (after the restart required to complete the operation).
+                 This parameter cannot be accompanied by any other parameters.
+
+  -skipBadClusterCheck   Skip checking the recovery disks for bad cluster information. If you are restoring to an alternate
+                 server or hardware, we recommend that you do not use this parameter.
+                 You can manually run <a href="chkdsk.html">chkdsk /b</a> on your recovery disks at any time to check them for bad clusters, and then
+                 update the file system information accordingly.
+                 Warning: Until you run chkdsk the bad clusters reported on your recovered system may not be accurate.
+
+  -systemState   Create a backup that includes the system state in addition to items specified with the -include.
+
+  -user          The user with write permission to the backup storage destination.
+                 A member of the Administrators group or Backup Operators group on the computer being backed up.
+  -password      The password for -user.
+
+  -version       The version of the backup in MM/DD/YYYY-HH:MM format. To view version information, type 'wbadmin get versions'.
+
+  -vssFull       Perform a full back up using the Volume Shadow Copy Service (VSS).
+                 All files are backed up, each <i>file's history</i> is updated to reflect that it was backed up, and the logs
+                 of previous backups may be truncated.
+                 Do not use this parameter if you are using a product other than Windows Server Backup to back up applications
+                 that are on the volumes included in the current backup. Doing so can potentially break the incremental,
+                 differential, or other type of backups that the other backup product is creating because the history that
+                 they rely on might be missing and they might perform a full backup unnecessarily.
+
+  -vssCopy       Perform a copy backup using VSS. All files are backed up but the history of the files being backup up
+                 is not updated so you preserve the all the change information and log files.
+                 This is the default value. A copy backup cannot be used for incremental or differential backups or restores.
+
+  -quiet         Run the subcommand with no prompts to the user.</pre>
+<p> Volume paths can be specified using volume drive letters, mount points, or GUID-based volume names.<br>
+If you use a GUID-based volume name, it should be terminated with a backslash (\).</p>
+<p> You can use the wildcard character (*) in the file name when specifying a path to a file.<br>
+<br>
+ISO 8601 date formats are not (yet) supported by wbadmin.</p>
+<p><b>Examples</b></p>
+<p>Schedule backups of the folder d:\demo to the network location \\backupshare\BK1 at  12:00 Midnight. and 7:00 P.M.:</p>
+<p><span class="code">C:\&gt; wbadmin enable backup –addtarget:\\backupshare\BK1 –include: d:\demo –user:SS64dom\user64 –password:pass30r6 –schedule:00:00,19:00</span></p>
+<p>Recover data from the backup that was run on  2013-03-31 at 9:00 A.M., located on drive d:</p>
+<p><span class="code">C:\&gt; wbadmin start sysrecovery -version:03/31/2013-09:00 -backupTarget:d:</span></p>
+<p>Create a system state backup and store it on volume F: </p>
+<p><span class="code">C:\&gt; wbadmin start systemstatebackup -backupTarget:F:</span></p>
+<p>Perform a system state recovery of the backup from 03/31/2017 at 9:00 A.M.: </p>
+<p><span class="code">C:\&gt; wbadmin start systemstaterecovery -version:03/31/2017-09:00</span></p>
+<p class="quote"><i>&ldquo;Get back, get back, Get back to where you once belonged&rdquo; ~ Get Back (The Beatles)</i> </p>
+<p><b>Related:</b></p>
+<p><a href="https://technet.microsoft.com/library/jj902428.aspx">Windows Server  PowerShell Backup Cmdlets</a><br>
+<a href="ntbackup.html">NTBACKUP</a> - Backup folders to tape<br>
+</p>
+<!-- #BeginLibraryItem "/Library/foot_nt.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- windows300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="7649547908"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="wbadmin.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

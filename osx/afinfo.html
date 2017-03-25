@@ -1,0 +1,81 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>afinfo OSX Man Page | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_osx.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../osx.1.html">macOS</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/osx/"></form></div></li>
+</ul></div><!-- #EndLibraryItem -->
+<h1>afinfo</h1> 
+<p>Audio File Info.</p>
+<pre>Syntax
+      afinfo [option...] <i>audio_file(s)</i>
+
+Options: (may appear before or after arguments)
+   -h
+   --help
+        print help
+   -b
+   --brief
+        Print a brief (one line) description of the audio file
+   -r
+   --real
+        Get the estimated duration after obtaining the real packet count
+   --leaks
+        Run leaks at the end of the conversion
+   -i --info }
+       print contents of the InfoDictionary
+   -x
+   --xml
+       Print output in xml format
+   --warnings
+       Print warnings if any (by default warnings are not printed in non-xml output mode)</pre>
+<p>The macOS Finder Get Info window for an audio file displays: Genre, Author, Year Recorded, Sample Rate, Duration and Channels, where available.</p>
+<p>  <b>Examples</b> </p>
+<p>Get file information for  jolene.mp3:<br>
+</p>
+<pre>$ afinfo jolene.mp3
+File:           jolene.mp3
+File type ID:   MPG3
+Num Tracks:     1
+----
+Data format:     2 ch,  44100 Hz, '.mp3' (0x00000000) 0 bits/channel, 0 bytes/packet, 1152 frames/packet, 0 bytes/frame
+                no channel layout.
+estimated duration: 219.742025 sec
+audio bytes: 8789681
+audio packets: 8412
+bit rate: 320000 bits per second
+packet size upper bound: 1052
+maximum packet size: 1045
+audio data file offset: 33
+optimized
+----</pre>
+<p>Pipe the output to grep or awk to return individual values:<br>
+<span class="code">$ afinfo jolene.mp3 |grep 'bit rate'<br>
+bit rate: 320000 bits per second<br>
+</span>
+<br>
+<i class="quote">&ldquo;You've achieved success in your field when you don't know whether what you're doing is work or play” ~ Warren Beatty</i></p>
+<p><b>Related:</b></p>
+<p><a href="https://developer.apple.com/legacy/library/documentation/Darwin/Reference/ManPages/man1/afinfo.1.html">afinfo man page</a> - Apple.com<br>
+<a href="afconvert.html">afconvert</a> - Audio File Convert<br>
+<a href="afplay.html">afplay</a> - Audio File Play<br>
+</p><!-- #BeginLibraryItem "/Library/foot_osx.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- OSX300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="1823340303"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="afinfo.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

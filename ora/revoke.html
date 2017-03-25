@@ -1,0 +1,91 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Revoke privileges | Oracle | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_ora.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../ora.1.html">Oracle</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>REVOKE Statement</h1> 
+<p>Revoke privileges from users or roles. <br>
+  <br>
+  Syntax:</p>
+<pre>Roles:
+   REVOKE <i>role</i> FROM {<i>user</i>, | <i>role</i>, |PUBLIC}
+
+System Privs:
+   REVOKE <i>system_priv(s)</i> FROM {<i>user</i>, | <i>role</i>, |PUBLIC}
+
+   REVOKE ALL FROM {<i>user</i>, | <i>role</i>, |PUBLIC}
+
+Object Privs:
+   REVOKE <i>object_priv</i> [(column1, column2..)] ON [schema.]object 
+         FROM {<i>user</i>, | role, |PUBLIC} [CASCADE CONSTRAINTS] [FORCE] 
+
+   REVOKE <i>object_priv</i> [(column1, column2..)] ON [schema.]object
+         FROM {<i>user</i>, | <i>role</i>, |PUBLIC} [CASCADE CONSTRAINTS] [FORCE]
+
+   REVOKE <i>object_priv</i> [(column1, column2..)] ON DIRECTORY directory_name
+         FROM {<i>user</i>, | <i>role</i>, |PUBLIC} [CASCADE CONSTRAINTS] [FORCE]
+
+   REVOKE <i>object_priv</i> [(column1, column2..)] ON JAVA [RE]SOURCE [schema.]object
+         FROM {<i>user</i>, | <i>role</i>, |PUBLIC} [CASCADE CONSTRAINTS] [FORCE]
+
+key:
+<i>   object_priv</i>s
+   ALTER, DELETE, EXECUTE, INDEX, INSERT, 
+   REFERENCES, SELECT, UPDATE, ALL PRIVILEGES
+
+   <i>system_privs</i>
+   ALTER ANY INDEX, BECOME USER, CREATE TABLE, DROP ANY VIEW
+   RESTRICTED SESSION, UNLIMITED TABLESPACE, UPDATE ANY TABLE
+   plus too many others to list here
+
+<i>   roles</i>
+   Standard Oracle roles -  
+   SYSDBA, SYSOPER, OSDBA, OSOPER, EXP_FULL_DATABASE, IMP_FULL_DATABASE
+   plus any user defined roles you have available</pre>
+<p> FORCE, will revoke all privileges from a user-defined-type and mark it's dependent 
+  objects INVALID.</p>
+<p>The roles CONNECT, RESOURCE and DBA are now deprecated (supported only for backwards compatibility) unless you are still running Oracle 6.0</p>
+<p>Error ORA-01927 &quot;cannot REVOKE privileges you did not grant&quot; - This
+usually means you tried revoking permission from the table owner, e.g.<br>
+Oracle will not allow <span class="code">REVOKE select on USER1.Table1 from USER1</span> Owners of objects ALWAYS have full permissions on those objects. This is
+one reason it makes sense to place tables in one schema and the packaged
+prodecures used to access those tables in a separate schema.</p>
+<p><i class="quote">"The most radical revolutionary will become a conservative the day after the revolution" ~ Hannah Arendt </i><b><br>
+<br>
+Related Commands:<br>
+<br>
+</b> <a href="audit.html">AUDIT</a><br>
+<a href="session_a.html">ALTER SESSION</a> SET CURRENT_SCHEMA = <i>schema</i> <br>
+<a href="role_c.html">CREATE ROLE</a> <br>
+<a href="grant.html">GRANT</a> </span></p>
+<p><b>Related Views:</b></p>
+<p class="code">&nbsp;<a href="../orad/DBA_COL_PRIVS.html">DBA_COL_PRIVS</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="../orad/ALL_COL_PRIVS.html">ALL_COL_PRIVS</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="../orad/USER_COL_PRIVS.html">USER_COL_PRIVS</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="../orad/COLUMN_PRIVILEGES.html">COLUMN_PRIVILEGES</a> <br>                      
+&nbsp;<a href="../orad/ALL_COL_PRIVS_MADE.html">ALL_COL_PRIVS_MADE</a>&nbsp;&nbsp;&nbsp;<a href="../orad/USER_COL_PRIVS_MADE.html">USER_COL_PRIVS_MADE</a> <br>                      
+&nbsp;<a href="../orad/ALL_COL_PRIVS_RECD.html">ALL_COL_PRIVS_RECD</a>&nbsp;&nbsp;&nbsp;<a href="../orad/USER_COL_PRIVS_RECD.html">USER_COL_PRIVS_RECD</a> <br>
+&nbsp;<a href="../orad/DBA_ROLE_PRIVS.html">DBA_ROLE_PRIVS</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="../orad/USER_ROLE_PRIVS.html">USER_ROLE_PRIVS</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="../orad/ROLE_ROLE_PRIVS.html">ROLE_ROLE_PRIVS</a> <br>
+&nbsp;<a href="../orad/DBA_SYS_PRIVS.html">DBA_SYS_PRIVS</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="../orad/USER_SYS_PRIVS.html">USER_SYS_PRIVS</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="../orad/ROLE_SYS_PRIVS.html">ROLE_SYS_PRIVS</a> <br>                                                                
+&nbsp;<a href="../orad/SESSION_PRIVS.html">SESSION_PRIVS</a> <br>
+&nbsp;<a href="../orad/DBA_TAB_PRIVS.html">DBA_TAB_PRIVS</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="../orad/ALL_TAB_PRIVS.html">ALL_TAB_PRIVS</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="../orad/USER_TAB_PRIVS.html">USER_TAB_PRIVS</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="../orad/TABLE_PRIVILEGES.html">TABLE_PRIVILEGES</a> <br>                                                                
+&nbsp;<a href="../orad/ROLE_TAB_PRIVS.html">ROLE_TAB_PRIVS</a> <br>                      
+&nbsp;<a href="../orad/ALL_TAB_PRIVS_MADE.html">ALL_TAB_PRIVS_MADE</a>&nbsp;&nbsp;&nbsp;<a href="../orad/USER_TAB_PRIVS_MADE.html">USER_TAB_PRIVS_MADE</a> <br>                      
+&nbsp;<a href="../orad/ALL_TAB_PRIVS_RECD.html">ALL_TAB_PRIVS_RECD</a>&nbsp;&nbsp;&nbsp;<a href="../orad/USER_TAB_PRIVS_RECD.html">USER_TAB_PRIVS_RECD</a> </p><!-- #BeginLibraryItem "/Library/foot_ora.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- oracle-footer -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4275490898"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="revoke.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

@@ -1,0 +1,138 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>-f Format operator | PowerShell | SS64.com</title>
+
+<style type="text/css">
+.tab1
+{
+ background-color: #ddd;
+ border-collapse: collapse;
+}
+.tab1 td
+{
+ border-bottom: 1px solid #999;
+  padding: 2px 8px;
+}
+.tab1 tbody tr:hover td
+{
+ background-color: #ccc;
+}
+</style></head><body><!-- #BeginLibraryItem "/Library/head_pssyntax.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../ps.1.html">PowerShell</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/ps/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1> <span class="code">-f </span>Format operator</h1> 
+<p>Format a string expression.</p>
+<pre>Syntax:
+       &quot;String with placeholders&quot; <b>-f</b> &quot;Array of values to place into the placeholders&quot;
+
+<span class="code">       'Filename: <b>{0}</b> Created: <b>{1}</b>' <b>-f</b> $_.fullname,$_.creationtime</span>
+
+       &quot;{<i>I,A:FS</i>} {<i>I,A:FS</i>} {<i>I,A:FS</i>}..&quot; <b>-f</b> &quot;string0&quot;, &quot;string1&quot;, &quot;string2&quot;...</pre>
+<blockquote>
+<blockquote>
+<p>Place <span class="code">{0} {1}</span> etc. into the string as placemarkers where you want the variables to appear, <span class="code"></span>immediately follow the string with the<span class="code"> -f </span>operator and then lastly, a list of comma separated variables which will be used to populate the placemarkers.</p>
+</blockquote>
+</blockquote>
+<pre>Key:
+<i>   I </i></span>  Index of the item to display, 0,1,2 etc.</pre>
+<pre><i>   A</i>   Alignment. 
+       A positive number will <b>right</b> align <i>n </i>characters. 
+       A negative number will <b>left</b> align <i>n </i>characters. 
+        so {2,-25} will allocate 25 characters of horizontal space on the line, even if the string is only 1 character long. </pre>
+<pre><i>   FS</i>  An optional format string that acts on the item depending on its type (not case sensitive).
+
+       Valid format strings:</pre>
+<blockquote><blockquote>
+<table class="tab1">
+<tr>
+<td>:c </td>
+<td>Currency format </td>
+</tr>
+<tr>
+<td>:e</td>
+<td>Scientific (exp) notation </td>
+</tr>
+<tr>
+<td>:f</td>
+<td>Fixed point<br>
+:f5 = fix to 5 places </td>
+</tr>
+<tr>
+<td>:g</td>
+<td>Most compact format, fixed or sci<br>
+:g5 = 5 significant digits </td>
+</tr>
+<tr>
+<td>:n</td>
+<td>Number (:n<i>P</i> precision=number of decimal places), includes culture separator for thousands 1,000.00 </td>
+</tr>
+<tr>
+<td>:p</td>
+<td>percentage</td>
+</tr>
+<tr>
+<td>:r</td>
+<td>reversible precision </td>
+</tr>
+<tr>
+<td>:x</td>
+<td>Hex format </td>
+</tr>
+<tr>
+<td>:hh<br>
+:mm<br>
+:ss</td>
+<td>Convert a DateTime to a 2 digit Hour/minute/second<br>
+&quot;{0:hh}:{0:mm}&quot;</td>
+</tr>
+<tr>
+<td>:ddd</td>
+<td>Convert a DateTime to Day of the Week </td>
+</tr>
+</table>
+<p><a href="syntax-dateformats.html">A full list of Date Formats</a> <br> 
+</p>
+<p>The format string can be surrounded by either single or double quotes. <br>
+Static text may be included before or in-between the -f {format strings.} </p>
+</blockquote></blockquote>
+<p><b>Examples: </b></p>
+<p>Convert a number to Hex:<br>
+<span class="code"> PS C:\&gt; &quot;{1,10} {0,10} {2,10:x}&quot; <b>-f</b> &quot;First&quot;, &quot;Second&quot;, 255<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Second&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;First&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FF<br>
+</span></p>
+<pre><span class="body">Display filenames and creation time</span>:<br><span class="code">PS C:\&gt; Get-ChildItem c:\docs | ForEach-Object <b>{</b>'Filename: <b>{0}</b> Created: <b>{1}</b>' <b>-f</b> $_.fullname,$_.creationtime<b>}</b></span></pre>
+<p>Display the hours and minutes from a date time value:<span class="code"><br>
+PS C:\&gt; &quot;{0:hh}:{0:mm}&quot; <b>-f</b> (Get-Date)<br>
+17:52</span></p>
+<pre><span class="body">Left and right align text:</span>
+<span class="code">PS C:\&gt; &quot;|{0,-10}| |{1,10}|&quot; <b>-f</b> &quot;hello&quot;, &quot;world&quot;</span>
+<span class="code">|hello     ||     world</span>|
+</pre>
+<p>Reverse the order of display:<br>
+<span class="code"> PS C:\&gt; &quot;{2} {1,-10} {0:n3}&quot; <b>-f</b> [math]::pi, &quot;world&quot;, &quot;hello&quot;<br>
+hello world 3.142</span></p>
+<p class="quote"><i>&ldquo;I skate to where the puck is going to be, not where it has been&rdquo; ~ Wayne Gretsky</i></p>
+<p><b>Related:</b></p>
+<p><a href="syntax-operators.html">PowerShell Operators</a> - Format strings and arrays<br>
+<a href="syntax-variables.html">Variables</a> - PowerShell Variables and basic Mathematical operators (+ - = /)<br>
+<a href="syntax-pipeline.html">Pipelines</a> - Pass objects down the pipeline<br>
+</p><!-- #BeginLibraryItem "/Library/foot_ps.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- PowerShell300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="6253539900"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="syntax-f-operator.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

@@ -1,0 +1,44 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>DROP DEFAULT | SQL Server | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_sql.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../sql.1.html">SQL</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/sql/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1> DROP DEFAULT</h1>
+<p>Remove user-defined default(s) from the current database.</p>
+<pre>Syntax
+      DROP DEFAULT { [<i>schema_name</i>.] <i>default_name</i> } [ ,...n ] [ ; ]
+
+Key:
+    <i>schema_name</i>    The schema to which the default belongs
+    <i>default_name</i>   Name of an existing default
+
+Defaults must comply with the rules for identifiers.
+</pre>
+<p><b>Example</b></p>
+<pre>DROP DEFAULT price_dflt;</pre>
+<p class="quote"><i>&quot;Small is beautiful&quot; ~ E. F.Schumacher</i></p>
+<p><b>Related:</b><br>
+  <br>
+  <a href="default_c.html">CREATE DEFAULT</a><br>sp_help - List the defaults that exist <br>
+  sp_unbindefault - Unbind the default from a column or an alias data type.<br>
+Equivalent Oracle command:  <a href="../ora/table_a.html">ALTER TABLE</a> ... DEFAULT</p><!-- #BeginLibraryItem "/Library/foot_sql.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ss64-sql -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="6953563613"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="default_d.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

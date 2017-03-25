@@ -1,0 +1,72 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Msg | Windows CMD | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_nt.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../nt.1.html">CMD</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/nt/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>MSG.exe </h1>  
+<p>Send a pop-up message to a user.<pre>Syntax
+      MSG <i>username</i> [<i>options</i>] [<i>message</i>]
+
+      MSG <i>sessionname</i> [<i>options</i>] [<i>message</i>]
+
+      MSG <i>sessionid</i>   [<i>options</i>] [<i>message</i>]
+
+      MSG  @<i>filename</i> [<i>options</i>] [<i>message</i>]
+
+      MSG * [<i>options</i>] [<i>message</i>]
+
+Options
+
+   <i>username</i>            The user to send to, <span class="code">* </span>will send to all sessions on the machine.
+
+   /SERVER:<i>servername</i>  The server to contact (default is current).
+
+   /TIME:<i>seconds</i>       Time delay to wait for receiver to acknowledge msg.
+
+   /V                  Verbose, display extra information.
+
+   /W                  Wait for response from user, useful with /V.
+
+   <i>message</i>             The message text to send, some special characters may
+                       have to be escaped.</pre>
+<p><span class="code"> </span>Msg is most commonly used to send Terminal Server/Citrix shutdown messages.<br>
+The 'Home' editions of Windows don&rsquo;t include MSG. </p>
+<p>Special characters: dash (-) forward slash (/) and quote marks (&quot;)  can be escaped with a backslash (<a href="https://ss64.org/viewtopic.php?id=2075">undocumented</a>) </p>
+<p>If no message text to send is specified, MSG will prompt for it (also reads from stdin)<br>
+<span class="code">@filename</span> identifies a file containing a list of usernames,
+sessionnames or sessionids to send the message to.<br>
+</p>
+<p><b>Examples</b></p>
+<p class="code">C:\&gt; msg user64 &quot;The system will shutdown at 10pm&quot;</p>
+<p class="code">C:\&gt; msg * &quot;The \&quot;ACME\&quot; system is currently down.&quot;</p>
+<p class="quote"><i># And these children that you spit on, As they try to change their worlds<br>
+Are immune to your consultations, they're quite aware of what they're going through # - David Bowie</i></p>
+<p><b>Related:</b><br>
+<br>
+<a href="echo.html">ECHO</a> - Display message on screen<br>
+<a href="type.html">TYPE</a> - Display the contents of a text file<br>
+Powershell:<br>
+<span class="code">PS C:&gt; [Reflection.Assembly]::LoadWithPartialName(&quot;System.Windows.Forms&quot;)<br>
+PS C:&gt; [Windows.Forms.MessageBox]::show(&quot;Hello World&quot;, &quot;My PopUp Message Box&quot;)</span><br>
+Equivalent bash command (Linux):
+<a href="../bash/echo.html">echo</a> - Display message on screen</p><!-- #BeginLibraryItem "/Library/foot_nt.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- windows300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="7649547908"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="msg.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

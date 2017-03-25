@@ -1,0 +1,128 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>BACKUP | SQL Server | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_sql.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../sql.1.html">SQL</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/sql/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>BACKUP</h1>
+<p>Backup an entire database, transaction log,  file(s) or filegroup(s).</p>
+<pre>Syntax
+      --Backup an entire database&nbsp;
+	   <b>BACKUP DATABASE</b> {<i>database</i> | @<i>database_name_var</i> } 
+	      TO <i><a href="backup.html#backup_device">backup_device</a></i> [ ,...n ] 
+	         [[MIRROR TO <i>backup_device</i> [ ,...n ] ] [ ...<i>next-mirror</i> ] ] 
+	            [WITH <i>options</i> ]
+
+      --Backup specific files or filegroups
+      <b>BACKUP DATABASE</b> {<i>database_name </i>| @<i>database_name_var</i> }
+         <i><a href="backup.html#file_or_filegroup">file_or_filegroup</a></i> [ ,...f ] 
+            TO <i><a href="backup.html#backup_device">backup_device</a></i> [ ,...n ] 
+               [[MIRROR TO <i>backup_device</i> [ ,...n ] ] [ ...<i>next-mirror</i> ] ] 
+                  [WITH <i>options</i> ]
+
+      --Backup a transaction log
+      <b>BACKUP LOG</b> {<i>database_name</i> | @<i>database_name_var</i> }
+       { 
+	      TO <a href="backup.html#backup_device">backup_device</a> [ ,...n ]
+           [[MIRROR TO <i>backup_device</i> [ ,...n ] ] [ ...<i>next-mirror</i> ] ]
+              [WITH <i>options</i> ]
+       }
+<i>
+</i>      --Truncate the transaction log <br>      <b>BACKUP LOG </b>{<i>database</i> | @<i>database_name_var</i>} 
+         WITH 
+            {NO_LOG | TRUNCATE_ONLY}
+<i>
+Options:
+  </i> BLOCKSIZE = {<i>blocksize</i> | @<i>blocksize_variable</i>}
+   {CHECKSUM | <u>NO_CHECKSUM</u> } 
+   {STOP_ON_ERROR | CONTINUE_AFTER_ERROR}
+   DESCRIPTION = {'<i>text</i>' | @text_variable}
+   DIFFERENTIAL
+   EXPIREDATE = {<i>date</i> | @<i>date_var</i>}&nbsp;| RETAINDAYS = {<i>days</i> | @<i>days_var</i>}
+   PASSWORD = {<i>password</i> | @<i>password_variable</i>}
+   {FORMAT | <u>NOFORMAT</u> }
+   {INIT | NOINIT}
+   {<u>NOSKIP</u> | SKIP}
+   MEDIADESCRIPTION = {'<i>text</i>' | @<i>text_variable</i>}
+   MEDIANAME = {<i>media_name</i> | @<i>media_name_variable</i>}
+   MEDIAPASSWORD = {<i>mediapassword</i> | @<i>mediapassword_variable</i>}
+   NO_TRUNCATE   <b>**</b>
+   {NORECOVERY | STANDBY = <i>undo_file_name</i> } <b> **</b>
+   NAME = {<i>backup_set_name</i> | @<i>backup_set_name_var</i>}
+   {NOREWIND | <u>REWIND</u>}
+   {<u>NOUNLOAD</u> | UNLOAD}
+   RESTART
+   STATS [= <i>percentage</i>]
+   COPY_ONLY 
+
+     <b> **</b> = option for BACKUP LOG command only
+     Multiple options can be specified with or without commas to separate
+     e.g. option option or option, option
+
+<i>file_or_filegroup</i><a id="file_or_filegroup"></a> :: = 
+       { 
+	     FILE = <i>logical_file_name</i>
+        FILE = @<i>logical_file_name_var</i>
+        FILEGROUP = <i>logical_filegroup_name</i> 
+        FILEGROUP = @<i>logical_filegroup_name_var</i>
+        READ_WRITE_FILEGROUPS
+       }
+<i>
+backup_device</i><a id="backup_device"></a> ::= 
+    {
+<i>    logical_backup_device_name</i>
+    @<i>logical_backup_device_name_var</i>
+    {DISK | TAPE} = {'<i>physical_backup_device_name</i>' | @<i>physical_backup_device_name_var</i>}
+	 }
+</pre>
+<p>     The option NO_LOG /TRUNCATE_ONLY will be removed in a future version of SQL Server.</p>
+<p><b>Examples</b> (These assume the backup devices already exist) </p>
+<pre>   -- Backup the 'MySample' database to the logical backup device 'MySampleDevice'
+   -- Simple recovery model <br>   BACKUP DATABASE MySample<br>   TO MySampleDevice
+
+   -- Back up the full 'MySample2' database to the logical backup device 'MySample2Device'.
+   -- Full recovery model 
+   BACKUP DATABASE MySample2 TO MySample2Device
+
+   -- Then Backup the MySample2 log file.
+   BACKUP LOG MySample2
+   TO MySample2Device</pre>
+<p class="quote"><i>&quot;We don't want to go back to tomorrow, we want to go..  forward&quot; ~ Dan Quale</i></p>
+<p><b>Related commands:</b></p>
+<p><a href="syntax-backup-check.html">Backup Check script for SQL server</a> (SQLPS)<br>
+ALTER DATABASE <br>
+  <a href="dbcc_sqlperf.html">DBCC SQLPERF</a><br>
+  <a href="restore_full.html">RESTORE DATABASE Complete</a> <a href="restore_partial.html"><br>
+  RESTORE DATABASE Partial</a> <a href="restore_files.html"><br>
+  RESTORE DATABASE Files</a> <a href="restore_logs.html"><br>
+  RESTORE LOGS</a> <a href="restore_snap.html"><br>
+  RESTORE DATABASE_SNAPSHOT</a> <br>
+  RESTORE FILELISTONLY<br>
+  RESTORE HEADERONLY<br>
+  RESTORE LABELONLY <br>
+  RESTORE VERIFYONLY <br>
+  sp_addumpdevice<br>
+  sp_configure<br>
+  sp_helpfile<br>
+  sp_helpfilegroup <br>
+  <br>
+<b>Equivalent Oracle command</b>: <a href="../ora/rman.html">RMAN</a></p><!-- #BeginLibraryItem "/Library/foot_sql.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ss64-sql -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="6953563613"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="backup.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

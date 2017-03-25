@@ -1,0 +1,63 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>ALL_VIEWS | Oracle | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_orad.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../ora.1.html">Oracle</a></li>
+<li class="tbtn"><a href="../orad.1.html">Dictionary</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>ALL_VIEWS </h1><p> 
+<p>Description of views accessible to the user </p>
+<p>Columns</p>
+<pre>   ___________________________
+ 
+   OWNER
+      Owner of the view
+   VIEW_NAME
+      Name of the view
+   TEXT_LENGTH
+      Length of the view text
+   TEXT
+      View text
+   TYPE_TEXT_LENGTH
+      Length of the type clause of the object view
+   TYPE_TEXT
+      Type clause of the object view
+   OID_TEXT_LENGTH
+      Length of the WITH OBJECT OID clause of the object view
+   OID_TEXT
+      WITH OBJECT OID clause of the object view
+   VIEW_TYPE_OWNER
+      Owner of the type of the view if the view is an object view
+   VIEW_TYPE
+      Type of the view if the view is an object view
+   SUPERVIEW_NAME
+      Name of the superif view is a subview</pre>
+<p><b>Examples (SQL*Plus):</b></p>
+<p>View the definition of <i>myview:</i></p>
+<p class="code">set LONG 1000<br>
+select TEXT from ALL_VIEWS <br>
+where owner='<i>myowner</i>' and view_name='<i>myview</i>';</p>
+<p>1000 should be more than large enough to read most view definitions, but if you want to set this exactly look at the TEXT_LENGTH column:</p>
+<p class="code">select TEXT_LENGTH from ALL_VIEWS <br>
+where view_name = '<i>myview</i>';</p>
+<p><b>Related:</b><span class="body"><b><br>
+</b><a href="DBA_VIEWS.html">DBA_Views</a></span></p><!-- #BeginLibraryItem "/Library/foot_orad.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- oracle-footer -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4275490898"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="ALL_VIEWS.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div>
+<!-- #EndLibraryItem --></body>
+</html>

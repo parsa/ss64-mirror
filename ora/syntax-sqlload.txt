@@ -1,0 +1,35 @@
+
+-- [SQLLOAD.CTL]
+
+-- To run this SQL*Loader file:
+--    SQLLDR user/pass@sid control=sqlload.ctl LOG=MyData.log
+
+
+-- Notes:
+-- Drop indexes (and recreate after load), disable referential integrity.
+-- This script inserts Comma Separated data into an Oracle table
+-- To append rather than replace data change TRUNCATE to INSERT or APPEND
+
+-- Also consider using External Tables
+
+OPTIONS (BINDSIZE=2000000, ROWS=1000, ERRORS=1000, DISCARDMAX=1000)
+
+LOAD DATA
+INFILE 'MyData.csv'
+BADFILE MyData.bad
+DISCARDFILE MyData.dsc
+TRUNCATE
+INTO TABLE MY_DATA_TABLE
+FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+( org_code                           NULLIF org_code=BLANKS,
+  org_name                           NULLIF org_name=BLANKS,
+  org_address1                       NULLIF org_address1=BLANKS,
+  org_address2                       NULLIF org_address2=BLANKS,
+  org_address3                       NULLIF org_address3=BLANKS,
+  org_address4                       NULLIF org_address4=BLANKS,
+  org_zipcode                        NULLIF org_zipcode=BLANKS,
+  org_start_date   DATE(8)"yyyymmdd" NULLIF org_start_date=BLANKS,
+  org_status                         NULLIF org_status=BLANKS "nvl(:org_status,'Valid')",
+  org_telephone                      NULLIF org_telephone=BLANKS
+)
+

@@ -1,0 +1,154 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Redo, Rollback and Undo | Oracle | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_orasyntax.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../ora.1.html">Oracle</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>Redo, Rollback and Undo</h1>
+<h2>Redo</h2>
+<p>  In addition to <a href="syntax-storage.html">datafiles</a> for storing database data,
+  every Oracle database has a set of (two or more) redo log files. <br>
+  The redo log records all <i>changes</i> made to data, including both uncommitted and
+committed changes.</p>
+<p>To change data a session will generate some redo change vectors and record them in the redo log buffer.<br>
+As it records the redo change vectors it applies the changes to the data blocks (including the undo blocks)</p>
+<p>Changes are saved to redo by the log writer process:<br>
+  <br>
+  The redo log can consist of two parts: the online redo log and the archived
+  redo log. <br>
+  To avoid losing the database due to a single point of failure, Oracle
+  can maintain multiple sets of online redo log files. </p>
+<p>Assuming the database  operates in ARCHIVELOG mode, Oracle will create an
+  archived
+redo log at every checkpoint - these can be used to 
+recover from a disk failure. <br>
+<br>
+Archived
+redo logs should be backed up and deleted regularly.<br>
+<br>
+Online redo logs should <a href="https://groups.google.com/forum/?hl=en#!msg/comp.databases.oracle.server/ScWw0wzCATk/_8rgfTgXjEoJ">not</a> be backed up.</p>
+<p>The size of a redo log file
+      directly influences checkpoint frequency and performance. Checkpoint frequency
+  can vary widely according to system activity but two or three per hour is typical. To insure a reasonable frequency of log switches  set <span class="code"><a href="syntax-initora.html">ALTER SYSTEM SET</a> ARCHIVE_LAG_TARGET = 2400 SCOPE=BOTH;</span></p>
+<h2>Rollback</h2>
+<p>  Rolling back means undoing  changes to data that have been performed  within
+an uncommitted SQL transaction. </p>
+<p>If at any time an SQL statement causes an error, all effects of the statement
+  are rolled back. <br>
+  The user can also request a statement-level rollback by issuing a <a href="rollback.html">ROLLBACK</a>  statement.</p>
+<p>Rollback segments  store the data as it was <i>before</i> changes were made. This
+  is in contrast to the redo log which is a
+record of the insert/update/deletes.</p>
+<h2>Commit</h2>
+<p>  After a commit, the log writer process (LGWR)  will write redo log entries from
+  the SGA (Log
+Buffer) into the online redo log file. </p>
+<p>On the commit, your session posts a message to LGWR to write the log  buffer to disc up to the point that includes the last redo change vector  created by the session.<br>
+The session waits for the log writer to confirm that it has written the log before continuing.</p>
+<p>The Database Writer Process (DBWR) writes modified blocks from the database buffer cache to the data files. At no point does the commit FORCE the database writer to write the changed blocks to disc - a moment will come when DBWR just happens to wake up and decide that it&rsquo;s  time  they were written to disk.</p>
+<p>If a user disconnects from Oracle the current transaction is committed.<br>
+  Applications should always explicitly <a href="commit.html">commit</a> or <a href="rollback.html">rollback</a> transactions before
+program termination.</p>
+<h2>Storing Undo Records</h2>
+<p>  Undo records
+can be stored in either rollback segments or undo tablespaces.</p>
+<p><i>Rollback Segment Undo </i><br>
+  Rollback segments have traditionally stored undo information
+  used by several functions of Oracle. During database recovery, after all changes
+  recorded in the redo log have been applied, Oracle uses rollback segment information
+  to undo any uncommitted transactions. Because rollback segments are stored
+  in the database buffers, this important recovery information is automatically
+  protected by the redo log. <a href="syntax-initora.html">UNDO_MANAGEMENT</a>=MANUAL</p>
+<p><i>Automatic Undo </i><br>
+  Automatic undo management
+  enables
+  a DBA to exert control over how long undo records are retained before being
+  overwritten. Automatic undo management mode is more efficient, and less complex
+  to implement and manage than rollback segment undo. <a href="syntax-initora.html">UNDO_MANAGEMENT</a>=AUTO</p>
+<h2>Managing Undo</h2>
+<p>The UNDO_POOL directive enables DBAs to control
+  runaway transactions by grouping users into
+  consumer groups, with each group assigned a maximum undo space limit. Whenever
+  the total undo space consumed by a group exceeds the limit, its users are
+  not allowed to make any further updates, until undo space is freed up by other
+  members (after their transactions commit or abort). </p>
+<p>In addition to space management, a DBA can specify
+    an UNDO_RETENTION period to minimise occurences of the &quot;snapshot too old&quot;
+    error. You can  set this at
+    startup or with the ALTER SYSTEM statement.</p>
+<p> e.g.
+        set retention to 20 minutes (1200 seconds): <br>
+      <span class="code"><a href="system_a.html">ALTER SYSTEM</a> SET <a href="syntax-initora.html">UNDO_RETENTION</a> =
+      1200;</span></p>
+<p>An important caveat with this is that Oracle will not reuse space (wrap the rollback segment back around over itself) while there is an active transaction. So if you run a one hour long transaction and have a 20 minute retention - then the  undo tablespace will still continue to grow for the whole hour.</p>
+<p>If the undo space is less than the longest running transaction, you will get a 'failure to extend' error and the transaction will fail and 
+roll back.</p>
+<p>Even when the retention period has passed Oracle does not actively delete data from undo, it will simply be overwritten by the next transaction. </p>
+<p>Typical values for an 
+undo tablespace range from 1 GB to 20 GB. A 20%
+    buffer
+        of undo space is recommended to avoid excessive movement of space between
+undo segments.</p>
+<p>The default value of
+    UNDO_POOL
+    is UNLIMITED.<br>
+  The default value of
+   UNDO_RETENTION is a small 
+value that should be adequate for most OLTP systems.</p>
+<h2>Two-Phase Commit</h2>
+<p>  In a distributed environment
+  Oracle ensures data consistency using the transaction model and
+  a two-phase commit mechanism. As in nondistributed
+  systems, transactions should be carefully planned to include a logical
+  set of SQL statements that should all succeed or fail as a unit. Oracle's two-phase
+  commit mechanism guarantees that, a distributed transaction will either
+  commit on all involved nodes or roll back on all involved nodes across
+  the
+  global distributed database.</p>
+<h2>Flashback Query</h2>
+<p>  Flashback Query, lets you view and repair historical data i.e perform queries
+  on the database as of a certain wall clock time (or SCN)<br>
+  This capability uses Oracle's multiversion read-consistency to restore data by
+  applying undo as needed. Administrators can configure undo retention by specifying
+  how long undo should be kept in the database.<br>
+  <br>
+  The speed of this operation depends only on the amount of data being queried
+  and the number of changes to the data that need to be backed out.<br>
+  You set the date and time you want to view. Then any SQL query you execute operates
+  on data as it existed at that time. You can correct errors and back out the restored
+  data.</p>
+<p>Flashback Query does NOT undo anything. It is only a query mechanism. You
+  can take the output from a flashback query and perform an Undo yourself in
+  many circumstances.<br>
+  - Flashback Query does NOT tell you what changed. LogMiner does that.<br>
+  - Flashback Query can be used to undo changes and can be very efficient if
+  you know the rows that need to be moved back in time. You can in theory use
+  it to move a full table back in time but this is very expensive if the table
+is large since it involves a full table copy.</p>
+<p> <span class="quote"><i>“To see and to be seen, in heaps they run; <br>
+Some to undo, and some to be undone” ~ </i>John Dryden</span><br>
+  <br>
+<b>Related</b></p>
+<p><a href="syntax-architecture.html">Architecture diagram</a> (11g)<br>
+<a href="syntax-storage.html">Automated Storage Management</a> (ASM)<br>
+<a href="commit.html">COMMIT</a><br>
+<a href="rollback.html">ROLLBACK</a></p><!-- #BeginLibraryItem "/Library/foot_ora.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- oracle-footer -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4275490898"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="syntax-redo.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

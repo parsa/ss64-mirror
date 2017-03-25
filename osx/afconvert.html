@@ -1,0 +1,260 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>afconvert OSX Man Page | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_osx.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../osx.1.html">macOS</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/osx/"></form></div></li>
+</ul></div><!-- #EndLibraryItem -->
+<h1>afconvert</h1> 
+<p>Audio File Convert. </p>
+<pre>Syntax
+      afconvert [<i>option</i>...]<i> input_file </i>[<i>output_file</i>]
+
+      Options may appear before or after the direct arguments. If output_file
+      is not specified, a name is generated programmatically and the file
+      is written into the same directory as input_file.
+
+      afconvert <i>input_file</i> [-o <i>output_file</i> [<i>option</i>...]]...
+
+      Output file options apply to the previous output_file.
+      Other options may appear anywhere.
+
+General options:
+    { -d | --data } <i>data_format</i>[@<i>sample_rate</i>][/<i>format_flags</i>][#<i>frames_per_packet</i>]
+        [-][BE|LE]{F|[U]I}{8|16|24|32|64}          (PCM)
+            e.g.   BEI16   F32@44100
+        or a data format appropriate to file format (see -hf)
+        format_flags: hex digits, e.g. '80'
+        Frames per packet can be specified for some encoders, e.g.: samr#12
+        A format of "0" specifies the same format as the source file,
+            with packets copied exactly.
+        A format of "N" specifies the destination format should be the
+            native format of the lossless encoded source file (alac, FLAC only)
+
+    { -c | --channels } <i>number_of_channels</i>
+        add/remove channels without regard to order.
+
+    { -l | --channellayout } <i>layout_tag</i>
+        layout_tag: name of a constant from CoreAudioTypes.h
+          (prefix "kAudioChannelLayoutTag_" may be omitted)
+        if specified once, applies to output file; if twice, the first
+          applies to the input file, the second to the output file
+
+    { -b | --bitrate } <i>total_bit_rate_bps</i>
+         e.g. 256000 will give you roughly:
+             for stereo source: 128000 bits per channel
+             for 5.1 source: 51000 bits per channel
+                 (the .1 channel consumes few bits and can be discounted in the
+                 total bit rate calculation)
+
+    { -q | --quality } <i>codec_quality</i>
+        codec_quality: 0-127
+
+    { -r | --src-quality } <i>src_quality</i>
+        src_quality (sample rate converter quality): 0-127 (default is 127)
+
+    { --src-complexity } <i>src_complexity</i>
+        src_complexity (sample rate converter complexity): line, norm, bats
+
+    { -s | --strategy } <i>strategy</i>
+        bitrate allocation strategy for encoding an audio track
+        0 for CBR, 1 for ABR, 2 for VBR_constrained, 3 for VBR
+
+    --prime-method <i>method</i>
+        decode priming method (see AudioConverter.h)
+
+    --prime-override <i>samples_prime samples_remain</i>
+        can be used to override the priming information stored in the source
+        file to the specified values. If -1 is specified for either, the value
+        in the file is used.
+
+    --no-filler
+        don't page-align audio data in the output file
+
+    --soundcheck-generate
+        analyze audio, add SoundCheck data to the output file
+
+    --media-kind "<i>media kind string</i>"
+        media kinds are: "Audio Ad", "Video Ad"
+
+    --anchor-loudness
+        set a single precision floating point value to
+        indicate the anchor loudness of the content in dB
+
+    --generate-hash
+        generate an SHA-1 hash of the input audio data and add it to the output file.
+
+    --codec-manuf <i>codec_manuf</i>
+        specify the codec with the specified 4-character component manufacturer code
+
+    --dither <i>algorithm</i>
+        algorithm: 1-2
+
+    --mix
+        enable channel downmixing
+
+    { -u | --userproperty } <i>property value</i>
+        set an arbitrary AudioConverter property to a given value
+        property is a four-character code; value can be a signed
+        32-bit integer or a single precision floating point value.
+        e.g. '-u vbrq <sound_quality>' sets the sound quality level
+             (<sound_quality>: 0-127)
+        May not be used in a transcoding situation.
+
+    -ud <i>property value</i>
+        identical to -u except only applies to a decoder. Fails if there is no
+        decoder.
+    -ue <i>property value</i>
+        identical to -u except only applies to an encoder. Fails if there is no
+        encoder.
+
+Input file options:
+    --read-track <i>track_index</i>
+        For input files containing multiple tracks, the index (0..n-1)
+        of the track to read and convert.
+
+    --offset <i>number_of_frames</i>
+        the starting offset in the input file in frames. (The first frame is
+        frame zero.)
+
+    --soundcheck-read
+         read SoundCheck data from source file and set it on any destination
+         file(s) of appropriate filetype (.m4a, .caf).
+
+    --copy-hash
+         copy an SHA-1 hash chunk, if present, from the source file to the output file.
+
+    --gapless-before <i>filename</i>
+        file coming before the current input file of a gapless album
+
+    --gapless-after <i>filename</i>
+        file coming after the current input file of a gapless album
+
+Output file options:
+    -o <i>filename</i>
+        specify an (additional) output file.
+    { -f | --file } <i>file_format</i>
+        use -hf for a complete list of supported file/data formats
+
+    --condensed-framing <i>field_size_in_bits</i>
+        specify storage size in bits for externally framed packet sizes.
+        Supported value is 16 for aac in m4a file format.
+
+Other options:
+    { -v | --verbose }
+        print progress verbosely
+
+    { -t | --tag }
+        If encoding to CAF, store the source file's format and name in a user
+        chunk. If decoding from CAF, use the destination format and filename
+        found in a user chunk.
+
+    { --leaks }
+        run leaks at the end of the conversion
+
+    { --profile }
+        collect and print performance information
+
+Help options:
+    { -hf | --help-formats }
+        print a list of supported file/data formats, as below.
+
+    { -h | --help }
+        print help</pre>
+<p> Audio file (<span class="code">-f</span>) and the data formats (<span class="code">-d</span>) which each supports:<br>
+</p>
+<pre>    '3gpp' = 3GP Audio (.3gp)
+               data_formats: 'Qclp' 'aac ' 'aace' 'aacf' 'aach' 'aacl'
+                             'aacp' 'samr' 
+    '3gp2' = 3GPP-2 Audio (.3g2)
+               data_formats: 'Qclp' 'aac ' 'aace' 'aacf' 'aach' 'aacl'
+                             'aacp' 'samr'
+    'adts' = AAC ADTS (.aac, .adts)
+               data_formats: 'aac ' 'aach' 'aacp'
+    'ac-3' = AC3 (.ac3)
+               data_formats: 'ac-3'
+
+    'AIFC' = AIFC (.aifc, .aiff, .aif)
+               data_formats: I8 BEI16 BEI24 BEI32 BEF32 BEF64 UI8 'ulaw'  'alaw'
+                             'MAC3' 'MAC6' 'ima4' 'QDMC' 'QDM2'  'Qclp' 'agsm'
+
+    'AIFF' = AIFF (.aiff, .aif)
+               data_formats: I8 BEI16 BEI24 BEI32
+
+    'amrf' = AMR (.amr)
+               data_formats: 'samr' 'sawb'
+
+    <b>'m4af' = Apple MPEG-4 Audio - Lossless (.m4a, .m4r)</b>
+               data_formats: 'aac ' 'aace' 'aacf' 'aach' 'aacl' 'aacp'
+                             'ac-3' 'alac' 'ec-3' 'paac' 'pac3' 'qec3' 'zec3'
+
+    'm4bf' = Apple MPEG-4 AudioBooks (.m4b)
+               data_formats: 'aac ' 'aace' 'aacf' 'aach' 'aacl' 'aacp' 'paac'
+
+    <b>'caff' = CAF - Apple <a href="https://en.wikipedia.org/wiki/Core_Audio_Format">Core Audio</a> Format (.caf)</b>
+               data_formats: '.mp1' '.mp2' '.mp3' 'QDM2' 'QDMC' 'Qclp'
+                             'Qclq' 'aac ' 'aace' 'aacf' 'aach' 'aacl'
+                             'aacp' 'ac-3' 'alac' 'alaw' 'dvi8' 'ec-3'
+                             'ilbc' 'ima4' I8 BEI16 BEI24 BEI32 BEF32
+                             BEF64 LEI16 LEI24 LEI32 LEF32 LEF64 'ms\x00\x02'
+                             'ms\x00\x11' 'ms\x001' 'ms \x00' 'paac' 'pac3'
+                             'pec3' 'qaac' 'qac3' 'qach' 'qacp' 'qec3'
+                             'samr' 'ulaw' 'zaac' 'zac3' 'zach' 'zacp'  'zec3'
+
+    'ec-3' = EC3 (.ec3)
+               data_formats: 'ec-3'
+    'MPG1' = MPEG Layer 1 (.mp1, .mpeg, .mpa)
+               data_formats: '.mp1'
+    'MPG2' = MPEG Layer 2 (.mp2, .mpeg, .mpa)
+               data_formats: '.mp2' 
+    'MPG3' = MPEG Layer 3 (.mp3, .mpeg, .mpa)
+               data_formats: '.mp3'
+
+    <b>'mp4f' = MPEG-4 Audio - Lossy (.mp4)</b>
+               data_formats: 'aac ' 'aace' 'aacf' 'aach' 'aacl' 'aacp'
+                             'ac-3' 'ec-3' 'qec3' 'zec3'
+
+    'NeXT' = NeXT/Sun (.snd, .au)
+               data_formats: I8 BEI16 BEI24 BEI32 BEF32 BEF64 'ulaw'
+    'Sd2f' = Sound Designer II (.sd2)
+               data_formats: I8 BEI16 BEI24 BEI32
+    'WAVE' = WAVE (.wav)
+               data_formats: UI8 LEI16 LEI24 LEI32 LEF32 LEF64 'ulaw' 'alaw'</pre>
+<p>You can specify the  data format (with -d) and the output file format (with -f) consult the table above to see which data formats are supported by the desired file format.</p>
+<p>It is important to give the new data file an appropriate file extension,   <span class="code">afconvert</span> will happily read and write from/to any filename, but other programs are less forgiving. The normal file extensions are shown in brackets in the list above.</p>
+<p>MacOS  and <span class="code">afconvert</span> do not include an MP3 encoder, though there is a MP4 (lossy) encoder. If you need to create MP3, use Lame or iTunes.</p>
+<p>  <b>Examples</b> </p>
+<p>Convert an Audio MP3 File to an iPhone Ringtone (m4af file):<br>
+   
+<span class="code">$ afconvert input.mp3 ringtone.m4r --file m4af</span></p>
+<p>Convert an  AAC audio file to the iPhone 'Core Audio File Format' (CAFF) at a low 32 kbs bitrate:<br>
+<span class="code">$ afconvert --data aac --bitrate 32000 input.aac output.caf</span><span class="code"> --file 'caff'</span></p>
+<p>Convert a WAV file to an MP4 file with lossy aac format at a high bitrate of 256 kbs:<br>
+<span class="code">$ afconvert -d aac -b 256000 input.wav output.mp4 -f mp4f<br>
+</span>
+<br>
+<i class="quote">“If I were going to convert to any religion I would probably choose Catholicism because it at least has female saints and the Virgin Mary” ~ Margaret Atwood</i></p><p><b>Related:</b></p>
+<p><a href="https://developer.apple.com/legacy/library/documentation/Darwin/Reference/ManPages/man1/afconvert.1.html">afconvert man page</a> - Apple.com<br>
+<a href="afinfo.html">afinfo</a> - Audio File Info<br>
+<a href="afplay.html">afplay</a> - Audio File Play<br>
+<a href="http://tmkk.undo.jp/xld/index_e.html">XLD</a> - Lossless audio decoder for Mac OS X (GUI and command line)<br>
+</p><!-- #BeginLibraryItem "/Library/foot_osx.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- OSX300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="1823340303"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="afconvert.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

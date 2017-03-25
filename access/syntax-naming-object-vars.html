@@ -1,0 +1,315 @@
+<!DOCTYPE HTML><html lang="en">
+<head><meta charset="UTF-8">
+<meta name="Description" content="Each host application for VBA, as well as each component that can be installed, has a set of objects it can use. This section defines tags for the objects in the various host applications and components.">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<link rel="STYLESHEET" href="../tables.css" type="text/css">
+<title>VBA Naming Convention - Object variables | Access | SS64.com</title></head>
+<body><!-- #BeginLibraryItem "/Library/head_access_syntax.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../access.1.html">Access</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/access/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>The Reddick <a href="syntax-naming.html">VBA Naming Conventions</a> - Object variables and DAO</h1>
+<p>Host application and component extensions to the conventions. Each host application for VBA, as well as each component that can be installed, has a set of objects it can use. This section defines tags for the objects in the various host applications and components. Future versions of the conventions will include tags for other VBA hosts and components.</p>
+<h2>Access 95, version 7.0 objects</h2>
+<p><b>Table 5</b> lists Access object variable tags. Besides being used in code to refer to these object types, these same tags are used to name these kinds of objects in the form and report designers.</p>
+<p><b>Table 5.</b> Access object variable tags.</p>
+<table border=1 cellspacing=0 cellpadding=0>
+<tr>
+<th><p>Tag</p></th>
+<th><p>Object Type</p></th>
+</tr>
+<tr>
+<td><p>app</p></td>
+<td><p>Application</p></td>
+</tr>
+<tr>
+<td><p>chk</p></td>
+<td><p>CheckBox</p></td>
+</tr>
+<tr>
+<td><p>cbo</p></td>
+<td><p>ComboBox</p></td>
+</tr>
+<tr>
+<td><p>cmd</p></td>
+<td><p>CommandButton</p></td>
+</tr>
+<tr>
+<td><p>ctl</p></td>
+<td><p>Control</p></td>
+</tr>
+<tr>
+<td><p>ctls</p></td>
+<td><p>Controls</p></td>
+</tr>
+<tr>
+<td><p>ocx</p></td>
+<td><p>CustomControl</p></td>
+</tr>
+<tr>
+<td><p>dcm</p></td>
+<td><p>DoCmd</p></td>
+</tr>
+<tr>
+<td><p>frm</p></td>
+<td><p>Form</p></td>
+</tr>
+<tr>
+<td><p>frms</p></td>
+<td><p>Forms</p></td>
+</tr>
+<tr>
+<td><p>grl</p></td>
+<td><p>GroupLevel</p></td>
+</tr>
+<tr>
+<td><p>img</p></td>
+<td><p>Image</p></td>
+</tr>
+<tr>
+<td><p>lbl</p></td>
+<td><p>Label</p></td>
+</tr>
+<tr>
+<td><p>lin</p></td>
+<td><p>Line</p></td>
+</tr>
+<tr>
+<td><p>lst</p></td>
+<td><p>ListBox</p></td>
+</tr>
+<tr>
+<td><p>bas</p></td>
+<td><p>Module</p></td>
+</tr>
+<tr>
+<td><p>ole</p></td>
+<td><p>ObjectFrame</p></td>
+</tr>
+<tr>
+<td><p>opt</p></td>
+<td><p>OptionButton</p></td>
+</tr>
+<tr>
+<td><p>fra</p></td>
+<td><p>OptionGroup (frame)</p></td>
+</tr>
+<tr>
+<td><p>brk</p></td>
+<td><p>PageBreak</p></td>
+</tr>
+<tr>
+<td><p>pal</p></td>
+<td><p>PaletteButton</p></td>
+</tr>
+<tr>
+<td><p>prps</p></td>
+<td><p>Properties</p></td>
+</tr>
+<tr>
+<td><p>shp</p></td>
+<td><p>Rectangle</p></td>
+</tr>
+<tr>
+<td><p>rpt</p></td>
+<td><p>Report</p></td>
+</tr>
+<tr>
+<td><p>rpts</p></td>
+<td><p>Reports</p></td>
+</tr>
+<tr>
+<td><p>scr</p></td>
+<td><p>Screen</p></td>
+</tr>
+<tr>
+<td><p>sec</p></td>
+<td><p>Section</p></td>
+</tr>
+<tr>
+<td><p>sfr</p></td>
+<td><p>SubForm</p></td>
+</tr>
+<tr>
+<td><p>srp</p></td>
+<td><p>SubReport</p></td>
+</tr>
+<tr>
+<td><p>txt</p></td>
+<td><p>TextBox</p></td>
+</tr>
+<tr>
+<td><p>tgl</p></td>
+<td><p>ToggleButton</p></td>
+</tr>
+</table>
+<p>Here are some examples:</p>
+<p class=code>txtName</p>
+<p class=code>lblInput</p>
+<p>  For OLE custom controls, you can use the tag OCX as specified in <b>Table 5</b> or more specific object tags that are listed later in this article in <b>Tables 11</b> and <b>12</b>.</p>
+<h2>DAO 3.0 objects</h2>
+<p>DAO is the programmatic interface to the Jet database engine shared by Access, VB, and VC++. The tags for DAO 3.0 objects are shown in <b>Table 6</b>.</p>
+<p><b>Table 6.</b> DAO 3.0 object tags.</p>
+<table border=1 cellspacing=0 cellpadding=0>
+<tr>
+<th><p>Tag</p></th>
+<th><p>Object Type</p></th>
+</tr>
+<tr>
+<td><p>cnt</p></td>
+<td><p>Container</p></td>
+</tr>
+<tr>
+<td><p>cnts</p></td>
+<td><p>Containers</p></td>
+</tr>
+<tr>
+<td><p>db</p></td>
+<td><p>Database</p></td>
+</tr>
+<tr>
+<td><p>dbs</p></td>
+<td><p>Databases</p></td>
+</tr>
+<tr>
+<td><p>dbe</p></td>
+<td><p>DBEngine</p></td>
+</tr>
+<tr>
+<td><p>doc</p></td>
+<td><p>Document</p></td>
+</tr>
+<tr>
+<td><p>docs</p></td>
+<td><p>Documents</p></td>
+</tr>
+<tr>
+<td><p>err</p></td>
+<td><p>Error</p></td>
+</tr>
+<tr>
+<td><p>errs</p></td>
+<td><p>Errors</p></td>
+</tr>
+<tr>
+<td><p>fld</p></td>
+<td><p>Field</p></td>
+</tr>
+<tr>
+<td><p>flds</p></td>
+<td><p>Fields</p></td>
+</tr>
+<tr>
+<td><p>grp</p></td>
+<td><p>Group</p></td>
+</tr>
+<tr>
+<td><p>grps</p></td>
+<td><p>Groups</p></td>
+</tr>
+<tr>
+<td><p>idx</p></td>
+<td><p>Index</p></td>
+</tr>
+<tr>
+<td><p>idxs</p></td>
+<td><p>Indexes</p></td>
+</tr>
+<tr>
+<td><p>prm</p></td>
+<td><p>Parameter</p></td>
+</tr>
+<tr>
+<td><p>prms</p></td>
+<td><p>Parameters</p></td>
+</tr>
+<tr>
+<td><p>pdbe</p></td>
+<td><p>PrivDBEngine</p></td>
+</tr>
+<tr>
+<td><p>prp</p></td>
+<td><p>Property</p></td>
+</tr>
+<tr>
+<td><p>prps</p></td>
+<td><p>Properties</p></td>
+</tr>
+<tr>
+<td><p>qry (or qdf)</p></td>
+<td><p>QueryDef</p></td>
+</tr>
+<tr>
+<td><p>qrys (or qdfs)</p></td>
+<td><p>QueryDefs</p></td>
+</tr>
+<tr>
+<td><p>rst</p></td>
+<td><p>Recordset</p></td>
+</tr>
+<tr>
+<td><p>rsts</p></td>
+<td><p>Recordsets</p></td>
+</tr>
+<tr>
+<td><p>rel</p></td>
+<td><p>Relation</p></td>
+</tr>
+<tr>
+<td><p>rels</p></td>
+<td><p>Relations</p></td>
+</tr>
+<tr>
+<td><p>tbl (or tdf)</p></td>
+<td><p>TableDef</p></td>
+</tr>
+<tr>
+<td><p>tbls (or tdfs)</p></td>
+<td><p>TableDefs</p></td>
+</tr>
+<tr>
+<td><p>usr</p></td>
+<td><p>User</p></td>
+</tr>
+<tr>
+<td><p>usrs</p></td>
+<td><p>Users</p></td>
+</tr>
+<tr>
+<td><p>wrk</p></td>
+<td><p>Workspace</p></td>
+</tr>
+<tr>
+<td><p>wrks</p></td>
+<td><p>Workspaces</p></td>
+</tr>
+</table>
+<p>Here are some examples:</p>
+<p class=code>rstCustomers</p>
+<p class=code>idxPrimaryKey</p>
+<p>Copyright © 1995 Greg Reddick. You can freely distribute this document.</p>
+<p><b>Related:</b></p>
+<ol>
+<li><a href="syntax-naming-variables.html">Introduction - Variable and Procedure names</a></li>
+<li><a href="syntax-naming-prefix.html">Prefixes</a></li>
+<li><a href="syntax-naming-suffix.html">Suffixes</a></li>
+<li>Object variables and DAO - variables</li>
+<li><a href="syntax-naming-database.html">Database Explorer objects</a> - Table, Query, Form etc </li>
+<li><a href="syntax-naming-objects.html">Object Name</a></li></ol><!-- #BeginLibraryItem "/Library/foot_access.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- access -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4313908313"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="syntax-naming-object-vars.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

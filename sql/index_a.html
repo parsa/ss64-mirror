@@ -1,0 +1,117 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>ALTER INDEX | SQL Server | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_sql.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../sql.1.html">SQL</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com/sql/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>ALTER INDEX </h1>
+<p>Modify an existing index on a  table or view.</p>
+<pre>Syntax<br>      ALTER INDEX {<i>index</i> | ALL} ON <i>object</i> <b>DISABLE</b> [;]
+<br>      ALTER INDEX {<i>index</i> | ALL} ON <i>object</i> <b>REORGANIZE</b> <br>         [PARTITION = <i>partition_number</i> ]<br>            [WITH ( LOB_COMPACTION = {<u>ON</u> | OFF} ) ] [;]
+
+      ALTER INDEX {<i>index</i> | ALL} ON object <b>REBUILD</b><br>         [ [WITH ( <i>rebuild_index_option</i> [ ,...n ] ) ] <br>           | [PARTITION = <i>partition_number</i> <br>                [ WITH ( <i>single_ptn_rebuild_index_option</i><br>                    [ ,...n ] )<br>                ] <br>           ]<br>         ] [;]
+<br>      ALTER INDEX {<i>index</i> | ALL} ON <i>object</i> <b>SET</b> ( <i>set_index_option</i> [ ,...n ] ) <br>
+Object:
+     <i>database</i>.[<i>schema</i>].<i>table_or_view
+     schema.table_or_view</i>
+
+rebuild_index_option:
+   PAD_INDEX  = {ON | <u>OFF</u>}
+   FILLFACTOR = <i>fillfactor</i> 
+   SORT_IN_TEMPDB = {ON | <u>OFF</u>}
+   IGNORE_DUP_KEY = {ON | <u>OFF</u>}
+   STATISTICS_NORECOMPUTE = {ON | <u>OFF</u>}
+   ONLINE = {ON | <u>OFF</u>} 
+   ALLOW_ROW_LOCKS = {<u>ON</u> | OFF}
+   ALLOW_PAGE_LOCKS = {<u>ON</u> | OFF}
+   MAXDOP = <i>max_degree_of_parallelism</i>
+
+single_partition_rebuild_index_option:
+   SORT_IN_TEMPDB = {ON | <u>OFF</u> }
+   MAXDOP = <i>max_degree_of_parallelism</i>
+
+set_index_option:
+   ALLOW_ROW_LOCKS = {<u>ON</u> | OFF}
+   ALLOW_PAGE_LOCKS = {<u>ON</u> | OFF}
+   IGNORE_DUP_KEY = {ON | <u>OFF</u>}
+   STATISTICS_NORECOMPUTE = {ON | <u>OFF</u>}
+
+Key:
+   ALL          All indexes associated with the table or view
+   ASC/DESC     The sort direction for the index column. 
+   PARTITION    Only rebuild/reorganize one partition of the index. 
+   <i>partition_number</i>  The number of an existing index partition to rebuild/reorganize.
+   LOB_COMPACTION  Compacting large object (LOB) data can reduce the disk space used.
+   fillfactor   Percentage of each index page to fill during index creation/rebuild.
+                1-100, default=0  (values 0 and 100 are identical=Full)
+   SET          Change index options without a rebuild/reorg, the index must be enabled.
+   ONLINE       In enterprise edition, index operations may be performed online.</pre>
+<p>In a default (nonclustered) index, the physical order of the data is independent of the index order.</p>
+<p>Reindexing should be scheduled during system down-time as it is likely to very severely affect performance.</p>
+<p>The options ONLINE and IGNORE_DUP_KEY are not valid when you rebuild an XML index.</p>
+<p>A unique clustered index must be created on a view before any nonclustered index is created.</p>
+<p><b>Examples</b></p>
+<pre>ALTER INDEX MyIndex01 ON MySchema.MyTable
+REBUILD;
+GO
+
+ALTER INDEX MyIndex02 ON MySchema.MyTable
+REBUILD Partition = 5;
+GO
+
+ALTER INDEX ALL ON MySchema.MyTable<br>REBUILD WITH (SORT_IN_TEMPDB = ON, STATISTICS_NORECOMPUTE = ON);<br>GO
+
+--
+Script to rebuild all the indexes for a database:
+USE SS64_db --Change this to the name of your database
+
+DECLARE @TableName varchar(255)
+DECLARE TableCursor CURSOR FOR
+ SELECT table_name FROM information_schema.tables
+ WHERE table_type = 'base table'
+
+OPEN TableCursor
+
+FETCH NEXT FROM TableCursor INTO @TableName
+WHILE @@FETCH_STATUS = 0
+BEGIN
+ ALTER INDEX ON schema.table REBUILD/REORGANIZE
+ FETCH NEXT FROM TableCursor INTO @TableName
+END
+
+CLOSE TableCursor
+DEALLOCATE TableCursor</pre>
+<p class="quote"><i>&quot;Anything you build on a large scale or with intense passion invites
+chaos&quot; ~ Francis Ford Coppola </i></p>
+<p><b>Related commands:</b></p>
+<p>  <a href="index_c.html">CREATE INDEX</a><br>
+  <a href="ptnscheme_c.html">CREATE PARTITION SCHEME</a><br>
+  Data Types<br>
+  <a href="dbcc_showstats.html">DBCC SHOW_STATISTICS</a><br>
+  <a href="index_d.html">DROP INDEX</a><br>
+DBCC DBREINDEX - use to re-index with older versions (SQL Server 2000 and earlier) <br>
+  sys.indexes<br>
+  sys.index_columns<br>
+  sys.dm_db_index_physical_stats  <br>
+  sys.xml_indexes<br>
+  EVENTDATA<br>
+Equivalent Oracle command: <a href="../ora/index_a.html">ALTER INDEX</a></p><!-- #BeginLibraryItem "/Library/foot_sql.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ss64-sql -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="6953563613"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="index_a.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

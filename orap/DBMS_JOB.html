@@ -1,0 +1,106 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>DBMS_JOB | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_orapack.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../ora.1.html">Oracle</a></li>
+<li class="tbtn"><a href="../orap.1.html">Packages</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>PL/SQL Packages DBMS_JOB</h1> 
+<p> Schedule and manage jobs in the job queue</p>
+<pre>Subprocedures:
+
+SUBMIT   Submit a new job to the job queue. 
+
+REMOVE   Remove job from the job queue. 
+
+CHANGE   Alter any of the user-definable parameters. 
+
+WHAT     Alter the job description. 
+
+NEXT_DATE  Alter the next execution time for a job. 
+
+INSTANCE   Assign a job to be run by an instance. 
+
+INTERVAL   Alter the interval between job executions. 
+
+BROKEN     Disable job execution. 
+
+RUN        Force a job to run. 
+
+USER_EXPORT Recreate a given job for export
+            and optionally set instance affinity.  </pre>
+<p><b>Examples</b></p>
+<p>Create a DBMS_STATS.gather_schema_stats job that runs daily at 11pm (23:00) </p>
+<pre> Set SERVEROUT ON<br> Set pagesize 200
+ 
+ DECLARE
+ jobno NUMBER;
+ BEGIN
+ DBMS_JOB.submit
+ (job =&gt; jobno,
+ what =&gt; 'DBMS_STATS.gather_schema_stats(ownname =&gt; ''scott'', cascade =&gt; TRUE, estimate_percent =&gt; DBMS_STATS.AUTO_SAMPLE_SIZE);',
+ next_date =&gt; trunc(sysdate)+23/24,
+ interval =&gt; 'SYSDATE + 1',
+ no_parse =&gt; TRUE );
+ 
+ DBMS_OUTPUT.put_line ('Created Job - the job number is:' || TO_CHAR (jobno));
+ COMMIT;
+ END;
+ /</pre>
+<p>The script above will create a new job in the schema of the current user (typically this will be the schema owner rather than SYSTEM)<br>
+  <br>
+To view the job created: </p>
+<pre>SELECT
+ 'Job:'|| job,
+ WHAT,
+ 'Next:'|| to_char(NEXT_DATE,'dd-Mon-yyyy HH24:MI'),
+ ' Last:'|| to_char(LAST_DATE,'dd-Mon-yyyy HH24:MI'),
+ ' Broken:'|| BROKEN
+ FROM dba_jobs;</pre>
+<p> To remove the job run a command like this (where 25 is the job no.) </p>
+<pre>EXECUTE DBMS_JOB.REMOVE(25);
+</pre>
+<p>  A PL/SQL script to remove all oracle jobs for the current user:</p>
+<pre>declare
+ job user_jobs.job%TYPE;
+
+ CURSOR c IS
+    select job from user_jobs;
+begin
+    OPEN c;
+    LOOP
+        fetch c into job;
+        exit when c%NOTFOUND;
+
+        dbms_output.put_line('Removing job: '||job);
+        <b>dbms_job.remove</b>(job);
+    END LOOP;
+    CLOSE c;
+
+    commit;
+end;</pre>
+<p><b>Related:<br>
+  <br>
+</b><a href="http://www.orafaq.com/node/871">OraFAQ - DBMS_JOB examples</a> - Examples and a function that use Oracle date arithmetic to make dbms_job.submit fully flexibile.<br>
+Alternatively DBMS_Scheduler (in 10g +) has some pre-baked and customisable (Daily,weekly,monthly) Schedules and also allows executables to be run.</p>
+<pre>&nbsp; <a href="../orad/DBA_JOBS.html">DBA_JOBS</a>         <a href="../orad/USER_JOBS.html">USER_JOBS</a> 
+  <a href="../orad/DBA_JOBS_RUNNING.html">DBA_JOBS_RUNNING</a></pre>
+ <br><!-- #BeginLibraryItem "/Library/foot_ora.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- oracle-footer -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4275490898"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="DBMS_JOB.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

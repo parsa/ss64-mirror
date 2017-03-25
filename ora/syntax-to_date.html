@@ -1,0 +1,68 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>to_date Oracle SQL todate | Oracle | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_orasyntax.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../ora.1.html">Oracle</a></li>
+<li class="tbtn"><a href="syntax.html">Syntax</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>TO_DATE </h1>
+<p> Convert an expression to a date value.</p>
+<pre>Syntax
+      to_date(<i>char</i>[,'<i>format</i>'[,<i>nls_lang</i>])
+
+Key
+   <i>char</i>      String expression that will be converted to a date
+   <a href="syntax-fmt.html"><i>format</i></a>    Date format to use.
+   <i>nls_lang</i>  The international language to use.</pre>
+<p> to_date will convert either a character string or an <i>expression </i>into a date value.<br>
+  <br>
+  The 'format' must be a valid <a href="syntax-fmt.html">DATE format</a>: <span class="code">YYYY</span>=year, <span class="code">MM</span>=month, <span class="code">DD</span>=Day, <span class="code">HH</span>=Hour, <span class="code">Mi</span>=Minute <br>
+If no format 
+  is specified Oracle will assume the default date format has been supplied in 
+  <i>char</i>.</p>
+<p><b>Examples</b></p>
+<pre> to_date('29-Oct-09', 'DD-Mon-YY')
+ to_date('10/29/09', 'MM/DD/YY')
+ to_date('120109', 'MMDDYY')
+ to_date('29-Oct-09', 'DD-Mon-YY HH:MI:SS') 
+ to_date('Oct/29/09', 'Mon/DD/YY HH:MI:SS')
+ to_date('October.29.2009', 'Month.DD.YYYY HH:MI:SS')
+
+SQL&gt; select * from sales where order_date &gt; to_date('29-Oct-09', 'DD-Mon-YY');</pre>
+<p>To check that year 2000 dates are appearing correctly try the following:</p>
+<pre>SELECT 
+     to_char(add_months(to_date('01-JAN-1998', 'DD-MON-YYYY'),1 * 12),'DD-MON-YYYY') y1999,
+     to_char(add_months(to_date('01-JAN-1998', 'DD-MON-YYYY'),2 * 12),'DD-MON-YYYY') y2000,
+     to_char(add_months(to_date('01-JAN-1998', 'DD-MON-YYYY'),7 * 12),'DD-MON-YYYY') y2005,
+     to_char(add_months(to_date('01-JAN-1998', 'DD-MON-YYYY'),52 * 12),'DD-MON-YYYY') y2050
+FROM   
+DUAL;
+
+-- Expected output
+
+-- Y1999       Y2000       Y2005       Y2050
+-- ----------- ----------- ----------- -----------
+-- 01-JAN-1999 01-JAN-2000 01-JAN-2005 01-JAN-2050</pre>
+<p><b>Related</b></p>
+<p><a href="syntax-to_char.html">TO_CHAR</a> - Convert to character String<br>
+<a href="syntax-to_number.html">TO_NUMBER</a> - Convert to numeric format<br>
+<a href="syntax-functions.html">Oracle SQL Functions</a><br>
+ORA-00932 inconsistent datatypes (todate) </p><!-- #BeginLibraryItem "/Library/foot_ora.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- oracle-footer -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4275490898"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="syntax-to_date.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>

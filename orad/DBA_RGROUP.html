@@ -1,0 +1,55 @@
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>DBA_RGROUP | Oracle | SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_orad.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li class="tbtn"><a href="../ora.1.html">Oracle</a></li>
+<li class="tbtn"><a href="../orad.1.html">Dictionary</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>DBA_RGROUP </h1><p> All refresh groups. This view is not a join. </p> 
+ 
+<pre>Columns
+   ___________________________
+ 
+   REFGROUP
+      Internal identifier of refresh group
+   OWNER
+      Owner of the refresh group
+   NAME
+      Name of the refresh group
+   IMPLICIT_DESTROY
+      Y or N,if Y then destroy the refresh group when its last item is subtracted
+   PUSH_DEFERRED_RPC
+      Y or N,if Y then push changes from snapshot to master before refresh
+   REFRESH_AFTER_ERRORS
+      If Y,proceed with refresh despite error when pushing deferred RPCs
+   ROLLBACK_SEG
+      Name of the rollback segment to use while refreshing
+   JOB
+      Identifier of job used to automatically refresh the group
+   PURGE_OPTION
+      The method for purging the transaction queue after each push
+   PARALLELISM
+      The level of parallelism for transaction propagation
+   HEAP_SIZE
+      The heap size used for transaction propagation</pre>
+<p><b>Related:</b></p>
+<p><a href="DBA_RCHILD.html">DBA_RCHILD</a></p><!-- #BeginLibraryItem "/Library/foot_orad.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- oracle-footer -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4275490898"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="DBA_RGROUP.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div>
+<!-- #EndLibraryItem --></body>
+</html>

@@ -1,0 +1,288 @@
+<!doctype html><html lang="en">
+<head>
+<META NAME="Description" CONTENT="What makes a good password? A comparison of several popular password managers.">
+<META NAME="Keywords" CONTENT="Date Standard iso 8601">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<link rel="STYLESHEET" href="../tables.css" type="text/css">
+<title>Password security | SS64.com</title>
+<meta charset="UTF-8">
+<style type="text/css">
+li {
+   margin: 1.5ex 0 0 0;
+}
+td{
+ v-ertical-align: top;
+}
+.low{ color: #F33;}
+.high{ color: #393;}
+.compare td
+{
+   width: 50%;
+   table-layout: fixed;
+}
+.compare
+{
+   max-width: 900px;
+}
+</style></head>
+<body><!-- #BeginLibraryItem "/Library/head_docs.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<button tabindex="-1" type="submit" id="q-img"></button>
+<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
+<input type="hidden" name="sitesearch" value="ss64.com"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>Password security and a comparison of Password Generators</h1>
+<p>There are two general approaches to password management:</p>
+<ul><li>Generate the same password every time it is needed (typically using a hash function.)</li>
+<li>Generate a password once and store it securely.</li></ul>
+<p>Password generators which use a hash function, like the <a href="../pass/index.html">SS64 password generator</a>, are easy to use and will repeatedly regenerate the same password when given the same inputs but they do have limitations - the only way to change a password is to enter a different master password or a different salt value. All the generated passwords are the same length.</p>
+<p>Password managers which store passwords  have the flexibility to apply different complexity rules to each password or to store a pre-existing password - often required when a password needs to be shared between a team of people. The downside of the storage  approach is that the password storage (file/database) needs to be managed carefully - secured, backed up and synchronised to all the devices where you will need to use the passwords. If the password store is lost or corrupted you will lose all the passwords!  Destructive viruses
+such as 
+<a href="http://krebsonsecurity.com/2013/11/how-to-avoid-cryptolocker-ransomware/">CryptoLocker</a> can also make a password store unreadable.</p>
+<h2>What makes a good password?</h2>
+<blockquote>
+<p>The capacity of a password  can be calculated from length + complexity, to give a  measure of <a href="https://en.wikipedia.org/wiki/Password_entropy#Random_passwords">password entropy</a>. A password containing only upper and lower case characters has 52 possible characters in each digit, adding numerals and other characters will increase this further. </p>
+<p>Entropy denotes the uncertainty in the value of a password and is conventionally expressed in bits. If a password of <span class="code">k</span> bits is chosen at random there are 2<sup>k</sup> possible values </p>
+
+<table width="600" border="1">
+<tr>
+<td><p>&nbsp;</p></td>
+<td colspan="3"><b>Complexity</b></td>
+</tr>
+<tr>
+<td><p><b>Password Length</b></p></td>
+<td><abbr title="Entropy Per Character = 3.32 bits">Numbers</abbr><br>
+0-9 <br></td>
+<td><abbr title="Entropy Per Character = 4.7 bits">a-z</abbr></td>
+<td><abbr title="Entropy Per Character = 5.95 bits">a-z, A-Z, 0-9</abbr></td>
+</tr>
+<tr>
+<td>8</td>
+<td class="low">26 bits</td>
+<td class="low">37 bits</td>
+<td class="low">47 bits</td>
+</tr>
+<tr>
+<td>10</td>
+<td class="low">33 bits</td>
+<td class="low">47 bits</td>
+<td class="low">59 bits</td>
+</tr>
+<tr>
+<td>11</td>
+<td class="low">36 bits</td>
+<td class="low">51 bits</td>
+<td>65 bits</td>
+</tr>
+<tr>
+<td>12</td>
+<td class="low">39 bits</td>
+<td class="low">56 bits</td>
+<td>71 bits</td>
+</tr>
+<tr>
+<td>13</td>
+<td class="low">43 bits</td>
+<td>61 bits</td>
+<td>77 bits</td>
+</tr>
+<tr>
+<td>14</td>
+<td class="low">46 bits</td>
+<td>65 bits</td>
+<td class="high">80 bits</td>
+</tr>
+<tr>
+<td>15</td>
+<td class="low">49 bits</td>
+<td>70 bits</td>
+<td class="high">89 bits</td>
+</tr>
+<tr>
+<td>20</td>
+<td>66 bits</td>
+<td class="high">94 bits</td>
+<td class="high">119 bits</td>
+</tr>
+</table>
+
+<p>Adding keyboard symbols to the above (<span class="code">$£&amp;^[];!@¢/\&gt;</span> etc ) can be used to further increase the complexity. Randomly including symbols will increase password entropy by around 10%  and 
+so  is equivalent to making the password one character longer. Unfortunately   keyboards  vary in the symbols they support and not all websites accept all characters, some will even silently remove them. Common substitutions such as E &gt; 3 or S &gt; $ are so well known that in practice they do nothing to improve security.</p>
+<p>Maximum Time to crack a password based on its entropy:</p>
+
+<table width="600" border="1">
+<tr>
+<td><b>Entropy</b></td>
+<td><b>Maximum Time to crack<br>
+</b>at 350 billion guesses/Sec</td>
+</tr>
+<tr>
+<td class="low">47 bits</td>
+<td>0.223 Hours</td>
+</tr>
+<tr>
+<td class="low">59 bits</td>
+<td>457.50 Hours</td>
+</tr>
+<tr>
+<td>65 bits</td>
+<td>3.342 Years</td>
+</tr>
+<tr>
+<td>71 bits</td>
+<td>213.92 Years</td>
+</tr>
+<tr>
+<td>77 bits</td>
+<td>13,690 Years</td>
+</tr>
+<tr>
+<td class="high">80 bits</td>
+<td>109,527.95 Years</td>
+</tr>
+<tr>
+<td class="high">89 bits</td>
+<td>56078315.93 Years.</td>
+</tr>
+<tr>
+<td class="high">119 bits</td>
+<td>6.0213633 e+16 Years</td>
+</tr>
+</table>
+<p>High password entropy will help to protect against 'old school' brute force attacks, but passwords like <span class="code">aaaaaaaaaaaaaaa</span> or <span class="code">schoolofhardknocks</span> or <i>any common phrase or saying</i> will still be less secure than a random string of the same length. This is because a <a href="https://en.wikipedia.org/wiki/Rainbow_table">rainbow table</a> can be used to lookup almost any known phrase or pattern very quickly.</p>
+<p>For  non-random passwords the calculation of entropy can be modified by applying a set of rules to account for typical language patterns  (Shannon Entropy).</p>
+<p>There is no definitive answer to the question of the password strength required to resist a brute force attack but NIST recommend <span class="code">80 bits</span> for the most secure passwords.</p>
+<p>Sensitive systems or situations will demand longer passwords, but high entropy long passwords containing random characters and numbers are more difficult for anyone to memorize. Truly secure passwords quickly become impractical unless you use software to automatically retrieve (or generate) the passwords.</p>
+<p>Pass phrases (also known as <a href="http://world.std.com/~reinhold/diceware.html">Diceware</a>) a long password consisting of several <b>random</b> words such as <a href="http://security.stackexchange.com/questions/6095/xkcd-936-short-complex-password-or-long-dictionary-passphrase">correct horse battery staple</a> have been popularised by <a href="http://xkcd.com/936/">XKCD</a>.  Pass phrases don't offer any significant advantage or disadvantage compared to a traditional password of the same entropy: <a href="http://cups.cs.cmu.edu/soups/2012/proceedings/a7_Shay.pdf">Research paper</a> (PDF). Novice typists may find the longer length difficult to type and they can exceed the password <a href="https://defuse.ca/password-policy-hall-of-shame.htm">length limitations</a> of some websites.</p>
+<p>Some badly coded websites   only store the first 10 or 15 characters of a password, if a long password is silently truncated to <span class="code">correcthorse</span> thats suddenly a lot less secure than you would expect.   Up until 2012 Microsoft <a href="http://thenextweb.com/microsoft/2012/09/21/this-ridiculous-microsoft-longer-accepts-long-passwords-shortens/">Hotmail</a> did this.</p>
+<p>Good password management solutions should be able to cope when a website changes it's url  e.g. <span class="code">signup.example.com</span> changes to <span class="code">login.example.com</span></p>
+<p>It is possible  that an intruder could attack a popular password generator by passing a rainbow table of common passwords through the same hash algorithm to generate potential passwords in bulk. To prevent this, it is still important when using any password manager  to choose the master password <a href="http://blog.agilebits.com/2013/04/16/1password-hashcat-strong-master-passwords/">carefully,</a> a long, random, difficult-to-guess string.</p>
+</blockquote>
+<h2>Password expiry</h2>
+<blockquote>
+<p>Although rarely enforced for website logins, there are some advantages to changing passwords on a regular basis. If the length of your password means that it could be brute force cracked in 50 days, then changing the password every 49 days makes it impossible for such an attack to succeed.</p>
+<p>Conversely if the password is truly strong, there is little to be gained in changing it.     Mathematically, moving from never changing one&rsquo;s password to changing it at every single login attempt (pass or fail) will on average only <b>double </b>the number of attempts it would take to brute force the password. In comparison, adding a single extra character to the password length will make it an order of magnitude more secure.</p>
+<p>The one advantage of forcing password changes is that it makes it  more difficult for people to reuse the same password on multiple sites.</p>
+<p>If a sensitive password has been discovered by a third party, then changing it after 30 days will revoke that access, but in many cases this will be locking the stable door after the horse has bolted.</p>
+<p>If you do need to change passwords regularly then a password manager with an encrypted database will allow individual passwords to be changed as required.</p>
+</blockquote>
+<h2>Password resets</h2>
+<blockquote>
+<p>On-line services often provide a  password restore function that can be used to reset the password. It is good practice to setup complex answers to such security questions particularly if the 'true' answer would be very simple for <a href="http://www.wired.com/gadgetlab/2012/08/apple-amazon-mat-honan-hacking/">an attacker to discover</a>. Password reset answers should be managed just like actual passwords.</p>
+</blockquote>
+<h2>Social Engineering</h2>
+<blockquote>
+<p>As shown by the 2014 <a href="https://en.wikipedia.org/wiki/August_2014_celebrity_photo_leaks">celebrity photo leaks</a>, even a strong password can be vulnerable to a targetted <a href="https://en.wikipedia.org/wiki/Social_engineering_%28security%29">social engineering</a> attack based on user name, security questions and reset/recovery options. One extra defence against this is to have a separate email address which is not tied to your identity in any obvious way and is used only for website logins. So for example you might have <span class="code">Joe.Bloggs@outlook.com</span> as your real email address and <span class="code">Fred.Flintstone@gmail.com</span> used only for logins.</p>
+</blockquote>
+<h2>Comparison of Password Generators</h2>
+<br>
+<table class="compare">
+<tr>
+<th>Password Hash</th>
+<th>Password Store</th>
+</tr>
+<tr>
+<td><p><a href="http://angel.net/~nic/passwd.sha1.1a.html">Nic Wolff&rsquo;s password generator</a><br>
+The first javascript password generator - The idea is that you choose one master password to secure all your others.
+Supported on: IE, Firefox, Chrome, Safari and anything else that can run a web browser.</p>
+<p>Creates <b>10</b> character passwords. (SHA-1 hash)</p></td>
+<td><p><a href="http://pwsafe.org/">PasswordSafe</a> (<a href="http://www.fosshub.com/Password-Safe.html">free download</a>)<br>
+Free open source software that encrypts passwords in  a storage database. Created by Bruce Schneier and Counterpane Labs for MS Windows users.<br>
+To sync between devices either copy the password database manually or use cloud storage.<br>
+By default PasswordSafe creates <b>8</b> character passwords.<br>
+Supported in:  Windows, Linux (in beta),  <a href="https://www.macupdate.com/app/mac/41532/password+gorilla">Password Gorilla</a> (cross platform port)</p></td>
+</tr>
+<tr>
+<td><p>SS64 <a href="../passwords/index.html">Password Generator</a> -  javascript password generator that creates  passwords for several popular websites in one step + a custom option for others.<br>
+Creates <b>10</b> character passwords (SHA-1 hash)<br>
+<br>
+SS64 <a href="../pass/index.html">Extra Strong Password Generator</a> -  as above but creates <b>20</b> character passwords  (SHA-256 hash).<br>
+Supported on: IE, Firefox, Chrome, Safari and anything else that can run a web browser. Also a <a href="../pass/command-line.html">command-line version</a>.</p></td>
+<td><a href="https://lastpass.com/">Lastpass</a> <br>
+A browser plug-in that encrypts passwords in  a storage database and automates website logins. The basic plug-in is free but 'premium' features require a yearly subscription. Lastpass includes a <a href="https://www.youtube.com/watch?v=xq9UoYuRbpA">strong password generator</a> and can sync between devices. For syncing to take place, the encrypted passwords are stored online, which does require a certain amount of trust in the LastPass security team. LastPass offer a <a href="https://lastpass.com/support.php?cmd=showfaq&amp;id=1166">secure</a> bookmarklet for the situation where you can't use a LastPass browser plugin.<br>
+By default Lastpass creates <b>8</b> character passwords.<br>
+Supported on: Firefox, Internet Explorer, Safari, Chrome, Opera, Windows Desktop, iPhone, iPad, Android, Blackberry.<br>
+Some <a href="https://www.theregister.co.uk/2017/03/21/lastpass_vulnerabilities/">critical bugs discovered in March 2017</a></td>
+</tr>
+<tr>
+<td><a href="https://www.pwdhash.com/">Pwdhash</a> (MD 5 hash)<br>
+A javascript password generator from Stanford security lab. Creates domain-specific passwords with defense against password phishing scams.<br>
+The default password length is proportional to the length of the master password.<br>
+Supported on: IE, Firefox, Chrome, Safari and anything else that can run a web browser.</td>
+<td><a href="https://www.dashlane.com/">Dashlane</a> <br>
+A browser plug-in that encrypts passwords in  a storage database and automates website logins. The basic plug-in is free but 'premium' features  including promotional discount coupons require a yearly subscription. Dashlane includes a strong password generator and can sync between devices (encrypted passwords are stored online). Founded  by Bernard Liautaud of Business Objects.<br>
+By default Dashlane creates <b>10</b> character passwords.<br>
+Supported on: Firefox, Internet Explorer, Safari, Chrome, <a href="https://itunes.apple.com/us/app/dashlane/id517914548">iPhone</a>,  Android.</td>
+</tr>
+<tr>
+<td><a href="http://supergenpass.com/">SuperGenPass</a> (SHA-1 hash)<br>
+A
+javascript bookmarklet password generator originally <a href="http://web.student.tuwien.ac.at/~e9608591/passwd.htm">created</a> by  Chris Zarate based on Nic Wolff&rsquo;s original password generator.<br>
+SuperGenPass will generate the same password for different subdomains of the same website.<br>
+One downside is that the bookmarklet code contains a large number of hard-coded URL/domains, this can become difficult to keep up to date given the increasing <a href="http://www.pcworld.com/article/257549/top_level_domain_name_grab_icann_reveals_results.html">expansion</a> of top level domains.<br>
+By default SuperGenPass creates <b>10</b> character passwords.<br>
+Supported on: IE, Firefox, Chrome, Safari and anything else that can run a web browser.</td>
+<td><p><a href="http://keepass.info/">KeePass Password Safe</a> <br>
+An open source application that encrypts passwords in  a storage database. Includes a strong password generator. To sync between devices either copy the password database manually or use cloud storage.<br>
+By default KeePass creates <b>20</b> character passwords.<br>
+Supported on: Windows, Linux, MacOS, Andriod. Requires the Microsoft .NET Framework  or <a href="https://en.wikipedia.org/wiki/Mono_%28software%29">Mono</a>.</p>
+<p><a href="http://www.keepassx.org/">KeePassX</a> is a compatible port for Windows, Linux and MacOS. KeePassX does not rely on Mono, so matches the look of other native programs. For non- windows platforms this provides a better look and feel while still having compatibility with KeePass.</p></td>
+</tr>
+<tr>
+<td><a href="http://passwordmaker.org/passwordmaker.html">PasswordMaker</a> (MD 5 Hash or a choice of 12 others)<br>
+An open-source javascript
+password generator. <a href="http://passwordmaker.org/Native">Desktop</a> ,iPhone and Browser Add-In versions are also available.<br>
+Has an unparalleled level of control over password generation, but this does mean that you have to remember all the options you have chosen in order to regenerate the same password.<br>
+By default PasswordMaker creates <b>8</b> character passwords.<br>
+Supported on: Windows, IE, Firefox, Chrome, Opera and anything else that can run a web browser.</td>
+<td><a href="http://www.roboform.com/">RoboForm</a> <br>
+A commercial application that encrypts passwords in  a storage database. Strong support for Enterprise features. It has a  browser plug-in to automate website logins and a strong password generator. The passwords are encrypted and stored on individual clients or optionally on a USB Flash Drive.<br>
+By default RoboForm creates <b>8 </b>character passwords but this is fully customisable via policy.<br>
+Supported on: Windows,  Firefox, Internet Explorer, Chrome, Safari, iPhone, iPad, Android, Blackberry.</td>
+</tr>
+<tr>
+<td><p><a href="http://hashapass.com">Hashapass</a> -   A free javascript password generator with plug-ins for Firefox, iPhone, android, unix, Mac &amp; Windows Gadgets.<br>
+Hashapass creates <b>8</b> character passwords (SHA-1 hash)<br>
+<br>
+</p></td>
+<td><a href="https://agilebits.com/onepassword">1Password</a> <br>
+A commercial application that encrypts passwords in  a storage database. It has a  browser plug-in to automate website logins, a strong password generator and an option to sync between devices. There is no plug-in for Mobile Safari but they do have a <a href="http://help.agilebits.com/1Password_touch/mobile_safari_extension.html">workaround</a>.<br>
+By default 1Password creates <b>20</b> character passwords but this is fully customisable.<br>
+Supported on: MacOS, Windows, Linux, iOS, Andriod(read only)</td>
+</tr>
+<tr>
+<td><a href="http://ctrlq.org/passwords/">Labnol/CtrlQ</a> - A free javascript/jquery password generator. Passwords are variable length and  include punctuation charaters (@#&amp;&gt;'*\[%]=;+^) which might not be accepted on all websites. <a href="https://github.com/labnol/passwords/">github</a>   (bcrypt hash)</td>
+<td><a href="https://padlock.io/">Padlock,io</a><br>
+An open source password generator for Chrome, iOS and Android.<br>
+By default Padlock creates <b>10 </b>character passwords but this is fully customisable, so can be adjusted to the needs of individual websites. The passwords are stored  on the device (encrypted) and can optionally be shared/synchronised between devices using Padlock Cloud.</td>
+</tr>
+<tr>
+<td><p><a href="https://lesspass.com/">LessPass</a> - An open source password manager - Web, Chrome, Firefox<br>
+Self hosting requires installing Docker and Docker-compose.</p>
+<p>By default LessPass creates <b>12</b> character passwords.</p></td>
+<td>&nbsp;</td>
+</tr>
+</table>
+
+<p><span class="quote"><i>&ldquo;I have 68 different passwords. If I am not allowed to write any of them down, guess what I am going to do? I am going to use the same password on every one of them&rdquo;  ~ <a href="http://news.cnet.com/Microsoft-security-guru-Jot-down-your-passwords/2100-7355_3-5716590.html">Jesper Johansson</a> (Microsoft)</i></span></p>
+<p><b>Related:</b></p>
+<p><a href="http://www.lightbluetouchpaper.org/2011/11/08/want-to-create-a-really-strong-password-dont-ask-google/">A really strong password is one that nobody else has ever used</a> - Joseph Bonneau (University of Cambridge)<br>
+<a href="http://csrc.nist.gov/publications/nistpubs/800-63-1/SP-800-63-1.pdf">NIST password recommendations</a> (PDF)<br>
+<a href="https://dl.dropboxusercontent.com/u/209/zxcvbn/test/index.html">zxcvbn</a> - <a href="https://blogs.dropbox.com/tech/2012/04/zxcvbn-realistic-password-strength-estimation/">Realistic password strength estimation</a><br>
+<a href="http://goo.gl/wqcX">Password entropy does not improve security</a> Florida State University (PDF)<br>
+<a href="http://isecpartners.github.io/whitepapers/passwords/2013/11/05/Browser-Extension-Password-Managers.html">Research paper</a> on browser-integrated password managers <br>
+XSS <a href="http://kuza55.blogspot.co.uk/2007/02/bookmarklets-are-not-secure.html">risks</a> around <a href="http://jcardy.co.uk/the-slow-death-of-bookmarklets/">bookmarklets</a>.<br>
+GPU computer clusters  can cycle through as many as <a href="http://arstechnica.com/security/2012/12/25-gpu-cluster-cracks-every-standard-windows-password-in-6-hours/">350 billion guesses per second</a>.</p><!-- #BeginLibraryItem "/Library/foot_docs.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- General300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="7010419507"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+<hr>
+<div id=bl class="footer"><a href="security.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
+<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+</html>
