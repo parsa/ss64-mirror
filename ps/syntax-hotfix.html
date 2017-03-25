@@ -2,15 +2,7 @@
 <head><meta charset="UTF-8">
 <link rel="STYLESHEET" href="../main.css" type="text/css">
 <title>HotFixInfo - Powershell script | PowerShell | SS64.com</title>
-</head><body><!-- #BeginLibraryItem "/Library/head_pssyntax.lbi" --><div id="tnav"><ul>
-<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
-<li class="tbtn"><a href="../ps.1.html">PowerShell</a></li>
-<li class="tbtn"><a href="syntax.html">Syntax</a></li>
-<li><div id="search"><form action="https://www.google.com/search" method="get">
-<button tabindex="-1" type="submit" id="q-img"></button>
-<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
-<input type="hidden" name="sitesearch" value="ss64.com/ps/"></form></div></li>
-</ul></div><!-- #EndLibraryItem --><h1>HotFixInfo.ps1</h1> 
+</head><body><h1>HotFixInfo.ps1</h1> 
 <p>Generate an Excel spreadsheet listing  the servers which have a particular hot fix installed. <br>
 By default it will check for the <a href="https://www.microsoft.com/technet/security/bulletin/MS08-067.mspx">conflicker patch KB958644</a> but you can change this to any QFE patch. </p>
 <p>This is based on the <a href="http://www.powershellpro.com/conficker-worm-detection/605/">original script by Jesse N. Hamrick</a> at PowerShellPro. This version outputs a line for every server, so you can see the machines which *don't* have the patch, also the script has been adjusted to work with any regional version of MS Excel.</p>
@@ -146,17 +138,5 @@ loadExcel <b>"KB958644"</b>
 <p class="quote"><i>&ldquo;Ignorance more frequently begets confidence than does knowledge&rdquo; ~ Charles Darwin</i></p>
 <p><b>Related:</b></p>
 <p><a href="syntax-programs.html">Get-Programs</a> - List Installed Software (Add/Remove programs)<br>
-<a href="syntax-pshinfo.html">pshinfo</a> - List Ram, Disk Space, Service pack, Uptime</p><!-- #BeginLibraryItem "/Library/foot_ps.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- PowerShell300 -->
-<ins class="adsbygoogle"
-     style="display:inline-block;width:300px;height:250px"
-     data-ad-client="ca-pub-6140977852749469"
-     data-ad-slot="6253539900"></ins>
-<script>
-(adsbygoogle = window.adsbygoogle || []).push({});
-</script></p>
-<hr>
-<div id=bl class="footer"><a href="syntax-hotfix.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
-<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
-Some rights reserved</div><!-- #EndLibraryItem --></body>
+<a href="syntax-pshinfo.html">pshinfo</a> - List Ram, Disk Space, Service pack, Uptime</p></body>
 </html>

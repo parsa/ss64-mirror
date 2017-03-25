@@ -2,15 +2,7 @@
 <head><meta charset="UTF-8">
 <link rel="STYLESHEET" href="../main.css" type="text/css">
 <title>Password expiry reminder email | PowerShell | SS64.com</title>
-</head><body><!-- #BeginLibraryItem "/Library/head_pssyntax.lbi" --><div id="tnav"><ul>
-<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
-<li class="tbtn"><a href="../ps.1.html">PowerShell</a></li>
-<li class="tbtn"><a href="syntax.html">Syntax</a></li>
-<li><div id="search"><form action="https://www.google.com/search" method="get">
-<button tabindex="-1" type="submit" id="q-img"></button>
-<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
-<input type="hidden" name="sitesearch" value="ss64.com/ps/"></form></div></li>
-</ul></div><!-- #EndLibraryItem --><h1>PowerShell - password expiry reminder email</h1>
+</head><body><h1>PowerShell - password expiry reminder email</h1>
 <p>When connected to the domain with a Windows computer, you will normally be  warned at logon if your password is about to expire. A remotly connected (VPN/Citrix) user may never see this  warning, this can lead to unexpected password expiries that waste the time of both  remote workers and IT helpdesk staff.</p>
 <p>The script below can be run to send an HTML formatted email alert to users before their password expires. If the script is scheduled to run once per day, users whose password is due to expire in less than 5 days will get a daily reminder email.</p>
 <p> Change the values in <b>bold</b> to match your environment.</p>
@@ -136,17 +128,5 @@ This script assumes that you have not used <a title="Fine Grained Password polic
 <p><a href="https://www.ucunleashed.com/318">ucunleashed.com</a> - PW expiry reminder that will handle Fine Grained password policies (PowerShell)<br>
 <a href="https://blogs.msdn.com/b/adpowershell/archive/2010/02/26/find-out-when-your-password-expires.aspx">Find out when your Password Expires</a> - AD PowerShell blog - includes Fine Grained Password Policies.<br>
 <a href="http://www.sheenaustin.com/2009/06/19/active-directory-password-expiry-reminder-email/">Sheen austin</a> - AD Password Expiry Reminder Email (VBScript)<br>
-<a href="https://thelowedown.wordpress.com/2008/12/04/active-directory-automated-password-expiration-warnings/">Thelowedown</a> - AD Automated password expiration warnings (Perl)</p><!-- #BeginLibraryItem "/Library/foot_ps.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- PowerShell300 -->
-<ins class="adsbygoogle"
-     style="display:inline-block;width:300px;height:250px"
-     data-ad-client="ca-pub-6140977852749469"
-     data-ad-slot="6253539900"></ins>
-<script>
-(adsbygoogle = window.adsbygoogle || []).push({});
-</script></p>
-<hr>
-<div id=bl class="footer"><a href="syntax-expiry.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
-<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
-Some rights reserved</div><!-- #EndLibraryItem --></body>
+<a href="https://thelowedown.wordpress.com/2008/12/04/active-directory-automated-password-expiration-warnings/">Thelowedown</a> - AD Automated password expiration warnings (Perl)</p></body>
 </html>

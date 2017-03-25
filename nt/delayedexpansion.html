@@ -2,15 +2,7 @@
 <head><meta charset="UTF-8">
 <link rel="STYLESHEET" href="../main.css" type="text/css">
 <title>EnableDelayedExpansion | Windows CMD | SS64.com</title>
-</head><body><!-- #BeginLibraryItem "/Library/head_nt.lbi" --><div id="tnav"><ul>
-<li class="tbtn"><a href="../index.html"> ( &nbsp;SS64 &nbsp;)</a></li>
-<li class="tbtn"><a href="../nt.1.html">CMD</a></li>
-<li class="tbtn"><a href="syntax.html">Syntax</a></li>
-<li><div id="search"><form action="https://www.google.com/search" method="get">
-<button tabindex="-1" type="submit" id="q-img"></button>
-<input type="text" name="q" id="q" size="27" maxlength="255" onblur="if(this.value=='')this.value='Search…';" onclick="if(this.value=='Search…')this.value='';" value="Search…">
-<input type="hidden" name="sitesearch" value="ss64.com/nt/"></form></div></li>
-</ul></div><!-- #EndLibraryItem --><h1>EnableDelayedExpansion</h1> 
+</head><body><h1>EnableDelayedExpansion</h1> 
 <p> Delayed Expansion will cause   variables within a batch file to be expanded at execution time rather than at parse time, this option is turned on with the <span class="code"><a href="setlocal.html">SETLOCAL</a> EnableDelayedExpansion</span> command. </p>
 <p>When delayed expansion is in effect variables can be referenced using <span class="code">!variable_name!</span> (in addition to the normal <span class="code">%variable_name%</span> ) </p>
 <p>When a batch file is executed, the command processor (<a href="cmd.html">CMD.exe</a>) will parse complete lines and complete <a href="syntax-redirection.html">compound commands</a>. Variables are replaced by their values just once, BEFORE the commands of the line are executed. </p>
@@ -132,17 +124,5 @@ When you use a pipe, both parts of the pipe will be executed in a new cmd.exe in
 <p> <b>Related:</b></p>
 <p><a href="https://ss64.org/viewtopic.php?id=985">Forum discussion</a> - EnableDelayedExpansion (many thanks to Jeb and Aacini for clarifying quite a few points)<br>
 <a href="https://blogs.msdn.com/b/oldnewthing/archive/2006/08/23/714650.aspx">OldNewThing</a> - Longer explanation of EnableDelayedExpansion<br>
-<a href="setlocal.html">SETLOCAL</a> - Start localisation of environment changes in a batch file.</p><!-- #BeginLibraryItem "/Library/foot_nt.lbi" --><p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- windows300 -->
-<ins class="adsbygoogle"
-     style="display:inline-block;width:300px;height:250px"
-     data-ad-client="ca-pub-6140977852749469"
-     data-ad-slot="7649547908"></ins>
-<script>
-(adsbygoogle = window.adsbygoogle || []).push({});
-</script></p>
-<hr>
-<div id=bl class="footer"><a href="delayedexpansion.html#"><img src="../images/top.png" width="30" height="22" alt="Back to the Top"></a></div>
-<div id=br class="footer, tagline">&copy; Copyright <a href="../index.html">SS64.com</a> 1999-2017<br>
-Some rights reserved</div><!-- #EndLibraryItem --></body>
+<a href="setlocal.html">SETLOCAL</a> - Start localisation of environment changes in a batch file.</p></body>
 </html>
